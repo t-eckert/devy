@@ -1,7 +1,16 @@
-import Head from "next/head";
-import Image from "next/image";
+import { PostMetadata } from "interfaces"
+import Head from "next/head"
+import Feed from "sections/Feed"
+import path from "path"
+import { promises as fs } from "fs"
 
-export default function Home() {
+import { Header } from "sections/Header"
+
+type Props = {
+  postsMetadata?: PostMetadata[]
+}
+
+const Home: React.FC<Props> = ({ postsMetadata }) => {
   return (
     <div>
       <Head>
@@ -14,8 +23,24 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>Divy</h1>
+        <div className="mx-auto max-w-xl flex flex-col">
+          <Header />
+          <Feed postsMetadata={postsMetadata} />
+        </div>
       </main>
     </div>
-  );
+  )
 }
+
+export async function getServerSideProps() {
+  const dir = path.join(process.cwd(), "fixtures")
+  const postsMetadata = await fs.readFile(dir + "/feed.json", "utf8")
+
+  return {
+    props: {
+      postsMetadata: JSON.parse(postsMetadata),
+    },
+  }
+}
+
+export default Home
