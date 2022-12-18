@@ -1,6 +1,5 @@
 import Head from "next/head"
-
-import parse from "markdown"
+import { marked } from "marked"
 
 type Props = {
   changelog: string
@@ -25,7 +24,7 @@ export async function getStaticProps() {
     "https://raw.githubusercontent.com/t-eckert/divy/main/CHANGELOG.md"
   )
 
-  const changelog = parse(await resp.text())
+  const changelog = marked.parse(await resp.text())
 
   return {
     props: {
