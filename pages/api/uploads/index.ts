@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import clone from "uploader/git/clone"
 import POST from "./post"
 
 export default async function handler(
