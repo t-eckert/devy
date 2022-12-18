@@ -5,6 +5,7 @@ interface PostMetadata {
 	author: User
 	url: URL
 	tags: string[]
+	likes: number
 }
 
 export default PostMetadata
