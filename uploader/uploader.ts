@@ -8,10 +8,24 @@ export default async function upload(
 	uploadRequest.id = "51e9a8c1-f5a4-42a7-9a80-f0b5dec6ff59"
 	uploadRequest.status = "queued"
 
+	const has = hasGit()
+	console.log(has)
+
 	const path = clone(uploadRequest.url, uploadRequest.id)
 	const posts = parse(path)
 
 	return uploadRequest
+}
+
+const hasGit = (): boolean => {
+	let has = false
+	exec(`git version`, (e) => {
+		if (e) {
+			throw e
+		}
+		has = true
+	})
+	return has
 }
 
 // clone uses git to clone the given repository.
