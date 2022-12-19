@@ -3,7 +3,7 @@ import User from "./User"
 interface PostMetadata {
 	title: string
 	author: User
-	url: URL
+	path: string
 	tags: string[]
 	likes: number
 }

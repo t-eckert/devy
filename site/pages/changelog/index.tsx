@@ -1,5 +1,6 @@
 import Head from "next/head"
 import { marked } from "marked"
+import Article from "components/Article"
 
 type Props = {
   changelog: string
@@ -9,11 +10,11 @@ const Changelog: React.FC<Props> = ({ changelog }) => {
   return (
     <div>
       <Head>
-        <title>Divy: Changelog</title>
+        <title>Devy: Changelog</title>
       </Head>
 
       <main>
-        <div dangerouslySetInnerHTML={{ __html: changelog }} />
+        <Article html={changelog} />
       </main>
     </div>
   )
@@ -21,7 +22,7 @@ const Changelog: React.FC<Props> = ({ changelog }) => {
 
 export async function getStaticProps() {
   const resp = await fetch(
-    "https://raw.githubusercontent.com/t-eckert/divy/main/CHANGELOG.md"
+    "https://raw.githubusercontent.com/t-eckert/devy/main/site/CHANGELOG.md"
   )
 
   const changelog = marked.parse(await resp.text())
