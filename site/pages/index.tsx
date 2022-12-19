@@ -18,7 +18,7 @@ const Home: React.FC<Props> = ({ postsMetadata }) => {
   return (
     <div>
       <Head>
-        <title>Divy</title>
+        <title>Devy</title>
         <meta
           name="description"
           content="Blog in Markdown from your GitHub repo."
@@ -29,7 +29,7 @@ const Home: React.FC<Props> = ({ postsMetadata }) => {
       <main>
         <div className="mx-auto max-w-xl flex flex-col">
           <Header />
-          <Feed setOption={setOption} postsMetadata={postsMetadata} />
+          <Feed setOption={setOption} options={options} option={option} postsMetadata={postsMetadata} />
         </div>
       </main>
     </div>
