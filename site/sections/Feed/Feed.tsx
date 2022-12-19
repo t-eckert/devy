@@ -2,10 +2,18 @@ import Preview from "components/Preview"
 import { PostMetadata } from "interfaces"
 
 type Props = {
+	setOption: any
+	option: string
+	options: string[]
 	postsMetadata?: PostMetadata[]
 }
 
-const Feed: React.FC<Props> = ({ postsMetadata }) => {
+const Feed: React.FC<Props> = ({
+	setOption,
+	option,
+	options,
+	postsMetadata,
+}) => {
 	return (
 		<section className="flex flex-col">
 			<div className="flex flex-row justify-between">

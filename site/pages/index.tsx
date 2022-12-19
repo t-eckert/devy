@@ -1,4 +1,5 @@
 import { PostMetadata } from "interfaces"
+import { useState } from "react"
 import Head from "next/head"
 import Feed from "sections/Feed"
 import path from "path"
@@ -11,6 +12,9 @@ type Props = {
 }
 
 const Home: React.FC<Props> = ({ postsMetadata }) => {
+  const options = ["Popular", "New"]
+  const [option, setOption] = useState<string>("Popular")
+
   return (
     <div>
       <Head>
@@ -25,7 +29,7 @@ const Home: React.FC<Props> = ({ postsMetadata }) => {
       <main>
         <div className="mx-auto max-w-xl flex flex-col">
           <Header />
-          <Feed postsMetadata={postsMetadata} />
+          <Feed setOption={setOption} postsMetadata={postsMetadata} />
         </div>
       </main>
     </div>
