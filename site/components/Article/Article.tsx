@@ -1,13 +1,13 @@
 import DOMPurify from "isomorphic-dompurify"
 
-type Props = {
+export interface Props {
 	html: string
 }
 
 const Article: React.FC<Props> = ({ html }) => {
-	const a = DOMPurify.sanitize(html)
-
-	return <article dangerouslySetInnerHTML={{ __html: html }} />
+	return (
+		<article dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />
+	)
 }
 
 export default Article
