@@ -1,4 +1,4 @@
-import { PostMetadata } from "interfaces"
+import { PostMetadata } from "lib/post"
 import Head from "next/head"
 import Feed from "sections/Feed"
 
@@ -9,7 +9,7 @@ type Props = {
   postsMetadata?: PostMetadata[]
 }
 
-const Home: React.FC<Props> = () => {
+const HomePage: React.FC<Props> = () => {
   return (
     <div>
       <Head>
@@ -36,4 +36,4 @@ const Home: React.FC<Props> = () => {
   )
 }
 
-export default Home
+export default HomePage

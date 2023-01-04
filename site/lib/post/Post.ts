@@ -5,7 +5,7 @@ export interface PostMetadata {
 	author: User
 	path: string
 	tags: string[]
-	updated: Date
+	updated: string
 	likes: number
 }
 
