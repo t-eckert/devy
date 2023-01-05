@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { UploadRequest } from "interfaces"
+import Upload from "lib/upload"
 
 export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const uploadRequest = req.body as UploadRequest
+  const uploadRequest = req.body as Upload
 
   console.log(`Upload request received: ${uploadRequest}`)
 

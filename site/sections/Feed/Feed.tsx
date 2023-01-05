@@ -1,5 +1,5 @@
 import Preview from "components/Preview"
-import { PostMetadata } from "interfaces"
+import { PostMetadata } from "lib/post"
 import { useState } from "react"
 
 interface FeedMetadata {
@@ -21,6 +21,7 @@ const postsMetadata: PostMetadata[] = [
 			name: "Demari Williams",
 		},
 		path: "/d-williams/they-didnt-tell-me",
+		updated: "",
 		tags: ["management"],
 		likes: 300,
 	},

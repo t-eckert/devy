@@ -15,7 +15,7 @@ const Preview: React.FC<Props> = ({ postMetadata }) => {
 				{postMetadata.author.name}
 			</Link>
 			<span className="text-sm">
-				Updated: {postMetadata.updated.toLocaleDateString()}
+				Updated: {new Date(postMetadata.updated).toLocaleDateString()}
 			</span>
 			<div className="flex flex-row flex-wrap gap-1">
 				{postMetadata.tags.map((tag, index) => (

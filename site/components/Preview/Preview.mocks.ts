@@ -8,7 +8,7 @@ const base: Props = {
 			id: "95781875-ba3f-417c-9b4b-dec6b6aea354",
 			name: "Demari Williams",
 		},
-		updated: new Date("2022-12-20"),
+		updated: "2022-12-20",
 		path: "/d-williams/they-didnt-tell-me",
 		tags: ["management"],
 		likes: 300,
