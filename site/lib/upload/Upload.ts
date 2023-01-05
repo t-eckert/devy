@@ -1,4 +1,4 @@
-interface UploadRequest {
+interface Upload {
   id?: string
   url: URL
   status?:
@@ -10,4 +10,4 @@ interface UploadRequest {
     | "complete"
 }
 
-export default UploadRequest
+export default Upload

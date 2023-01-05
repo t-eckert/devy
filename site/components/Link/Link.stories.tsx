@@ -3,7 +3,7 @@ import Link, { Props } from "./Link"
 import mocks from "./Link.mocks"
 
 export default {
-	title: "Link",
+	title: "components/Link",
 	component: Link,
 	argTypes: {},
 } as ComponentMeta<typeof Link>
@@ -23,4 +23,9 @@ Primary.args = {
 export const Secondary = Component.bind({})
 Secondary.args = {
 	...mocks.secondary,
+} as Props
+
+export const Button = Component.bind({})
+Button.args = {
+	...mocks.button,
 } as Props

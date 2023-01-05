@@ -1,4 +1,5 @@
-import "../styles/globals.css"
+import "styles/globals.scss"
+import "styles/markdown.scss"
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

@@ -9,15 +9,17 @@ export interface Props {
 }
 
 const Link: React.FC<Props> = ({ href, style, text, className, children }) => {
-	const classes: string[] = ["transition-all hover:underline"]
+	const classes: string[] = ["transition-all"]
 
 	switch (style) {
 		case "primary":
-			classes.push("font-medium")
+			classes.push("font-medium hover:underline")
 		case "secondary":
-			classes.push("font-normal")
-		default:
+			classes.push("font-normal hover:underline")
+		case "button":
 			classes.push("font-medium")
+		default:
+			classes.push("")
 	}
 
 	if (className) {

@@ -2,7 +2,7 @@ import { PostMetadata } from "lib/post"
 import Head from "next/head"
 import Feed from "sections/Feed"
 
-import { Header } from "sections/Header"
+import Header from "sections/Header"
 import Search from "sections/Search"
 
 type Props = {

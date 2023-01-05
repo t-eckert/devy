@@ -1,4 +1,5 @@
 import { Props } from "./Article"
+import parse from "markdown"
 
 const base: Props = {
 	html: `<h1>Hello World</h1>
@@ -13,8 +14,89 @@ const base: Props = {
 </p>`,
 }
 
+const gauntlet: Props = {
+	html: parse(`# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+
+Emphasis:
+
+*Italic*
+
+_Italic_
+
+**Bold**
+
+__Bold__
+
+Combined emphasis:
+
+**_Bold and italic_**
+
+Lists:
+
+1. First item
+2. Second item
+3. Third item
+
+* First item
+* Second item
+* Third item
+
+- First item
+- Second item
+- Third item
+
+Links:
+
+[Link text](https://www.example.com)
+
+[Link text with title](https://www.example.com "Link title")
+
+Images:
+
+![Alt text](https://www.example.com/image.jpg)
+
+![Alt text with title](https://www.example.com/image.jpg "Image title")
+
+Code:
+
+`),
+}
+
+const rssPost: Props = {
+	html: parse(`# The Benefits of RSS
+
+RSS (Really Simple Syndication) is a web feed that allows users to access updates to websites in a standardized, computer-readable format. These updates can include blog posts, news articles, and other types of content.
+
+There are several benefits to using RSS:
+
+## 1. Time-saving
+
+RSS allows you to quickly and easily stay updated with your favorite websites without having to visit each one individually. This can save you a significant amount of time, especially if you follow a large number of websites.
+
+## 2. Customization
+
+With RSS, you can choose which updates you receive and how you receive them. You can use an RSS reader to organize and prioritize your feeds, or you can opt to receive updates via email.
+
+## 3. Ad-free
+
+Many RSS readers allow you to view updates in a stripped-down, ad-free format. This can make for a more pleasant reading experience and can also help to reduce clutter and distractions.
+
+## 4. Accessibility
+
+RSS allows you to access updates from your favorite websites from any device with an internet connection. This can be especially useful when you're on the go and don't have access to a particular device or browser.
+
+Overall, RSS is a convenient and efficient way to stay up-to-date with your favorite websites and content. Give it a try and see how it can help you stay organized and informed.`),
+}
+
 const mocks = {
 	base,
+	gauntlet,
+	rssPost,
 }
 
 export default mocks

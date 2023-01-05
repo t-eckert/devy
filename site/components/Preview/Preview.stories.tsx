@@ -3,7 +3,7 @@ import Preview, { Props } from "./Preview"
 import mocks from "./Preview.mocks"
 
 export default {
-	title: "Preview",
+	title: "components/Preview",
 	component: Preview,
 	argTypes: {},
 } as ComponentMeta<typeof Preview>
