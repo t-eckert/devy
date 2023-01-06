@@ -7,13 +7,13 @@ export interface Props {
 
 const Nav: React.FC<Props> = ({ user }) => {
 	return (
-		<nav className="flex flex-row justify-between">
-			<Link href="/">Devy</Link>
+		<nav className="px-2 py-1 flex flex-row justify-between">
+			<Link href="/" className="text-sm font-medium">Devy</Link>
 			<div>
 				{user ? (
 					<Link href={`/${user?.name}`}>{user.name}</Link>
 				) : (
-					<Link href="/login">Login with GitHub</Link>
+					<Link href="/login" style="button" className="text-sm"><span>Login with GitHub</span></Link>
 				)}
 			</div>
 		</nav>

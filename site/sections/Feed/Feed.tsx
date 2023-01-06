@@ -1,46 +1,31 @@
 import Preview from "components/Preview"
 import { PostMetadata } from "lib/post"
-import { useState } from "react"
+import Feed from "lib/feed"
 
-interface FeedMetadata {
-	id: string
-	name: string
+export interface Props {
+	postsMetadata?: PostMetadata[]
+	feeds: Feed[]
+	feedId: string
+	setFeedId: (id: string) => void
+	pageNumber: number
+	setPageNumber: (n: number) => void
 }
 
-const feeds: FeedMetadata[] = [
-	{ id: "37e24b45-e5d2-456e-94ef-11f2c64ef17f", name: "Popular" },
-	{ id: "aee0f9e9-a028-4c8b-a453-dbdbcf309fc0", name: "New" },
-]
-
-const postsMetadata: PostMetadata[] = [
-	{
-		title:
-			"They Didn't Tell Me I Had to Eat the Two Pizzas: Stories of an IC Turned Manager",
-		author: {
-			id: "95781875-ba3f-417c-9b4b-dec6b6aea354",
-			name: "Demari Williams",
-		},
-		path: "/d-williams/they-didnt-tell-me",
-		updated: "",
-		tags: ["management"],
-		likes: 300,
-	},
-]
-
-const Feed: React.FC = () => {
-	const [feedId, setFeedId] = useState<string>(
-		"37e24b45-e5d2-456e-94ef-11f2c64ef17f"
-	)
-
+const FeedComponent: React.FC<Props> = ({
+	postsMetadata,
+	feeds,
+	feedId,
+	setFeedId,
+}) => {
 	return (
-		<section className="flex flex-col">
+		<section className="flex flex-col gap-4">
 			<div className="flex flex-row justify-between">
 				<ul className="flex flex-row gap-2 font-medium">
-					{feeds.map((feed) => (
+					{feeds?.map((feed) => (
 						<li
 							key={feed.id}
 							className={[
-								"cursor-pointer",
+								"cursor-pointer transition-all",
 								feedId === feed.id ? "underline" : "",
 							].join(" ")}
 							onClick={() => setFeedId(feed.id)}
@@ -50,11 +35,13 @@ const Feed: React.FC = () => {
 					))}
 				</ul>
 			</div>
-			{postsMetadata.map((postMetadata, index) => (
-				<Preview key={index} postMetadata={postMetadata} />
-			))}
+			<div className="flex flex-col gap-4">
+				{postsMetadata?.map((postMetadata, index) => (
+					<Preview key={index} postMetadata={postMetadata} />
+				))}
+			</div>
 		</section>
 	)
 }
 
-export default Feed
+export default FeedComponent

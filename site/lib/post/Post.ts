@@ -2,8 +2,8 @@ import User from "lib/user"
 
 export interface PostMetadata {
 	title: string
+	slug: string
 	author: User
-	path: string
 	tags: string[]
 	updated: string
 	likes: number

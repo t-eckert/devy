@@ -2,7 +2,6 @@ import { PostMetadata } from "lib/post"
 import Head from "next/head"
 import Feed from "sections/Feed"
 
-import Header from "sections/Header"
 import Search from "sections/Search"
 
 type Props = {
@@ -22,14 +21,8 @@ const HomePage: React.FC<Props> = () => {
       </Head>
 
       <main>
-        <div className="mx-auto max-w-4xl flex flex-col">
-          <Header />
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2">
-              <Feed />
-            </div>
-            <Search />
-          </div>
+        <div className="mt-24 mx-auto max-w-4xl flex flex-col">
+          <Feed />
         </div>
       </main>
     </div>
