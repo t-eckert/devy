@@ -21,7 +21,7 @@ const Preview: React.FC<Props> = ({ postMetadata }) => {
 				>
 					{postMetadata.author.name}
 				</Link>
-				<span>{new Date(postMetadata.updated).toLocaleDateString()}</span>
+				<span>{new Date(postMetadata.updatedAt).toLocaleDateString()}</span>
 			</div>
 
 			<div className="flex flex-row flex-wrap gap-1">

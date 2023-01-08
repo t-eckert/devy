@@ -2,6 +2,9 @@ import { Props } from "./Preview"
 
 const base: Props = {
 	postMetadata: {
+		id: "e6020a82-06fb-4236-9fc6-ad40d91fe23a",
+		createdAt: new Date(),
+		updatedAt: "2022-12-20",
 		title:
 			"They Didn't Tell Me I Had to Eat the Two Pizzas: Stories of an IC Turned Manager",
 		slug: "they-didnt-tell-me-i-had-to-eat-the-two-pizzas",
@@ -10,7 +13,6 @@ const base: Props = {
 			name: "Demari Williams",
 			username: "d-williams",
 		},
-		updated: "2022-12-20",
 		tags: ["management"],
 		likes: 300,
 	},

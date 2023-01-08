@@ -1,6 +1,6 @@
 import Post, { PostMetadata } from "./Post"
-import { getPost } from "./controller"
+import { getPost, getPostsMetadataByFeed } from "./controller"
 
 export type { PostMetadata }
-export { getPost }
+export { getPost, getPostsMetadataByFeed }
 export default Post
