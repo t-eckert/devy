@@ -33,17 +33,6 @@ But as I continued in my role as a manager, I learned to embrace these unexpecte
 challenges and use them as opportunities to grow and learn. And while I may never
 enjoy eating two extra-large pizzas in one sitting, I know that being a manager
 means being ready for anything.`,
-    html: `<h1>They Didn't Tell Me I Had to Eat the Two Pizzas: Stories of an IC Turned Manager</h1>
-
-<p>It was my first week as a manager and I was feeling overwhelmed. Not only was I responsible for my own work, but I now had a team of engineers to manage as well.</p>
-
-<p>One day, I received an email from my boss asking me to order lunch for a team meeting. No problem, I thought. I'll just order a few pizzas and everyone will be happy.</p>
-
-<p>But when the pizzas arrived, I was in for a surprise. My boss had ordered two extra-large pizzas and told me to make sure everyone ate at least one slice. I couldn't believe it. They didn't tell me I had to eat the two pizzas!</p>
-
-<p>I quickly realized that being a manager wasn't just about delegating tasks and managing schedules. It also meant taking on additional responsibilities and tasks that no one else wanted to do.</p>
-
-<p>But as I continued in my role as a manager, I learned to embrace these unexpected challenges and use them as opportunities to grow and learn. And while I may never enjoy eating two extra-large pizzas in one sitting, I know that being a manager means being ready for anything.</p>`,
   },
   {
     id: "dca23e49-e712-4431-9601-62d9db080e32",
@@ -59,7 +48,6 @@ means being ready for anything.`,
     tags: ["blockchain", "finance"],
     likes: 187,
     markdown: ``,
-    html: "",
   },
   {
     id: "dca23e49-e712-4431-9601-62d9db080e34",
@@ -76,7 +64,6 @@ means being ready for anything.`,
     tags: ["machine learning", "data science"],
     likes: 432,
     markdown: ``,
-    html: "",
   },
   {
     id: "dca23e49-e712-4431-9601-62d9db080e33",
@@ -92,7 +79,6 @@ means being ready for anything.`,
     tags: ["serverless", "AWS"],
     likes: 271,
     markdown: "",
-    html: "",
   },
   {
     id: "f24d66e-7f32-4d21-9fca-61c2e7bce653",
@@ -108,7 +94,6 @@ means being ready for anything.`,
     tags: ["virtual reality", "predictions"],
     likes: 389,
     markdown: "",
-    html: "",
   },
   {
     id: "f24f66e-9f32-4d21-9fca-61c2e7bce653",
@@ -125,7 +110,6 @@ means being ready for anything.`,
     tags: ["mobile app development", "Flutter", "React Native"],
     likes: 309,
     markdown: "",
-    html: "",
   },
   {
     id: "f24f66e-7f32-4d21-9fca-61c9e7bce653",
@@ -141,7 +125,6 @@ means being ready for anything.`,
     tags: ["artificial intelligence", "healthcare"],
     likes: 256,
     markdown: "",
-    html: "",
   },
   {
     id: "f28f66e-7f32-4d21-9fca-61c2e7bce653",
@@ -158,7 +141,6 @@ means being ready for anything.`,
     tags: ["microservices", "architecture"],
     likes: 187,
     markdown: "",
-    html: "",
   },
   {
     id: "f24f66e-7f32-4d22-9fca-61c2e7bce653",
@@ -175,7 +157,6 @@ means being ready for anything.`,
     tags: ["quantum computing"],
     likes: 341,
     markdown: "",
-    html: "",
   },
 ]
 
