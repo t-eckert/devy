@@ -2,7 +2,6 @@ import { PostMetadata } from "lib/post"
 import Head from "next/head"
 
 import Feed from "sections/Feed"
-import Search from "sections/Search"
 import Intro from "sections/Intro"
 
 type Props = {
@@ -21,13 +20,11 @@ const HomePage: React.FC<Props> = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="mt-12 mx-auto max-w-4xl grid grid-cols-3 gap-4">
-        <div className="flex flex-col col-span-2">
+      <main className="px-2 max-w-3xl md:mt-12 mx-auto flex flex-col-reverse gap-12 md:flex-row md:gap-4">
+        <div className="flex flex-col">
           <Feed />
         </div>
-        <div className="">
-          <Intro />
-        </div>
+        <Intro />
       </main>
     </div>
   )

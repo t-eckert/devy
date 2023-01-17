@@ -1,5 +1,5 @@
 article {
-	@apply mx-auto max-w-3xl;
+	@apply mx-auto max-w-lg;
 
 	h1 {
 		@apply mb-4 text-5xl font-semibold tracking-tighter leading-tight;
@@ -8,12 +8,20 @@ article {
 	h2 {
 		@apply mb-4 text-4xl font-semibold tracking-tighter leading-tight;
 	}
-  
-  p {
-    @apply mb-4 mx-auto max-w-lg leading-snug;
-  }
 
-  a {
-    @apply underline;
-  }
+	h3 {
+		@apply mb-2 text-3xl font-semibold tracking-tighter leading-tight;
+	}
+
+	h4 {
+		@apply mb-2 text-2xl font-semibold tracking-tighter leading-tight;
+	}
+
+	p {
+		@apply mb-4 mx-auto leading-snug;
+	}
+
+	a {
+		@apply underline;
+	}
 }
