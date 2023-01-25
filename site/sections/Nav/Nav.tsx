@@ -1,20 +1,21 @@
 import Link from "components/Link"
+import Breadcrumbs from "./Breadcrumbs"
+
 import User from "lib/user"
 
 export interface Props {
+  path: string
   user?: User
 }
 
-const Nav: React.FC<Props> = ({ user }) => {
+const Nav: React.FC<Props> = ({ path, user }) => {
   return (
     <nav className="mx-auto max-w-6xl px-2 py-1 flex flex-row justify-between">
-      <div className="flex flex-row gap-2 items-center">
-        <Link href="/" className="text-sm font-medium">
+      <div className="flex flex-row gap-1 items-baseline select-none">
+        <Link href="/" className="text-sm font-medium hover:underline">
           Devy
         </Link>
-        <div className="px-1.5 py-0.25 text-xs font-medium bg-yellow-300 text-yellow-900 rounded-full">
-          ALPHA
-        </div>
+        <Breadcrumbs path={path} />
       </div>
       <div>
         {user ? (

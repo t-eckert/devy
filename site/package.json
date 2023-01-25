@@ -3,7 +3,6 @@
   "version": "2022.12.14",
   "private": true,
   "scripts": {
-    "local": "LOCAL=true next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

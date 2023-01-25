@@ -2,14 +2,12 @@ import Post from "lib/post"
 
 const posts: Post[] = [
   {
-    id: "dca23e49-e712-4431-9601-62d9db080e31",
     title:
       "They Didn't Tell Me I Had to Eat the Two Pizzas: Stories of an IC Turned Manager",
     createdAt: "2020-01-01",
     updatedAt: "2023-01-04",
     slug: "they-didnt-tell-me-i-had-to-eat-the-two-pizzas",
     author: {
-      id: "95781875-ba3f-417c-9b4b-dec6b6aea354",
       name: "Demari Williams",
       username: "d-williams",
     },
@@ -33,14 +31,12 @@ enjoy eating two extra-large pizzas in one sitting, I know that being a manager
 means being ready for anything.`,
   },
   {
-    id: "dca23e49-e712-4431-9601-62d9db080e34",
     title:
       "The Top 5 Machine Learning Libraries Every Data Scientist Should Know",
     createdAt: "2020-01-01",
     updatedAt: "2022-12-30",
     slug: "the-top-5-machine-learning-libraries-every-data-scientist-should-know",
     author: {
-      id: "a5fb5b43-6e7c-4059-b973-e8f56b1e2d41",
       name: "Mason Kim",
       username: "mkim",
     },
@@ -71,13 +67,11 @@ means being ready for anything.`,
 In conclusion, mastering these five libraries will give you a solid foundation for tackling a wide range of machine learning tasks. Each library has its own strengths and weaknesses, and the best one for a particular task will depend on the specific problem and the resources available.`,
   },
   {
-    id: "dca23e49-e712-4431-9601-62d9db080e33",
     createdAt: "2020-01-01",
     updatedAt: "2022-12-30",
     title: "How to Build a Scalable Serverless Architecture on AWS",
     slug: "how-to-build-a-scalable-serverless-architecture-on-aws",
     author: {
-      id: "c6e8f3f3-3b0c-4f9d-8a7c-bbe4fad6e497",
       name: "Ashley Rodriguez",
       username: "arodriguez",
     },
@@ -86,13 +80,10 @@ In conclusion, mastering these five libraries will give you a solid foundation f
     markdown: "",
   },
   {
-    id: "f24d66e-7f32-4d21-9fca-61c2e7bce653",
     createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
     title: "The Future of Virtual Reality: Predictions for 2022 and Beyond",
     slug: "the-future-of-virtual-reality-predictions-for-2022-and-beyond",
     author: {
-      id: "8f0b2eea-9f7b-43a9-8a64-1b78a4b4e4c0",
       name: "Samantha Kim",
       username: "skim",
     },
@@ -101,14 +92,12 @@ In conclusion, mastering these five libraries will give you a solid foundation f
     markdown: "",
   },
   {
-    id: "f24f66e-9f32-4d21-9fca-61c2e7bce653",
     createdAt: "2020-01-01",
     updatedAt: "2022-12-30",
     title:
       "The Pros and Cons of Flutter vs. React Native for Mobile App Development",
     slug: "the-pros-and-cons-of-flutter-vs-react-native-for-mobile-app-development",
     author: {
-      id: "eebdf74a-d07d-4d65-a7aa-6e5f6cd75c1d",
       name: "Emily Lee",
       username: "elee",
     },
@@ -145,13 +134,11 @@ In conclusion, mastering these five libraries will give you a solid foundation f
 Both Flutter and React Native have their own set of pros and cons. Flutter offers a more customizable UI and hot reload feature, but has a smaller ecosystem of third-party libraries and a steeper learning curve. React Native, on the other hand, has a larger community and is based on JavaScript, but offers limited customization options and may have performance issues. Ultimately, the decision will depend on the specific requirements of your project and the skills of your development team.`,
   },
   {
-    id: "f24f66e-7f32-4d21-9fca-61c9e7bce653",
     createdAt: "2020-01-01",
     updatedAt: "2022-12-30",
     title: "3 Ways Artificial Intelligence is Changing Healthcare",
     slug: "3-ways-artificial-intelligence-is-changing-healthcare",
     author: {
-      id: "9f2c9e9b-7b34-4e8a-a497-f1b3e6b3c1e3",
       name: "David Kim",
       username: "dkim",
     },
@@ -160,14 +147,12 @@ Both Flutter and React Native have their own set of pros and cons. Flutter offer
     markdown: "",
   },
   {
-    id: "f28f66e-7f32-4d21-9fca-61c2e7bce653",
     createdAt: "2020-01-01",
     updatedAt: "2022-12-30",
     title:
       "The Benefits and Challenges of Using Microservices in Your Architecture",
     slug: "the-benefits-and-challenges-of-using-microservices-in-your-architecture",
     author: {
-      id: "a7b5edc4-a9f9-4eee-b7b7-da8e3a3a80e3",
       name: "Sophia Williams",
       username: "swilliams",
     },
@@ -216,13 +201,11 @@ In microservices architecture, services need to be able to discover each other i
 Microservices architecture can bring many benefits to your system, including scalability, flexibility, and resilience. However, it also brings its own set of challenges, including complexity, testing, network latency and service discovery. Careful planning, testing and monitoring are crucial for successful implementation of microservices.`,
   },
   {
-    id: "f24f66e-7f32-4d22-9fca-61c2e7bce653",
     createdAt: "2020-01-01",
     updatedAt: "2022-12-30",
     title: "An Introduction to Quantum Computing: What It Is and How It Works",
     slug: "an-introduction-to-quantum-computing-what-it-is-and-how-it-works",
     author: {
-      id: "3c13f937-6e8a-4c7a-bdfd-b7eb96384699",
       name: "Daniel Kim",
       username: "dkim",
     },
@@ -235,7 +218,6 @@ Microservices architecture can bring many benefits to your system, including sca
 const fixtures = {
   posts,
   postsMetadata: posts.map((post) => ({
-    id: post.id,
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
     title: post.title,

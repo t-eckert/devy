@@ -1,1 +1,4 @@
-export default interface Profile {}
+export default interface Profile {
+	username: string
+	name: string
+}

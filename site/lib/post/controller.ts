@@ -1,57 +1,91 @@
-import Post, { PostMetadata } from "./Post"
+import { Post, PostMetadata } from "./Post"
 import { defaults } from "lib/feed"
-import fixtures from "fixtures/post"
-import { IS_LOCAL } from "config"
 import client from "client"
+import Profile from "lib/profile"
 
-export const getPost = async (
-  authorname: string,
+export const getPostByPath = async (
+  authorUsername: string,
   slug: string
-): Promise<Post | null> => {
-  console.log(process.env)
-  console.log(IS_LOCAL)
-  if (IS_LOCAL) {
-    return (
-      fixtures.posts
-        .filter(
-          (post) => post.author.username === authorname && post.slug === slug
-        )
-        .at(0) || null
+): Promise<Post> => {
+  const { data, error } = await client
+    .from("post")
+    .select(
+      "created_at, updated_at, title, slug, markdown, author (username, name)"
     )
-  }
+    .eq("slug", slug)
+    .limit(1)
+    .single()
 
-  const { data, error } = await client.from("post").select()
   if (error) {
     throw error
   }
 
-  return (
-    data
-      .filter(
-        (post) => post.author.username === authorname && post.slug === slug
-      )
-      .at(0) || null
-  )
+  const post: Post = {
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+    title: data.title,
+    slug: data.slug,
+    markdown: data.markdown,
+    author: data.author as Profile,
+    tags: [],
+    likes: 0,
+  }
+
+  return post
 }
 
-export const getPostsMetadataByFeed = (feedId: string): PostMetadata[] => {
+export const getPostsMetadataByFeed = async (
+  feedId: string
+): Promise<PostMetadata[]> => {
   if (!defaults.map((d) => d.id).includes(feedId)) {
     throw "Not found"
   }
 
-  const meta = fixtures.postsMetadata
-
   const popular = defaults.at(0)
   if (feedId === popular?.id) {
-    meta.sort((a, b) => (a.likes < b.likes ? -1 : 1))
-    return meta
+    const { data, error } = await client.from("post").select("*").limit(10)
+    if (error) {
+      throw error
+    }
+
+    return data as unknown as PostMetadata[]
   }
 
   const newFeed = defaults.at(1)
   if (feedId === newFeed?.id) {
-    meta.sort((a, b) => (a.updatedAt < b.updatedAt ? -1 : 1))
-    return meta
+    const { data, error } = await client.from("post").select("*").limit(10)
+    if (error) {
+      throw error
+    }
+
+    return data as unknown as PostMetadata[]
   }
 
   return []
+}
+
+export const getPostsMetadataByPopularity = async (): Promise<
+  PostMetadata[]
+> => {
+  const { data, error } = await client.from("post").select("*").limit(10)
+
+  if (error) {
+    throw error
+  }
+
+  return data as unknown as PostMetadata[]
+}
+
+export const getNewPostsMetadata = async (): Promise<PostMetadata[]> => {
+  const { data, error } = await client
+    .from("post")
+    .select("*")
+    .order("createdAt", { ascending: true })
+    .limit(50)
+
+  if (error) {
+    throw error
+  }
+
+  return data as unknown as PostMetadata[]
 }

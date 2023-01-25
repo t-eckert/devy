@@ -27,7 +27,7 @@ const Byline: React.FC<Props> = ({ postMetadata }) => {
       <Link href={`/${author.username}`} className="font-medium">
         {author.name ?? author.username}
       </Link>
-      {createdAt === updatedAt ? (
+      {updatedAt !== null ? (
         <div>Published {new Date(createdAt).toLocaleDateString()}</div>
       ) : (
         <div>Updated {new Date(updatedAt).toLocaleDateString()}</div>

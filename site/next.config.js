@@ -2,14 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  async redirects() {
-    return [
-      {
-        source: "/:user",
-        destination: "/:user/profile",
-        permanent: true,
-      },
-    ]
+  experimental: {
+    appDir: true,
   },
 }
 
