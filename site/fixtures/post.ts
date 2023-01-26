@@ -1,19 +1,19 @@
 import Post from "lib/post"
 
 const posts: Post[] = [
-  {
-    title:
-      "They Didn't Tell Me I Had to Eat the Two Pizzas: Stories of an IC Turned Manager",
-    createdAt: "2020-01-01",
-    updatedAt: "2023-01-04",
-    slug: "they-didnt-tell-me-i-had-to-eat-the-two-pizzas",
-    author: {
-      name: "Demari Williams",
-      username: "d-williams",
-    },
-    tags: ["management", "humor"],
-    likes: 300,
-    markdown: `It was my first week as a manager and I was feeling overwhelmed. Not only was I
+	{
+		title:
+			"They Didn't Tell Me I Had to Eat the Two Pizzas: Stories of an IC Turned Manager",
+		createdAt: "2020-01-01",
+		updatedAt: "2023-01-04",
+		slug: "they-didnt-tell-me-i-had-to-eat-the-two-pizzas",
+		author: {
+			name: "Demari Williams",
+			username: "d-williams",
+		},
+		tags: ["management", "humor"],
+		likes: 300,
+		markdown: `It was my first week as a manager and I was feeling overwhelmed. Not only was I
 responsible for my own work, but I now had a team of engineers to manage as well.
 
 One day, I received an email from my boss asking me to order lunch for a team 
@@ -29,20 +29,20 @@ But as I continued in my role as a manager, I learned to embrace these unexpecte
 challenges and use them as opportunities to grow and learn. And while I may never
 enjoy eating two extra-large pizzas in one sitting, I know that being a manager
 means being ready for anything.`,
-  },
-  {
-    title:
-      "The Top 5 Machine Learning Libraries Every Data Scientist Should Know",
-    createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
-    slug: "the-top-5-machine-learning-libraries-every-data-scientist-should-know",
-    author: {
-      name: "Mason Kim",
-      username: "mkim",
-    },
-    tags: ["machine learning", "data science"],
-    likes: 432,
-    markdown: `Machine learning is a rapidly growing field, and with so many libraries and frameworks available, it can be overwhelming to know where to start. In this post, we will highlight the top 5 machine learning libraries that every data scientist should be familiar with.
+	},
+	{
+		title:
+			"The Top 5 Machine Learning Libraries Every Data Scientist Should Know",
+		createdAt: "2020-01-01",
+		updatedAt: "2022-12-30",
+		slug: "the-top-5-machine-learning-libraries-every-data-scientist-should-know",
+		author: {
+			name: "Mason Kim",
+			username: "mkim",
+		},
+		tags: ["machine learning", "data science"],
+		likes: 432,
+		markdown: `Machine learning is a rapidly growing field, and with so many libraries and frameworks available, it can be overwhelming to know where to start. In this post, we will highlight the top 5 machine learning libraries that every data scientist should be familiar with.
 
 ## 1. TensorFlow
 
@@ -65,45 +65,45 @@ means being ready for anything.`,
 [caret](http://topepo.github.io/caret/) is a powerful and easy-to-use package for machine learning in R. It provides a consistent interface to over 200 different algorithms, including popular methods such as random forests, gradient boosting, and neural networks. caret also includes functionality for pre-processing, feature selection, and model evaluation, making it a comprehensive tool for data scientists working in R.
 
 In conclusion, mastering these five libraries will give you a solid foundation for tackling a wide range of machine learning tasks. Each library has its own strengths and weaknesses, and the best one for a particular task will depend on the specific problem and the resources available.`,
-  },
-  {
-    createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
-    title: "How to Build a Scalable Serverless Architecture on AWS",
-    slug: "how-to-build-a-scalable-serverless-architecture-on-aws",
-    author: {
-      name: "Ashley Rodriguez",
-      username: "arodriguez",
-    },
-    tags: ["serverless", "AWS"],
-    likes: 271,
-    markdown: "",
-  },
-  {
-    createdAt: "2020-01-01",
-    title: "The Future of Virtual Reality: Predictions for 2022 and Beyond",
-    slug: "the-future-of-virtual-reality-predictions-for-2022-and-beyond",
-    author: {
-      name: "Samantha Kim",
-      username: "skim",
-    },
-    tags: ["virtual reality", "predictions"],
-    likes: 389,
-    markdown: "",
-  },
-  {
-    createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
-    title:
-      "The Pros and Cons of Flutter vs. React Native for Mobile App Development",
-    slug: "the-pros-and-cons-of-flutter-vs-react-native-for-mobile-app-development",
-    author: {
-      name: "Emily Lee",
-      username: "elee",
-    },
-    tags: ["mobile app development", "Flutter", "React Native"],
-    likes: 309,
-    markdown: `Mobile app development is a constantly evolving field, and with new frameworks and technologies emerging all the time, it can be difficult to decide which one to use for your project. Two of the most popular options for cross-platform mobile app development are Flutter and React Native. In this post, we will explore the pros and cons of each framework to help you make an informed decision.
+	},
+	{
+		createdAt: "2020-01-01",
+		updatedAt: "2022-12-30",
+		title: "How to Build a Scalable Serverless Architecture on AWS",
+		slug: "how-to-build-a-scalable-serverless-architecture-on-aws",
+		author: {
+			name: "Ashley Rodriguez",
+			username: "arodriguez",
+		},
+		tags: ["serverless", "AWS"],
+		likes: 271,
+		markdown: "",
+	},
+	{
+		createdAt: "2020-01-01",
+		title: "The Future of Virtual Reality: Predictions for 2022 and Beyond",
+		slug: "the-future-of-virtual-reality-predictions-for-2022-and-beyond",
+		author: {
+			name: "Samantha Kim",
+			username: "skim",
+		},
+		tags: ["virtual reality", "predictions"],
+		likes: 389,
+		markdown: "",
+	},
+	{
+		createdAt: "2020-01-01",
+		updatedAt: "2022-12-30",
+		title:
+			"The Pros and Cons of Flutter vs. React Native for Mobile App Development",
+		slug: "the-pros-and-cons-of-flutter-vs-react-native-for-mobile-app-development",
+		author: {
+			name: "Emily Lee",
+			username: "elee",
+		},
+		tags: ["mobile app development", "Flutter", "React Native"],
+		likes: 309,
+		markdown: `Mobile app development is a constantly evolving field, and with new frameworks and technologies emerging all the time, it can be difficult to decide which one to use for your project. Two of the most popular options for cross-platform mobile app development are Flutter and React Native. In this post, we will explore the pros and cons of each framework to help you make an informed decision.
 
 ## Flutter
 
@@ -132,33 +132,33 @@ In conclusion, mastering these five libraries will give you a solid foundation f
 ## Conclusion
 
 Both Flutter and React Native have their own set of pros and cons. Flutter offers a more customizable UI and hot reload feature, but has a smaller ecosystem of third-party libraries and a steeper learning curve. React Native, on the other hand, has a larger community and is based on JavaScript, but offers limited customization options and may have performance issues. Ultimately, the decision will depend on the specific requirements of your project and the skills of your development team.`,
-  },
-  {
-    createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
-    title: "3 Ways Artificial Intelligence is Changing Healthcare",
-    slug: "3-ways-artificial-intelligence-is-changing-healthcare",
-    author: {
-      name: "David Kim",
-      username: "dkim",
-    },
-    tags: ["artificial intelligence", "healthcare"],
-    likes: 256,
-    markdown: "",
-  },
-  {
-    createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
-    title:
-      "The Benefits and Challenges of Using Microservices in Your Architecture",
-    slug: "the-benefits-and-challenges-of-using-microservices-in-your-architecture",
-    author: {
-      name: "Sophia Williams",
-      username: "swilliams",
-    },
-    tags: ["microservices", "architecture"],
-    likes: 187,
-    markdown: `Microservices architecture is a popular approach for building scalable and resilient systems by breaking down monolithic applications into smaller, independently deployable services. In this post, we will explore the benefits and challenges of using microservices in your architecture.
+	},
+	{
+		createdAt: "2020-01-01",
+		updatedAt: "2022-12-30",
+		title: "3 Ways Artificial Intelligence is Changing Healthcare",
+		slug: "3-ways-artificial-intelligence-is-changing-healthcare",
+		author: {
+			name: "David Kim",
+			username: "dkim",
+		},
+		tags: ["artificial intelligence", "healthcare"],
+		likes: 256,
+		markdown: "",
+	},
+	{
+		createdAt: "2020-01-01",
+		updatedAt: "2022-12-30",
+		title:
+			"The Benefits and Challenges of Using Microservices in Your Architecture",
+		slug: "the-benefits-and-challenges-of-using-microservices-in-your-architecture",
+		author: {
+			name: "Sophia Williams",
+			username: "swilliams",
+		},
+		tags: ["microservices", "architecture"],
+		likes: 187,
+		markdown: `Microservices architecture is a popular approach for building scalable and resilient systems by breaking down monolithic applications into smaller, independently deployable services. In this post, we will explore the benefits and challenges of using microservices in your architecture.
 
 ## Benefits
 
@@ -199,33 +199,33 @@ In microservices architecture, services need to be able to discover each other i
 ## Conclusion
 
 Microservices architecture can bring many benefits to your system, including scalability, flexibility, and resilience. However, it also brings its own set of challenges, including complexity, testing, network latency and service discovery. Careful planning, testing and monitoring are crucial for successful implementation of microservices.`,
-  },
-  {
-    createdAt: "2020-01-01",
-    updatedAt: "2022-12-30",
-    title: "An Introduction to Quantum Computing: What It Is and How It Works",
-    slug: "an-introduction-to-quantum-computing-what-it-is-and-how-it-works",
-    author: {
-      name: "Daniel Kim",
-      username: "dkim",
-    },
-    tags: ["quantum computing"],
-    likes: 341,
-    markdown: "",
-  },
+	},
+	{
+		createdAt: "2020-01-01",
+		updatedAt: "2022-12-30",
+		title: "An Introduction to Quantum Computing: What It Is and How It Works",
+		slug: "an-introduction-to-quantum-computing-what-it-is-and-how-it-works",
+		author: {
+			name: "Daniel Kim",
+			username: "dkim",
+		},
+		tags: ["quantum computing"],
+		likes: 341,
+		markdown: "",
+	},
 ]
 
 const fixtures = {
-  posts,
-  postsMetadata: posts.map((post) => ({
-    createdAt: post.createdAt,
-    updatedAt: post.updatedAt,
-    title: post.title,
-    slug: post.slug,
-    author: post.author,
-    tags: post.tags,
-    likes: post.likes,
-  })),
+	posts,
+	postsMetadata: posts.map((post) => ({
+		createdAt: post.createdAt,
+		updatedAt: post.updatedAt,
+		title: post.title,
+		slug: post.slug,
+		author: post.author,
+		tags: post.tags,
+		likes: post.likes,
+	})),
 }
 
 export default fixtures
