@@ -1,47 +1,22 @@
-import Preview from "components/Preview"
-import { PostMetadata } from "lib/post"
-import Feed from "lib/feed"
+"use client"
 
-export interface Props {
-	postsMetadata?: PostMetadata[]
-	feeds: Feed[]
-	feedId: string
-	setFeedId: (id: string) => void
-	pageNumber: number
-	setPageNumber: (n: number) => void
-}
+import { FeedState } from "./useFeed"
 
-const FeedComponent: React.FC<Props> = ({
-	postsMetadata,
-	feeds,
-	feedId,
-	setFeedId,
-}) => {
+import Context from "./Context"
+import Tabs from "./Tabs"
+import List from "./List"
+
+export interface Props extends FeedState {}
+
+const Feed: React.FC<Props> = (props) => {
 	return (
-		<section className="flex flex-col gap-4">
-			<div className="flex flex-row justify-between">
-				<ul className="flex flex-row gap-2 font-medium">
-					{feeds?.map((feed) => (
-						<li
-							key={feed.id}
-							className={[
-								"cursor-pointer transition-all",
-								feedId === feed.id ? "underline" : "",
-							].join(" ")}
-							onClick={() => setFeedId(feed.id)}
-						>
-							{feed.name}
-						</li>
-					))}
-				</ul>
-			</div>
-			<div className="flex flex-col gap-4">
-				{postsMetadata?.map((postMetadata, index) => (
-					<Preview key={index} postMetadata={postMetadata} />
-				))}
-			</div>
-		</section>
+		<Context {...props}>
+			<section className="flex flex-col gap-4">
+				<Tabs />
+				<List />
+			</section>
+		</Context>
 	)
 }
 
-export default FeedComponent
+export default Feed

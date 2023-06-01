@@ -4,88 +4,85 @@ import client from "client"
 import Profile from "lib/profile"
 
 export const getPostByPath = async (
-  authorUsername: string,
-  slug: string
+	authorUsername: string,
+	slug: string
 ): Promise<Post> => {
-  const { data, error } = await client
-    .from("post")
-    .select(
-      "created_at, updated_at, title, slug, markdown, author (username, name)"
-    )
-    .eq("slug", slug)
-    .limit(1)
-    .single()
+	const { data, error } = await client
+		.from("post")
+		.select(
+			"created_at, updated_at, title, slug, markdown, author (username, name)"
+		)
+		.eq("slug", slug)
+		.eq("author.username", authorUsername)
+		.limit(1)
+		.single()
 
-  if (error) {
-    throw error
-  }
+	if (error) {
+		throw error
+	}
 
-  const post: Post = {
-    createdAt: data.created_at,
-    updatedAt: data.updated_at,
-    title: data.title,
-    slug: data.slug,
-    markdown: data.markdown,
-    author: data.author as Profile,
-    tags: [],
-    likes: 0,
-  }
+	const post: Post = {
+		createdAt: data.created_at,
+		updatedAt: data.updated_at,
+		title: data.title,
+		slug: data.slug,
+		markdown: data.markdown,
+		author: data.author as Profile,
+		tags: [],
+		likes: 0,
+	}
 
-  return post
+	return post
 }
 
 export const getPostsMetadataByFeed = async (
-  feedId: string
+	feedId: string
 ): Promise<PostMetadata[]> => {
-  if (!defaults.map((d) => d.id).includes(feedId)) {
-    throw "Not found"
-  }
+	if (!defaults.map((d) => d.id).includes(feedId)) {
+		throw "Not found"
+	}
 
-  const popular = defaults.at(0)
-  if (feedId === popular?.id) {
-    const { data, error } = await client.from("post").select("*").limit(10)
-    if (error) {
-      throw error
-    }
+	const popular = defaults.at(0)
+	if (feedId === popular?.id) {
+		const { data, error } = await client.from("post").select("*").limit(10)
+		if (error) {
+			throw error
+		}
 
-    return data as unknown as PostMetadata[]
-  }
+		return data as unknown as PostMetadata[]
+	}
 
-  const newFeed = defaults.at(1)
-  if (feedId === newFeed?.id) {
-    const { data, error } = await client.from("post").select("*").limit(10)
-    if (error) {
-      throw error
-    }
+	const newFeed = defaults.at(1)
+	if (feedId === newFeed?.id) {
+		const { data, error } = await client.from("post").select("*").limit(10)
+		if (error) {
+			throw error
+		}
 
-    return data as unknown as PostMetadata[]
-  }
+		return data as unknown as PostMetadata[]
+	}
 
-  return []
+	return []
 }
 
 export const getPostsMetadataByPopularity = async (): Promise<
-  PostMetadata[]
+	PostMetadata[]
 > => {
-  const { data, error } = await client.from("post").select("*").limit(10)
+	const { data, error } = await client.from("post").select("*").limit(10)
 
-  if (error) {
-    throw error
-  }
+	if (error) {
+		throw error
+	}
 
-  return data as unknown as PostMetadata[]
+	return data as unknown as PostMetadata[]
 }
 
 export const getNewPostsMetadata = async (): Promise<PostMetadata[]> => {
-  const { data, error } = await client
-    .from("post")
-    .select("*")
-    .order("createdAt", { ascending: true })
-    .limit(50)
+	const { data, error } = await client.from("post").select("*").limit(10)
 
-  if (error) {
-    throw error
-  }
+	if (error) {
+		throw error
+	}
 
-  return data as unknown as PostMetadata[]
+	return data as unknown as PostMetadata[]
 }
