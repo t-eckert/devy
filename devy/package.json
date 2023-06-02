@@ -26,5 +26,8 @@
   "prettier": {
     "semi": false,
     "singleQuote": false
+  },
+  "devDependencies": {
+    "prisma": "^4.15.0"
   }
 }
