@@ -7,13 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-local-db": "node scripts/create-local-db.js"
+    "create-local-db": "deno run scripts/create-local-db.ts",
+    "seed-local-db": "deno run scripts/seed-local-db.ts"
   },
   "dependencies": {
+    "@prisma/client": "^4.15.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "cva": "npm:class-variance-authority@^0.6.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "next": "13.4.4",
@@ -23,11 +26,11 @@
     "tailwindcss": "3.3.2",
     "typescript": "5.1.3"
   },
+  "devDependencies": {
+    "prisma": "^4.15.0"
+  },
   "prettier": {
     "semi": false,
     "singleQuote": false
-  },
-  "devDependencies": {
-    "prisma": "^4.15.0"
   }
 }
