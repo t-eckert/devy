@@ -19,7 +19,7 @@ export default function RootLayout({
         <header className="px-2 py-1 w-full flex flex-row items-center justify-between">
           <div className="flex flex-row gap-1.5 items-baseline">
             <h1 className="text-sm font-medium">Devy</h1>
-            <span className="px-1 py-0.25 text-xs rounded-full border border-slate-700 font-medium">
+            <span className="px-1.5 py-0.25 text-xs rounded-full bg-slate-500 text-white font-medium">
               Pre-release
             </span>
           </div>
