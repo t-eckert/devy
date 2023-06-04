@@ -1,6 +1,9 @@
 "use client"
 
-// TODO: I'd like to give this component a better name.
+import { useState } from "react"
+
+import Sidebar from "@/components/sections/Sidebar"
+import FeedSection from "@/components/sections/Feed"
 
 import Tab from "@/models/Tab"
 import Feed from "@/models/Feed"
@@ -11,5 +14,16 @@ interface Props {
 }
 
 export default function Feeds({ tabs, feeds }: Props) {
-  return <div>Feeds</div>
+  const [selectedFeed, setSelectedFeed] = useState(tabs[0].slug)
+
+  return (
+    <>
+      <Sidebar
+        tabs={tabs}
+        selectedFeed={selectedFeed}
+        setSelectedFeed={setSelectedFeed}
+      />
+      <FeedSection feed={feeds.find((feed) => feed.slug === selectedFeed)} />
+    </>
+  )
 }
