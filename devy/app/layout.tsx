@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import Nav from "@/components/sections/Nav"
 
 import "./globals.css"
+import UserToken from "@/components/sections/UserToken"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,9 +31,7 @@ export default function RootLayout({
             </span>
           </div>
           <div className="flex flex-row gap-2 items-center">
-            <button className="px-2 py-0.5 text-sm font-medium rounded-xl">
-              Sign in with GitHub
-            </button>
+            <UserToken />
             <Nav />
           </div>
         </header>
