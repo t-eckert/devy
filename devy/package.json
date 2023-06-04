@@ -11,6 +11,7 @@
     "seed-local-db": "deno run scripts/seed-local-db.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.15",
     "@prisma/client": "^4.15.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",

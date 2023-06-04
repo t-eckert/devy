@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={[inter.className, "text-slate-900"].join(" ")}>
-        <header className="px-2 py-1 w-full flex flex-row items-center justify-between">
+        <header className="px-4 py-2 w-full flex flex-row items-center justify-between">
           <div className="flex flex-row gap-1.5 items-baseline">
             <h1 className="text-sm font-medium">
               <Link href="/">Devy</Link>
@@ -29,7 +29,7 @@ export default function RootLayout({
               Pre-release
             </span>
           </div>
-          <div className="flex flex-row">
+          <div className="flex flex-row gap-2 items-center">
             <button className="px-2 py-0.5 text-sm font-medium rounded-xl">
               Sign in with GitHub
             </button>
