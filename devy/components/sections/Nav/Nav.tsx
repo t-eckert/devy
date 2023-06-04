@@ -13,17 +13,17 @@ export default function Nav() {
 				</Menu.Button>
 				<Menu.Items className="absolute flex flex-col top-8 right-3 py-2 bg-white rounded-lg shadow-xl border border-slate-200 w-44 text-sm font-medium">
 					<Menu.Item>
-						<Link href="/profile" className="px-2 py-0.5">
+						<Link href="/profile" className="px-2 py-0.5 hover:pl-3 transition-all">
 							Profile
 						</Link>
 					</Menu.Item>
 					<Menu.Item>
-						<Link href="/profile" className="px-2 py-0.5">
+						<Link href="/profile" className="px-2 py-0.5 hover:pl-3 transition-all">
 							Settings
 						</Link>
 					</Menu.Item>
 					<Menu.Item>
-						<Link href="/about" className="px-2 py-0.5">
+						<Link href="/about" className="px-2 py-0.5 hover:pl-3 transition-all">
 							About
 						</Link>
 					</Menu.Item>
