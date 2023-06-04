@@ -1,4 +1,3 @@
-import Sidebar from "@/components/sections/Sidebar"
 import Feeds from "./Feeds"
 
 import { getTabs } from "@/models/Tab"
@@ -10,7 +9,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="mx-auto mt-12 px-1 w-full max-w-6xl flex flex-row justify-between">
+      <main className="mx-auto mt-12 px-1 w-full max-w-6xl flex flex-row justify-between gap-4">
         <Feeds tabs={tabs} feeds={feeds} />
         <section className="w-44">Secondary info</section>
       </main>

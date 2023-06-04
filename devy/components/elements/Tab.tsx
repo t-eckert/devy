@@ -13,7 +13,7 @@ const styles = cva(
 	variants: {
 		isSelected: {
 			true: "text-slate-900 font-medium border border-slate-100 shadow rounded-md",
-			false: "text-slate-700",
+			false: "text-slate-700 border border-transparent",
 		},
 	},
 	defaultVariants: {
