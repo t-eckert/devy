@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="mx-auto mt-12 w-full max-w-6xl flex flex-row justify-between">
+      <main className="mx-auto mt-12 px-1 w-full max-w-6xl flex flex-row justify-between">
         <Sidebar tabs={tabs} />
         <section className="w-full max-w-xl flex flex-col gap-2">
           <div>

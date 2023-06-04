@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={[inter.className, "text-slate-900"].join(" ")}>
         <header className="px-2 py-1 w-full flex flex-row items-center justify-between">
           <div className="flex flex-row gap-1.5 items-baseline">
             <h1 className="text-sm font-medium">Devy</h1>
