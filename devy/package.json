@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-local-db": "deno run scripts/create-local-db.ts",
+    "create-local-db": "docker run --name devy-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:alpine",
     "seed-local-db": "deno run scripts/seed-local-db.ts"
   },
   "dependencies": {
