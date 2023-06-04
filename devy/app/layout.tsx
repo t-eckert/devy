@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { Inter } from "next/font/google"
 
+import Nav from "@/components/sections/Nav"
+
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -27,10 +29,11 @@ export default function RootLayout({
               Pre-release
             </span>
           </div>
-          <div>
-            <button className="px-2 py-0.5 text-sm font-medium rounded-xl border border-slate-700">
+          <div className="flex flex-row">
+            <button className="px-2 py-0.5 text-sm font-medium rounded-xl">
               Sign in with GitHub
             </button>
+            <Nav />
           </div>
         </header>
         {children}
