@@ -1,22 +1,27 @@
+import { prisma } from "@/db"
+
 export default interface Profile {
 	username: string
 	displayName: string
-	avatar_url?: string
+	avatarUrl?: string
 }
 
 export const getProfile = async (
 	username: string
 ): Promise<Profile | undefined> => {
-	return profiles.find((profile) => profile.username === username)
-}
+	const user = await prisma.user.findUnique({
+		where: {
+			username,
+		},
+	})
 
-const profiles = [
-	{
-		username: "test",
-		displayName: "Test",
-	},
-	{
-		username: "test2",
-		displayName: "Test 2",
-	},
-]
+	if (!user) {
+		return undefined
+	}
+
+	return {
+		username: user.username,
+		displayName: user.name ?? user.username,
+		avatarUrl: user.avatarUrl ?? undefined,
+	}
+}
