@@ -7,8 +7,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  username  String   @unique
+  posts     Post[]
+  likes     Like[]
+  avatarUrl String?
+  blogs     Blog[]
+}
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  name      String?   
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  posts     Post[]
+}
+
+model Like {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[]
+}
+
 model Post {
   id        Int      @id @default(autoincrement())
+  slug      String   @unique
   title     String?
   markdown  String?
+  blog      Blog     @relation(fields: [blogId], references: [id])
+  blogId    Int
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  updated   DateTime @updatedAt
+  created   DateTime @default(now())
+  likes     Like[]
+  tags      Tag[]
 }
+
