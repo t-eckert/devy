@@ -1,13 +1,14 @@
 {
   "name": "devy",
-  "version": "0.1.0",
+  "version": "2023.06.09",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-local-db": "docker run --name devy-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:alpine"
+    "create-local-db": "docker run --name devy-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:alpine",
+    "seed": "npx prisma db seed"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

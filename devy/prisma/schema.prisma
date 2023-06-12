@@ -8,10 +8,10 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
   name      String?
-  username  String   @unique
+  username  String  @unique
   posts     Post[]
   likes     Like[]
   avatarUrl String?
@@ -19,12 +19,12 @@ model User {
 }
 
 model Blog {
-  id        Int      @id @default(autoincrement())
-  slug      String   @unique
-  name      String?   
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  posts     Post[]
+  id       Int     @id @default(autoincrement())
+  slug     String  @unique
+  name     String?
+  author   User    @relation(fields: [authorId], references: [id])
+  authorId Int
+  posts    Post[]
 }
 
 model Like {
@@ -42,17 +42,16 @@ model Tag {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  slug      String   @unique
-  title     String?
-  markdown  String?
-  blog      Blog     @relation(fields: [blogId], references: [id])
-  blogId    Int
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  updated   DateTime @updatedAt
-  created   DateTime @default(now())
-  likes     Like[]
-  tags      Tag[]
+  id             Int      @id @default(autoincrement())
+  author         User     @relation(fields: [authorUsername], references: [username])
+  authorUsername String
+  blog           Blog     @relation(fields: [blogSlug], references: [slug])
+  blogSlug       String
+  slug           String   @unique
+  title          String?
+  markdown       String?
+  updated        DateTime @updatedAt
+  created        DateTime @default(now())
+  likes          Like[]
+  tags           Tag[]
 }
-

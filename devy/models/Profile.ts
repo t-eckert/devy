@@ -1,4 +1,4 @@
-import { prisma } from "@/db"
+import db from "@/db"
 
 export default interface Profile {
 	username: string
@@ -9,7 +9,7 @@ export default interface Profile {
 export const getProfile = async (
 	username: string
 ): Promise<Profile | undefined> => {
-	const user = await prisma.user.findUnique({
+	const user = await db.user.findUnique({
 		where: {
 			username,
 		},

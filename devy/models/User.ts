@@ -4,3 +4,4 @@ export default interface User extends Profile {
 	githubId?: string
 	githubUsername?: string
 }
+
