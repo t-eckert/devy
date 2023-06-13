@@ -1,68 +1,60 @@
 import db from "@/db"
-
-import User from "./User"
+import User, { userTranslator } from "@/models/User"
+import type Translator from "@/interfaces/Translator"
+import Blog, { blogTranslator } from "@/models/Blog"
 
 export default interface Post {
 	slug: string
-	blog: string
-	author?: User
-	title?: string
-	published?: string
-	updated?: string
-	tags?: string[]
-	likes?: number
+	blog: Blog
+	author: User
+	title: string
+	published: string
+	updated: string
+	tags: string[]
+	likes: number
 	markdown: string
 }
 
-export const getPostsByUser = async (username: string): Promise<Post[]> => {
-	return []
+export const postTranslator: Translator<any, Post> = {
+	toModel: (prisma) => ({
+		slug: prisma.slug,
+		blog: blogTranslator.toModel(prisma.blog),
+		author: userTranslator.toModel(prisma.author),
+		title: prisma.title,
+		published: prisma.created,
+		updated: prisma.updated,
+		tags: prisma.tags,
+		likes: prisma.likes.length,
+		markdown: prisma.markdown,
+	}),
+	toPrisma: (model) => ({}),
 }
 
-export const getPostByUserAndSlug = async (
-	username: string,
-	slug: string
-): Promise<Post | null> => {
-	const post = await db.post.findFirst({
-		where: {
-			author: {
-				username,
+export const postCreator = {}
+
+export const postGetter = {
+	byBlogAndSlug: async (blog: string, slug: string): Promise<any | null> => {
+		const post = await db.post.findFirst({
+			where: {
+				blog: {
+					slug: blog,
+				},
+				slug,
 			},
-			slug,
-		},
-	})
-
-	if (!post) {
-		return null
-	}
-
-	return {
-		slug: post.slug,
-		blog: post.blogSlug,
-		markdown: post.markdown ?? "",
-	}
-}
-
-export const getPostByBlogAndSlug = async (blog: string, slug: string) => {
-	const post = await db.post.findFirst({
-		where: {
-			blog: {
-				slug: blog,
+			include: {
+				author: true,
+				blog: true,
+				tags: true,
+				likes: true,
 			},
-			slug,
-		},
-	})
+		})
 
-	if (!post) {
-		return null
-	}
+		if (!post) return null
 
-	return {
-		slug: post.slug,
-		blog: post.blogSlug,
-		markdown: post.markdown ?? "",
-	}
+		return postTranslator.toModel(post)
+	},
 }
 
-export const upsertPost = async (post: Post): Promise<Post> => {
-	return post
-}
+export const postUpdater = {}
+
+export const postDeletor = {}

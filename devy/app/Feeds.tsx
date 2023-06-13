@@ -5,15 +5,23 @@ import { useState } from "react"
 import Sidebar from "@/components/sections/Sidebar"
 import FeedSection from "@/components/sections/Feed"
 
-import Tab from "@/models/Tab"
 import Feed from "@/models/Feed"
 
 interface Props {
-  tabs: Tab[]
   feeds: Feed[]
 }
 
-export default function Feeds({ tabs, feeds }: Props) {
+export default function Feeds({ feeds }: Props) {
+  const tabs = [
+    {
+      slug: "popular",
+      title: "Popular",
+    },
+    {
+      slug: "new",
+      title: "New",
+    },
+  ]
   const [selectedFeed, setSelectedFeed] = useState(tabs[0].slug)
 
   return (

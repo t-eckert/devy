@@ -1,5 +1,3 @@
-import { getProfile } from "@/models/Profile"
-
 import JSON from "@/components/elements/JSON"
 
 export default async function Profile({
@@ -7,7 +5,7 @@ export default async function Profile({
 }: {
   params: { username: string }
 }) {
-  const profile = await getProfile(params.username)
+  const profile = null
 
   if (!profile) return <div>Profile not found</div>
 
