@@ -5,25 +5,10 @@ import Post from "@/models/Post"
 
 interface Props extends Post {}
 
-export default function Preview(post: Props) {
+export default function Byline(post: Props) {
 	return (
-		<div className="flex flex-row items-start gap-3">
-			<div className="flex flex-col items-end text-slate-500">
-				<div className="flex flex-row gap-1 items-center">
-					<span className="text-sm text-slate-700">{post.likes}</span>
-					<Heart className="w-4 aspect-square" />
-				</div>
-				<div>
-					<Bookmark className="w-4 aspect-square" />
-				</div>
-			</div>
+		<section>
 			<div className="flex flex-col">
-				<Link
-					href={`/${post.blog}/${post.slug}`}
-					className="hover:underline transition-all"
-				>
-					<h1 className="font-medium">{post.title}</h1>
-				</Link>
 				<div className="flex flex-row gap-2 text-sm">
 					<Link href={`/profiles/${post.author.username}`}>
 						{post.author.displayName}
@@ -44,6 +29,15 @@ export default function Preview(post: Props) {
 					))}
 				</div>
 			</div>
-		</div>
+			<div className="flex flex-row text-slate-500">
+				<div className="flex flex-row gap-1 items-center">
+					<span className="text-sm text-slate-700">{post.likes}</span>
+					<Heart className="w-4 aspect-square" />
+				</div>
+				<div>
+					<Bookmark className="w-4 aspect-square" />
+				</div>
+			</div>
+		</section>
 	)
 }

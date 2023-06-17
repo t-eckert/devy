@@ -40,7 +40,7 @@ async function seed() {
 				slug: "introduction-to-machine-learning",
 				title: "Introduction to Machine Learning",
 				markdown:
-					"# Introduction to Machine Learning\n\nMachine learning is a powerful technique that enables computers to learn from data and make predictions or decisions. In this blog post, we will explore the basic concepts and algorithms used in machine learning.\n\n...",
+					"Machine learning is a powerful technique that enables computers to learn from data and make predictions or decisions. In this blog post, we will explore the basic concepts and algorithms used in machine learning.\n\n...",
 			},
 		],
 		skipDuplicates: true,

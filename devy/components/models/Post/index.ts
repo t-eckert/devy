@@ -1,2 +1,3 @@
+import Byline from "./Byline"
 import Preview from "./Preview"
-export { Preview }
+export { Byline, Preview }

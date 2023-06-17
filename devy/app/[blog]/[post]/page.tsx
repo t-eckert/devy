@@ -1,4 +1,6 @@
 import JSON from "@/components/elements/JSON"
+import Article from "@/components/markdown/Article"
+import { Byline } from "@/components/models/Post"
 
 import { postGetter } from "@/models/Post"
 
@@ -14,9 +16,10 @@ export default async function Post({ params: { blog, slug } }: Props) {
   }
 
   return (
-    <div className="mx-auto mt-8 w-full max-w-6xl">
-      <h1 className="text-2xl font-semibold">{post.title}</h1>
-      <JSON raw={post} />
+    <div className="mx-auto mt-8 w-full max-w-2xl">
+      <h1 className="text-4xl font-semibold">{post.title}</h1>
+      <Byline {...post} />
+      <Article markdown={post.markdown} />
     </div>
   )
 }

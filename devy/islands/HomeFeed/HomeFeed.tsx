@@ -34,7 +34,7 @@ export default function HomeFeed({ feeds }: Props) {
 				{feeds
 					.find((feed) => feed.id === selectedFeed)
 					?.posts.map((post, i) => (
-						<Preview key={i} post={post} />
+						<Preview key={i} {...post} />
 					))}
 			</section>
 		</>
