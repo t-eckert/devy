@@ -1,17 +1,15 @@
-import Feeds from "./Feeds"
+import HomeFeed from "@/islands/HomeFeed"
+import Shoulder from "@/islands/Shoulder"
 
-import { getFeeds } from "@/models/Feed"
+import { feedGetter } from "@/models/Feed"
 
-export default function Home() {
-  const feeds = getFeeds()
+export default async function Home() {
+  const feeds = await feedGetter.default()
 
   return (
-    <>
-      <main className="mx-auto mt-12 px-1 w-full max-w-6xl flex flex-row justify-between gap-4">
-        <Feeds feeds={feeds} />
-        <section className="w-44">Secondary info</section>
-      </main>
-      <footer></footer>
-    </>
+    <main className="mx-auto mt-12 px-1 w-full max-w-6xl flex flex-row justify-between gap-4">
+      <HomeFeed feeds={feeds} />
+      <Shoulder />
+    </main>
   )
 }
