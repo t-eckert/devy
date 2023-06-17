@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "create-local-db": "docker run --name devy-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:alpine",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
@@ -28,8 +30,17 @@
     "typescript": "5.1.3"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.21",
+    "@storybook/addon-interactions": "^7.0.21",
+    "@storybook/addon-links": "^7.0.21",
+    "@storybook/blocks": "^7.0.21",
+    "@storybook/nextjs": "^7.0.21",
+    "@storybook/react": "^7.0.21",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/node": "^20.2.5",
+    "eslint-plugin-storybook": "^0.6.12",
     "prisma": "^4.15.0",
+    "storybook": "^7.0.21",
     "ts-node": "^10.9.1"
   },
   "prettier": {
