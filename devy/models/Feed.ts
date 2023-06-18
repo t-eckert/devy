@@ -22,25 +22,6 @@ export const feedCreator = {}
 
 export const feedGetter = {
 	default: async (): Promise<Feed[]> => {
-		return [
-			{
-				id: 1,
-				slug: "popular",
-				name: "Popular",
-				publishOrder: "desc",
-				filterTags: [],
-				lastCachedAt: new Date(),
-				posts: [],
-			},
-			{
-				id: 2,
-				slug: "new",
-				name: "New",
-				publishOrder: "desc",
-				filterTags: [],
-				lastCachedAt: new Date(),
-				posts: [],
-			},
-		]
+		return []
 	},
 }
