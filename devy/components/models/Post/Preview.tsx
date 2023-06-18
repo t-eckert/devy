@@ -19,7 +19,7 @@ export default function Preview(post: Props) {
 			</div>
 			<div className="flex flex-col">
 				<Link
-					href={`/${post.blog}/${post.slug}`}
+					href={`/${post.blog.slug}/${post.slug}`}
 					className="hover:underline transition-all"
 				>
 					<h1 className="font-medium">{post.title}</h1>
