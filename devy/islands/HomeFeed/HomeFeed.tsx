@@ -5,15 +5,12 @@ import { useState } from "react"
 import { Preview } from "@/components/models/Post"
 import Tab from "@/components/elements/Tab"
 import Feed from "@/models/Feed"
-import useHomeFeed from "./useHomeFeed"
 
 interface Props {
 	feeds: Feed[]
 }
 
 export default function HomeFeed({ feeds }: Props) {
-	const ctx = useHomeFeed()
-
 	const [selectedFeed, setSelectedFeed] = useState<number>(1)
 
 	return (
