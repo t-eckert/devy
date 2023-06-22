@@ -47,6 +47,7 @@ model Post {
 
   likes Like[]
   tags  Tag[]
+  feeds PostInFeed[]
 }
 
 model Feed {
@@ -58,6 +59,9 @@ model Feed {
 
   filterTags Boolean @default(false)
   tags       Tag[]
+
+  lastCachedAt DateTime?
+  posts        PostInFeed[]
 }
 
 model Like {
@@ -76,6 +80,16 @@ model Tag {
 
   posts Post[]
   feeds Feed[]
+}
+
+model PostInFeed {
+  id Int @id @default(autoincrement())
+
+  feed   Feed @relation(fields: [feedId], references: [id])
+  feedId Int
+
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
 }
 
 enum Order {
