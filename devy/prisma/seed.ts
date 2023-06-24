@@ -135,16 +135,6 @@ const feedEntries: any = [
 	},
 ]
 
-// For the seed, all posts are in all feeds.
-const postInFeedEntries: any = postEntries.flatMap(
-	(post: any, postIndex: number) =>
-		feedEntries.map((feed: any, feedIndex: number) => ({
-			id: postIndex * feedEntries.length + feedIndex,
-			postId: post.id,
-			feedId: feed.id,
-		}))
-)
-
 async function seed() {
 	const users = await prisma.user.createMany({
 		data: userEntries,
@@ -173,13 +163,6 @@ async function seed() {
 	})
 	console.log("Created Feeds, skipping duplicates")
 	console.dir(feeds)
-
-	const postsInFeeds = await prisma.postInFeed.createMany({
-		data: postInFeedEntries,
-		skipDuplicates: true,
-	})
-	console.log("Created PostsInFeeds, skipping duplicates")
-	console.dir(postsInFeeds)
 }
 
 seed()
