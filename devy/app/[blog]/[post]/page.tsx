@@ -1,6 +1,6 @@
 import JSON from "@/components/elements/JSON"
 import Article from "@/components/markdown/Article"
-import { Byline } from "@/components/models/Post"
+import Byline from "@/components/models/Post/Byline"
 
 import { postGetter } from "@/models/Post"
 

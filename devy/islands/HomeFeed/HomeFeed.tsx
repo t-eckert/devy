@@ -2,17 +2,20 @@
 
 import { useState } from "react"
 
-import { Preview } from "@/components/models/Post"
-import Tab from "@/components/elements/Tab"
 import Feed from "@/models/Feed"
-import JSONComponent from "@/components/elements/JSON"
+import List from "@/components/models/Post/List"
+import Tab from "@/components/elements/Tab"
 
 interface Props {
 	feeds: Feed[]
 }
 
 export default function HomeFeed({ feeds }: Props) {
-	const [selectedFeed, setSelectedFeed] = useState<number>(0)
+	const [selectedFeed, setSelectedFeed] = useState<Feed>(feeds[0])
+	const setFeed = (id: number) => {
+		const feed = feeds.find((feed) => feed.id === id)
+		if (feed) setSelectedFeed(feed)
+	}
 
 	return (
 		<>
@@ -21,20 +24,14 @@ export default function HomeFeed({ feeds }: Props) {
 					<Tab
 						key={feed.id}
 						id={feed.id}
-						isSelected={selectedFeed === feed.id}
-						setSelected={setSelectedFeed}
+						isSelected={selectedFeed.id === feed.id}
+						setSelected={setFeed}
 					>
 						{feed.name}
 					</Tab>
 				))}
 			</section>
-			<section className="w-full max-w-2xl flex flex-col gap-4">
-				{feeds
-					.find((feed) => feed.id === selectedFeed)
-					?.posts.map((post, i) => (
-						<Preview key={i} {...post} />
-					))}
-			</section>
+			{selectedFeed.posts && <List posts={selectedFeed.posts} />}
 		</>
 	)
 }
