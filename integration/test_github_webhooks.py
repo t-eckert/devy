@@ -86,7 +86,6 @@ def test_post_push_webhook():
       }
     }
 
-
     resp = httpx.post(route, json=body)
 
 

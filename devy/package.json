@@ -1,6 +1,6 @@
 {
   "name": "devy",
-  "version": "2023.06.09",
+  "version": "2023.07.16",
   "private": true,
   "scripts": {
     "dev": "prisma generate && next dev",
