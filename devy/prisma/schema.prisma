@@ -92,8 +92,25 @@ model PostInFeed {
   postId Int
 }
 
+model Upload {
+  id String @id @default(uuid())
+
+  user String
+  status Status @default(NEW)
+  repo String
+}
+
 enum Order {
   NONE
   ASC
   DESC
+}
+
+enum Status {
+  NEW
+  QUEUED
+  UPLOADING
+  DONE
+  FAILED
+  REQUEUED
 }
