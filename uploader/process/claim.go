@@ -1,28 +1,22 @@
-package main
+package process
 
 import (
 	"database/sql"
+	"uploader/model"
 
 	"golang.org/x/exp/slog"
 )
 
-type Upload struct {
-	Id     *string
-	User   *string
-	Status *string
-	Repo   *string
-}
-
-func ClaimUploads(db *sql.DB) ([]Upload, error) {
+func Claim(db *sql.DB) ([]model.Upload, error) {
 	rows, err := db.Query(`SELECT * FROM "Upload";`)
 	defer rows.Close()
 	if err != nil {
 		return nil, err
 	}
 
-	uploads := make([]Upload, 0)
+	uploads := make([]model.Upload, 0)
 
-	var upload Upload
+	var upload model.Upload
 	for rows.Next() {
 		rows.Scan(
 			&upload.Id,

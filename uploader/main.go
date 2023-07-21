@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"uploader/process"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -26,14 +27,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	uploads, err := ClaimUploads(db)
+	uploads, err := process.Claim(db)
 	if err != nil {
 		slog.Error("Unable to claim uploads", "error", err)
 		os.Exit(1)
 	}
 
 	for _, upload := range uploads {
-		err := ProcessUpload(upload)
+		err := process.Clone(upload)
 		if err != nil {
 			slog.Error("Unable to process upload", "error", err)
 		}
