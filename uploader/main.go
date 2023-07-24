@@ -15,7 +15,12 @@ import (
 var name string
 
 func main() {
-	loadDotenv()
+	if _, err := os.Stat(".env"); err == nil {
+		if err := godotenv.Load(".env"); err != nil {
+			log.Fatalf("Unable to load .env environment variables: %v", err)
+		}
+	}
+
 	generateName()
 	setupLogger()
 
@@ -23,32 +28,15 @@ func main() {
 
 	db, err := connectDB()
 	if err != nil {
-		slog.Error("Unable to connect to database", "error", err)
+		slog.Error("Unable to connect to database.", "error", err)
 		os.Exit(1)
+	} else {
+		slog.Info("Connected to database.")
 	}
 
-	uploads, err := process.Claim(db)
-	if err != nil {
-		slog.Error("Unable to claim uploads", "error", err)
+	if err := process.Process(db); err != nil {
+		slog.Error("Unable to process uploads.", "error", err)
 		os.Exit(1)
-	}
-
-	for _, upload := range uploads {
-		err := process.Clone(upload)
-		if err != nil {
-			slog.Error("Unable to process upload", "error", err)
-		}
-	}
-
-}
-
-func loadDotenv() {
-	if _, err := os.Stat(".env"); os.IsNotExist(err) {
-		return
-	}
-
-	if err := godotenv.Load(".env"); err != nil {
-		log.Fatalf("Unable to load .env environment variables: %v", err)
 	}
 }
 
