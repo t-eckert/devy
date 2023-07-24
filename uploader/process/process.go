@@ -25,7 +25,6 @@ func Process(db *sql.DB) error {
 		if err != nil {
 			slog.Error("Unable to diff upload", "error", err)
 		}
-
 	}
 
 	return nil
