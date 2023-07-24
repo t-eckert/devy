@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import Upload, { uploadGetter } from "@/models/Upload"
+import { uploadGetter } from "@/models/Upload"
 
 export async function GET(
 	_: NextRequest,

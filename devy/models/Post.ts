@@ -16,17 +16,19 @@ export default interface Post {
 }
 
 export const postTranslator: Translator<any, Post> = {
-	toModel: (prisma) => ({
-		slug: prisma.slug,
-		blog: blogTranslator.toModel(prisma.blog),
-		author: userTranslator.toModel(prisma.author),
-		title: prisma.title,
-		published: prisma.created,
-		updated: prisma.updated,
-		tags: prisma.tags,
-		likes: prisma.likes.length,
-		markdown: prisma.markdown,
-	}),
+	toModel: (prisma) => {
+		return {
+			slug: prisma.slug,
+			blog: blogTranslator.toModel(prisma.blog),
+			author: userTranslator.toModel(prisma.author),
+			title: prisma.title,
+			published: prisma.created,
+			updated: prisma.updated,
+			tags: prisma.tags,
+			likes: prisma.likes.length,
+			markdown: prisma.markdown,
+		}
+	},
 	toPrisma: (model) => ({}),
 }
 

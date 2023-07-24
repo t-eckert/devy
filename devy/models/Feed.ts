@@ -12,8 +12,6 @@ import type Translator from "@/interfaces/Translator"
 
 import { postTranslator } from "./Post"
 
-const twoMinutes = 2 * 60 * 1000
-
 export default interface Feed {
 	id: number
 	slug: string
@@ -53,18 +51,20 @@ const orderTranslator: Translator<Order, string> = {
 }
 
 export const feedTranslator: Translator<PrismaFeedWithPosts, Feed> = {
-	toModel: (prisma) => ({
-		id: prisma.id,
-		slug: prisma.slug,
-		name: prisma.name,
-		publishOrder: prisma.publishOrder,
-		filterTags: prisma.filterTags,
-		// TODO add tags
-		lastCachedAt: prisma.lastCachedAt,
-		posts: prisma.posts.map((post: any) =>
-			postTranslator.toModel(post.post)
-		),
-	}),
+	toModel: (prisma) => {
+		return {
+			id: prisma.id,
+			slug: prisma.slug,
+			name: prisma.name,
+			publishOrder: prisma.publishOrder,
+			filterTags: prisma.filterTags,
+			// TODO add tags
+			lastCachedAt: prisma.lastCachedAt,
+			posts: prisma.posts.map((post: PrismaPostWithMetadata) =>
+				postTranslator.toModel(post)
+			),
+		}
+	},
 	toPrisma: (model) => ({
 		id: model.id,
 		slug: model.slug,
@@ -80,31 +80,17 @@ export const feedCreator = {}
 
 export const feedGetter = {
 	defaults: async (): Promise<Feed[]> => {
-		const feeds = (await db.feed.findMany({
+		const feeds = await db.feed.findMany({
 			where: {
 				slug: {
 					in: ["new", "popular"],
 				},
 			},
-			include: {
-				posts: {
-					include: {
-						post: {
-							include: {
-								tags: true,
-								blog: true,
-								author: true,
-								likes: true,
-							},
-						},
-					},
-				},
-			},
-		})) as unknown as PrismaFeedWithPosts[]
+		})
 
 		return await Promise.all(
 			feeds.map(async (feed) =>
-				feedTranslator.toModel(await refreshCache(feed))
+				feedTranslator.toModel(await fetchPosts(feed))
 			)
 		)
 	},
@@ -114,38 +100,45 @@ export const feedGetter = {
 			where: {
 				slug,
 			},
-			include: {
-				posts: {
-					include: {
-						post: {
-							include: {
-								tags: true,
-								blog: true,
-								author: true,
-								likes: true,
-							},
-						},
-					},
-				},
-			},
 		})) as unknown as PrismaFeedWithPosts
 
-		return feedTranslator.toModel(await refreshCache(feed))
+		return feedTranslator.toModel(await fetchPosts(feed))
 	},
 }
 
-const refreshCache = async (
-	feed: PrismaFeedWithPosts
-): Promise<PrismaFeedWithPosts> => {
-	// Bypass cache refresh if feed is already cached within the last 2 minutes.
-	if (
-		feed.lastCachedAt &&
-		feed.lastCachedAt.getTime() > Date.now() - twoMinutes
-	) {
-		return feed
+const fetchPosts = async (feed: PrismaFeed): Promise<PrismaFeedWithPosts> => {
+	let posts: PrismaPostWithMetadata[] = []
+
+	// Special cases for new and popular feeds
+	if (feed.slug === "new") {
+		posts = await db.post.findMany({
+			take: 10,
+			orderBy: {
+				created: "desc",
+			},
+			include: {
+				author: true,
+				tags: true,
+				blog: true,
+				likes: true,
+			},
+		})
+	} else if (feed.slug === "popular") {
+		posts = await db.post.findMany({
+			take: 10,
+			orderBy: {
+				likes: {
+					_count: "desc",
+				},
+			},
+			include: {
+				author: true,
+				tags: true,
+				blog: true,
+				likes: true,
+			},
+		})
 	}
 
-	// TODO Actually refresh the cache.
-
-	return feed
+	return { ...feed, posts }
 }
