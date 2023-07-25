@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={[inter.className, "bg-zinc-900"].join(" ")}>
+      <body className={[inter.className, "bg-zinc-900 text-white"].join(" ")}>
         {children}
       </body>
     </html>

@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Json data={data} />
+      <Json name="/feeds/new" data={data} />
     </main>
   )
 }
