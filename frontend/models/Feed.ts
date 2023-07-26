@@ -2,7 +2,7 @@ import Filter from "./Filter"
 import Post from "./Post"
 
 export default interface Feed {
-	id: number
+	id: string
 	slug: string
 	name: string
 	filters: Filter[]
