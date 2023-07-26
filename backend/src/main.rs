@@ -1,15 +1,16 @@
-use poem::{get, handler, listener::TcpListener, web::Path, IntoResponse, Route, Server};
+#[macro_use]
+extern crate rocket;
 
-#[handler]
-fn feed_new() -> String {
-    String::from(r#"{"id":"new","slug":"new","name":"New","filters":[],"posts":[]}"#)
+mod routes;
+
+#[get("/")]
+fn index() -> &'static str {
+    "Hello, World!"
 }
 
-#[tokio::main]
-async fn main() -> Result<(), std::io::Error> {
-    let app = Route::new().at("/feeds/new", get(feed_new));
-
-    Server::new(TcpListener::bind("127.0.0.1:3001"))
-        .run(app)
-        .await
+#[launch]
+fn rocket() -> _ {
+    rocket::build()
+        .mount("/", routes![index])
+        .mount("/feeds", routes![routes::feeds::get_new_feed])
 }
