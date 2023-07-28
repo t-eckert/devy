@@ -1,7 +1,17 @@
+use std::collections::HashMap;
+
 use super::Post;
 use crate::user::User;
 
-pub fn get_post_0001() -> Post {
+pub fn post_map() -> HashMap<String, Post> {
+    let mut map = HashMap::new();
+
+    map.insert(post_0001().id, post_0001());
+
+    map
+}
+
+pub fn post_0001() -> Post {
     Post::new(
         "6641d4b3-0301-46eb-ae7a-982370314a02".to_string(),
         "introduction-to-machine-learning".to_string(),

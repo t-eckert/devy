@@ -4,7 +4,7 @@ use crate::user::User;
 
 use super::fixtures;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Post {
     pub id: String,
@@ -34,7 +34,7 @@ impl Post {
         }
     }
 
-    pub fn get_by_id(id: &str) -> Self {
-        fixtures::get_post_0001()
+    pub fn get_by_id(id: &str) -> Option<Self> {
+        Some(fixtures::post_map().get(id)?.clone())
     }
 }
