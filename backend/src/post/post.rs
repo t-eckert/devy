@@ -2,6 +2,8 @@ use rocket::serde::{Deserialize, Serialize};
 
 use crate::user::User;
 
+use super::fixtures;
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Post {
@@ -30,5 +32,9 @@ impl Post {
             title,
             markdown,
         }
+    }
+
+    pub fn get_by_id(id: &str) -> Self {
+        fixtures::get_post_0001()
     }
 }
