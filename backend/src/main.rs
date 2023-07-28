@@ -1,16 +1,18 @@
 #[macro_use]
 extern crate rocket;
 
-mod routes;
-
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, World!"
-}
+mod post;
+mod user;
 
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![index])
-        .mount("/feeds", routes![routes::feeds::get_new_feed])
+        .mount("/", routes![ready])
+        .mount("/posts", routes![post::routes::get_post_by_id])
+        .mount("/users", routes![user::routes::get_user_by_id])
+}
+
+#[get("/ready")]
+fn ready() -> rocket::http::Status {
+    rocket::http::Status::Ok
 }
