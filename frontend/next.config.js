@@ -1,7 +1,7 @@
 const mode = process.env.NODE_ENV
 
 const API =
-  mode === "production" ? "https://api.devy.page" : "http://localhost:8000"
+  mode === "production" ? "https://devy-api.fly.dev/" : "http://localhost:8080"
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

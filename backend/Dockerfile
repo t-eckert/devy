@@ -7,5 +7,6 @@ RUN cargo build --release
 
 FROM debian:buster-slim
 COPY --from=builder /app/target/release/backend .
-EXPOSE 8000
+COPY --from=builder /app/Rocket.toml .
+EXPOSE 8080
 CMD ["./backend"]
