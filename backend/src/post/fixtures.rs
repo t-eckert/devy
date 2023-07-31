@@ -11,6 +11,10 @@ pub fn post_map() -> HashMap<String, Post> {
     map
 }
 
+pub fn posts() -> Vec<Post> {
+    vec![post_0001()]
+}
+
 pub fn post_0001() -> Post {
     Post::new(
         "6641d4b3-0301-46eb-ae7a-982370314a02".to_string(),

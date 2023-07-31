@@ -15,7 +15,7 @@ export default async function Home() {
   const feeds = [newFeed, popularFeed]
 
   return (
-    <main className="mx-auto my-12 flex flex-row w-full max-w-6xl">
+    <main className="mx-auto my-12 flex flex-row px-2 w-full max-w-6xl">
       <Feed feeds={feeds} />
     </main>
   )

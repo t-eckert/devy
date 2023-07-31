@@ -19,9 +19,17 @@ impl Feed {
 
     pub fn get_by_id(id: String) -> Self {
         match id.as_str() {
-            "new" => fixtures::feed_new(),
-            "popular" => fixtures::feed_popular(),
+            "new" => Feed::get_feed_new(),
+            "popular" => Feed::get_feed_popular(),
             _ => fixtures::feed_0001(),
         }
+    }
+
+    pub fn get_feed_new() -> Self {
+        fixtures::feed_new()
+    }
+
+    pub fn get_feed_popular() -> Self {
+        fixtures::feed_popular()
     }
 }

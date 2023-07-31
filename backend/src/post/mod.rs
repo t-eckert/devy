@@ -1,5 +1,5 @@
 pub mod routes;
 pub use post::Post;
 
-mod fixtures;
+pub mod fixtures;
 mod post;

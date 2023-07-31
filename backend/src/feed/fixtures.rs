@@ -1,11 +1,16 @@
 use super::Feed;
+use crate::post;
 
 pub fn feed_new() -> Feed {
-    Feed::new("new".to_string(), "New".to_string(), vec![])
+    let posts = post::fixtures::posts();
+
+    Feed::new("new".to_string(), "New".to_string(), posts)
 }
 
 pub fn feed_popular() -> Feed {
-    Feed::new("popular".to_string(), "Popular".to_string(), vec![])
+    let posts = post::fixtures::posts();
+
+    Feed::new("popular".to_string(), "Popular".to_string(), posts)
 }
 
 pub fn feed_0001() -> Feed {

@@ -24,17 +24,22 @@ const styles = cva(
 		"py-0.5",
 		"text-sm",
 		"hover:pl-3",
+		"focus:pl-3",
 		"transition-all",
 		"w-44",
 		"flex",
 		"justify-between",
 		"items-center",
+		"focus:outline-none",
+		"focus:ring-2",
+		"focus:ring-zinc-200",
+		"rounded-md",
 	],
 	{
 		variants: {
 			isSelected: {
-				true: "text-white font-medium border border-zinc-700 shadow rounded-md",
-				false: "text-zinc-100 border border-transparent",
+				true: "text-white font-medium bg-zinc-700 border border-zinc-700 shadow",
+				false: "text-zinc-500 border border-transparent",
 			},
 		},
 		defaultVariants: {

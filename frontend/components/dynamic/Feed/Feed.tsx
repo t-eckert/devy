@@ -3,8 +3,9 @@
 import { useState } from "react"
 
 import Feed from "@/models/Feed"
-import List from "@/components/models/Post/List"
+import Preview from "@/components/models/Post/Preview"
 import Tab from "@/components/elements/Tab"
+import { Frown } from "lucide-react"
 
 interface Props {
 	feeds: Feed[]
@@ -31,7 +32,18 @@ export default function HomeFeed({ feeds }: Props) {
 					</Tab>
 				))}
 			</section>
-			{selectedFeed.posts && <List posts={selectedFeed.posts} />}
+			<section className="w-full max-w-2xl flex flex-col gap-4">
+				{(!selectedFeed || selectedFeed.posts.length === 0) && (
+					<div className="justify-self-center self-center my-8">
+						<Frown className="w-8 h-8 mx-auto text-zinc-200 mb-2" />
+						<span>No posts to show.</span>
+					</div>
+				)}
+				{selectedFeed.posts &&
+					selectedFeed.posts.map((post, i) => (
+						<Preview key={i} post={post} />
+					))}
+			</section>
 		</>
 	)
 }
