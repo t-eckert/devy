@@ -8,6 +8,9 @@ const get = {
 		const res = await fetch(`${config.HOST}/api/feeds/${id}`, {
 			next: { revalidate: 10 },
 		})
+
+		if (!res.ok) return null
+
 		const feed = await res.json()
 		return feed
 	},
