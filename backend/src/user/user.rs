@@ -4,12 +4,23 @@ use rocket::serde::{Deserialize, Serialize};
 #[serde(crate = "rocket::serde")]
 pub struct User {
     pub id: String,
-    pub name: String,
+    pub profile_id: String,
     pub email: String,
+    pub github_username: Option<String>,
 }
 
 impl User {
-    pub fn new(id: String, name: String, email: String) -> Self {
-        Self { id, name, email }
+    pub fn new(id: String, profile_id: String, email: String) -> Self {
+        Self {
+            id,
+            profile_id,
+            email,
+            github_username: None,
+        }
+    }
+
+    pub fn with_github_username(mut self, github_username: String) -> Self {
+        self.github_username = Some(github_username);
+        self
     }
 }

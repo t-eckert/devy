@@ -1,6 +1,6 @@
 use rocket::serde::{Deserialize, Serialize};
 
-use crate::user::User;
+use crate::profile::Profile;
 
 use super::fixtures;
 
@@ -10,7 +10,7 @@ pub struct Post {
     pub id: String,
     pub slug: String,
     pub blog: String,
-    pub author: User,
+    pub author: Profile,
     pub title: String,
     pub markdown: String,
 }
@@ -20,7 +20,7 @@ impl Post {
         id: String,
         slug: String,
         blog: String,
-        author: User,
+        author: Profile,
         title: String,
         markdown: String,
     ) -> Self {

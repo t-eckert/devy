@@ -6,3 +6,8 @@ use super::Post;
 pub fn get_post_by_id(id: &str) -> Option<Json<Post>> {
     Some(Json(Post::get_by_id(id)?))
 }
+
+#[get("/<blog>/<slug>")]
+pub fn get_post_by_blog_and_slug(blog: &str, slug: &str) -> Option<Json<Post>> {
+    None
+}
