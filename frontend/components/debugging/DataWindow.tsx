@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react"
 
+import Json from "./Json"
+
 interface Props {
 	name?: string
 	data: any
@@ -50,9 +52,10 @@ export default function DataWindow({ name, data }: Props) {
 				</button>
 			</header>
 			{showJson && (
-				<pre className="p-2 text-sm overflow-scroll border-t border-zinc-700">
-					<code>{JSON.stringify(data, null, 2)}</code>
-				</pre>
+				<Json
+					data={data}
+					className="rounded-b-xl border-t border-zinc-700"
+				/>
 			)}
 		</section>
 	)

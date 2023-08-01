@@ -1,17 +1,19 @@
 "use client"
 
-import { useRef, useState } from "react"
-
 interface Props {
 	data: any
+	className?: string
 }
 
-export default function Json({ data }: Props) {
+export default function Json({ data, className }: Props) {
 	return (
-		<section className="bg-zinc-800 max-w-xl rounded-xl border border-zinc-700">
-			<pre className="p-2 text-sm overflow-scroll border-t border-zinc-700">
-				<code>{JSON.stringify(data, null, 2)}</code>
-			</pre>
-		</section>
+		<pre
+			className={[
+				"p-2 text-sm max-w-xl overflow-scroll bg-zinc-800",
+				className,
+			].join(" ")}
+		>
+			<code>{JSON.stringify(data, null, 2)}</code>
+		</pre>
 	)
 }

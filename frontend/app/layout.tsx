@@ -1,3 +1,4 @@
+import Nav from "@/components/dynamic/Nav"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={[inter.className, "bg-zinc-900 text-white"].join(" ")}>
+        <Nav />
         {children}
       </body>
     </html>

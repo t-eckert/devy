@@ -20,7 +20,7 @@ export default function HomeFeed({ feeds }: Props) {
 
 	return (
 		<>
-			<section className="flex flex-col items-start gap-2">
+			<section className="flex flex-row sm:flex-col items-start gap-2">
 				{feeds.map((feed) => (
 					<Tab
 						key={feed.id}
@@ -32,7 +32,7 @@ export default function HomeFeed({ feeds }: Props) {
 					</Tab>
 				))}
 			</section>
-			<section className="w-full max-w-2xl flex flex-col gap-4">
+			<section className="sm:px-4 w-full max-w-2xl flex flex-col items-start gap-4">
 				{(!selectedFeed || selectedFeed.posts.length === 0) && (
 					<div className="justify-self-center self-center my-8">
 						<Frown className="w-8 h-8 mx-auto text-zinc-200 mb-2" />
@@ -41,7 +41,7 @@ export default function HomeFeed({ feeds }: Props) {
 				)}
 				{selectedFeed.posts &&
 					selectedFeed.posts.map((post, i) => (
-						<Preview key={i} post={post} />
+						<Preview key={i} {...post} />
 					))}
 			</section>
 		</>

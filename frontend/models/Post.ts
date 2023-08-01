@@ -3,7 +3,11 @@ export default interface Post {
 	title: string
 	markdown: string
 	tags: string[]
-	author: string
+	author: {
+		name: string
+		id: string
+		email: string
+	}
 	likes: number
 	likedByUser: boolean
 }
