@@ -1,8 +1,7 @@
 use rocket::serde::{Deserialize, Serialize};
 
-use crate::post::Post;
-
 use super::fixtures;
+use crate::models::Post;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
@@ -17,11 +16,11 @@ impl Feed {
         Feed { id, name, posts }
     }
 
-    pub fn get_by_id(id: String) -> Self {
+    pub fn get_by_id(id: String) -> Option<Self> {
         match id.as_str() {
-            "new" => Feed::get_feed_new(),
-            "popular" => Feed::get_feed_popular(),
-            _ => fixtures::feed_0001(),
+            "new" => Some(Feed::get_feed_new()),
+            "popular" => Some(Feed::get_feed_popular()),
+            _ => None,
         }
     }
 

@@ -21,4 +21,8 @@ impl Profile {
         self.avatar = Some(avatar);
         self
     }
+
+    pub fn insert(&self) -> Result<Self, Box<dyn std::error::Error>> {
+        Ok(self.clone())
+    }
 }

@@ -1,8 +1,6 @@
 use rocket::serde::{Deserialize, Serialize};
 
-use crate::profile::Profile;
-
-use super::fixtures;
+use super::Profile;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
@@ -35,6 +33,10 @@ impl Post {
     }
 
     pub fn get_by_id(id: &str) -> Option<Self> {
-        Some(fixtures::post_map().get(id)?.clone())
+        None
+    }
+
+    pub fn get_by_blog_and_post_slug(blog_slug: String, pst_slug: String) -> Option<Self> {
+        None
     }
 }
