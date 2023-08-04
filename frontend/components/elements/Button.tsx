@@ -1,12 +1,17 @@
 import { VariantProps, cva } from "cva"
 
 interface Props {
+	onClick?: () => void
 	children: React.ReactNode
 	style?: VariantProps<typeof styles>
 }
 
-export default function Button({ children, style }: Props) {
-	return <button className={styles(style)}>{children}</button>
+export default function Button({ onClick, children, style }: Props) {
+	return (
+		<button onClick={onClick} className={styles(style)}>
+			{children}
+		</button>
+	)
 }
 
 const styles = cva(

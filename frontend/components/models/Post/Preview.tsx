@@ -2,6 +2,7 @@ import Post from "@/models/Post"
 import Link from "@/components/elements/Link"
 import Button from "@/components/elements/Button"
 import { Bookmark, Heart } from "lucide-react"
+import like from "@/controllers/like"
 
 interface Props extends Post {}
 
@@ -9,7 +10,14 @@ export default function Preview(post: Props) {
 	return (
 		<div className="px-2 flex flex-row items-start gap-1">
 			<div className="px-0.5 py-1 flex flex-col justify-end">
-				<Button>
+				<Button
+					onClick={() => {
+						like.upsert({
+							postId: post.id,
+							userId: "1",
+						})
+					}}
+				>
 					<div className="flex flex-row justify-end items-center gap-1">
 						<span className="text-sm">42</span>
 						<Heart className="w-3.5 h-3.5 text-zinc-200" />
@@ -28,7 +36,10 @@ export default function Preview(post: Props) {
 				</Link>
 				<p className="text-sm">
 					By{" "}
-					<Link href={post.author.id} style={{ underline: true }}>
+					<Link
+						href={`/profiles/${post.author.id}`}
+						style={{ underline: true }}
+					>
 						{post.author.name}
 					</Link>
 				</p>

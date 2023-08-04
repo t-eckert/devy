@@ -1,4 +1,5 @@
 export default interface Post {
+	id: string
 	slug: string
 	title: string
 	markdown: string
