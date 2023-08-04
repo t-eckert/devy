@@ -2,7 +2,7 @@ import Like from "@/models/Like"
 import config from "@/config"
 
 const upsert = async (like: Like): Promise<Like> => {
-	const response = await fetch(`${config.HOST}/api/like`, {
+	const response = await fetch(`${config.HOST}/api/likes`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

@@ -24,7 +24,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 routes::get_feed_by_id,
                 routes::get_user_by_id,
                 routes::get_post_by_id,
-                routes::get_post_by_blog_and_post_slug
+                routes::get_post_by_blog_and_post_slug,
+                routes::post_like,
             ],
         )
         .register("/", catchers![routes::not_found])
