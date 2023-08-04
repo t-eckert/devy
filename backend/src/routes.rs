@@ -1,47 +1,46 @@
 use rocket::serde::json::{json, Json, Value};
-use sqlx::Connection;
+use rocket_db_pools::Connection;
 
+use crate::db::DB;
 use crate::models::{Feed, Post, User};
 
+/// Health check endpoint when the server is up and running.
 #[get("/ready")]
 pub fn ready() -> rocket::http::Status {
     rocket::http::Status::Ok
 }
 
-#[get("/add")]
-pub fn add(mut db: Connection<DB>) -> Value {
-    let row = sqlx::query("SELECT 1 + 1").fetch_one(&mut *db).await?;
-
-    json!({
-        "status": "ok",
-        "result": row.get::<i32, _>(0)
-    })
-}
-
+/// Gets a feed by its ID.
 #[get("/feeds/<id>")]
-pub fn get_feed_by_id(id: String) -> Option<Json<Feed>> {
-    Some(Json::from(Feed::get_by_id(id)?))
+pub fn get_feed_by_id(db: Connection<DB>, id: String) -> Option<Json<Feed>> {
+    Some(Json::from(Feed::get_by_id(db, id)?))
 }
 
+/// Gets a user by their ID.
 #[get("/users/<id>")]
-pub fn get_user_by_id(id: &str) -> Json<User> {
-    Json(User::new(
-        id.to_string(),
-        "02f4ca93-d856-4a16-8646-a50126eadd85".to_string(),
-        "john.doe@gmail.com".to_string(),
-    ))
+pub fn get_user_by_id(db: Connection<DB>, id: String) -> Option<Json<User>> {
+    Some(Json::from(User::get_by_id(db, id)?))
 }
 
+/// Gets a post by its ID.
 #[get("/posts/<id>")]
-pub fn get_post_by_id(id: &str) -> Option<Json<Post>> {
-    Some(Json(Post::get_by_id(id)?))
+pub fn get_post_by_id(db: Connection<DB>, id: &str) -> Option<Json<Post>> {
+    Some(Json(Post::get_by_id(db, id)?))
 }
 
+/// Gets a post by its blog slug and post slug.
 #[get("/blogs/<blog_slug>/<post_slug>")]
-pub fn get_post_by_blog_and_post_slug(blog_slug: String, post_slug: String) -> Option<Json<Post>> {
-    Some(Json(Post::get_by_blog_and_post_slug(blog_slug, post_slug)?))
+pub fn get_post_by_blog_and_post_slug(
+    db: Connection<DB>,
+    blog_slug: String,
+    post_slug: String,
+) -> Option<Json<Post>> {
+    Some(Json(Post::get_by_blog_and_post_slug(
+        db, blog_slug, post_slug,
+    )?))
 }
 
+/// Catch all for 404 errors.
 #[catch(404)]
 pub fn not_found() -> Value {
     json!({

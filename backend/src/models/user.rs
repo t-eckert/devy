@@ -1,4 +1,7 @@
 use rocket::serde::{Deserialize, Serialize};
+use rocket_db_pools::Connection;
+
+use crate::db::DB;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
@@ -22,5 +25,9 @@ impl User {
     pub fn with_github_username(mut self, github_username: String) -> Self {
         self.github_username = Some(github_username);
         self
+    }
+
+    pub fn get_by_id(db: Connection<DB>, id: String) -> Option<Self> {
+        None
     }
 }

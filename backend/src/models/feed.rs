@@ -1,6 +1,8 @@
 use rocket::serde::{Deserialize, Serialize};
+use rocket_db_pools::Connection;
 
 use super::fixtures;
+use crate::db::DB;
 use crate::models::Post;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -16,19 +18,23 @@ impl Feed {
         Feed { id, name, posts }
     }
 
-    pub fn get_by_id(id: String) -> Option<Self> {
+    pub fn get_by_id(db: Connection<DB>, id: String) -> Option<Self> {
         match id.as_str() {
-            "new" => Some(Feed::get_feed_new()),
-            "popular" => Some(Feed::get_feed_popular()),
+            "new" => Some(Feed::get_feed_new(db)),
+            "popular" => Some(Feed::get_feed_popular(db)),
             _ => None,
         }
     }
 
-    pub fn get_feed_new() -> Self {
+    pub fn get_feed_new(_db: Connection<DB>) -> Self {
         fixtures::feed_new()
     }
 
-    pub fn get_feed_popular() -> Self {
+    pub fn get_feed_popular(_db: Connection<DB>) -> Self {
         fixtures::feed_popular()
+    }
+
+    pub fn upsert(&self, _db: Connection<DB>) -> Self {
+        Feed::new(self.id.clone(), self.name.clone(), self.posts.clone())
     }
 }

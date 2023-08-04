@@ -1,4 +1,7 @@
 use rocket::serde::{Deserialize, Serialize};
+use rocket_db_pools::Connection;
+
+use crate::db::DB;
 
 use super::Profile;
 
@@ -32,11 +35,15 @@ impl Post {
         }
     }
 
-    pub fn get_by_id(id: &str) -> Option<Self> {
+    pub fn get_by_id(db: Connection<DB>, id: &str) -> Option<Self> {
         None
     }
 
-    pub fn get_by_blog_and_post_slug(blog_slug: String, pst_slug: String) -> Option<Self> {
+    pub fn get_by_blog_and_post_slug(
+        db: Connection<DB>,
+        blog_slug: String,
+        pst_slug: String,
+    ) -> Option<Self> {
         None
     }
 }

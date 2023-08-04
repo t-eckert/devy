@@ -1,28 +1,25 @@
+#![allow(dead_code)]
+#![allow(unused)]
+
 #[macro_use]
 extern crate rocket;
 
-use sqlx::Row;
+use rocket::fairing::AdHoc;
+use rocket_db_pools::Database;
 use std::error::Error;
 
+mod db;
 mod models;
 mod routes;
 
 #[rocket::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let url = "postgresql://postgres:postgres@localhost:5432";
-    let pool = sqlx::postgres::PgPool::connect(url).await?;
-
-    sqlx::migrate!("./migrations").run(&pool).await?;
-
-    let row = sqlx::query("SELECT 1 + 1").fetch_one(&pool).await?;
-    println!("1 + 1 = {}", row.get::<i32, _>(0));
-
     rocket::build()
-        .manage(pool)
+        .attach(db::DB::init())
+        .attach(AdHoc::try_on_ignite("SQLx Migrations", db::run_migrations))
         .mount(
             "/",
             routes![
-                routes::add,
                 routes::ready,
                 routes::get_feed_by_id,
                 routes::get_user_by_id,
