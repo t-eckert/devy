@@ -15,3 +15,6 @@ def get_post_by_id(id:str) -> httpx.Response:
 
 def get_profile_by_id(id:str) -> httpx.Response:
     return httpx.get(config.HOST + '/profiles/' + id)
+
+def post_like() -> httpx.Response:
+    return httpx.post(config.HOST + '/likes', json={"user_id": "365739d6-f59d-4970-b3a3-758e9df9ae07", "post_id": "e9ed7fb3-585f-427e-b950-d828a61cf477"})
