@@ -7,13 +7,13 @@ use crate::models::Post;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
-pub struct Like {
+pub struct Bookmark {
     id: Option<String>,
     pub user_id: String,
     pub post_id: String,
 }
 
-impl Like {
+impl Bookmark {
     pub fn new(user_id: String, post_id: String) -> Self {
         Self {
             id: None,

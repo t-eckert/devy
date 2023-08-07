@@ -19,16 +19,21 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .attach(db::DB::init())
         .attach(AdHoc::try_on_ignite("SQLx Migrations", db::run_migrations))
         .attach(cors::CORS)
+        .mount("/", routes![routes::ready])
         .mount(
-            "/",
-            routes![
-                routes::ready,
-                routes::get_feed_by_id,
-                routes::get_user_by_id,
-                routes::get_post_by_id,
-                routes::get_post_by_blog_and_post_slug,
-                routes::post_like,
-            ],
+            "/blogs",
+            routes![routes::blogs::get_post_by_blog_and_post_slug],
+        )
+        .mount(
+            "/bookmarks",
+            routes![routes::bookmarks::post, routes::bookmarks::delete],
+        )
+        .mount("/feeds", routes![routes::feeds::get_by_id])
+        .mount("/posts", routes![routes::posts::get_by_id])
+        .mount("/users", routes![routes::users::get_by_id])
+        .mount(
+            "/likes",
+            routes![routes::likes::post, routes::likes::delete],
         )
         .register("/", catchers![routes::not_found])
         .launch()
