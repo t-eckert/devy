@@ -4,6 +4,10 @@ use rocket_db_pools::Connection;
 use crate::db::DB;
 use crate::models::{Feed, Like, Post, User};
 
+pub fn routes() -> Vec<rocket::Route> {
+    routes![get_by_id]
+}
+
 /// Gets a user by their ID.
 #[get("/users/<id>")]
 pub fn get_by_id(db: Connection<DB>, id: String) -> Option<Json<User>> {
