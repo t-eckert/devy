@@ -1,9 +1,10 @@
-import Link from "@/components/elements/Link"
 import { Github } from "lucide-react"
+
+import Link from "@/components/elements/Link"
 
 export default function Nav() {
 	return (
-		<nav className="mx-auto px-2 py-1 flex flex-row justify-between">
+		<nav className="mx-auto max-w-6xl px-2 py-3 flex flex-row justify-between">
 			<div className="flex flex-row gap-2 items-baseline">
 				<Link href="/">
 					<h1 className="font-semibold">Devy</h1>
