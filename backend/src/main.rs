@@ -8,6 +8,7 @@ use rocket::fairing::AdHoc;
 use rocket_db_pools::Database;
 use std::error::Error;
 
+mod cors;
 mod db;
 mod models;
 mod routes;
@@ -17,6 +18,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     rocket::build()
         .attach(db::DB::init())
         .attach(AdHoc::try_on_ignite("SQLx Migrations", db::run_migrations))
+        .attach(cors::CORS)
         .mount(
             "/",
             routes![
