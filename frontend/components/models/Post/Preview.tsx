@@ -1,12 +1,9 @@
 import Post from "@/models/Post"
-import Link from "@/components/elements/Link"
-import Button from "@/components/elements/Button"
-import { Bookmark, Heart } from "lucide-react"
 import like from "@/controllers/like"
+import { Button, Link } from "@/components/elements"
+import { Bookmark, Heart } from "lucide-react"
 
-interface Props extends Post {}
-
-export default function Preview(post: Props) {
+export default function Preview(post: Post) {
 	return (
 		<div className="px-2 flex flex-row items-start gap-1">
 			<div className="px-0.5 py-1 flex flex-col justify-end">

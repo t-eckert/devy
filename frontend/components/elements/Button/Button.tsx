@@ -1,8 +1,7 @@
 import { VariantProps, cva } from "cva"
+import { ButtonHTMLAttributes } from "react"
 
-interface Props {
-	onClick?: () => void
-	children: React.ReactNode
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	style?: VariantProps<typeof styles>
 }
 

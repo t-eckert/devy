@@ -1,4 +1,5 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react"
+import { themes } from "@storybook/theming"
 
 const preview: Preview = {
   parameters: {
@@ -10,6 +11,12 @@ const preview: Preview = {
       },
     },
   },
-};
+}
 
-export default preview;
+export const parameters = {
+  darkMode: {
+    dark: { ...themes.dark, appBg: "#09090b" },
+  },
+}
+
+export default preview

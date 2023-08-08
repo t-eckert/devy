@@ -4,7 +4,7 @@ import { useState } from "react"
 
 import Feed from "@/models/Feed"
 import Preview from "@/components/models/Post/Preview"
-import Tab from "@/components/elements/Tab"
+import { Tab } from "@/components/elements"
 import { Frown } from "lucide-react"
 
 interface Props {

@@ -17,7 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={[inter.className, "bg-zinc-900 text-white"].join(" ")}>
+      <body
+        className={[
+          inter.className,
+          "bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50",
+        ].join(" ")}
+      >
         <Nav />
         {children}
       </body>

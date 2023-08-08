@@ -1,7 +1,8 @@
-import type { StorybookConfig } from "@storybook/nextjs";
+import type { StorybookConfig } from "@storybook/nextjs"
 
 const config: StorybookConfig = {
   stories: [
+    "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
@@ -10,6 +11,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
+    "storybook-dark-mode",
   ],
   framework: {
     name: "@storybook/nextjs",
@@ -18,5 +20,5 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
-};
-export default config;
+}
+export default config

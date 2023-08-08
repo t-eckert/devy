@@ -1,6 +1,6 @@
 import { Github } from "lucide-react"
 
-import Link from "@/components/elements/Link"
+import { Link } from "@/components/elements"
 
 export default function Nav() {
 	return (
