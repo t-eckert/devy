@@ -1,6 +1,8 @@
 import Like from "@/models/Like"
 import config from "@/config"
 
+const get = {}
+
 const upsert = async (like: Like): Promise<Like> => {
 	const response = await fetch(`${config.API}/likes`, {
 		method: "POST",
@@ -12,7 +14,8 @@ const upsert = async (like: Like): Promise<Like> => {
 	return await response.json()
 }
 
-const like = {
+const like: Controller<Like> = {
+	get,
 	upsert,
 }
 

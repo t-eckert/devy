@@ -15,14 +15,16 @@ export default function Button({ children, variant, ...props }: Props) {
 
 const styles = cva(
 	[
-		"px-2",
+		"px-2.5",
+		"rounded-md",
+		"font-medium",
 		"pointer-cursor",
+		"transition-all",
 		"focus:outline-none",
 		"focus:ring-1",
 		"focus:ring-zinc-700",
 		"focus:ring-offset-1",
 		"dark:focus:ring-zinc-200",
-		"rounded-md",
 		"dark:text-zinc-50",
 	],
 	{
@@ -30,9 +32,23 @@ const styles = cva(
 			intent: {
 				primary: [
 					"border",
+					"border-zinc-700",
+					"bg-zinc-700",
+					"text-zinc-50",
 					"dark:border-zinc-200",
 					"dark:bg-zinc-200",
 					"dark:text-zinc-950",
+				],
+				secondary: [
+					"border",
+					"border-zinc-100",
+					"bg-zinc-100",
+					"text-zinc-950",
+					"border-zinc-200",
+					"hover:bg-zinc-200",
+					"dark:border-zinc-800",
+					"dark:bg-zinc-900",
+					"hover:dark:bg-zinc-800",
 				],
 			},
 		},

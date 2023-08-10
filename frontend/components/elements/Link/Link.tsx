@@ -1,15 +1,14 @@
 import { VariantProps, cva } from "cva"
-import NextLink from "next/link"
+import NextLink, { LinkProps } from "next/link"
 
-interface Props {
-	href: string
-	children: React.ReactNode
-	style?: VariantProps<typeof styles>
+interface Props extends LinkProps {
+	children?: React.ReactNode
+	variant?: VariantProps<typeof styles>
 }
 
-export default function Link({ href, children, style }: Props) {
+export default function Link({ children, variant, ...props }: Props) {
 	return (
-		<NextLink href={href} className={styles(style)}>
+		<NextLink className={styles(variant)} {...props}>
 			{children}
 		</NextLink>
 	)
@@ -18,15 +17,24 @@ export default function Link({ href, children, style }: Props) {
 const styles = cva(
 	[
 		"pointer-cursor",
-		"rounded-md",
+		"rounded-sm",
+		"text-zinc-950",
+		"transition-all",
 		"focus:outline-none",
 		"focus:ring-1",
-		"focus:ring-zinc-200",
+		"focus:ring-zinc-500",
+		"focus:ring-offset-4",
+		"dark:text-zinc-50",
+		"dark:focus:ring-zinc-200",
 	],
 	{
 		variants: {
 			underline: {
-				true: "underline",
+				true: [
+					"underline",
+					"decoration-zinc-700",
+					"dark:decoration-zinc-200",
+				],
 				false: "no-underline",
 			},
 		},

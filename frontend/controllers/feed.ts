@@ -16,8 +16,13 @@ const get = {
 	},
 }
 
-const feed = {
+const upsert = async (feed: Feed): Promise<Option<Feed>> => {
+	return null
+}
+
+const feed: Controller<Feed> = {
 	get,
+	upsert,
 }
 
 export default feed

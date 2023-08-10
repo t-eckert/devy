@@ -15,4 +15,8 @@ export default meta
 
 type Story = StoryObj<typeof Input>
 
-export const Text: Story = {}
+export const Text: Story = {
+	args: {
+		placeholder: "Placeholder text",
+	},
+}

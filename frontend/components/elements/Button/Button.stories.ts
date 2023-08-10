@@ -23,3 +23,12 @@ export const Primary: Story = {
 		},
 	},
 }
+
+export const Secondary: Story = {
+	args: {
+		children: "Secondary",
+		variant: {
+			intent: "secondary",
+		},
+	},
+}
