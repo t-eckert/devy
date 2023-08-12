@@ -5,9 +5,9 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: VariantProps<typeof styles>
 }
 
-export default function Button({ children, variant, ...props }: Props) {
+export default function Button({ children, variant, className, ...props }: Props) {
 	return (
-		<button className={styles(variant)} {...props}>
+		<button className={[styles(variant), className].join(" ")} {...props}>
 			{children}
 		</button>
 	)
@@ -15,9 +15,6 @@ export default function Button({ children, variant, ...props }: Props) {
 
 const styles = cva(
 	[
-		"px-2.5",
-		"rounded-md",
-		"font-medium",
 		"pointer-cursor",
 		"transition-all",
 		"focus:outline-none",
@@ -31,6 +28,9 @@ const styles = cva(
 		variants: {
 			intent: {
 				primary: [
+					"px-2.5",
+					"rounded-md",
+					"font-medium",
 					"border",
 					"border-zinc-700",
 					"bg-zinc-700",
@@ -40,6 +40,9 @@ const styles = cva(
 					"dark:text-zinc-950",
 				],
 				secondary: [
+					"px-2.5",
+					"rounded-md",
+					"font-medium",
 					"border",
 					"border-zinc-100",
 					"bg-zinc-100",
