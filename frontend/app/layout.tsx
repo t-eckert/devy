@@ -20,7 +20,7 @@ export default function RootLayout({
       <body
         className={[
           inter.className,
-          "bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50",
+          "bg-zinc-50 text-zinc-950 dark:bg-zinc-900 dark:text-zinc-50",
         ].join(" ")}
       >
         <Nav />
