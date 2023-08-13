@@ -28,16 +28,16 @@ export default function Preview(post: Post) {
 				</Button>
 			</div>
 			<div className="flex flex-col">
-				<Link href={`/${post.slug}`} style={{ underline: true }}>
+				<Link href={`/${post.slug}`} variant={{ underline: true }}>
 					<h2>{post.title}</h2>
 				</Link>
 				<p className="text-sm">
 					By{" "}
 					<Link
 						href={`/profiles/${post.author.id}`}
-						style={{ underline: true }}
+						variant={{ underline: true }}
 					>
-						{post.author.name}
+						{post.author.displayName}
 					</Link>
 				</p>
 			</div>
