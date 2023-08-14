@@ -8,8 +8,8 @@ pub fn routes() -> Vec<rocket::Route> {
     routes![get_by_id]
 }
 
-/// Gets a user by their ID.
-#[get("/users/<id>")]
-pub fn get_by_id(db: Connection<DB>, id: String) -> Option<Json<User>> {
+/// Retrieves a user by their ID.
+#[get("/<id>")]
+fn get_by_id(mut db: Connection<DB>, id: String) -> Option<Json<User>> {
     Some(Json::from(User::get_by_id(db, id)?))
 }
