@@ -8,32 +8,79 @@ use crate::db::DB;
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 #[serde(crate = "rocket::serde")]
 pub struct User {
-    pub id: Option<Uuid>,
-    pub profile_id: String,
+    pub id: i32,
+    pub profile_id: Option<i32>,
+    pub username: String,
+    pub email: Option<String>,
+    pub github_username: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
+#[serde(crate = "rocket::serde")]
+pub struct UserCreateRequest {
+    pub profile_id: Option<i32>,
+    pub username: String,
     pub email: Option<String>,
     pub github_username: Option<String>,
 }
 
 impl User {
-    pub fn new(id: String, profile_id: String, email: String) -> Self {
-        Self {
-            id: Some(id),
-            profile_id,
-            email: Some(email),
-            github_username: None,
-        }
+    pub async fn upsert(mut db: Connection<DB>, user: User) -> Result<Self, sqlx::Error> {
+        let user = sqlx::query_as!(
+            Self,
+            r#"
+            INSERT INTO "user" (username, email, github_username)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (username) DO UPDATE SET
+                email = $2,
+                github_username = $3
+            RETURNING *;
+            "#,
+            user.username,
+            user.email,
+            user.github_username
+        )
+        .fetch_one(&mut *db)
+        .await?;
+
+        return Ok(user);
     }
 
-    pub fn with_github_username(mut self, github_username: String) -> Self {
-        self.github_username = Some(github_username);
-        self
+    pub async fn get_by_username(
+        mut db: Connection<DB>,
+        username: String,
+    ) -> Result<Self, sqlx::Error> {
+        let user = sqlx::query_as!(
+            Self,
+            r#"SELECT * FROM "user" WHERE username = $1;"#,
+            username
+        )
+        .fetch_one(&mut *db)
+        .await?;
+
+        return Ok(user);
     }
+}
 
-    pub fn get_by_id(mut db: Connection<DB>, id: String) -> Option<Self> {
-        println!("id: {}", id);
+impl UserCreateRequest {
+    pub async fn upsert(mut db: Connection<DB>, user: Self) -> Result<User, sqlx::Error> {
+        let user = sqlx::query_as!(
+            User,
+            r#"
+            INSERT INTO "user" (username, email, github_username)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (username) DO UPDATE SET
+                email = $2,
+                github_username = $3
+            RETURNING *;
+            "#,
+            user.username,
+            user.email,
+            user.github_username
+        )
+        .fetch_one(&mut *db)
+        .await?;
 
-        let user = sqlx::query_as!(Self, "SELECT * FROM \"user\";").fetch(&mut *db);
-
-        None
+        return Ok(user);
     }
 }

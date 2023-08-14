@@ -12,7 +12,7 @@ use rocket::serde::json::{json, Json, Value};
 use rocket_db_pools::Connection;
 
 use crate::db::DB;
-use crate::models::{Feed, Like, Post, User};
+use crate::models::{Feed, Like, Post, User, UserCreateRequest};
 
 /// Health check endpoint when the server is up and running.
 #[get("/ready")]

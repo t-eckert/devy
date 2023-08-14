@@ -1,6 +1,7 @@
-create table if not exists "user" (
-	id uuid default uuid_generate_v4() primary key,
-	profile_id uuid not null,
-	email text,
-	github_username text
+CREATE TABLE IF NOT EXISTS "user" (
+	id SERIAL PRIMARY KEY,
+	profile_id INT,
+	username TEXT NOT NULL UNIQUE,
+	email TEXT,
+	github_username TEXT
 );
