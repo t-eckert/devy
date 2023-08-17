@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS "upload" (
+	id SERIAL PRIMARY KEY,
+	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	previous_upload_id INTEGER,
+	status TEXT NOT NULL DEFAULT 'pending'::TEXT,
+	repo TEXT NOT NULL,
+	logs TEXT[] DEFAULT '{}'::TEXT[]
+);
+
