@@ -1,23 +1,21 @@
-use rocket::serde::json::{json, Json, Value};
+use rocket::serde::json::Json;
 use rocket_db_pools::Connection;
 
 use crate::db::DB;
-use crate::models::Bookmark;
+use crate::entities::Bookmark;
 
 pub fn routes() -> Vec<rocket::Route> {
-    routes![post, delete]
+    routes![upsert, delete]
 }
 
 /// Creates a bookmark for a post.
 #[post("/", format = "json", data = "<bookmark>")]
-fn post(db: Connection<DB>, mut bookmark: Json<Bookmark>) -> Option<Json<Bookmark>> {
-    bookmark.upsert(db);
-    Some(Json::from(bookmark))
+fn upsert(db: Connection<DB>, bookmark: Json<Bookmark>) -> Option<Json<Bookmark>> {
+    unimplemented!()
 }
 
 /// Deletes a bookmark for a post.
 #[delete("/", format = "json", data = "<bookmark>")]
-fn delete(db: Connection<DB>, mut bookmark: Json<Bookmark>) -> Option<Json<Bookmark>> {
-    bookmark.delete(db);
-    Some(Json::from(bookmark))
+fn delete(db: Connection<DB>, bookmark: Json<Bookmark>) -> Option<Json<Bookmark>> {
+    unimplemented!()
 }

@@ -1,4 +1,4 @@
 export default interface Bookmark {
-	postId: string
-	userId: string
+	profileId: number
+	postId: number
 }

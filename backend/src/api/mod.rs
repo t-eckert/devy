@@ -4,15 +4,12 @@ pub mod bookmarks;
 pub mod feeds;
 pub mod likes;
 pub mod posts;
+pub mod profiles;
 pub mod uploads;
 pub mod users;
 pub mod webhooks;
 
-use rocket::serde::json::{json, Json, Value};
-use rocket_db_pools::Connection;
-
-use crate::db::DB;
-use crate::models::{Feed, Like, Post, User, UserCreateRequest};
+use rocket::serde::json::{json, Value};
 
 /// Health check endpoint when the server is up and running.
 #[get("/ready")]

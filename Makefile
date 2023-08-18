@@ -18,4 +18,3 @@ seed-local-db:
 	docker cp $(shell pwd)/backend/seed.sql devy-postgres:/tmp/seed.sql
 	docker exec -it devy-postgres psql -U postgres -f /tmp/seed.sql
 
-setup-local-db: create-local-db migrate-local-db seed-local-db

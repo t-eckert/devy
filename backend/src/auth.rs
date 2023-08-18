@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+#![allow(unused)]
 use oauth2::{
     basic::BasicClient, AuthUrl, AuthorizationCode, ClientId, ClientSecret, CsrfToken, RedirectUrl,
     Scope, TokenResponse, TokenUrl,

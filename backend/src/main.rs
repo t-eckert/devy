@@ -1,6 +1,4 @@
-#![allow(dead_code)]
 #![allow(unused)]
-
 #[macro_use]
 extern crate rocket;
 
@@ -13,7 +11,9 @@ mod api;
 mod auth;
 mod cors;
 mod db;
+mod entities;
 mod models;
+mod tables;
 
 #[rocket::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -27,6 +27,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .attach(AdHoc::try_on_ignite("SQLx Migrations", db::run_migrations))
         .attach(cors::CORS)
         .mount("/", routes![api::ready])
+        .mount("/auth", api::auth::routes())
+        .mount("/profiles", api::profiles::routes())
         .mount("/blogs", api::blogs::routes())
         .mount("/bookmarks", api::bookmarks::routes())
         .mount("/feeds", api::feeds::routes())
