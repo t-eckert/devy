@@ -1,7 +1,7 @@
 import Profile from "./Profile"
 
 export default interface Post {
-	id: string
+	id: number
 	slug: string
 	title: string
 	content: string

@@ -2,7 +2,7 @@ use rocket::serde::json::{json, Json, Value};
 use rocket_db_pools::Connection;
 
 use crate::db::DB;
-use crate::models::Like;
+use crate::entities::{Like, LikeController};
 
 pub fn routes() -> Vec<rocket::Route> {
     routes![post, delete]
@@ -11,13 +11,17 @@ pub fn routes() -> Vec<rocket::Route> {
 /// Creates a like for a post.
 #[post("/", format = "json", data = "<like>")]
 fn post(db: Connection<DB>, mut like: Json<Like>) -> Option<Json<Like>> {
-    like.upsert(db);
-    Some(Json::from(like))
+    match LikeController::upsert(db, like.into_inner()) {
+        Some(like) => Some(Json(like)),
+        None => None,
+    }
 }
 
 /// Deletes a like for a post.
 #[delete("/", format = "json", data = "<like>")]
 fn delete(db: Connection<DB>, mut like: Json<Like>) -> Option<Json<Like>> {
-    like.delete(db);
-    Some(Json::from(like))
+    match LikeController::delete(db, like.into_inner()) {
+        Some(like) => Some(Json(like)),
+        None => None,
+    }
 }

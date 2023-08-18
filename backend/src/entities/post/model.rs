@@ -1,9 +1,12 @@
 use rocket::serde::{Deserialize, Serialize};
 
+use crate::entities::Profile;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde", rename_all = "camelCase")]
-pub struct Profile {
+pub struct Post {
     pub id: i32,
-    pub name: String,
     pub slug: String,
+    pub title: String,
+    pub content: String,
 }

@@ -1,9 +1,10 @@
 use rocket::serde::{Deserialize, Serialize};
+use rocket_db_pools::Connection;
+
+use crate::db::DB;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde", rename_all = "camelCase")]
-pub struct Profile {
-    pub id: i32,
-    pub name: String,
-    pub slug: String,
+pub struct Upload {
+    pub id: String,
 }

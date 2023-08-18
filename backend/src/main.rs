@@ -12,7 +12,6 @@ mod auth;
 mod cors;
 mod db;
 mod entities;
-mod models;
 mod tables;
 
 #[rocket::main]
