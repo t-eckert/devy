@@ -3,6 +3,8 @@ import Profile from "./Profile"
 export default interface Post {
 	id: number
 	slug: string
+	blogSlug: string
+	blogName: string
 	title: string
 	content: string
 	tags: string[]

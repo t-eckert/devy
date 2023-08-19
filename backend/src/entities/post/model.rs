@@ -7,6 +7,8 @@ use crate::entities::Profile;
 pub struct Post {
     pub id: i32,
     pub slug: String,
+    pub blog_slug: String,
+    pub blog_name: String,
     pub title: String,
     pub content: String,
     pub tags: Vec<String>,

@@ -83,6 +83,8 @@ impl BlogController {
         .map(|post| Post {
             id: post.id,
             slug: post.slug.clone(),
+            blog_slug: blog.as_ref().unwrap().slug.clone(),
+            blog_name: blog.as_ref().unwrap().name.clone(),
             title: post.title.clone(),
             author: author.clone(),
             content: post.body.clone(),

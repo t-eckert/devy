@@ -13,12 +13,12 @@ export default function Preview(post: Post) {
 					onClick={() => {
 						like.upsert({
 							postId: post.id,
-							userId: 1,
+							profileId: 1,
 						})
 					}}
 				>
 					<div className="flex flex-row justify-end items-center gap-1">
-						<span className="text-sm">42</span>
+						<span className="text-sm">{post.likes}</span>
 						<Heart className="w-3.5 h-3.5 text-zinc-200" />
 					</div>
 				</Button>
@@ -30,7 +30,10 @@ export default function Preview(post: Post) {
 				</Button>
 			</div>
 			<div className="flex flex-col">
-				<Link href={`/${post.slug}`} variant={{ underline: true }}>
+				<Link
+					href={`${post.blogSlug}/${post.slug}`}
+					variant={{ underline: true }}
+				>
 					<h2>{post.title}</h2>
 				</Link>
 				<p className="text-sm">
