@@ -6,6 +6,8 @@ interface Blog {
 	slug: string
 	profile: Profile
 	posts: Post[]
+	likedPosts: Post[]
+	bookmarkdedPosts: Post[]
 }
 
 export default Blog

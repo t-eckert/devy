@@ -4,6 +4,8 @@ import httpx
 path = "/likes"
 route = config.API + path
 
+def test_seeded_likes():
+    ...
 
 def test_post_like():
     """When a user likes a post, the endpoint will return the same like."""

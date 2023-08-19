@@ -6,12 +6,13 @@ import Json from "./Json"
 
 interface Props {
 	name?: string
+	defaultOpen?: boolean
 	data: any
 }
 
-export default function DataWindow({ name, data }: Props) {
+export default function DataWindow({ name, data, defaultOpen }: Props) {
 	const ref = useRef<HTMLElement>(null)
-	const [showJson, setShowJson] = useState(true)
+	const [showJson, setShowJson] = useState(defaultOpen)
 
 	const drag = (e: React.MouseEvent) => {
 		const el = ref.current

@@ -11,8 +11,7 @@ const get = {
 
 		if (!res.ok) return null
 
-		const feed = await res.json()
-		return feed
+		return await res.json()
 	},
 }
 

@@ -1,3 +1,5 @@
+"use client"
+
 import Post from "@/models/Post"
 import like from "@/controllers/like"
 import { Button, Link } from "@/components/elements"
@@ -11,7 +13,7 @@ export default function Preview(post: Post) {
 					onClick={() => {
 						like.upsert({
 							postId: post.id,
-							userId: "1",
+							userId: 1,
 						})
 					}}
 				>
@@ -37,7 +39,7 @@ export default function Preview(post: Post) {
 						href={`/profiles/${post.author.id}`}
 						variant={{ underline: true }}
 					>
-						{post.author.displayName}
+						{post.author.name}
 					</Link>
 				</p>
 			</div>

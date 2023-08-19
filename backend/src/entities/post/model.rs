@@ -9,4 +9,9 @@ pub struct Post {
     pub slug: String,
     pub title: String,
     pub content: String,
+    pub tags: Vec<String>,
+    pub author: Profile,
+    pub created_at: String,
+    pub updated_at: String,
+    pub likes: u32,
 }

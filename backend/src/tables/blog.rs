@@ -6,7 +6,7 @@ pub struct Blog {
     pub profile_id: i32,
     pub created_at: sqlx::types::time::PrimitiveDateTime,
     pub updated_at: sqlx::types::time::PrimitiveDateTime,
-    pub name: Option<String>,
+    pub name: String,
     pub slug: String,
 }
 
