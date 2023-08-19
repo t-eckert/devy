@@ -16,11 +16,6 @@ mod tables;
 
 #[rocket::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    dotenvy::dotenv().ok();
-    for (key, value) in std::env::vars() {
-        println!("{key}: {value}");
-    }
-
     rocket::build()
         .attach(db::DB::init())
         .attach(AdHoc::try_on_ignite("SQLx Migrations", db::run_migrations))

@@ -10,17 +10,17 @@ pub fn routes() -> Vec<rocket::Route> {
 
 /// Creates a like for a post.
 #[post("/", format = "json", data = "<like>")]
-fn post(db: Connection<DB>, mut like: Json<Like>) -> Option<Json<Like>> {
-    match LikeController::upsert(db, like.into_inner()) {
+async fn post(db: Connection<DB>, like: Json<Like>) -> Option<Json<Like>> {
+    match LikeController::upsert(db, like.into_inner()).await {
         Some(like) => Some(Json(like)),
         None => None,
     }
 }
 
 /// Deletes a like for a post.
-#[delete("/", format = "json", data = "<like>")]
-fn delete(db: Connection<DB>, mut like: Json<Like>) -> Option<Json<Like>> {
-    match LikeController::delete(db, like.into_inner()) {
+#[delete("/<profile_id>/<post_id>")]
+async fn delete(db: Connection<DB>, profile_id: i32, post_id: i32) -> Option<Json<Like>> {
+    match LikeController::delete(db, profile_id, post_id).await {
         Some(like) => Some(Json(like)),
         None => None,
     }
