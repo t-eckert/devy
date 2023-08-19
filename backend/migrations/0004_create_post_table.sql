@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS "post" (
 	blog_id INTEGER NOT NULL,
 	-- A post must belong to a profile.
 	profile_id INTEGER NOT NULL,
-	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	-- A post must have a title.
 	title TEXT NOT NULL,

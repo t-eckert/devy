@@ -8,6 +8,7 @@ pub struct Blog {
     pub updated_at: sqlx::types::time::PrimitiveDateTime,
     pub name: String,
     pub slug: String,
+    pub description: Option<String>,
 }
 
 #[derive(Debug, Clone, sqlx::FromRow)]

@@ -10,32 +10,24 @@ pub struct BlogController {}
 
 impl BlogController {
     pub async fn upsert(mut db: Connection<DB>, blog: Blog) -> Option<Blog> {
-        let blog = sqlx::query_as!(
-            tables::Blog,
+        let inserted = sqlx::query!(
             r#"
-            INSERT INTO "blog" ( name, slug) 
-            VALUES ($1, $2) 
-            RETURNING *;
+            INSERT INTO "blog" ("profile_id", "name", "slug", "description")
+            VALUES (
+                (SELECT profile_id from "user" WHERE username=$3),
+                $1, $2, $4
+            )
             "#,
-            // blog.profile.id,
             blog.name,
-            blog.slug
+            blog.slug,
+            blog.username,
+            blog.description
         )
-        .fetch_one(&mut *db)
+        .fetch_all(&mut *db)
         .await;
 
-        let author = Profile {
-            id: 1,
-            name: "Dorthea".to_string(),
-            slug: "dorthea".to_string(),
-        };
-        match blog {
-            Ok(blog) => Some(Blog {
-                name: blog.name,
-                slug: blog.slug,
-                profile: author,
-                posts: vec![],
-            }),
+        match inserted {
+            Ok(_) => Self::get_by_slug(db, blog.slug).await,
             Err(e) => {
                 println!("Error: {}", e);
                 None
@@ -45,63 +37,27 @@ impl BlogController {
 
     pub async fn get_by_slug(mut db: Connection<DB>, slug: String) -> Option<Blog> {
         let blog = sqlx::query_as!(
-            tables::Blog,
+            Blog,
             r#"
-            SELECT * FROM "blog" 
-            WHERE slug = $1
+            SELECT 
+                name, slug,
+                to_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.sss') AS created_at,
+                to_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.sss') AS updated_at,
+                username, display_name, description
+            FROM "blog" LEFT JOIN (
+                SELECT profile.id, display_name, username
+                FROM "profile" LEFT JOIN "user"
+                ON user_id="user".id
+            ) AS "profile" ON profile_id="profile".id
+            WHERE slug=$1;
             "#,
             slug
         )
         .fetch_one(&mut *db)
         .await;
 
-        let post_query_response = sqlx::query_as!(
-            tables::Post,
-            r#"
-            SELECT * FROM "post" 
-            WHERE blog_id = $1
-            "#,
-            blog.as_ref().unwrap().id
-        )
-        .fetch_all(&mut *db)
-        .await;
-
-        let author = Profile {
-            id: 1,
-            name: "Dorthea".to_string(),
-            slug: "dorthea".to_string(),
-        };
-
-        let posts: Vec<Post> = match post_query_response {
-            Ok(posts) => posts,
-            Err(e) => {
-                println!("Error: {}", e);
-                vec![]
-            }
-        }
-        .iter()
-        .map(|post| Post {
-            id: post.id,
-            slug: post.slug.clone(),
-            blog_slug: blog.as_ref().unwrap().slug.clone(),
-            blog_name: blog.as_ref().unwrap().name.clone(),
-            title: post.title.clone(),
-            author: author.clone(),
-            content: post.body.clone(),
-            created_at: post.created_at.to_string(),
-            updated_at: post.updated_at.to_string(),
-            tags: vec![],
-            likes: 3,
-        })
-        .collect();
-
         match blog {
-            Ok(blog) => Some(Blog {
-                name: blog.name,
-                slug: blog.slug,
-                profile: author,
-                posts,
-            }),
+            Ok(blog) => Some(blog),
             Err(e) => {
                 println!("Error: {}", e);
                 None

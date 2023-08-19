@@ -3,13 +3,18 @@ import config from "@/config"
 
 const get = {
 	bySlug: async (slug: string): Promise<Option<Blog>> => {
-		const res = await fetch(`${config.API}/blogs/${slug}`, {
-			next: { revalidate: 0 },
-		})
+		try {
+			const res = await fetch(`${config.API}/blogs/${slug}`, {
+				next: { revalidate: 0 },
+			})
 
-		if (!res.ok) return null
+			if (!res.ok) return null
 
-		return await res.json()
+			return await res.json()
+		} catch (e) {
+			console.error(e)
+			return null
+		}
 	},
 }
 

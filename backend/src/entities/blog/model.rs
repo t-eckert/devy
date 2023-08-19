@@ -8,6 +8,9 @@ use crate::entities::Profile;
 pub struct Blog {
     pub name: String,
     pub slug: String,
-    pub profile: Profile,
-    pub posts: Vec<Post>,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
+    pub username: String,
+    pub display_name: Option<String>,
+    pub description: Option<String>,
 }

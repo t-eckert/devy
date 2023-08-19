@@ -11,6 +11,12 @@ destroy-local-db:
 access-local-db:
 	docker exec -it devy-postgres psql -U postgres
 
+run-pgadmin:
+	docker run -p 5050:80 \
+		-e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+		-e 'PGADMIN_DEFAULT_PASSWORD=password' \
+		-d dpage/pgadmin4:latest
+
 migrate-local-db:
 	cd backend && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
 
