@@ -1,4 +1,5 @@
-import config
+from .. import config
+
 import httpx
 
 path = "/api/webhooks/github/push"
