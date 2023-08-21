@@ -14,7 +14,10 @@ impl BlogController {
             r#"
             INSERT INTO "blog" ("profile_id", "name", "slug", "description")
             VALUES (
-                (SELECT profile_id from "user" WHERE username=$3),
+                ( 
+                    SELECT id AS profile_id FROM "profile" 
+                    WHERE user_id=(SELECT id from "user" WHERE username=$3)
+                ),
                 $1, $2, $4
             )
             "#,

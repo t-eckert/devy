@@ -1,11 +1,8 @@
 -- Likes are a join on profiles and posts.
 CREATE TABLE IF NOT EXISTS "like" (
-	profile_id INTEGER NOT NULL,
-	post_id INTEGER NOT NULL,
+	profile_id UUID NOT NULL REFERENCES "profile" (id) ON DELETE CASCADE,
+	post_id UUID NOT NULL REFERENCES "post" (id) ON DELETE CASCADE,
 	PRIMARY KEY (profile_id, post_id),
-	-- When a profile is deleted, its likes should be deleted as well.
-	FOREIGN KEY (profile_id) REFERENCES "profile" (id) ON DELETE CASCADE,
-	-- When a post is deleted, its likes should be deleted as well.
-	FOREIGN KEY (post_id) REFERENCES "post" (id) ON DELETE CASCADE,
-	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+
+	created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

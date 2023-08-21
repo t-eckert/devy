@@ -19,7 +19,7 @@ async fn post(db: Connection<DB>, like: Json<Like>) -> Option<Json<Like>> {
 
 /// Deletes a like for a post.
 #[delete("/<profile_id>/<post_id>")]
-async fn delete(db: Connection<DB>, profile_id: i32, post_id: i32) -> Option<Json<Like>> {
+async fn delete(db: Connection<DB>, profile_id: String, post_id: String) -> Option<Json<Like>> {
     match LikeController::delete(db, profile_id, post_id).await {
         Some(like) => Some(Json(like)),
         None => None,
