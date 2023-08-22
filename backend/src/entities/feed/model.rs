@@ -8,5 +8,4 @@ use crate::entities::Post;
 pub struct Feed {
     pub id: String,
     pub name: String,
-    pub posts: Vec<Post>,
 }

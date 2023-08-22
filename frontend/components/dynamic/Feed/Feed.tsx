@@ -33,7 +33,7 @@ export default function HomeFeed({ feeds }: Props) {
 
 	return (
 		<>
-			<section className="flex flex-row sm:flex-col items-start gap-2">
+			<section className="flex flex-row sm:flex-col sm:w-64 items-start gap-2">
 				{feeds.map((feed) => (
 					<Tab
 						key={feed.feedMeta.id}
