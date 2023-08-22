@@ -15,7 +15,7 @@ const get = {
 	},
 }
 
-const upsert = async (feed: Feed): Promise<Option<Feed>> => {
+const upsert = async (_: Feed): Promise<Option<Feed>> => {
 	return null
 }
 

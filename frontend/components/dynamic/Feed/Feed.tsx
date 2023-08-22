@@ -1,48 +1,59 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import Feed from "@/models/Feed"
+import Post from "@/models/Post"
 import Preview from "@/components/models/Post/Preview"
 import { Tab } from "@/components/elements"
 import { Frown } from "lucide-react"
 
 interface Props {
-	feeds: Feed[]
+	feeds: {
+		feedMeta: Feed
+		posts: Post[]
+	}[]
 }
 
 export default function HomeFeed({ feeds }: Props) {
-	const [selectedFeed, setSelectedFeed] = useState<Feed>(feeds[0])
+	const [selectedFeed, setSelectedFeed] = useState<Feed>(feeds[0].feedMeta)
 	const setFeed = (id: string) => {
-		const feed = feeds.find((feed) => feed.id === id)
-		if (feed) setSelectedFeed(feed)
+		const feed = feeds.find((feed) => feed.feedMeta.id === id)
+		if (feed) setSelectedFeed(feed.feedMeta)
 	}
+
+	const [posts, setPosts] = useState<Post[]>(
+		feeds.find((feed) => feed.feedMeta.id === selectedFeed.id)?.posts || []
+	)
+
+	useEffect(() => {
+		const feed = feeds.find((feed) => feed.feedMeta.id === selectedFeed.id)
+		if (feed) setPosts(feed.posts)
+	}, [selectedFeed])
 
 	return (
 		<>
 			<section className="flex flex-row sm:flex-col items-start gap-2">
 				{feeds.map((feed) => (
 					<Tab
-						key={feed.id}
-						id={feed.id}
-						isSelected={selectedFeed.id === feed.id}
+						key={feed.feedMeta.id}
+						id={feed.feedMeta.id}
+						isSelected={selectedFeed.id === feed.feedMeta.id}
 						setSelected={setFeed}
 					>
-						{feed.name}
+						{feed.feedMeta.name}
 					</Tab>
 				))}
 			</section>
+
 			<section className="sm:px-4 w-full max-w-2xl flex flex-col items-start gap-4">
-				{(!selectedFeed || selectedFeed.posts.length === 0) && (
+				{posts.length === 0 && (
 					<div className="justify-self-center self-center my-8">
 						<Frown className="w-8 h-8 mx-auto text-zinc-200 mb-2" />
 						<span>No posts to show.</span>
 					</div>
 				)}
-				{selectedFeed.posts &&
-					selectedFeed.posts.map((post, i) => (
-						<Preview key={i} {...post} />
-					))}
+				{posts && posts.map((post, i) => <Preview key={i} {...post} />)}
 			</section>
 		</>
 	)
