@@ -7,10 +7,8 @@ import post from "@/controllers/post"
 export default async function Home() {
   const newFeed = await feed.get.new()
   const newFeedPosts = (await post.get.byFeed(newFeed.id)) || []
-  const popularFeed = await feed.get.popular()
-  const popularFeedPosts = (await post.get.byFeed(newFeed.id)) || []
 
-  if (!newFeed || !popularFeed)
+  if (!newFeed)
     return (
       <main className="mx-auto flex flex-row w-full max-w-6xl">
         <span>Unable to load feeds</span>
@@ -21,10 +19,6 @@ export default async function Home() {
     {
       feedMeta: newFeed,
       posts: newFeedPosts,
-    },
-    {
-      feedMeta: popularFeed,
-      posts: popularFeedPosts,
     },
   ]
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Link } from "@/components/elements"
+import { Link } from "@/components/elements"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 
@@ -9,7 +9,7 @@ export default function Menu() {
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
 				<button
-					className="pl-2 pr-3 py-0.5 border-l border-zinc-700 hover:bg-zinc-700 rounded-r-full"
+					className="pl-2 pr-2 py-0.5 border-zinc-700 hover:bg-zinc-700 rounded-full"
 					aria-label="Navigation menu"
 				>
 					<HamburgerMenuIcon className="w-4 h-4" />

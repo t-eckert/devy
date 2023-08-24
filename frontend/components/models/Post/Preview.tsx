@@ -1,50 +1,45 @@
 "use client"
 
 import Post from "@/models/Post"
-import like from "@/controllers/like"
-import { Button, Link } from "@/components/elements"
-import { Bookmark, Heart } from "lucide-react"
+import { Link } from "@/components/elements"
 
 export default function Preview(post: Post) {
 	return (
-		<div className="px-2 flex flex-row items-start gap-1">
-			<div className="px-0.5 py-1 flex flex-col justify-end">
-				<Button
-					onClick={() => {
-						like.upsert({
-							postId: post.id,
-							profileId: 1,
-						})
-					}}
-				>
-					<div className="flex flex-row justify-end items-center gap-1">
-						<span className="text-sm">{post.likes}</span>
-						<Heart className="w-3.5 h-3.5 text-zinc-200" />
-					</div>
-				</Button>
-				<Button>
-					<div className="flex flex-row justify-end items-center gap-1">
-						<span className="text-sm">12</span>
-						<Bookmark className="w-4 h-4 text-zinc-200" />
-					</div>
-				</Button>
-			</div>
-			<div className="flex flex-col">
-				<Link
-					href={`${post.blogSlug}/${post.slug}`}
-					variant={{ underline: true }}
-				>
-					<h2>{post.title}</h2>
-				</Link>
-				<p className="text-sm">
-					By{" "}
+		<div className="flex flex-col gap-2">
+			<div className="flex flex-row items-start gap-1">
+				<div className="flex flex-col">
 					<Link
-						href={`/profiles/${post.author.id}`}
+						href={`${post.blogSlug}/${post.slug}`}
 						variant={{ underline: true }}
 					>
-						{post.author.name}
+						<h2>{post.title}</h2>
 					</Link>
-				</p>
+					<span className="text-sm text-zinc-300 flex flex-row items-center gap-2">
+						<Link
+							href={`/${post.blogSlug}`}
+							variant={{ underline: true }}
+						>
+							{post.blogName}
+						</Link>
+						<span>/</span>
+						<Link
+							href={`/profiles/${post.authorSlug}`}
+							variant={{ underline: true }}
+						>
+							{post.authorName}
+						</Link>
+						<span>
+							{new Date(post.createdAt).toLocaleDateString(
+								"en-US",
+								{
+									month: "long",
+									day: "numeric",
+									year: "numeric",
+								}
+							)}
+						</span>
+					</span>
+				</div>
 			</div>
 		</div>
 	)

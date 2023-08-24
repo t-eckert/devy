@@ -5,15 +5,17 @@ use crate::entities::Profile;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde", rename_all = "camelCase")]
 pub struct Post {
-    pub id: i32,
+    pub id: Option<String>,
     pub slug: String,
+
     pub blog_slug: String,
     pub blog_name: String,
+    pub author_name: Option<String>,
+    pub author_slug: String,
+
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
+
     pub title: String,
     pub content: String,
-    pub tags: Vec<String>,
-    pub author: Profile,
-    pub created_at: String,
-    pub updated_at: String,
-    pub likes: u32,
 }

@@ -18,23 +18,17 @@ const styles = cva(
 	[
 		"pointer-cursor",
 		"rounded-sm",
-		"text-zinc-950",
 		"transition-all",
 		"focus:outline-none",
 		"focus:ring-1",
 		"focus:ring-zinc-500",
 		"focus:ring-offset-4",
-		"dark:text-zinc-50",
 		"dark:focus:ring-zinc-200",
 	],
 	{
 		variants: {
 			underline: {
-				true: [
-					"underline",
-					"decoration-zinc-700",
-					"dark:decoration-zinc-200",
-				],
+				true: ["underline"],
 				false: "no-underline",
 			},
 		},
