@@ -29,7 +29,7 @@ export default function HomeFeed({ feeds }: Props) {
 	useEffect(() => {
 		const feed = feeds.find((feed) => feed.feedMeta.id === selectedFeed.id)
 		if (feed) setPosts(feed.posts)
-	}, [selectedFeed])
+	}, [selectedFeed, feeds])
 
 	return (
 		<>
