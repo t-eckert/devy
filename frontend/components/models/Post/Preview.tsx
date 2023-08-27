@@ -1,44 +1,38 @@
 "use client"
 
 import Post from "@/models/Post"
+import Date from "@/components/elements/Date"
 import { Link } from "@/components/elements"
 
 export default function Preview(post: Post) {
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex flex-row items-start gap-1">
-				<div className="flex flex-col">
+				<div className="flex flex-col gap-1">
 					<Link
 						href={`${post.blogSlug}/${post.slug}`}
 						variant={{ underline: true }}
 					>
 						<h2>{post.title}</h2>
 					</Link>
-					<span className="text-sm text-zinc-300 flex flex-row items-center gap-2">
-						<Link
-							href={`/${post.blogSlug}`}
-							variant={{ underline: true }}
-						>
-							{post.blogName}
-						</Link>
-						<span>/</span>
+					<div className="mb-2 flex flex-row gap-2 items-baseline ">
+						<div className="bg-zinc-800 text-sm flex items-center justify-center px-2 py-1 rounded-full">
+							<Date date={post.createdAt} />
+						</div>
 						<Link
 							href={`/profiles/${post.authorSlug}`}
 							variant={{ underline: true }}
 						>
 							{post.authorName}
 						</Link>
-						<span>
-							{new Date(post.createdAt).toLocaleDateString(
-								"en-US",
-								{
-									month: "long",
-									day: "numeric",
-									year: "numeric",
-								}
-							)}
-						</span>
-					</span>
+						<span>/</span>
+						<Link
+							href={`/${post.blogSlug}`}
+							variant={{ underline: true }}
+						>
+							{post.blogName}
+						</Link>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -11,7 +11,13 @@ pub fn routes() -> Vec<rocket::Route> {
 /// Gets a feed by its ID.
 #[get("/<feed_id>")]
 fn get_by_id(db: Connection<DB>, feed_id: String) -> Option<Json<Feed>> {
-    unimplemented!()
+    match feed_id.as_str() {
+        "new" => Some(Json(Feed {
+            id: "new".to_string(),
+            name: "New".to_string(),
+        })),
+        _ => None,
+    }
 }
 
 /// Gets the posts for a feed by its ID.

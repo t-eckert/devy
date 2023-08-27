@@ -1,8 +1,10 @@
-import Json from "@/components/debugging/Json"
+import DataWindow from "@/components/debugging/DataWindow"
 import { Link } from "@/components/elements"
 
 import postController from "@/controllers/post"
 import Post from "@/models/Post"
+import Date from "@/components/elements/Date"
+import Markdown from "@/components/markdown"
 
 interface Props {
   params: {
@@ -18,25 +20,27 @@ export default async function Post({ params }: Props) {
   )
 
   return (
-    <main className="mx-auto my-4 flex flex-col px-2 w-full max-w-6xl gap-4 sm:gap-2">
-      <Json data={post} />
-      <h1>{post.title}</h1>
-      <section className="flex flex-row gap-2">
-        <span>
-          <Link
-            href={`/profiles/${post.authorSlug}`}
-            variant={{ underline: true }}
-          >
-            {post.authorName}
-          </Link>
-        </span>
-        <span>
-          <Link href={`/${post.blogSlug}`} variant={{ underline: true }}>
-            {post.blogName}
-          </Link>
-        </span>
-      </section>
-      <div>{post.content}</div>
+    <main className="mx-auto my-4 flex flex-col px-2 w-full max-w-2xl gap-4 sm:gap-2">
+      <DataWindow data={post} />
+      <h1 className="text-3xl font-semibold">{post.title}</h1>
+
+      <div className="mb-2 flex flex-row gap-2 items-baseline ">
+        <div className="bg-zinc-800 text-sm flex items-center justify-center px-2 py-1 rounded-full">
+          <Date date={post.createdAt} />
+        </div>
+        <Link
+          href={`/profiles/${post.authorSlug}`}
+          variant={{ underline: true }}
+        >
+          {post.authorName}
+        </Link>
+        <span>/</span>
+        <Link href={`/${post.blogSlug}`} variant={{ underline: true }}>
+          {post.blogName}
+        </Link>
+      </div>
+
+      <Markdown content={post.content} />
     </main>
   )
 }

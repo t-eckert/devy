@@ -22,14 +22,10 @@ export default function Menu() {
 					sideOffset={5}
 					align="end"
 				>
-					<DropdownMenu.Item className="px-2 pt-1">
-						<Link href="/profile">Profile</Link>
-					</DropdownMenu.Item>
-					<DropdownMenu.Item className="px-2">
-						<Link href="/changelog">Changelog</Link>
-					</DropdownMenu.Item>
-					<DropdownMenu.Item className="px-2 pb-1">
-						<Link href="/sign-out">Sign out</Link>
+					<DropdownMenu.Item className="px-2 w-full">
+						<Link href="/changelog" className="w-full">
+							<span className="w-full">Changelog</span>
+						</Link>
 					</DropdownMenu.Item>
 				</DropdownMenu.Content>
 			</DropdownMenu.Portal>
