@@ -22,9 +22,9 @@ const upsert = async (blog: Blog): Promise<Option<Blog>> => {
 	return null
 }
 
-const blog: Controller<Blog> = {
+const blog_controller = {
 	get,
 	upsert,
 }
 
-export default blog
+export default blog_controller

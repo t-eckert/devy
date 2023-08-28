@@ -14,10 +14,12 @@ interface Props {
 }
 
 export default async function Post({ params }: Props) {
-  const post: Post = await postController.get.byBlogSlugAndPostSlug(
+  const post = await postController.get.byBlogSlugAndPostSlug(
     params.blog,
     params.post
   )
+
+  if (!post) return <div>Post not found</div>
 
   return (
     <main className="mx-auto my-4 flex flex-col px-2 w-full max-w-2xl gap-4 sm:gap-2">

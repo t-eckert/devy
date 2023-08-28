@@ -1,12 +1,15 @@
 import Feed from "@/components/dynamic/Feed"
 import Shoulder from "@/components/segments/Shoulder"
+import Changelog from "@/components/segments/Changelog"
 
-import feed from "@/controllers/feed"
-import post from "@/controllers/post"
+import feedController from "@/controllers/feed"
+import postController from "@/controllers/post"
+import changelogController from "@/controllers/changelog"
 
 export default async function Home() {
-  const newFeed = await feed.get.new()
-  const newFeedPosts = (await post.get.byFeed(newFeed.id)) || []
+  const newFeed = await feedController.get.new()
+  const newFeedPosts = (await postController.get.byFeed(newFeed.id)) || []
+  const changelog = await changelogController.get.fromGitHub()
 
   if (!newFeed)
     return (
@@ -25,7 +28,7 @@ export default async function Home() {
   return (
     <main className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
       <Feed feeds={feeds} />
-      <Shoulder />
+      <Shoulder>{changelog && <Changelog changelog={changelog} />}</Shoulder>
     </main>
   )
 }

@@ -23,7 +23,7 @@ const get = {
 		}
 	},
 
-	byBlogSlug: async (blog: string): Promise<Option<Post>> => {
+	byBlogSlug: async (blog: string): Promise<Option<Post[]>> => {
 		try {
 			const res = await fetch(`${config.API}/blogs/${blog}/posts`, {
 				next: { revalidate: 10 },
@@ -58,9 +58,9 @@ const upsert = async (_: Post): Promise<Option<Post>> => {
 	return null
 }
 
-const post: Controller<Post> = {
+const postController = {
 	get,
 	upsert,
 }
 
-export default post
+export default postController
