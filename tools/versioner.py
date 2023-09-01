@@ -6,15 +6,16 @@ Updates the version number across all components of the project.
 The version number is the current date in the format YYYY.MM.DD
 """
 
-
-import datetime
 import json
 import tomllib
 import toml
 
-def version() -> str:
-    current_date = datetime.datetime.now()
-    return current_date.strftime("%Y.%m.%d")
+def get_version_and_name() -> tuple[str, str]:
+    version = input("Version: ")
+    name = input("Name: ")
+
+    return (version, name)
+
 
 def version_frontend(version: str):
     package_json = "./frontend/package.json"
@@ -40,8 +41,9 @@ def version_backend(version: str):
         toml.dump(cargo, file)
 
 if __name__ == "__main__":
-    v = version()
-    print(f"Setting version {v}")
+    version, name = get_version_and_name()
 
-    version_frontend(v)
-    version_backend(v)
+    print(f"Setting version {version}: {name}")
+
+    version_frontend(version)
+    version_backend(version)
