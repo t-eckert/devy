@@ -1,3 +1,8 @@
+# Global
+version:
+	@python3 ./tools/versioner.py
+
+# Database
 create-local-db:
 	docker run \
 		--name devy-postgres \

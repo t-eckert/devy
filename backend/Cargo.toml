@@ -1,26 +1,29 @@
 [package]
 name = "backend"
-version = "0.1.0"
+version = "2023.08.31"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-tokio = { version = "1.15.0", features = ["full"] }
-rocket = { version = "=0.5.0-rc.3", features = ["json"] }
-sqlx = { version = "0.6", features = ["postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time"] }
 oauth2 = "4.4.1"
 dotenvy = "0.15.7"
 chrono = "0.4.26"
 
+[dependencies.tokio]
+version = "1.15.0"
+features = [ "full",]
+
+[dependencies.rocket]
+version = "=0.5.0-rc.3"
+features = [ "json",]
+
+[dependencies.sqlx]
+version = "0.6"
+features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time",]
+
 [dependencies.rocket_db_pools]
 version = "=0.1.0-rc.3"
-features = ["sqlx_postgres"]
+features = [ "sqlx_postgres",]
 
 [dependencies.uuid]
 version = "1.4.0"
-features = [
-  "v4", 
-  "fast-rng",
-  "macro-diagnostics"
-]
+features = [ "v4", "fast-rng", "macro-diagnostics",]
