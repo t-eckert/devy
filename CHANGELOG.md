@@ -1,5 +1,5 @@
 # Changelog
 
-## 2023.09.18 First Impressions
+## 0.1.0 First Mover Advantage
 
-- The first release of Devy.
+- The Devy site is now live, without most of its features, just a single blog and profile: mine.
