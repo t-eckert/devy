@@ -8,7 +8,6 @@ use crate::entities::{Blog, BlogController, Post, PostController};
 
 pub fn routes() -> Vec<Route> {
     routes![
-        upsert_blog,
         get_blog_by_blog_slug,
         get_post_by_blog_slug,
         get_post_by_blog_and_post_slug

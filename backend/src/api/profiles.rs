@@ -7,7 +7,7 @@ use crate::db::DB;
 use crate::entities::Profile;
 
 pub fn routes() -> Vec<Route> {
-    routes![upsert_profile]
+    routes![]
 }
 
 #[post("/", format = "json", data = "<profile>")]

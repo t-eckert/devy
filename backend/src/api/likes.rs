@@ -5,7 +5,7 @@ use crate::db::DB;
 use crate::entities::{Like, LikeController};
 
 pub fn routes() -> Vec<rocket::Route> {
-    routes![post, delete]
+    routes![delete]
 }
 
 /// Creates a like for a post.

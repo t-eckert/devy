@@ -5,7 +5,7 @@ use crate::db::DB;
 use crate::entities::{User, UserController};
 
 pub fn routes() -> Vec<rocket::Route> {
-    routes![upsert, get_by_username]
+    routes![get_by_username]
 }
 
 #[post("/", format = "json", data = "<user>")]

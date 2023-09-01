@@ -5,7 +5,7 @@ use crate::db::DB;
 use crate::entities::Bookmark;
 
 pub fn routes() -> Vec<rocket::Route> {
-    routes![upsert, delete]
+    routes![]
 }
 
 /// Creates a bookmark for a post.
