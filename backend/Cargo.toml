@@ -1,6 +1,6 @@
 [package]
 name = "backend"
-version = "2023.08.31"
+version = "0.1.0"
 edition = "2021"
 
 [dependencies]
