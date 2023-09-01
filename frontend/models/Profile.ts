@@ -1,6 +1,5 @@
 export default interface Profile {
-	id: string
-	name: string
-	slug: string
+	displayName: string
+	avatarUrl?: string
 }
 

@@ -18,6 +18,7 @@ pub use like::controller::LikeController;
 pub use like::model::Like;
 pub use post::controller::PostController;
 pub use post::model::Post;
+pub use profile::controller::ProfileController;
 pub use profile::model::Profile;
 pub use upload::controller::UploadController;
 pub use upload::model::Upload;
