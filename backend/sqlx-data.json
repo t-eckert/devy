@@ -1,0 +1,393 @@
+{
+  "db": "PostgreSQL",
+  "15da4600ae7da8de1618e49a1c3c9b402f76512580717a9139b1f399d7cfcbf7": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "blog_slug",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "blog_name",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_name",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_slug",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "content",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        null,
+        null
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT \n\tid::text,\n\tslug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nWHERE blog_slug = $1 AND slug = $2;\n"
+  },
+  "1a886c2692de6d567c8f17145c17f24e4f94a99bac2f38c39ccf26ef9d655602": {
+    "describe": {
+      "columns": [
+        {
+          "name": "profile_id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "post_id",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        null
+      ],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO \"like\" (profile_id, post_id)\n            VALUES ($1, $2)\n                ON CONFLICT (profile_id, post_id)\n                DO UPDATE SET profile_id = $1, post_id = $2\n            RETURNING profile_id::TEXT, post_id::TEXT;\n            "
+  },
+  "5bb1ed33a175bb3d7b9bd53aa3f36e3ed106edd36d21c5cf71d479efb777e4f1": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "blog_slug",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "blog_name",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_name",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_slug",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "content",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        null,
+        null
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT \n\tid::text,\n\tslug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nWHERE blog_slug = $1;\n"
+  },
+  "64afe088486cf32dad06658b1f179fcc788e0994ca2c9ac16420efb260583a20": {
+    "describe": {
+      "columns": [
+        {
+          "name": "profile_id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "post_id",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        null
+      ],
+      "parameters": {
+        "Left": [
+          "Uuid",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "\n            DELETE FROM \"like\"\n            WHERE profile_id = $1 AND post_id = $2\n            RETURNING profile_id::TEXT, post_id::TEXT;\n            "
+  },
+  "658767aee9245659c4666b73e8f00c0365870a7beaa38471a2c3f495ea49b902": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "blog_slug",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "blog_name",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_name",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_slug",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "content",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        null,
+        null
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "SELECT \n\tid::text,\n\tslug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nORDER BY post.created_at DESC;\n"
+  },
+  "da024fc0e352dd08ebdfa7f187ac191fdc8a54d0127bb1b6035bc636480af004": {
+    "describe": {
+      "columns": [
+        {
+          "name": "created_at",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_name",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "avatar_url",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        null,
+        true,
+        false,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT \n\tto_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tdisplay_name, username, avatar_url\nFROM profile LEFT JOIN \"user\" ON profile.user_id = \"user\".id\nWHERE username=$1;\n"
+  },
+  "ddd55a3c398150213cd8ff416d4d75b47ed2a28d74b6f7229927c429746696ae": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "INSERT INTO \"blog\" (\"profile_id\", \"name\", \"slug\", \"description\")\nVALUES (\n\t( \n\t\tSELECT id AS profile_id FROM \"profile\" \n\t\tWHERE user_id=(SELECT id from \"user\" WHERE username=$3)\n\t),\n\t$1, $2, $4\n);\n"
+  },
+  "e3a9d208e12e72faea941e64f3731f1cdb0a7a5ae0de6ed11b0209a19cb25585": {
+    "describe": {
+      "columns": [
+        {
+          "name": "name",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_name",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 6,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        null,
+        null,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT \n\tname, slug,\n\tto_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, display_name, description\nFROM \"blog\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, display_name, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE slug=$1;\n"
+  }
+}

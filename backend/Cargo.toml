@@ -18,7 +18,7 @@ features = [ "json",]
 
 [dependencies.sqlx]
 version = "0.6"
-features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time",]
+features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time","offline",]
 
 [dependencies.rocket_db_pools]
 version = "=0.1.0-rc.3"

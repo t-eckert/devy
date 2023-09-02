@@ -7,6 +7,7 @@ use sqlx;
 #[database("postgres")]
 pub struct DB(sqlx::PgPool);
 
+/// Run database migrations on startup.
 pub async fn run_migrations(rocket: Rocket<Build>) -> fairing::Result {
     match DB::fetch(&rocket) {
         Some(db) => match sqlx::migrate!("./migrations").run(&**db).await {

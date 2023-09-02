@@ -2,7 +2,7 @@ FROM rust:1.71-slim-buster as builder
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
-RUN cargo build --release
+RUN SQLX_OFFLINE=true cargo build --release
 
 
 FROM debian:buster-slim
