@@ -14,7 +14,7 @@ const upsert = async (like: Like): Promise<Like> => {
 	return await response.json()
 }
 
-const like: Controller<Like> = {
+const like = {
 	get,
 	upsert,
 }

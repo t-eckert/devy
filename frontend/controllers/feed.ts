@@ -19,7 +19,7 @@ const upsert = async (_: Feed): Promise<Option<Feed>> => {
 	return null
 }
 
-const feed: Controller<Feed> = {
+const feed = {
 	get,
 	upsert,
 }

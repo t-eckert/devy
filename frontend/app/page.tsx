@@ -8,7 +8,7 @@ import changelogController from "@/controllers/changelog"
 
 export default async function Home() {
   const newFeed = await feedController.get.new()
-  const newFeedPosts = (await postController.get.byFeed(newFeed.id)) || []
+  const newFeedPosts = (await postController.get.byFeed(newFeed?.id ?? "")) || []
   const changelog = await changelogController.get.fromGitHub()
 
   if (!newFeed)

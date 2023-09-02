@@ -14,7 +14,7 @@ const upsert = async (bookmark: Bookmark) => {
 	return await response.json()
 }
 
-const bookmark: Controller<Bookmark> = {
+const bookmark = {
 	get,
 	upsert,
 }
