@@ -9,7 +9,7 @@ export default function Menu() {
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
 				<button
-					className="pl-2 pr-2 py-0.5 border-zinc-700 hover:bg-zinc-700 rounded-full"
+					className="pl-2 pr-2 py-0.5 border-zinc-700 hover:bg-zinc-700 rounded-r-full"
 					aria-label="Navigation menu"
 				>
 					<HamburgerMenuIcon className="w-4 h-4" />
