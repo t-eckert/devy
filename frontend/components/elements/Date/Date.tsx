@@ -25,7 +25,8 @@ const name = (delta: number): Option<string> => {
 		case delta < 1000 * 60 * 60 * 24 * 7:
 			return `${Math.floor(delta / (1000 * 60 * 60 * 24))} days ago`
 		case delta < 1000 * 60 * 60 * 24 * 30:
-			return `${Math.floor(delta / (1000 * 60 * 60 * 24 * 7))} weeks ago`
+			const weeks = Math.floor(delta / (1000 * 60 * 60 * 24 * 7))
+			return `${weeks} week${weeks === 1 ? "" : "s"} ago`
 		case delta < 1000 * 60 * 60 * 24 * 365:
 			return `${Math.floor(
 				delta / (1000 * 60 * 60 * 24 * 30)
