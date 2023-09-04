@@ -1,7 +1,8 @@
+use crate::auth;
 use jsonwebtoken::{encode, EncodingKey, Header};
 use oauth2::reqwest::async_http_client;
 use oauth2::{basic::BasicClient, AuthorizationCode, ClientId, CsrfToken};
-use oauth2::{AuthUrl, ClientSecret, TokenResponse, TokenUrl};
+use oauth2::{AuthUrl, ClientSecret, Scope, TokenResponse, TokenUrl};
 use rocket::response::Redirect;
 use serde::{Deserialize, Serialize};
 
@@ -36,8 +37,7 @@ pub fn routes() -> Vec<rocket::Route> {
 /// login redirects the user to GitHub's auth page
 #[get("/login?<redirect>")]
 async fn login(redirect: Option<String>) -> Redirect {
-    let (auth_url, csrf_token) = get_client().authorize_url(CsrfToken::new_random).url();
-
+    let auth_url = auth::get_uri().unwrap();
     Redirect::to(auth_url.clone().to_string())
 }
 
@@ -46,37 +46,43 @@ async fn logout() -> Redirect {
     Redirect::to(uri!("http://localhost:3000"))
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-struct Claims {
-    sub: String,
-    company: String,
-    exp: usize,
-}
-
 #[get("/callback?<code>")]
 async fn callback(code: Option<String>) -> Redirect {
-    if code.is_none() {
-        return Redirect::to(uri!("http://localhost:3000"));
-    }
+    // Short circuit if we don't have a code.
+    let code = match code {
+        Some(code) => AuthorizationCode::new(code),
+        None => return Redirect::to(uri!("http://localhost:3000")),
+    };
 
-    let token_result = get_client()
-        .exchange_code(AuthorizationCode::new(code.unwrap()))
+    // Create a client for handling authentication.
+    let client = match auth::make_client() {
+        Ok(client) => client,
+        Err(_) => return Redirect::to(uri!("http://localhost:3000")),
+    };
+
+    // Exchange the code for a token.
+    let token_result = client
+        .exchange_code(code)
         .request_async(async_http_client)
         .await;
 
-    let claims = Claims {
-        sub: "1234567890".to_owned(),
-        company: "ACME".to_owned(),
-        exp: 1_613_952_000,
+    // Get the access token from the response.
+    let access_token: oauth2::AccessToken = match token_result {
+        Ok(token) => token.access_token().clone(),
+        Err(_) => return Redirect::to(uri!("http://localhost:3000")),
     };
 
-    let token = token_result.unwrap();
+    // Get the GitHub user from the access token.
+    let github_user = auth::fetch_user(access_token.clone()).await.unwrap();
+
+    // TODO exchange the github_user for a session. Sync the github user with
+    // user info in our database and profile info. Take GitHub as the source of truth.
+
     let jwt = encode(
         &Header::default(),
-        &claims,
-        &EncodingKey::from_secret(token.access_token().secret().as_ref()),
+        &github_user,
+        &EncodingKey::from_secret(access_token.secret().as_ref()),
     );
-    println!("Token: {:?}", jwt);
 
     Redirect::to(format!("http://localhost:3000?token={}", jwt.unwrap()))
 }
