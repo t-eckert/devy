@@ -3,6 +3,7 @@
  * We should create a single instance of the client and store it in the app state.
  */
 
+use crate::db::DB;
 use oauth2::reqwest::async_http_client;
 use oauth2::EmptyExtraTokenFields;
 use oauth2::{
@@ -10,8 +11,11 @@ use oauth2::{
     ClientSecret, CsrfToken, RedirectUrl, Scope, StandardTokenResponse, TokenUrl,
 };
 use reqwest;
+use rocket_db_pools::Connection;
 use serde::{Deserialize, Serialize};
 use std::env;
+
+use crate::entities::{Profile, User, UserController};
 
 const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
 const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
@@ -94,8 +98,28 @@ pub async fn fetch_user(access_token: AccessToken) -> Result<GitHubUser, reqwest
     Ok(user)
 }
 
-pub struct Session {}
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Session {
+    // user: User,
+    // profile: Profile,
+}
 
-pub async fn sync_user(github_user: GitHubUser) -> Result<Session, anyhow::Error> {
+pub async fn sync_user(
+    db: Connection<DB>,
+    github_user: GitHubUser,
+) -> Result<Session, anyhow::Error> {
+    // TODO It will be better to do this by looking up the immutable GitHub user ID. I have to add
+    // it to the database first.
+    //
+
+    // TODO create the user when they are new.
+    // let user = match UserController::get_by_github_username(*db, github_user.login.clone()).await {
+    //     Some(user) => user,
+    //     None => {
+    //         let user = User::new(github_user.name, github_user.email, github_user.login);
+    //         UserController::create_user(*db, user).await.unwrap()
+    //     }
+    // };
+
     Ok(Session {})
 }
