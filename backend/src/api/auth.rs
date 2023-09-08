@@ -1,9 +1,11 @@
 use crate::auth;
+use crate::db::DB;
 use jsonwebtoken::{encode, EncodingKey, Header};
 use oauth2::reqwest::async_http_client;
 use oauth2::{basic::BasicClient, AuthorizationCode, ClientId, CsrfToken};
 use oauth2::{AuthUrl, ClientSecret, Scope, TokenResponse, TokenUrl};
 use rocket::response::Redirect;
+use rocket_db_pools::Connection;
 use serde::{Deserialize, Serialize};
 
 // TODO move this into the auth mod
@@ -47,7 +49,7 @@ async fn logout() -> Redirect {
 }
 
 #[get("/callback?<code>")]
-async fn callback(code: Option<String>) -> Redirect {
+async fn callback(db: Connection<DB>, code: Option<String>) -> Redirect {
     // Short circuit if we don't have a code.
     let code = match code {
         Some(code) => AuthorizationCode::new(code),
@@ -77,10 +79,11 @@ async fn callback(code: Option<String>) -> Redirect {
 
     // TODO exchange the github_user for a session. Sync the github user with
     // user info in our database and profile info. Take GitHub as the source of truth.
+    let session = auth::sync_user(db, github_user).await.unwrap();
 
     let jwt = encode(
         &Header::default(),
-        &github_user,
+        &session,
         &EncodingKey::from_secret(access_token.secret().as_ref()),
     );
 
