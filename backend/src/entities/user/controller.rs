@@ -2,10 +2,16 @@ use super::model::User;
 use crate::db::DB;
 use rocket_db_pools::Connection;
 
-pub struct UserController {}
+pub struct UserController {
+    conn: Connection<DB>,
+}
 
 impl UserController {
-    pub async fn create_user(mut db: Connection<DB>, user: User) -> Option<User> {
+    pub fn new(conn: Connection<DB>) -> Self {
+        UserController { conn }
+    }
+
+    pub async fn create_user(mut self, user: User) -> Option<User> {
         sqlx::query_as!(
             User,
             r#"
@@ -22,21 +28,18 @@ impl UserController {
             user.email,
             user.github_username.unwrap(),
         )
-        .fetch_one(&mut *db)
+        .fetch_one(&mut *self.conn)
         .await
         .ok()
     }
 
-    pub async fn get_by_github_username(
-        mut db: Connection<DB>,
-        github_username: String,
-    ) -> Option<User> {
+    pub async fn get_by_github_username(mut self, github_username: String) -> Option<User> {
         sqlx::query_file_as!(
             User,
             "queries/user_get_by_github_username.sql",
             github_username
         )
-        .fetch_one(&mut *db)
+        .fetch_one(&mut *self.conn)
         .await
         .ok()
     }
