@@ -5,8 +5,7 @@
 
 use crate::db::DB;
 use crate::entities::ProfileController;
-use anyhow::anyhow;
-use anyhow::Result;
+use anyhow::{anyhow, Context, Result};
 use oauth2::reqwest::async_http_client;
 use oauth2::EmptyExtraTokenFields;
 use oauth2::{
@@ -50,7 +49,7 @@ pub fn get_uri() -> Result<String, anyhow::Error> {
     Ok(authorize_url.to_string())
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct GitHubUser {
     login: String,
     id: i64,
@@ -108,44 +107,48 @@ pub struct Session {
     // profile: Profile,
 }
 
-pub async fn sync_user(db: Connection<DB>, github_user: GitHubUser) -> Result<Session> {
+pub async fn sync_user(conn: &mut Connection<DB>, github_user: GitHubUser) -> Result<Session> {
     // TODO It will be better to do this by looking up the immutable GitHub user ID. I have to add
     // it to the database first.
 
-    // LOOK AWAY NOW IF YOU DON'T WANT TO SEE A LOT OF UGLY CODE
-    //
+    let user = get_or_create_user(conn, &github_user).await?;
+    let profile = get_create_or_update_profile(conn, &user, &github_user).await?;
 
-    let conn = Arc::new(db);
+    Ok(Session { user })
+}
 
-    let mut user: Option<User> = None;
+async fn get_or_create_user(conn: &mut Connection<DB>, github_user: &GitHubUser) -> Result<User> {
+    match UserController::get_by_github_username(conn, github_user.login.clone()).await {
+        Some(user) => return Ok(user),
+        None => {
+            let user = User::new(
+                github_user.login.clone(),
+                github_user.email.clone(),
+                github_user.login.clone(),
+            );
 
-    let mut user_controller = UserController::new(conn);
-
-    let existing_user = user_controller
-        .get_by_github_username(github_user.login.clone())
-        .await;
-
-    if existing_user.is_none() {
-        let created_user = User::new(
-            github_user.login.clone(),
-            github_user.email,
-            github_user.login.clone(),
-        );
-
-        user = user_controller.insert_user(created_user).await;
-    } else {
-        user = existing_user;
+            UserController::insert_user(conn, user)
+                .await
+                .context("Could not create user")
+        }
     }
+}
 
-    if user.is_none() {
-        return Err(anyhow!("Could not create or find user"));
+async fn get_create_or_update_profile(
+    conn: &mut Connection<DB>,
+    user: &User,
+    github_user: &GitHubUser,
+) -> Result<Profile> {
+    match ProfileController::get_by_id(conn, user.id.unwrap().clone()).await {
+        Some(profile) => return Ok(profile),
+        None => {
+            let profile = Profile::new(
+                github_user.name.clone(),
+                Some(github_user.avatar_url.clone()),
+            );
+            ProfileController::insert_profile(conn, profile)
+                .await
+                .context("Could not create profile")
+        }
     }
-
-    let mut profile: Option<Profile> = None;
-
-    let profile_controller = ProfileController::new(conn);
-
-    return Ok(Session {
-        user: user.unwrap(),
-    });
 }

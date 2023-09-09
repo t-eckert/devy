@@ -1,18 +1,13 @@
-use super::model::User;
-use crate::db::DB;
 use rocket_db_pools::Connection;
-use std::sync::Arc;
 
-pub struct UserController {
-    conn: Arc<Connection<DB>>,
-}
+use crate::db::DB;
+
+use super::model::User;
+
+pub struct UserController {}
 
 impl UserController {
-    pub fn new(conn: Arc<Connection<DB>>) -> Self {
-        UserController { conn }
-    }
-
-    pub async fn insert_user(&mut self, user: User) -> Option<User> {
+    pub async fn insert_user(conn: &mut Connection<DB>, user: User) -> Option<User> {
         sqlx::query_as!(
             User,
             r#"
@@ -29,18 +24,21 @@ impl UserController {
             user.email,
             user.github_username.unwrap(),
         )
-        .fetch_one(&mut *self.conn)
+        .fetch_one(&mut **conn)
         .await
         .ok()
     }
 
-    pub async fn get_by_github_username(&mut self, github_username: String) -> Option<User> {
+    pub async fn get_by_github_username(
+        conn: &mut Connection<DB>,
+        github_username: String,
+    ) -> Option<User> {
         sqlx::query_file_as!(
             User,
             "queries/user_get_by_github_username.sql",
             github_username
         )
-        .fetch_one(&mut *self.conn)
+        .fetch_one(&mut **conn)
         .await
         .ok()
     }

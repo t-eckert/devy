@@ -8,30 +8,6 @@ use rocket::response::Redirect;
 use rocket_db_pools::Connection;
 use serde::{Deserialize, Serialize};
 
-// TODO move this into the auth mod
-
-const GITHUB_AUTH_URL: &str = "https://github.com/login/oauth/authorize";
-const GITHUB_TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
-
-fn get_client_id() -> String {
-    dotenvy::var("CLIENT_ID").expect("CLIENT_ID must be set")
-}
-
-fn get_client_secret() -> String {
-    dotenvy::var("CLIENT_SECRET").expect("CLIENT_SECRET must be set")
-}
-
-fn get_client() -> BasicClient {
-    BasicClient::new(
-        ClientId::new(get_client_id()),
-        Some(ClientSecret::new(get_client_secret())),
-        AuthUrl::new(GITHUB_AUTH_URL.to_string()).expect("Invalid auth url"),
-        Some(TokenUrl::new(GITHUB_TOKEN_URL.to_string()).expect("Invalid token url")),
-    )
-}
-
-// ^^^
-
 pub fn routes() -> Vec<rocket::Route> {
     routes![login, logout, callback]
 }
@@ -43,13 +19,18 @@ async fn login(redirect: Option<String>) -> Redirect {
     Redirect::to(auth_url.clone().to_string())
 }
 
+/// TODO logout should clear the session
 #[get("/logout")]
 async fn logout() -> Redirect {
     Redirect::to(uri!("http://localhost:3000"))
 }
 
+/// callback is the endpoint that GitHub redirects to after a successful login
+/// It exchanges the code for a token and then fetches the user from GitHub.
+/// If the user doesn't exist in the database, it creates a new user.
+/// It then creates a session for the user and returns a JWT.
 #[get("/callback?<code>")]
-async fn callback(db: Connection<DB>, code: Option<String>) -> Redirect {
+async fn callback(mut conn: Connection<DB>, code: Option<String>) -> Redirect {
     // Short circuit if we don't have a code.
     let code = match code {
         Some(code) => AuthorizationCode::new(code),
@@ -77,9 +58,8 @@ async fn callback(db: Connection<DB>, code: Option<String>) -> Redirect {
     // Get the GitHub user from the access token.
     let github_user = auth::fetch_user(access_token.clone()).await.unwrap();
 
-    // TODO exchange the github_user for a session. Sync the github user with
-    // user info in our database and profile info. Take GitHub as the source of truth.
-    let session = auth::sync_user(db, github_user).await.unwrap();
+    // Sync up info from GitHub with the user and profile tables, returning a session.
+    let session = auth::sync_user(&mut conn, github_user).await.unwrap();
 
     let jwt = encode(
         &Header::default(),
