@@ -100,7 +100,7 @@ pub async fn fetch_user(access_token: AccessToken) -> Result<GitHubUser, reqwest
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Session {
-    // user: User,
+    user: User,
     // profile: Profile,
 }
 
@@ -110,16 +110,14 @@ pub async fn sync_user(
 ) -> Result<Session, anyhow::Error> {
     // TODO It will be better to do this by looking up the immutable GitHub user ID. I have to add
     // it to the database first.
-    //
 
-    // TODO create the user when they are new.
-    // let user = match UserController::get_by_github_username(*db, github_user.login.clone()).await {
-    //     Some(user) => user,
-    //     None => {
-    //         let user = User::new(github_user.name, github_user.email, github_user.login);
-    //         UserController::create_user(*db, user).await.unwrap()
-    //     }
-    // };
+    let user_controller = UserController::new(db);
 
-    Ok(Session {})
+    match user_controller
+        .get_by_github_username(github_user.login)
+        .await
+    {
+        Some(user) => Ok(Session { user }),
+        None => unimplemented!(),
+    }
 }
