@@ -1,20 +1,14 @@
 use rocket_db_pools::Connection;
-use std::sync::Arc;
+use sqlx::types::Uuid;
 
 use crate::db::DB;
 
 use super::model::Profile;
 
-pub struct ProfileController {
-    conn: Arc<Connection<DB>>,
-}
+pub struct ProfileController {}
 
 impl ProfileController {
-    pub fn new(conn: Arc<Connection<DB>>) -> Self {
-        ProfileController { conn }
-    }
-
-    pub async fn insert_profile(&mut self, profile: Profile) -> Option<Profile> {
+    pub async fn insert_profile(conn: &mut Connection<DB>, profile: Profile) -> Option<Profile> {
         sqlx::query_as!(
             Profile,
             r#"
@@ -29,14 +23,34 @@ impl ProfileController {
             profile.display_name,
             profile.avatar_url,
         )
-        .fetch_one(&mut *self.conn)
+        .fetch_one(&mut **conn)
         .await
         .ok()
     }
 
-    pub async fn get_by_slug(&mut self, slug: String) -> Option<Profile> {
-        sqlx::query_file_as!(Profile, "queries/profile_get_by_slug.sql", slug)
-            .fetch_one(&mut *self.conn)
+    pub async fn get_by_id(conn: &mut Connection<DB>, id: String) -> Option<Profile> {
+        let uuid = Uuid::parse_str(&id).ok();
+
+        sqlx::query_as!(
+            Profile,
+            r#"
+            SELECT 
+                display_name,
+                to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
+                to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+                avatar_url
+            FROM profile 
+            WHERE id = $1"#,
+            uuid
+        )
+        .fetch_one(&mut **conn)
+        .await
+        .ok()
+    }
+
+    pub async fn get_by_username(conn: &mut Connection<DB>, username: String) -> Option<Profile> {
+        sqlx::query_file_as!(Profile, "queries/profile_get_by_slug.sql", username)
+            .fetch_one(&mut **conn)
             .await
             .ok()
     }
