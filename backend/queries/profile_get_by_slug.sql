@@ -1,4 +1,5 @@
 SELECT 
+	user_id::TEXT,
 	to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
 	to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
 	display_name, avatar_url

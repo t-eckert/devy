@@ -104,7 +104,7 @@ pub async fn fetch_user(access_token: AccessToken) -> Result<GitHubUser, reqwest
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Session {
     user: User,
-    // profile: Profile,
+    profile: Profile,
 }
 
 pub async fn sync_user(conn: &mut Connection<DB>, github_user: GitHubUser) -> Result<Session> {
@@ -114,7 +114,7 @@ pub async fn sync_user(conn: &mut Connection<DB>, github_user: GitHubUser) -> Re
     let user = get_or_create_user(conn, &github_user).await?;
     let profile = get_create_or_update_profile(conn, &user, &github_user).await?;
 
-    Ok(Session { user })
+    Ok(Session { user, profile })
 }
 
 async fn get_or_create_user(conn: &mut Connection<DB>, github_user: &GitHubUser) -> Result<User> {
@@ -139,10 +139,13 @@ async fn get_create_or_update_profile(
     user: &User,
     github_user: &GitHubUser,
 ) -> Result<Profile> {
-    match ProfileController::get_by_id(conn, user.id.unwrap().clone()).await {
+    let id = user.id.clone().context("No user id found.")?;
+
+    match ProfileController::get_by_id(conn, id.clone()).await {
         Some(profile) => return Ok(profile),
         None => {
             let profile = Profile::new(
+                id.clone(),
                 github_user.name.clone(),
                 Some(github_user.avatar_url.clone()),
             );
