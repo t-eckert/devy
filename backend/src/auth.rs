@@ -4,6 +4,9 @@
  */
 
 use crate::db::DB;
+use crate::entities::ProfileController;
+use anyhow::anyhow;
+use anyhow::Result;
 use oauth2::reqwest::async_http_client;
 use oauth2::EmptyExtraTokenFields;
 use oauth2::{
@@ -14,6 +17,7 @@ use reqwest;
 use rocket_db_pools::Connection;
 use serde::{Deserialize, Serialize};
 use std::env;
+use std::sync::Arc;
 
 use crate::entities::{Profile, User, UserController};
 
@@ -104,20 +108,44 @@ pub struct Session {
     // profile: Profile,
 }
 
-pub async fn sync_user(
-    db: Connection<DB>,
-    github_user: GitHubUser,
-) -> Result<Session, anyhow::Error> {
+pub async fn sync_user(db: Connection<DB>, github_user: GitHubUser) -> Result<Session> {
     // TODO It will be better to do this by looking up the immutable GitHub user ID. I have to add
     // it to the database first.
 
-    let user_controller = UserController::new(db);
+    // LOOK AWAY NOW IF YOU DON'T WANT TO SEE A LOT OF UGLY CODE
+    //
 
-    match user_controller
-        .get_by_github_username(github_user.login)
-        .await
-    {
-        Some(user) => Ok(Session { user }),
-        None => unimplemented!(),
+    let conn = Arc::new(db);
+
+    let mut user: Option<User> = None;
+
+    let mut user_controller = UserController::new(conn);
+
+    let existing_user = user_controller
+        .get_by_github_username(github_user.login.clone())
+        .await;
+
+    if existing_user.is_none() {
+        let created_user = User::new(
+            github_user.login.clone(),
+            github_user.email,
+            github_user.login.clone(),
+        );
+
+        user = user_controller.insert_user(created_user).await;
+    } else {
+        user = existing_user;
     }
+
+    if user.is_none() {
+        return Err(anyhow!("Could not create or find user"));
+    }
+
+    let mut profile: Option<Profile> = None;
+
+    let profile_controller = ProfileController::new(conn);
+
+    return Ok(Session {
+        user: user.unwrap(),
+    });
 }
