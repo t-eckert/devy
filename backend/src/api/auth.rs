@@ -22,7 +22,9 @@ async fn login(redirect: Option<String>) -> Redirect {
 /// TODO logout should clear the session
 #[get("/logout")]
 async fn logout() -> Redirect {
-    Redirect::to(uri!("http://localhost:3000"))
+    let config = crate::config::Config::load().unwrap();
+
+    Redirect::to(config.post_auth_redirect)
 }
 
 /// callback is the endpoint that GitHub redirects to after a successful login
@@ -31,16 +33,18 @@ async fn logout() -> Redirect {
 /// It then creates a session for the user and returns a JWT.
 #[get("/callback?<code>")]
 async fn callback(mut conn: Connection<DB>, code: Option<String>) -> Redirect {
+    let config = crate::config::Config::load().unwrap();
+
     // Short circuit if we don't have a code.
     let code = match code {
         Some(code) => AuthorizationCode::new(code),
-        None => return Redirect::to(uri!("http://localhost:3000")),
+        None => return Redirect::to(config.post_auth_redirect),
     };
 
     // Create a client for handling authentication.
     let client = match auth::make_client() {
         Ok(client) => client,
-        Err(_) => return Redirect::to(uri!("http://localhost:3000")),
+        Err(_) => return Redirect::to(config.post_auth_redirect),
     };
 
     // Exchange the code for a token.
@@ -52,7 +56,7 @@ async fn callback(mut conn: Connection<DB>, code: Option<String>) -> Redirect {
     // Get the access token from the response.
     let access_token: oauth2::AccessToken = match token_result {
         Ok(token) => token.access_token().clone(),
-        Err(_) => return Redirect::to(uri!("http://localhost:3000")),
+        Err(_) => return Redirect::to(config.post_auth_redirect),
     };
 
     // Get the GitHub user from the access token.
@@ -67,5 +71,9 @@ async fn callback(mut conn: Connection<DB>, code: Option<String>) -> Redirect {
         &EncodingKey::from_secret(access_token.secret().as_ref()),
     );
 
-    Redirect::to(format!("http://localhost:3000?token={}", jwt.unwrap()))
+    Redirect::to(format!(
+        "{}?token={}",
+        config.post_auth_redirect,
+        jwt.unwrap()
+    ))
 }
