@@ -9,6 +9,7 @@ use std::error::Error;
 
 mod api;
 mod auth;
+mod config;
 mod cors;
 mod db;
 mod entities;
@@ -16,6 +17,8 @@ mod tables;
 
 #[rocket::main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    let config = config::Config::load()?;
+
     rocket::build()
         .attach(db::DB::init())
         .attach(AdHoc::try_on_ignite("SQLx Migrations", db::run_migrations))
