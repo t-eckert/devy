@@ -1,11 +1,20 @@
 import config from "@/config"
 
 const handleRequest = async <T>(
+	method: string,
 	path: string,
-	options?: RequestInit
+	revalidate: number,
+	token?: string
 ): Promise<Option<T>> => {
 	try {
-		const response = await fetch(config.API + path, options)
+		const response = await fetch(config.API + path, {
+			method,
+			headers: {
+				"Content-Type": "application/json",
+				...(token && { Authorization: `Bearer ${token}` }),
+			},
+			...(revalidate && { next: { revalidate } }),
+		})
 
 		if (!response.ok) return null
 
@@ -18,29 +27,23 @@ const handleRequest = async <T>(
 
 const get = async <T>(
 	path: string,
-	options?: RequestInit
+	revalidate: number,
+	token?: string
 ): Promise<Option<T>> => {
-	return handleRequest(path, { method: "GET", ...options })
+	return handleRequest("GET", path, revalidate, token)
 }
 
 const post = async <T>(
 	path: string,
-	options?: RequestInit
+	revalidate: number,
+	token?: string
 ): Promise<Option<T>> => {
-	return handleRequest(path, { method: "POST", ...options })
-}
-
-const put = async <T>(
-	path: string,
-	options?: RequestInit
-): Promise<Option<T>> => {
-	return handleRequest(path, { method: "PUT", ...options })
+	return handleRequest("POST", path, revalidate, token)
 }
 
 const api = {
 	get,
 	post,
-	put,
 }
 
 export default api
