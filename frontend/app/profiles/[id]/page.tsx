@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default async function ProfilePage({ params }: Props) {
-  const profile = await api.get<Profile>(`/profiles/${params.id}`)
+  const profile = await api.get<Profile>(`/profiles/${params.id}`, 60)
 
   if (!profile) return <NotFound />
 
