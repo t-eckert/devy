@@ -1,18 +1,18 @@
 "use client"
 
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import useSession from "@/auth/useSession"
 
 export default function CaptureSession() {
 	const searchParams = useSearchParams()
-	const router = useRouter()
 	const session = useSession()
 
-	const token = searchParams.get("token")
+	if (session.status === "logged-out") {
+		const token = searchParams.get("token")
 
-	session.loadSession(token)
-	router.replace("/")
+		session.loadSession(token)
+	}
 
 	return <></>
 }
