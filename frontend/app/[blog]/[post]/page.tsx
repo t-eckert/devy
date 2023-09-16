@@ -1,4 +1,3 @@
-import DataWindow from "@/components/debugging/DataWindow"
 import { Link } from "@/components/elements"
 
 import postController from "@/controllers/post"
@@ -23,7 +22,6 @@ export default async function Post({ params }: Props) {
 
   return (
     <main className="mx-auto my-4 flex flex-col px-2 w-full max-w-2xl gap-4 sm:gap-2">
-      <DataWindow data={post} />
       <h1 className="text-3xl font-semibold">{post.title}</h1>
 
       <div className="mb-2 flex flex-row gap-2 items-baseline ">

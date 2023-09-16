@@ -1,7 +1,6 @@
 import blogController from "@/controllers/blog"
 import postController from "@/controllers/post"
 
-import DataWindow from "@/components/debugging/DataWindow"
 import { Link } from "@/components/elements"
 import Preview from "@/components/models/Post/Preview"
 import Post from "@/models/Post"
@@ -18,7 +17,6 @@ export default async function Blog({ params }: Props) {
 
   return (
     <>
-      <DataWindow name="Blog data" data={blog} />
       <main className="mx-auto my-4 flex flex-col px-2 w-full max-w-6xl gap-12">
         {blog ? (
           <header>
