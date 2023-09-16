@@ -26,6 +26,9 @@ migrate-local-db:
 	cd backend && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
 
 seed-local-db:
-	docker cp $(shell pwd)/backend/seed.sql devy-postgres:/tmp/seed.sql
-	docker exec -it devy-postgres psql -U postgres -f /tmp/seed.sql
+	docker cp $(shell pwd)/seed/ devy-postgres:/tmp/
+	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/users.sql
+	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/profiles.sql
+	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/blogs.sql
+	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/posts.sql
 
