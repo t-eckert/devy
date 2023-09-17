@@ -27,7 +27,7 @@ def list_topics(topics: list[str]) -> str:
 
 
 def generate(topics: list[str]) -> str:
-    prompt = f"Give me a blog post formatted in markdown about {list_topics(topics)}."
+    prompt = f"Come up with some topics that a user with a blog called {topics[0]} might write. Give me a blog post formatted in markdown about those topics. Do not output the topics. Just output the markdown for the blog post."
     return chat(prompt)
 
 def get_title(body: str) -> str:
@@ -37,15 +37,7 @@ def slugify(title: str) -> str:
     return title.lower().replace(" ", "-")
 
 def sql_string_escape(body: str) -> str:
-    conn = sqlite3.connect(':memory:')
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT ?", (body,))
-    escaped_body = cursor.fetchone()[0]
-
-    conn.close()
-
-    return escaped_body
+    return body.replace("'", "''")
 
 if __name__ == "__main__":
     blog_id = sys.argv[1]
