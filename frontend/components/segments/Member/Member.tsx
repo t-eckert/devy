@@ -23,9 +23,10 @@ export default function Member({ user, profile, blogs }: Props) {
 				<div className="flex flex-col">
 					<h1 className="font-semibold">{profile.displayName}</h1>
 					{blogs &&
-						blogs.map((blog) => (
+						blogs.map((blog, i) => (
 							<Link
 								href={`/${blog.slug}`}
+								key={i}
 								className="text-sm text-zinc-400 font-medium"
 							>
 								{blog.name}
