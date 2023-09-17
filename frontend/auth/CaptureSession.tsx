@@ -8,9 +8,10 @@ export default function CaptureSession() {
 	const searchParams = useSearchParams()
 	const session = useSession()
 
-	if (session.status === "logged-out") {
+	if (session.status === "logged-out" && searchParams.has("token")) {
 		const token = searchParams.get("token")
 
+		console.log("loading session")
 		session.loadSession(token)
 	}
 

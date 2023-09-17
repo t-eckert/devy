@@ -25,6 +25,7 @@ export default function RootLayout({
           "bg-zinc-50 text-zinc-950 dark:bg-zinc-900 dark:text-zinc-50",
         ].join(" ")}
       >
+        <CaptureSession />
         <section className="mx-auto max-w-6xl px-2 py-3 flex flex-row justify-between items-center">
           <div className="flex flex-row gap-2 items-baseline">
             <Link href="/">
