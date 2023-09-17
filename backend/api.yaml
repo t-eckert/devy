@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: tecke/devy-api:latest
+        ports:
+        - containerPort: 8080
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: "api-production"
+                key: "database-url"
+          - name: CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: "api-production"
+                key: "client-id"
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: "api-production"
+                key: "client-secret"
+          - name: POST_AUTH_REDIRECT
+            value: "https://devy.page"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: default
+spec:
+  selector:
+    app: api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
