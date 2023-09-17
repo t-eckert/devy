@@ -15,6 +15,8 @@ async fn upsert(db: Connection<DB>, user: Json<User>) -> Option<Json<User>> {
 
 /// Retrieves a user by their username.
 #[get("/<username>")]
-async fn get_by_username(db: Connection<DB>, username: String) -> Option<Json<User>> {
-    unimplemented!()
+async fn get_by_username(mut conn: Connection<DB>, username: String) -> Option<Json<User>> {
+    Some(Json(
+        UserController::get_by_username(&mut conn, username).await?,
+    ))
 }

@@ -29,6 +29,13 @@ impl UserController {
         .ok()
     }
 
+    pub async fn get_by_username(conn: &mut Connection<DB>, username: String) -> Option<User> {
+        sqlx::query_file_as!(User, "queries/user_get_by_username.sql", username)
+            .fetch_one(&mut **conn)
+            .await
+            .ok()
+    }
+
     pub async fn get_by_github_username(
         conn: &mut Connection<DB>,
         github_username: String,
