@@ -1,5 +1,9 @@
 # Changelog
 
+## `v0.1.4` Francis Scott Would Have Been Disappointed
+
+- Fix bug where keys not being passed to blogs in member card would crash build.
+
 ## `v0.1.3` You Look Nice
 
 - Display profile information on the profile page for each user.
