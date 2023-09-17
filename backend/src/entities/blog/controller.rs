@@ -42,4 +42,18 @@ impl BlogController {
             }
         }
     }
+
+    pub async fn get_blogs_by_username(mut db: Connection<DB>, slug: String) -> Option<Vec<Blog>> {
+        let blog = sqlx::query_file_as!(Blog, "queries/blog_get_by_username.sql", slug)
+            .fetch_all(&mut *db)
+            .await;
+
+        match blog {
+            Ok(blog) => Some(blog),
+            Err(e) => {
+                println!("Error: {}", e);
+                None
+            }
+        }
+    }
 }
