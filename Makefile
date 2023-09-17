@@ -2,33 +2,45 @@
 version:
 	@python3 ./tools/versioner.py
 
+# Frontend
+build-frontend:
+	@cd frontend && npm run build
+
+run-frontend:
+	@cd frontend && npm run dev
+
+# API
+build-api:
+	@cd api && cargo sqlx prepare
+	@cd api && docker build -t devy-api -t tecke/devy-api .
+
 # Database
 create-local-db:
-	docker run \
+	@docker run \
 		--name devy-postgres \
 		-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
 		-p 5432:5432 -d postgres:alpine 
 
 destroy-local-db:
-	docker stop devy-postgres
-	docker rm devy-postgres
+	@docker stop devy-postgres
+	@docker rm devy-postgres
 
 access-local-db:
-	docker exec -it devy-postgres psql -U postgres
+	@docker exec -it devy-postgres psql -U postgres
 
 run-pgadmin:
-	docker run -p 5050:80 \
+	@docker run -p 5050:80 \
 		-e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
 		-e 'PGADMIN_DEFAULT_PASSWORD=password' \
 		-d dpage/pgadmin4:latest
 
 migrate-local-db:
-	cd backend && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
+	@cd api && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
 
 seed-local-db:
-	docker cp $(shell pwd)/seed/ devy-postgres:/tmp/
-	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/users.sql
-	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/profiles.sql
-	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/blogs.sql
-	docker exec -it devy-postgres psql -U postgres -f /tmp/seed/posts.sql
+	@docker cp $(shell pwd)/seed/ devy-postgres:/tmp/
+	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/users.sql
+	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/profiles.sql
+	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/blogs.sql
+	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/posts.sql
 
