@@ -1,5 +1,10 @@
 # Changelog
 
+## `v0.1.3` You Look Nice
+
+- Display profile information on the profile page for each user.
+- Fix issue with Shoulder not rendering on desktop.
+
 ## `v0.1.2` Target Adjustment
 
 - Split out the API to prevent redirection issues with path forwarding.
