@@ -319,6 +319,62 @@
     },
     "query": "SELECT \n\tid::text,\n\tslug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nORDER BY post.created_at DESC;\n"
   },
+  "7318ce874d686536be6b07f478f5c16872f8bc22cb8abdc990d20b94aade8999": {
+    "describe": {
+      "columns": [
+        {
+          "name": "name",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_name",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 6,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        null,
+        null,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT \n\tname, slug,\n\tto_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, display_name, description\nFROM \"blog\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, display_name, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE username=$1;\n"
+  },
   "77f843aa170f6c1d2d1fb027ea57fb164ca4ce1be11faba2b94c84d27854ccaf": {
     "describe": {
       "columns": [
@@ -488,6 +544,68 @@
       }
     },
     "query": "\n            INSERT INTO \"user\" (username, email, github_username)\n            VALUES ($1, $2, $3)\n            RETURNING \n                id::TEXT,\n                to_char(\"user\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                to_char(\"user\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n                username, email, github_username, role, status\n            ;\n            "
+  },
+  "d48771abdc724736ceadbce83911d8395e2aa14251b25d94c3e2e70a6b5fedcf": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "email",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "github_username",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "role",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "status",
+          "ordinal": 7,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        null,
+        null,
+        null,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT \n\tid::TEXT,\n\tto_char(\"user\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(\"user\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, email, github_username, role, status\nFROM \"user\" \nWHERE username=$1;\n"
   },
   "ddd55a3c398150213cd8ff416d4d75b47ed2a28d74b6f7229927c429746696ae": {
     "describe": {
