@@ -1,23 +1,21 @@
-import Feed from "@/components/dynamic/Feed"
+import FeedComponent from "@/components/dynamic/Feed"
 import Shoulder from "@/components/segments/Shoulder"
 import Changelog from "@/components/segments/Changelog"
 
-import feedController from "@/controllers/feed"
-import postController from "@/controllers/post"
-import changelogController from "@/controllers/changelog"
+import api from "@/api"
+import { fetchChangelog } from "@/changelog"
+
+import Feed from "@/models/Feed"
+import Post from "@/models/Post"
 
 export default async function Home() {
-  const newFeed = await feedController.get.new()
-  const newFeedPosts = (await postController.get.byFeed(newFeed?.id ?? "")) || []
-  const changelog = await changelogController.get.fromGitHub()
+  const newFeed = await api.get<Feed>("/feeds/new", 60)
+  const newFeedPosts = await api.get<Post[]>(`/feeds/new/posts`, 60)
+  const changelog = await fetchChangelog()
 
-  if (!newFeed)
-    return (
-      <main className="mx-auto flex flex-row w-full max-w-6xl">
-        <span>Unable to load feeds</span>
-      </main>
-    )
+  if (!newFeed || !newFeedPosts) return <NotFound />
 
+  // TODO change this in the feed component to take the feed object as the key in the map.
   const feeds = [
     {
       feedMeta: newFeed,
@@ -27,8 +25,14 @@ export default async function Home() {
 
   return (
     <main className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
-      <Feed feeds={feeds} />
+      <FeedComponent feeds={feeds} />
       <Shoulder>{changelog && <Changelog changelog={changelog} />}</Shoulder>
     </main>
   )
 }
+
+const NotFound = () => (
+  <main className="mx-auto flex flex-row w-full max-w-6xl">
+    <span>Unable to load feeds</span>
+  </main>
+)

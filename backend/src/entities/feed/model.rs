@@ -1,10 +1,7 @@
-use rocket::serde::{Deserialize, Serialize};
-use rocket_db_pools::Connection;
-
-use crate::entities::Post;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde", rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct Feed {
     pub id: String,
     pub name: String,

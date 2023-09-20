@@ -1,8 +1,9 @@
 import Markdown from "@/components/markdown"
-import changelogController from "@/controllers/changelog"
+
+import { fetchChangelog } from "@/changelog"
 
 export default async function Changelog() {
-  const changelog = await changelogController.get.fromGitHub()
+  const changelog = await fetchChangelog()
 
   if (!changelog) return <div>Changelog not found</div>
 

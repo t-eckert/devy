@@ -31,6 +31,7 @@ export default function HomeFeed({ feeds }: Props) {
 		if (feed) setPosts(feed.posts)
 	}, [selectedFeed, feeds])
 
+	// TODO: call to action when no posts: "Write one!"
 	return (
 		<>
 			<section className="flex flex-row sm:flex-col sm:w-64 items-start gap-2">

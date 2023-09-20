@@ -12,7 +12,7 @@ const config: Config = {
 	API:
 		mode === "production"
 			? "https://api.devy.page"
-			: "http://localhost:8080",
+			: "http://localhost:8000",
 }
 
 export default config

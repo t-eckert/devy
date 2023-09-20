@@ -1,7 +1,3 @@
-use rocket_db_pools::Connection;
-
-use crate::db::DB;
-
 use super::model::Post;
 
 pub struct PostController {}

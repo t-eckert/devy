@@ -1,8 +1,7 @@
-use rocket::serde::{Deserialize, Serialize};
-use rocket_db_pools::Connection;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde", rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct User {
     pub id: Option<String>,
 
