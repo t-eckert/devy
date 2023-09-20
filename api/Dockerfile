@@ -16,14 +16,14 @@ COPY . /app
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
-COPY --from=builder /app/target/release/backend .
+COPY --from=builder /app/target/release/api .
 COPY --from=builder /app/Rocket.toml .
 
 ENV DATABASE_URL=
 ENV CLIENT_ID=
 ENV CLIENT_SECRET=
 ENV POST_AUTH_REDIRECT=
-ENV ROCKET_DATABASES=$DATABASE_URL
+ENV ROCKET_DATABASES=
 
 EXPOSE 8080
-CMD ["./backend"]
+CMD ["./api"]
