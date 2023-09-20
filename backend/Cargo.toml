@@ -1,10 +1,36 @@
 [package]
 name = "devy-backend"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
 axum = "0.6.18"
+oauth2 = "4.4.1"
+chrono = "0.4.26"
+jsonwebtoken = "8"
+json = "0.12.4"
+anyhow = "1.0"
+shuttle-secrets = "0.26.0"
 shuttle-axum = "0.26.0"
 shuttle-runtime = "0.26.0"
 tokio = "1.28.2"
+
+[dependencies.reqwest]
+version = "0.11.20"
+features = [ "json",]
+
+[dependencies.serde]
+version = "1.0"
+features = [ "derive",]
+
+[dependencies.tokio]
+version = "1.15.0"
+features = [ "full",]
+
+[dependencies.sqlx]
+version = "0.6"
+features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time", "offline",]
+
+[dependencies.uuid]
+version = "1.4.0"
+features = [ "v4", "fast-rng", "macro-diagnostics",]
