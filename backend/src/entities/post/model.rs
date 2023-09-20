@@ -1,9 +1,7 @@
-use rocket::serde::{Deserialize, Serialize};
-
-use crate::entities::Profile;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde", rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct Post {
     pub id: Option<String>,
     pub slug: String,
