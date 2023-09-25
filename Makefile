@@ -9,11 +9,6 @@ build-frontend:
 run-frontend:
 	@cd frontend && npm run dev
 
-# API
-build-api:
-	@cd api && cargo sqlx prepare
-	@cd api && docker build -t devy-api -t tecke/devy-api .
-
 # Database
 create-local-db:
 	@docker run \
@@ -35,7 +30,7 @@ run-pgadmin:
 		-d dpage/pgadmin4:latest
 
 migrate-local-db:
-	@cd api && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
+	@cd backend && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
 
 seed-local-db:
 	@docker cp $(shell pwd)/seed/ devy-postgres:/tmp/
