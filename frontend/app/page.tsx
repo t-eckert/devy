@@ -1,38 +1,48 @@
-import FeedComponent from "@/components/dynamic/Feed"
 import Shoulder from "@/components/segments/Shoulder"
 import Changelog from "@/components/segments/Changelog"
+import HomeFeed, { FeedContent } from "@/lib/feed/HomeFeed"
 
-import api from "@/api"
-import { fetchChangelog } from "@/changelog"
+import api from "@/lib/api"
+import { fetchChangelog } from "@/lib/changelog"
 
 import Feed from "@/models/Feed"
 import Post from "@/models/Post"
 
 export default async function Home() {
-  const newFeed = await api.get<Feed>("/feeds/new", 60)
-  const newFeedPosts = await api.get<Post[]>(`/feeds/new/posts`, 60)
+  const feeds = await fetchFeeds(0, 10)
   const changelog = await fetchChangelog()
-
-  if (!newFeed || !newFeedPosts) return <NotFound />
-
-  // TODO change this in the feed component to take the feed object as the key in the map.
-  const feeds = [
-    {
-      feedMeta: newFeed,
-      posts: newFeedPosts,
-    },
-  ]
 
   return (
     <main className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
-      <FeedComponent feeds={feeds} />
+      <HomeFeed feeds={feeds} />
       <Shoulder>{changelog && <Changelog changelog={changelog} />}</Shoulder>
     </main>
   )
 }
 
-const NotFound = () => (
-  <main className="mx-auto flex flex-row w-full max-w-6xl">
-    <span>Unable to load feeds</span>
-  </main>
-)
+const fetchFeeds = async (
+  offset: number,
+  pageSize: number
+): Promise<Map<Feed, FeedContent>> => {
+  const newFeed = await api.get<Feed>("/feeds/new", 600)
+  const newFeedPosts = await api.get<Post[]>(
+    `/feeds/new/posts?offset=${offset}&pageSize=${pageSize}`,
+    600
+  )
+
+  if (newFeed === null) {
+    return new Map([])
+  }
+
+  return new Map([
+    [
+      newFeed,
+      {
+        status: !(newFeed || newFeedPosts) ? "error" : "loaded",
+        posts: newFeedPosts || [],
+        offset,
+        pageSize,
+      },
+    ],
+  ])
+}
