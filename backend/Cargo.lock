@@ -453,6 +453,7 @@ dependencies = [
  "shuttle-secrets",
  "sqlx",
  "tokio",
+ "tracing-subscriber",
  "uuid",
 ]
 
