@@ -9,10 +9,12 @@ interface Props {
 export default function Changelog({ changelog }: Props) {
 	const tokens = marked.lexer(changelog)
 
-	return <section className="flex flex-col">
-		<h1 className="mb-1">Changelog</h1>
-		{tokens.map(formatToken)}
-	</section>
+	return (
+		<section className="flex flex-col">
+			<h1 className="mb-1">Changelog</h1>
+			{tokens.slice(0, 10).map(formatToken)}
+		</section>
+	)
 }
 
 // This heavily relies on the structure of the changelog.
@@ -26,7 +28,9 @@ const formatToken = (token: any, _: number): Option<React.ReactNode> => {
 							<Link href="/changelog">
 								<h2 className="mb-1 flex flex-col">
 									<span className="text-zinc-500 text-xs font-mono">
-										{token.text.split(" ")[0].replaceAll("`", "")}
+										{token.text
+											.split(" ")[0]
+											.replaceAll("`", "")}
 									</span>
 									<span className="font-medium text-zinc-300 text-sm">
 										{token.text
