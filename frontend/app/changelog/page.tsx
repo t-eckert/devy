@@ -1,6 +1,6 @@
 import Markdown from "@/components/markdown"
 
-import { fetchChangelog } from "@/changelog"
+import { fetchChangelog } from "@/lib/changelog"
 
 export default async function Changelog() {
   const changelog = await fetchChangelog()
@@ -9,7 +9,7 @@ export default async function Changelog() {
 
   return (
     <main className="mx-auto my-4 flex flex-col sm:flex-row px-2 w-full max-w-6xl gap-4 sm:gap-2">
-      <article>
+      <article className="mx-auto w-full max-w-xl">
         <Markdown content={changelog} />
       </article>
     </main>
