@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <main className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
-      <HomeFeed feeds={feeds} />
+      <HomeFeed feeds={feeds} defaultSelected={feeds.keys().next().value} />
       <Shoulder>{changelog && <Changelog changelog={changelog} />}</Shoulder>
     </main>
   )
@@ -23,26 +23,36 @@ export default async function Home() {
 const fetchFeeds = async (
   offset: number,
   pageSize: number
-): Promise<Map<Feed, FeedContent>> => {
+): Promise<Map<string, FeedContent>> => {
+  const feeds = new Map()
+
   const newFeed = await api.get<Feed>("/feeds/new", 600)
   const newFeedPosts = await api.get<Post[]>(
     `/feeds/new/posts?offset=${offset}&pageSize=${pageSize}`,
     600
   )
+  if (newFeed)
+    feeds.set(newFeed.id, {
+      metadata: newFeed,
+      status: "loaded",
+      posts: newFeedPosts || [],
+      offset,
+      pageSize,
+    })
 
-  if (newFeed === null) {
-    return new Map([])
-  }
+  const popularFeed = await api.get<Feed>("/feeds/popular", 600)
+  const popularFeedPosts = await api.get<Post[]>(
+    `/feeds/popular/posts?offset=${offset}&pageSize=${pageSize}`,
+    600
+  )
+  if (popularFeed)
+    feeds.set(popularFeed.id, {
+      metadata: popularFeed,
+      status: "loaded",
+      posts: popularFeedPosts || [],
+      offset,
+      pageSize,
+    })
 
-  return new Map([
-    [
-      newFeed,
-      {
-        status: !(newFeed || newFeedPosts) ? "error" : "loaded",
-        posts: newFeedPosts || [],
-        offset,
-        pageSize,
-      },
-    ],
-  ])
+  return feeds
 }

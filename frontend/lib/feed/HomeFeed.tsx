@@ -10,9 +10,10 @@ import { Tab } from "@/components/elements"
 import type { Feed, Post } from "@/models"
 import Json from "@/components/debugging/Json"
 
-type Feeds = Map<Feed, FeedContent>
+type Feeds = Map<string, FeedContent>
 
 export interface FeedContent {
+	metadata: Feed
 	status: "loaded" | "loading" | "error"
 	posts: Post[]
 	offset: number
@@ -21,12 +22,12 @@ export interface FeedContent {
 
 interface Props {
 	feeds: Feeds
-	defaultSelected?: Feed
+	defaultSelected?: string
 }
 
 export default function HomeFeed({ feeds, defaultSelected }: Props) {
-	const [selected, setSelected] = useState<Feed>(
-		defaultSelected || feeds.keys().next().value
+	const [selected, setSelected] = useState<string>(
+		defaultSelected || feeds.keys().next().value.id
 	)
 
 	return (
@@ -43,36 +44,31 @@ const Tabs = ({
 	setSelected,
 }: {
 	feeds: Feeds
-	selected: Feed
-	setSelected: Dispatch<SetStateAction<Feed>>
+	selected: string
+	setSelected: Dispatch<SetStateAction<string>>
 }) => {
 	return (
 		<div className="flex flex-row sm:flex-col sm:w-64 items-state gap-2">
-			{Array.from(feeds.keys()).map((feed: Feed) => (
+			{Array.from(feeds).map(([id, feed]) => (
 				<Tab
-					key={feed.id}
-					id={feed.id}
-					isSelected={feed.id === selected.id}
+					key={id}
+					id={id}
+					isSelected={id === selected}
 					setSelected={setSelected}
 				>
-					{feed.name}
+					{feed.metadata.name}
 				</Tab>
 			))}
 		</div>
 	)
 }
 
-const List = ({ feeds, selected }: { feeds: Feeds; selected: Feed }) => {
-	return (
-		<div>
-			<Json data={feeds} />
-		</div>
-	)
-
+const List = ({ feeds, selected }: { feeds: Feeds; selected: string }) => {
+	return <div>List</div>
 	// const feed = feeds.get(selected)
 
 	// if (!feed) {
-	// 	return <div>Unable to find feed {selected.id}</div>
+	// 	return <div>Unable to find feed {selected}</div>
 	// }
 
 	// return (
