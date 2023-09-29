@@ -1,10 +1,11 @@
 import { cva, type VariantProps } from "cva"
+import { SetStateAction } from "react"
 
 interface Props extends VariantProps<typeof styles> {
 	children: React.ReactNode
 	id: string
 	isSelected: boolean
-	setSelected: (id: string) => void
+	setSelected: SetStateAction<any>
 }
 
 export default function Tab({ children, id, isSelected, setSelected }: Props) {
