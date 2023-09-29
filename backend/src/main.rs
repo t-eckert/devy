@@ -12,7 +12,7 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
     let db_connection_str = secret_store
         .get("DB_CONN")
         .expect("DB_CONN environment variable not set");
-    let _pool = PgPoolOptions::new()
+    let pool = PgPoolOptions::new()
         .max_connections(5)
         .acquire_timeout(Duration::from_secs(3))
         .connect(&db_connection_str)
@@ -21,7 +21,7 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
 
     let router = Router::new()
         .route("/ready", get(ready))
-        .nest("/feeds", feeds());
+        .nest("/feeds", feeds(pool));
 
     Ok(router.into())
 }
