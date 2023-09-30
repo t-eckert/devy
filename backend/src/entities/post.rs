@@ -21,7 +21,28 @@ pub struct Post {
 }
 
 impl Post {
-    pub async fn get_by_feed(pool: PgPool, feed_id: String) -> Result<Vec<Post>, StatusCode> {
-        Err(StatusCode::NOT_FOUND)
+    pub async fn get_by_feed(
+        pool: PgPool,
+        feed_id: String,
+        limit: i64,
+        offset: i64,
+    ) -> Result<Vec<Post>, StatusCode> {
+        match feed_id.as_str() {
+            "new" => Self::get_by_feed_new(pool, limit, offset).await,
+            _ => Err(StatusCode::NOT_FOUND),
+        }
+    }
+
+    async fn get_by_feed_new(
+        pool: PgPool,
+        limit: i64,
+        offset: i64,
+    ) -> Result<Vec<Post>, StatusCode> {
+        dbg!(&limit, &offset);
+
+        sqlx::query_file_as!(Post, "queries/post_get_by_feed_new.sql", limit)
+            .fetch_all(&pool)
+            .await
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)
     }
 }

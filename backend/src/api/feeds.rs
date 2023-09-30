@@ -1,11 +1,12 @@
 use crate::entities::{Feed, Post};
 use axum::{
-    extract::{Path, State},
+    extract::{Path, Query, State},
     http::StatusCode,
     routing::get,
     Json, Router,
 };
 use sqlx::PgPool;
+use std::collections::HashMap;
 
 pub fn feeds(pool: PgPool) -> Router {
     Router::new()
@@ -31,6 +32,18 @@ async fn feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, StatusCod
 async fn feed_posts_by_id(
     State(pool): State<PgPool>,
     Path(feed_id): Path<String>,
+    Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<Post>>, StatusCode> {
-    Ok(Json(Post::get_by_feed(pool, feed_id).await?))
+    let limit = params
+        .get("limit")
+        .unwrap_or(&"30".to_string())
+        .parse::<i64>()
+        .unwrap_or(30);
+    let offset = params
+        .get("offset")
+        .unwrap_or(&"0".to_string())
+        .parse::<i64>()
+        .unwrap_or(0);
+
+    Ok(Json(Post::get_by_feed(pool, feed_id, limit, offset).await?))
 }

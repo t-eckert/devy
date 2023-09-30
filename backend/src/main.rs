@@ -10,8 +10,8 @@ mod entities;
 #[shuttle_runtime::main]
 async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_axum::ShuttleAxum {
     let db_connection_str = secret_store
-        .get("DB_CONN")
-        .expect("DB_CONN environment variable not set");
+        .get("DATABASE_URL")
+        .expect("DATABASE_URL environment variable not set");
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .acquire_timeout(Duration::from_secs(3))

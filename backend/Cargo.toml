@@ -28,8 +28,8 @@ version = "1.28.2"
 features = [ "full",]
 
 [dependencies.sqlx]
-version = "0.6"
-features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time", "offline",]
+version = "^0.7.1"
+features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time",]
 
 [dependencies.uuid]
 version = "1.4.0"
