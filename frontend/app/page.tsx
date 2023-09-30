@@ -23,8 +23,8 @@ export default async function Home() {
 const fetchFeeds = async (
   offset: number,
   pageSize: number
-): Promise<Map<string, FeedContent>> => {
-  const feeds = new Map()
+): Promise<FeedContent[]> => {
+  const feeds: FeedContent[] = []
 
   const newFeed = await api.get<Feed>("/feeds/new", 600)
   const newFeedPosts = await api.get<Post[]>(
@@ -32,7 +32,7 @@ const fetchFeeds = async (
     600
   )
   if (newFeed)
-    feeds.set(newFeed.id, {
+    feeds.push({
       metadata: newFeed,
       status: "loaded",
       posts: newFeedPosts || [],
@@ -46,7 +46,7 @@ const fetchFeeds = async (
     600
   )
   if (popularFeed)
-    feeds.set(popularFeed.id, {
+    feeds.push({
       metadata: popularFeed,
       status: "loaded",
       posts: popularFeedPosts || [],
