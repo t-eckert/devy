@@ -1,5 +1,3 @@
-mod feeds;
-mod ready;
-
-pub use feeds::feeds;
-pub use ready::ready;
+pub mod blogs;
+pub mod feeds;
+pub mod ready;
