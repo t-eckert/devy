@@ -11,24 +11,25 @@ export default function Preview(post: Post) {
 				<div className="flex flex-col gap-1">
 					<Link
 						href={`${post.blogSlug}/${post.slug}`}
-						variant={{ underline: true }}
+						variant={{ underline: false }}
+						className="font-medium"
 					>
 						<h2>{post.title}</h2>
 					</Link>
-					<div className="mb-2 flex flex-row gap-2 items-baseline ">
-						<div className="bg-zinc-800 text-sm flex items-center justify-center px-2 py-1 rounded-full">
+					<div className="mb-2 flex flex-row gap-2 items-baseline text-sm">
+						<div className="bg-zinc-800 text-xs flex items-center justify-center px-2 py-1 rounded-full">
 							<Date date={post.createdAt} />
 						</div>
 						<Link
 							href={`/profiles/${post.authorSlug}`}
-							variant={{ underline: true }}
+							variant={{ underline: false }}
 						>
 							{post.authorName}
 						</Link>
 						<span>/</span>
 						<Link
 							href={`/${post.blogSlug}`}
-							variant={{ underline: true }}
+							variant={{ underline: false }}
 						>
 							{post.blogName}
 						</Link>
