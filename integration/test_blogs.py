@@ -1,6 +1,7 @@
+from config import host
+
 import httpx
 
-host = "http://localhost:8000"
 path = "/blogs"
 route = host + path
 
