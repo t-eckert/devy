@@ -9,7 +9,7 @@ import Feed from "@/models/Feed"
 import Post from "@/models/Post"
 
 export default async function Home() {
-  const feeds = await fetchFeeds(0, 10)
+  const feeds = await fetchFeeds(0, 25)
   const changelog = await fetchChangelog()
 
   return (
@@ -21,14 +21,14 @@ export default async function Home() {
 }
 
 const fetchFeeds = async (
-  offset: number,
+  page: number,
   pageSize: number
 ): Promise<FeedContent[]> => {
   const feeds: FeedContent[] = []
 
   const newFeed = await api.get<Feed>("/feeds/new", 600)
   const newFeedPosts = await api.get<Post[]>(
-    `/feeds/new/posts?offset=${offset}&limit=${pageSize}`,
+    `/feeds/new/posts?offset=${page / pageSize}&limit=${pageSize}`,
     600
   )
   if (newFeed)
@@ -36,13 +36,13 @@ const fetchFeeds = async (
       metadata: newFeed,
       status: "loaded",
       posts: newFeedPosts || [],
-      offset,
+      page,
       pageSize,
     })
 
   const popularFeed = await api.get<Feed>("/feeds/popular", 600)
   const popularFeedPosts = await api.get<Post[]>(
-    `/feeds/popular/posts?offset=${offset}&limit=${pageSize}`,
+    `/feeds/popular/posts?offset=${page / pageSize}&limit=${pageSize}`,
     600
   )
   if (popularFeed)
@@ -50,7 +50,7 @@ const fetchFeeds = async (
       metadata: popularFeed,
       status: "loaded",
       posts: popularFeedPosts || [],
-      offset,
+      page,
       pageSize,
     })
 
