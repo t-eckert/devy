@@ -28,4 +28,4 @@ FROM "post" LEFT JOIN (
 	ON profile_id=profile.id
 ) AS "blog" ON post.blog_id = blog.blog_id
 ORDER BY post.created_at DESC
-LIMIT $1;
+LIMIT $1 OFFSET $2;

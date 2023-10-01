@@ -55,7 +55,7 @@ impl Post {
         limit: i64,
         offset: i64,
     ) -> Result<Vec<Self>, sqlx::Error> {
-        sqlx::query_file_as!(Self, "queries/post_get_by_feed_new.sql", limit)
+        sqlx::query_file_as!(Self, "queries/post_get_by_feed_new.sql", limit, offset)
             .fetch_all(&pool)
             .await
     }
