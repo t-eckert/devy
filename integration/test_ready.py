@@ -1,6 +1,7 @@
+from config import host
+
 import httpx
 
-host = "http://localhost:8000"
 path = "/ready"
 route = host + path
 
