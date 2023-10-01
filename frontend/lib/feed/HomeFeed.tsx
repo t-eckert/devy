@@ -8,7 +8,6 @@ import Preview from "@/components/models/Post/Preview"
 import { Tab } from "@/components/elements"
 
 import type { Feed, Post } from "@/models"
-import Json from "@/components/debugging/Json"
 
 export interface FeedContent {
 	metadata: Feed
@@ -21,12 +20,12 @@ export interface FeedContent {
 interface Props {
 	// NOTE: This datastructure would be more efficient as a map, but I am passing from server to client so I need to use an array.
 	feeds: FeedContent[]
-	defaultSelected?: string
+	defaultSelected: string
 }
 
 export default function HomeFeed({ feeds, defaultSelected }: Props) {
 	const [selected, setSelected] = useState<string>(
-		defaultSelected || feeds[0].metadata.id
+		defaultSelected
 	)
 
 	return (
