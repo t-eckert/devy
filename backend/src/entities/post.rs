@@ -1,4 +1,4 @@
-use axum::http::StatusCode;
+use anyhow::anyhow;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 
@@ -21,15 +21,32 @@ pub struct Post {
 }
 
 impl Post {
+    pub async fn get_by_blog_and_post_slug(
+        pool: PgPool,
+        blog: String,
+        post: String,
+    ) -> Result<Self, sqlx::Error> {
+        sqlx::query_file_as!(
+            Self,
+            "queries/post_get_by_blog_slug_and_post_slug.sql",
+            blog,
+            post
+        )
+        .fetch_one(&pool)
+        .await
+    }
+
     pub async fn get_by_feed(
         pool: PgPool,
         feed_id: String,
         limit: i64,
         offset: i64,
-    ) -> Result<Vec<Post>, StatusCode> {
+    ) -> Result<Vec<Post>, anyhow::Error> {
         match feed_id.as_str() {
-            "new" => Self::get_by_feed_new(pool, limit, offset).await,
-            _ => Err(StatusCode::NOT_FOUND),
+            "new" => Self::get_by_feed_new(pool, limit, offset)
+                .await
+                .map_err(|_| anyhow!("Cannot find feed")),
+            _ => Err(anyhow!("Cannot find feed")),
         }
     }
 
@@ -37,12 +54,9 @@ impl Post {
         pool: PgPool,
         limit: i64,
         offset: i64,
-    ) -> Result<Vec<Post>, StatusCode> {
-        dbg!(&limit, &offset);
-
-        sqlx::query_file_as!(Post, "queries/post_get_by_feed_new.sql", limit)
+    ) -> Result<Vec<Self>, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/post_get_by_feed_new.sql", limit)
             .fetch_all(&pool)
             .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)
     }
 }

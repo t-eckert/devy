@@ -2,20 +2,12 @@ use crate::entities::{Feed, Post};
 use axum::{
     extract::{Path, Query, State},
     http::StatusCode,
-    routing::get,
-    Json, Router,
+    Json,
 };
 use sqlx::PgPool;
 use std::collections::HashMap;
 
-pub fn feeds(pool: PgPool) -> Router {
-    Router::new()
-        .route("/:id", get(feed_by_id))
-        .route("/:id/posts", get(feed_posts_by_id))
-        .with_state(pool)
-}
-
-async fn feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, StatusCode> {
+pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, StatusCode> {
     match feed_id.as_str() {
         "new" => Ok(Json(Feed {
             id: "new".to_string(),
@@ -29,7 +21,7 @@ async fn feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, StatusCod
     }
 }
 
-async fn feed_posts_by_id(
+pub async fn get_feed_posts_by_id(
     State(pool): State<PgPool>,
     Path(feed_id): Path<String>,
     Query(params): Query<HashMap<String, String>>,
@@ -45,5 +37,9 @@ async fn feed_posts_by_id(
         .parse::<i64>()
         .unwrap_or(0);
 
-    Ok(Json(Post::get_by_feed(pool, feed_id, limit, offset).await?))
+    Ok(Json(
+        Post::get_by_feed(pool, feed_id, limit, offset)
+            .await
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+    ))
 }
