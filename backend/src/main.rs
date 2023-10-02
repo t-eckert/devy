@@ -2,6 +2,7 @@ use axum::{routing::get, Router};
 use shuttle_secrets::SecretStore;
 use sqlx::postgres::PgPoolOptions;
 use std::time::Duration;
+use tower_http::cors::{Any, CorsLayer};
 
 mod api;
 mod entities;
@@ -19,6 +20,12 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         .await
         .expect("Failed to connect to database");
 
+    // Allow CORS
+    let cors_layer = CorsLayer::new()
+        .allow_headers(Any)
+        .allow_methods(Any)
+        .allow_origin(Any);
+
     // Build the router.
     let router = Router::new()
         .route("/ready", get(api::ready::ready))
@@ -28,7 +35,8 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         )
         .route("/feeds/:id", get(api::feeds::get_feed_by_id))
         .route("/feeds/:id/posts", get(api::feeds::get_feed_posts_by_id))
-        .with_state(pool);
+        .with_state(pool)
+        .layer(cors_layer);
 
     Ok(router.into())
 }
