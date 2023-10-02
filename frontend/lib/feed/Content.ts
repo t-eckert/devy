@@ -1,7 +1,6 @@
-export interface Content {
-	metadata: Feed
-	status: "loaded" | "loading" | "error"
+import { Feed, Post } from "@/models"
+
+export default interface Content {
+	feed: Feed
 	posts: Post[]
-	page: number
-	pageSize: number
 }
