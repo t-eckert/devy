@@ -459,6 +459,7 @@ dependencies = [
  "anyhow",
  "axum",
  "chrono",
+ "http",
  "json",
  "jsonwebtoken",
  "oauth2",
@@ -469,6 +470,7 @@ dependencies = [
  "shuttle-secrets",
  "sqlx",
  "tokio",
+ "tower-http",
  "tracing-subscriber",
  "uuid",
 ]
