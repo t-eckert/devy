@@ -11,14 +11,10 @@ export default function Menu() {
 		status: "logged-in",
 	}
 
-
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
-				<button
-					className="pl-2 pr-2 py-0.5 border-zinc-700 hover:bg-zinc-700 rounded-r-full"
-					aria-label="Navigation menu"
-				>
+				<button className="p-0.5" aria-label="Navigation menu">
 					<HamburgerMenuIcon className="w-4 h-4" />
 				</button>
 			</DropdownMenu.Trigger>
@@ -29,7 +25,11 @@ export default function Menu() {
 					sideOffset={5}
 					align="end"
 				>
-					{session.status === "logged-in" ? <LoggedIn /> : <LoggedOut />}
+					{session.status === "logged-in" ? (
+						<LoggedIn />
+					) : (
+						<LoggedOut />
+					)}
 				</DropdownMenu.Content>
 			</DropdownMenu.Portal>
 		</DropdownMenu.Root>
@@ -37,25 +37,29 @@ export default function Menu() {
 }
 
 const LoggedIn = () => {
-	return <>
+	return (
+		<>
+			<DropdownMenu.Item className="px-2 py-1 w-full">
+				<Link href="/changelog" className="w-full">
+					<span className="w-full">Changelog</span>
+				</Link>
+			</DropdownMenu.Item>
+
+			<DropdownMenu.Item className="px-2 py-1 w-full">
+				<Link href="/api/auth/sign-out" className="w-full">
+					<span className="w-full">Sign Out</span>
+				</Link>
+			</DropdownMenu.Item>
+		</>
+	)
+}
+
+const LoggedOut = () => {
+	return (
 		<DropdownMenu.Item className="px-2 py-1 w-full">
 			<Link href="/changelog" className="w-full">
 				<span className="w-full">Changelog</span>
 			</Link>
 		</DropdownMenu.Item>
-
-		<DropdownMenu.Item className="px-2 py-1 w-full">
-			<Link href="/api/auth/sign-out" className="w-full">
-				<span className="w-full">Sign Out</span>
-			</Link>
-		</DropdownMenu.Item>
-	</>
-}
-
-const LoggedOut = () => {
-	return <DropdownMenu.Item className="px-2 py-1 w-full">
-		<Link href="/changelog" className="w-full">
-			<span className="w-full">Changelog</span>
-		</Link>
-	</DropdownMenu.Item>
+	)
 }
