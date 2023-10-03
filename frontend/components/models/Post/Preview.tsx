@@ -3,7 +3,6 @@
 import { HeartIcon, HeartFilledIcon } from "@radix-ui/react-icons"
 
 import Post from "@/models/Post"
-import Date from "@/components/elements/Date"
 import { Button, Link } from "@/components/elements"
 
 export default function Preview(post: Post) {
