@@ -1,0 +1,38 @@
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct GitHubUser {
+    login: String,
+    id: i64,
+    node_id: String,
+    avatar_url: String,
+    gravatar_id: String,
+    url: String,
+    html_url: String,
+    followers_url: String,
+    following_url: String,
+    gists_url: String,
+    starred_url: String,
+    subscriptions_url: String,
+    organizations_url: String,
+    repos_url: String,
+    events_url: String,
+    received_events_url: String,
+    #[serde(rename = "type")]
+    user_type: String,
+    site_admin: bool,
+    name: String,
+    company: String,
+    blog: String,
+    location: String,
+    email: String,
+    hireable: Option<bool>,
+    bio: String,
+    twitter_username: String,
+    public_repos: i64,
+    public_gists: i64,
+    followers: i64,
+    following: i64,
+    created_at: String,
+    updated_at: String,
+}

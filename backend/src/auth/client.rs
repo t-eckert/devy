@@ -1,0 +1,60 @@
+use oauth2::{
+    basic::BasicClient, AccessToken, AuthUrl, ClientId, ClientSecret, CsrfToken, Scope, TokenUrl,
+};
+use reqwest;
+
+const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
+const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
+
+#[derive(Clone)]
+pub struct Client {
+    oauth_client: BasicClient,
+    post_auth_redirect_uri: String,
+}
+
+impl Client {
+    pub fn new(client_id: String, client_secret: String, post_auth_redirect_uri: String) -> Self {
+        Client {
+            oauth_client: BasicClient::new(
+                ClientId::new(client_id),
+                Some(ClientSecret::new(client_secret)),
+                AuthUrl::new(AUTH_URL.to_string()).expect("Invalid auth URL"),
+                Some(TokenUrl::new(TOKEN_URL.to_string()).expect("Invalid token URL")),
+            ),
+            post_auth_redirect_uri,
+        }
+    }
+
+    pub fn redirect_uri(self) -> String {
+        let (authorize_url, _) = self
+            .oauth_client
+            .authorize_url(CsrfToken::new_random)
+            .add_scope(Scope::new("repo".to_string()))
+            .add_scope(Scope::new("user".to_string()))
+            .url();
+
+        authorize_url.to_string()
+    }
+
+    pub fn post_auth_redirect_uri(self) -> String {
+        self.post_auth_redirect_uri
+    }
+
+    pub async fn fetch_github_user(
+        self,
+        token: AccessToken,
+    ) -> Result<super::GitHubUser, reqwest::Error> {
+        let req_client = reqwest::Client::new();
+        let response = req_client
+            .get("https://api.github.com/user")
+            .header("User-Agent", "rust-rocket-oauth2")
+            .header("Accept", "application/json")
+            .bearer_auth(token.secret())
+            .send()
+            .await?;
+
+        let user: super::GitHubUser = response.json().await?;
+
+        Ok(user)
+    }
+}
