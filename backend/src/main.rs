@@ -5,6 +5,7 @@ use std::time::Duration;
 use tower_http::cors::{Any, CorsLayer};
 
 mod api;
+mod auth;
 mod entities;
 
 #[shuttle_runtime::main]
@@ -19,6 +20,22 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         .connect(&db_connection_str)
         .await
         .expect("Failed to connect to database");
+
+    // Create the auth client
+    let client_id = secret_store
+        .get("CLIENT_ID")
+        .expect("CLIENT_ID environment variable not set");
+    let client_secret = secret_store
+        .get("CLIENT_SECRET")
+        .expect("CLIENT_SECRET environment variable not set");
+    let post_auth_redirect_uri = secret_store
+        .get("POST_AUTH_REDIRECT_URI")
+        .expect("POST_AUTH_REDIRECT_URI environment variable not set");
+    let auth_client = auth::Client::new(client_id, client_secret, post_auth_redirect_uri);
+    let auth_nest = Router::new()
+        .route("/login", get(api::auth::login))
+        .route("/callback", get(api::auth::callback))
+        .with_state(auth_client);
 
     // Allow CORS
     let cors_layer = CorsLayer::new()
@@ -35,6 +52,7 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         )
         .route("/feeds/:id", get(api::feeds::get_feed_by_id))
         .route("/feeds/:id/posts", get(api::feeds::get_feed_posts_by_id))
+        .nest("/auth", auth_nest)
         .with_state(pool)
         .layer(cors_layer);
 
