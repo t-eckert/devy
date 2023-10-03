@@ -3,6 +3,7 @@ use axum::{
     extract::{Query, State},
     response::Redirect,
 };
+use std::collections::HashMap;
 
 pub async fn login(State(auth_client): State<auth::Client>) -> Redirect {
     Redirect::permanent(&auth_client.redirect_uri())
@@ -14,9 +15,9 @@ pub async fn login(State(auth_client): State<auth::Client>) -> Redirect {
 /// It then creates a session for the user and returns a JWT.
 pub async fn callback(
     State(auth_client): State<auth::Client>,
-    Query(code): Query<Option<String>>,
+    Query(params): Query<HashMap<String, String>>,
 ) -> Redirect {
-    let code = code.expect("No code provided");
+    let code = params.get("code").expect("No code in callback");
     dbg!(code);
 
     Redirect::permanent(&auth_client.post_auth_redirect_uri())
