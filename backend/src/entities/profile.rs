@@ -1,7 +1,7 @@
-use rocket::serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(crate = "rocket::serde", rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct Profile {
     pub user_id: Option<String>,
     pub display_name: Option<String>,
