@@ -6,3 +6,9 @@ pub struct Session {
     user: User,
     profile: Profile,
 }
+
+impl Session {
+    pub fn new(user: User, profile: Profile) -> Self {
+        Self { user, profile }
+    }
+}
