@@ -1,10 +1,12 @@
-use crate::entities::{Feed, Post};
+use crate::{
+    entities::{Feed, Post},
+    store::Store,
+};
 use axum::{
     extract::{Path, Query, State},
     http::StatusCode,
     Json,
 };
-use sqlx::PgPool;
 use std::collections::HashMap;
 
 pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, StatusCode> {
@@ -22,7 +24,7 @@ pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, S
 }
 
 pub async fn get_feed_posts_by_id(
-    State(pool): State<PgPool>,
+    State(store): State<Store>,
     Path(feed_id): Path<String>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<Post>>, StatusCode> {
@@ -38,7 +40,7 @@ pub async fn get_feed_posts_by_id(
         .unwrap_or(0);
 
     Ok(Json(
-        Post::get_by_feed(pool, feed_id, limit, offset)
+        Post::get_by_feed(store.pool, feed_id, limit, offset)
             .await
             .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
     ))
