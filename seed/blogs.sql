@@ -27,7 +27,6 @@ VALUES
     ('25da6d28-cc87-4d6e-857c-950286fd5302', 'dc0b5385-adbf-4e0f-b826-238e28b31f64', 'Cybersecurity Central', 'cybersecurity-central'),
     ('822846be-c921-4f88-bdd0-18d17b4cd636', 'd751854f-060a-4be4-9eee-8048b6fbb173', 'Data Science Dispatch', 'data-science-dispatch'),
     ('26a398ed-81d1-40fc-b78f-f6db54613761', 'feea6b35-cff0-4c83-aea0-b08ef7f8375c', 'Cloud Architects', 'cloud-architects'),
-    ('fbf2558c-3b06-48ae-8565-019ccaefb216', 'ebf2b363-9566-42b2-b9ff-11fcc0130783', 'IoT Insights', 'iot-insights'),
     ('8315da65-c555-4612-8262-3a86dda4659b', '58114ab8-e7b3-422c-987b-d4aaef9255e5', 'Quantum Quorum', 'quantum-quorum'),
     ('55311e26-e428-47e2-ace4-78cdafd45138', '9057ae3f-504d-402d-8d8b-dbbac6b953e9', 'Blockchain Breakdown', 'blockchain-breakdown'),
     ('a5b1d08b-e59e-4df0-8cd5-2e3f6e5e2d82', 'f61a8c9c-5fb7-4eb1-ac80-d8afd0a9db0f', 'Gaming Glimpse', 'gaming-glimpse'),
@@ -40,4 +39,9 @@ VALUES
     ('49201844-99b3-4c89-9f81-d16b30b108db', '4fdc3d02-1bd6-4e9b-95cb-478c51a450f2', 'Code Corner', 'code-corner'),
     ('ee6c3243-7cb6-4108-af61-d83fc1e03b09', 'be539498-9c09-4133-aaf1-57b341092649', 'Cloud Chronicles', 'cloud-chronicles'),
     ('dee6cb1f-2df3-4163-98e8-8bd6ac0b236f', 'aa5786b8-5703-42ce-80a7-6cc26d4dbf88', 'TechTalk Today', 'techtalk-today');
+
+INSERT INTO "blog" (id, profile_id, name, slug, created_at, updated_at)
+VALUES
+    ('fbf2558c-3b06-48ae-8565-019ccaefb216', 'ebf2b363-9566-42b2-b9ff-11fcc0130783', 'IoT Insights', 'iot-insights', '2023-10-06T03:10:37.37', '2023-10-06T03:10:37.37');
+
 
