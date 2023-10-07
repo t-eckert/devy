@@ -13,7 +13,6 @@ anyhow = "1.0"
 shuttle-secrets = "0.27.0"
 shuttle-axum = "0.27.0"
 shuttle-runtime = "0.27.0"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tower-http = {version="0.4.4", features=["cors"]}
 http = "0.2.9"
 
