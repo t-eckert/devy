@@ -1167,9 +1167,9 @@ Architects also play a vital role in migrating on-premises infrastructure to the
 As cloud computing continues to gain traction, the role of cloud architects will become increasingly indispensable. Architects must stay up-to-date with the latest advancements in cloud technologies, continuously enhance their skills, and adapt to emerging trends. The demand for skilled cloud architects will continue to grow as organizations realize the importance of leveraging cloud capabilities to drive innovation, performance, and competitive advantage.
 
 In conclusion, cloud architects play a vital role in harnessing the benefits of cloud computing for organizations. Their expertise in designing scalable, secure, and cost-efficient architectures enables businesses to unlock the full potential of the cloud, driving growth and innovation in the digital age.');
-INSERT INTO "post" (id, blog_id, title, slug, body)
+INSERT INTO "post" (id, blog_id, title, slug, created_at, updated_at, body)
 VALUES
-    ('e846050f-8e42-4d77-8e98-17185afe3d99', 'fbf2558c-3b06-48ae-8565-019ccaefb216', 'IoT and Insights', 'iot-and-insights', '# IoT and Insights
+    ('e846050f-8e42-4d77-8e98-17185afe3d99', 'fbf2558c-3b06-48ae-8565-019ccaefb216', 'IoT and Insights', 'iot-and-insights', '2023-10-06T03:10:37.37', '2023-10-06T03:10:37.37', '# IoT and Insights
 
 The Internet of Things (IoT) has become one of the most transformative technologies in recent years, and it is revolutionizing the way businesses and individuals gather and utilize data. By connecting various devices and sensors to the internet, IoT enables the collection of vast amounts of information, which, when analyzed, can provide valuable insights that drive informed decision-making.
 
