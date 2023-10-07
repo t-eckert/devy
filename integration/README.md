@@ -1,6 +1,6 @@
 # Integration Tests
 
-These tests help ensure the frontend, backend, and database all integrate together correctly.
+These tests help ensure the frontend, backend, and database all integrate together correctly. They should test the happy path of the API when it is seeded with the data found at `/seed`
 
 To run them, you will need:
 
