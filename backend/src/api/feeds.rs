@@ -40,7 +40,7 @@ pub async fn get_feed_posts_by_id(
         .unwrap_or(0);
 
     Ok(Json(
-        Post::get_by_feed(store.pool, feed_id, limit, offset)
+        Post::get_by_feed(&store.pool, feed_id, limit, offset)
             .await
             .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
     ))

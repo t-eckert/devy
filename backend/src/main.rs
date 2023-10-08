@@ -1,4 +1,7 @@
-use axum::{routing::get, Router};
+use axum::{
+    routing::{get, post},
+    Router,
+};
 use shuttle_secrets::SecretStore;
 use sqlx::postgres::PgPoolOptions;
 use std::time::Duration;
@@ -45,6 +48,12 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
     // Build the router.
     let router = Router::new()
         .route("/ready", get(api::ready::ready))
+        .route("/blogs", post(api::blogs::upsert_blog))
+        .route("/blogs/:blog_slug", get(api::blogs::get_blog_by_blog_slug))
+        .route(
+            "/blogs/:blog_slug/posts",
+            get(api::blogs::get_blog_posts_by_blog_slug),
+        )
         .route(
             "/blogs/:blog_slug/posts/:post_slug",
             get(api::blogs::get_post_by_blog_and_post_slug),
@@ -53,6 +62,10 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         .route("/feeds/:id/posts", get(api::feeds::get_feed_posts_by_id))
         .route("/auth/login", get(api::auth::login))
         .route("/auth/callback", get(api::auth::callback))
+        .route(
+            "/profiles/:username/blogs",
+            get(api::profiles::get_blog_by_username),
+        )
         .with_state(store)
         .layer(cors_layer);
 
