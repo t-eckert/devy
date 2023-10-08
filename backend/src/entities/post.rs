@@ -21,8 +21,17 @@ pub struct Post {
 }
 
 impl Post {
+    pub async fn get_by_blog_slug(
+        pool: &PgPool,
+        blog_slug: String,
+    ) -> Result<Vec<Self>, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/post_get_by_blog_slug.sql", blog_slug)
+            .fetch_all(pool)
+            .await
+    }
+
     pub async fn get_by_blog_and_post_slug(
-        pool: PgPool,
+        pool: &PgPool,
         blog: String,
         post: String,
     ) -> Result<Self, sqlx::Error> {
@@ -32,12 +41,12 @@ impl Post {
             blog,
             post
         )
-        .fetch_one(&pool)
+        .fetch_one(pool)
         .await
     }
 
     pub async fn get_by_feed(
-        pool: PgPool,
+        pool: &PgPool,
         feed_id: String,
         limit: i64,
         offset: i64,
@@ -51,12 +60,12 @@ impl Post {
     }
 
     async fn get_by_feed_new(
-        pool: PgPool,
+        pool: &PgPool,
         limit: i64,
         offset: i64,
     ) -> Result<Vec<Self>, sqlx::Error> {
         sqlx::query_file_as!(Self, "queries/post_get_by_feed_new.sql", limit, offset)
-            .fetch_all(&pool)
+            .fetch_all(pool)
             .await
     }
 }
