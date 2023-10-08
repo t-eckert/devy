@@ -63,6 +63,10 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         .route("/auth/login", get(api::auth::login))
         .route("/auth/callback", get(api::auth::callback))
         .route(
+            "/profiles/:username",
+            get(api::profiles::get_profile_by_username),
+        )
+        .route(
             "/profiles/:username/blogs",
             get(api::profiles::get_blog_by_username),
         )
