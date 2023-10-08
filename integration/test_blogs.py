@@ -64,6 +64,7 @@ def test_get_blog_post_by_blog_and_post_slugs():
     assert r.status_code == 200
     assert r.json() == expected
 
+
 def test_create_update_get_delete_a_blog():
     blog = {
         "name": "Schrodinger's Blog",
@@ -71,8 +72,8 @@ def test_create_update_get_delete_a_blog():
         "username": "cloudadmin",
         "displayName": "Cloud Admin",
         "description": "Might be here.",
-        "createdAt": "2023-10-06T03:10:37.37",
-        "updatedAt": "2023-10-06T03:10:37.37",
+        "createdAt": "2023-10-07T03:10:37.37",
+        "updatedAt": "2023-10-07T03:10:37.37",
     }
 
     r = httpx.post(route, json=blog)
