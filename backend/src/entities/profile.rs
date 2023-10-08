@@ -25,6 +25,12 @@ impl Profile {
         }
     }
 
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/profile_get_by_username.sql", username)
+            .fetch_one(pool)
+            .await
+    }
+
     pub async fn upsert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
         sqlx::query_as!(
             Self,

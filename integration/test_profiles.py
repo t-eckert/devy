@@ -6,6 +6,12 @@ path = "/profiles"
 route = host + path
 
 
+def test_get_profile_by_username():
+    r = httpx.get(route + "/t-eckert")
+
+    assert r.status_code == 200
+
+
 def test_get_blogs_by_username():
     expected = [
         {
