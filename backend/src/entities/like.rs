@@ -1,15 +1,23 @@
-use rocket_db_pools::Connection;
-use uuid::{uuid, Uuid};
+use serde::{Deserialize, Serialize};
 
-use crate::db::DB;
-use crate::entities::Like;
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Like {
+    pub profile_id: Option<String>,
+    pub post_id: Option<String>,
+}
 
-pub struct LikeController {}
+impl Like {
+    pub fn new(profile_id: String, post_id: String) -> Self {
+        Like {
+            profile_id: Some(profile_id),
+            post_id: Some(post_id),
+        }
+    }
 
-impl LikeController {
-    pub async fn upsert(mut db: Connection<DB>, like: Like) -> Option<Like> {
+    pub async fn upsert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
         // Profile and post ids must be present and valid uuids.
-        let (profile_id, post_id) = match (like.profile_id, like.post_id) {
+        let (profile_id, post_id) = match (self.profile_id, self.post_id) {
             (Some(profile_id), Some(post_id)) => {
                 match (
                     Uuid::parse_str(profile_id.as_str()),
@@ -22,8 +30,8 @@ impl LikeController {
             _ => return None,
         };
 
-        let inserted = sqlx::query_as!(
-            Like,
+        sqlx::query_as!(
+            Self,
             r#"
             INSERT INTO "like" (profile_id, post_id)
             VALUES ($1, $2)
@@ -34,33 +42,21 @@ impl LikeController {
             profile_id,
             post_id
         )
-        .fetch_one(&mut *db)
-        .await;
-
-        match inserted {
-            Ok(like) => Some(like),
-            Err(err) => {
-                println!("Error: {}", err);
-                None
-            }
-        }
+        .fetch_one(pool)
+        .await
     }
 
-    pub async fn delete(
-        mut db: Connection<DB>,
-        profile_id: String,
-        post_id: String,
-    ) -> Option<Like> {
+    pub async fn delete(self, pool: &PgPool) -> Option<Like> {
         let (profile, post) = match (
-            Uuid::parse_str(profile_id.as_str()),
-            Uuid::parse_str(post_id.as_str()),
+            Uuid::parse_str(self.profile_id.as_str()),
+            Uuid::parse_str(self.post_id.as_str()),
         ) {
             (Ok(profile), Ok(post)) => (profile, post),
             _ => return None,
         };
 
-        let deleted = sqlx::query_as!(
-            Like,
+        sqlx::query_as!(
+            Self,
             r#"
             DELETE FROM "like"
             WHERE profile_id = $1 AND post_id = $2
@@ -70,14 +66,6 @@ impl LikeController {
             post
         )
         .fetch_one(&mut *db)
-        .await;
-
-        match deleted {
-            Ok(like) => Some(like),
-            Err(err) => {
-                println!("Error: {}", err);
-                None
-            }
-        }
+        .await
     }
 }
