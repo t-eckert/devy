@@ -54,4 +54,25 @@ impl User {
         );
         user.upsert(pool).await
     }
+
+    #[allow(dead_code)]
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self, sqlx::Error> {
+        sqlx::query_file_as!(User, "queries/user_get_by_username.sql", username)
+            .fetch_one(pool)
+            .await
+    }
+
+    #[allow(dead_code)]
+    pub async fn get_by_github_username(
+        pool: &PgPool,
+        github_username: String,
+    ) -> Result<Self, sqlx::Error> {
+        sqlx::query_file_as!(
+            User,
+            "queries/user_get_by_github_username.sql",
+            github_username
+        )
+        .fetch_one(pool)
+        .await
+    }
 }

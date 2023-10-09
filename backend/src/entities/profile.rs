@@ -25,12 +25,6 @@ impl Profile {
         }
     }
 
-    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self, sqlx::Error> {
-        sqlx::query_file_as!(Self, "queries/profile_get_by_username.sql", username)
-            .fetch_one(pool)
-            .await
-    }
-
     pub async fn upsert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
         sqlx::query_as!(
             Self,
@@ -53,6 +47,31 @@ impl Profile {
         )
         .fetch_one(pool)
         .await
+    }
+
+    #[allow(dead_code)]
+    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self, sqlx::Error> {
+        let uuid = Uuid::parse_str(&id).unwrap();
+
+        sqlx::query_as!(
+            Self,
+            r#"
+            SELECT 
+                user_id::TEXT, display_name,
+                to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
+                to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+                avatar_url
+            FROM profile 
+            WHERE id = $1"#,
+            uuid
+        ).fetch_one(pool)
+        .await
+    }
+
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/profile_get_by_username.sql", username)
+            .fetch_one(pool)
+            .await
     }
 
     pub async fn upsert_from_github_user(

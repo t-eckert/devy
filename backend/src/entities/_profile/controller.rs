@@ -8,28 +8,6 @@ use super::model::Profile;
 pub struct ProfileController {}
 
 impl ProfileController {
-    pub async fn insert_profile(conn: &mut Connection<DB>, profile: Profile) -> Option<Profile> {
-        let uuid = Uuid::parse_str(&profile.user_id.unwrap()).ok();
-
-        sqlx::query_as!(
-            Profile,
-            r#"
-            INSERT INTO profile (user_id, display_name, avatar_url)
-            VALUES ($1, $2, $3)
-            RETURNING 
-                user_id::TEXT, display_name,
-                to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
-                to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
-                avatar_url;
-            "#,
-            uuid,
-            profile.display_name,
-            profile.avatar_url,
-        )
-        .fetch_one(&mut **conn)
-        .await
-        .ok()
-    }
 
     pub async fn get_by_id(conn: &mut Connection<DB>, id: String) -> Option<Profile> {
         let uuid = Uuid::parse_str(&id).ok();
