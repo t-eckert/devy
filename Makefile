@@ -9,6 +9,10 @@ build-frontend:
 run-frontend:
 	@cd frontend && npm run dev
 
+# Backend
+run-backend:
+	@cd backend && cargo watch -- cargo shuttle run
+
 # Database
 create-local-db:
 	@docker run \
