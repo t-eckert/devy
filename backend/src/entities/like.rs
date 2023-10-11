@@ -1,4 +1,7 @@
+use super::error::EntityError;
 use serde::{Deserialize, Serialize};
+use sqlx::types::Uuid;
+use sqlx::PgPool;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -15,21 +18,23 @@ impl Like {
         }
     }
 
-    pub async fn upsert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
-        // Profile and post ids must be present and valid uuids.
-        let (profile_id, post_id) = match (self.profile_id, self.post_id) {
-            (Some(profile_id), Some(post_id)) => {
-                match (
-                    Uuid::parse_str(profile_id.as_str()),
-                    Uuid::parse_str(post_id.as_str()),
-                ) {
-                    (Ok(profile_id), Ok(post_id)) => (profile_id, post_id),
-                    _ => return None,
-                }
-            }
-            _ => return None,
-        };
+    pub fn profile_uuid(&self) -> Result<Uuid, EntityError> {
+        match &self.profile_id {
+            Some(id) => Uuid::try_parse(&id)
+                .map_err(|_| EntityError::malformed("Like.profile_id is not UUID.")),
+            None => Err(EntityError::malformed("Like is missing profile_id.")),
+        }
+    }
 
+    pub fn post_uuid(&self) -> Result<Uuid, EntityError> {
+        match &self.post_id {
+            Some(id) => Uuid::try_parse(&id)
+                .map_err(|_| EntityError::malformed("Like.post_id is not UUID.")),
+            None => Err(EntityError::malformed("Like is missing post_id.")),
+        }
+    }
+
+    pub async fn upsert(self, pool: &PgPool) -> Result<Self, EntityError> {
         sqlx::query_as!(
             Self,
             r#"
@@ -39,22 +44,15 @@ impl Like {
                 DO UPDATE SET profile_id = $1, post_id = $2
             RETURNING profile_id::TEXT, post_id::TEXT;
             "#,
-            profile_id,
-            post_id
+            self.profile_uuid()?,
+            self.post_uuid()?
         )
         .fetch_one(pool)
         .await
+        .map_err(|x| x.into())
     }
 
-    pub async fn delete(self, pool: &PgPool) -> Option<Like> {
-        let (profile, post) = match (
-            Uuid::parse_str(self.profile_id.as_str()),
-            Uuid::parse_str(self.post_id.as_str()),
-        ) {
-            (Ok(profile), Ok(post)) => (profile, post),
-            _ => return None,
-        };
-
+    pub async fn delete(self, pool: &PgPool) -> Result<Self, EntityError> {
         sqlx::query_as!(
             Self,
             r#"
@@ -62,10 +60,11 @@ impl Like {
             WHERE profile_id = $1 AND post_id = $2
             RETURNING profile_id::TEXT, post_id::TEXT;
             "#,
-            profile,
-            post
+            self.profile_uuid()?,
+            self.post_uuid()?
         )
-        .fetch_one(&mut *db)
+        .fetch_one(pool)
         .await
+        .map_err(|x| x.into())
     }
 }
