@@ -33,4 +33,4 @@ LEFT JOIN (
 	FROM "like"
 	GROUP BY post_id
 ) AS likes ON post.id = likes.post_id
-WHERE blog_slug = $1;
+WHERE id = $1;
