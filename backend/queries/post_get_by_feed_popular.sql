@@ -33,4 +33,5 @@ LEFT JOIN (
 	FROM "like"
 	GROUP BY post_id
 ) AS likes ON post.id = likes.post_id
-WHERE blog_slug = $1;
+ORDER BY likes DESC
+LIMIT $1 OFFSET $2;

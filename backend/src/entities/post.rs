@@ -1,5 +1,7 @@
+use super::error::EntityError;
 use anyhow::anyhow;
 use serde::{Deserialize, Serialize};
+use sqlx::types::Uuid;
 use sqlx::PgPool;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -18,9 +20,21 @@ pub struct Post {
 
     pub title: String,
     pub content: String,
+    pub likes: Option<i64>,
 }
 
 impl Post {
+    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self, EntityError> {
+        sqlx::query_file_as!(
+            Self,
+            "queries/post_get_by_id.sql",
+            Uuid::try_parse(id.as_str()).map_err(|_| EntityError::malformed("id is not uuid"))?
+        )
+        .fetch_one(pool)
+        .await
+        .map_err(|x| EntityError::Sqlx(x))
+    }
+
     pub async fn get_by_blog_slug(
         pool: &PgPool,
         blog_slug: String,
@@ -55,6 +69,9 @@ impl Post {
             "new" => Self::get_by_feed_new(pool, limit, offset)
                 .await
                 .map_err(|_| anyhow!("Cannot find feed")),
+            "popular" => Self::get_by_feed_popular(pool, limit, offset)
+                .await
+                .map_err(|_| anyhow!("Cannot find feed")),
             _ => Err(anyhow!("Cannot find feed")),
         }
     }
@@ -65,6 +82,16 @@ impl Post {
         offset: i64,
     ) -> Result<Vec<Self>, sqlx::Error> {
         sqlx::query_file_as!(Self, "queries/post_get_by_feed_new.sql", limit, offset)
+            .fetch_all(pool)
+            .await
+    }
+
+    async fn get_by_feed_popular(
+        pool: &PgPool,
+        limit: i64,
+        offset: i64,
+    ) -> Result<Vec<Self>, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/post_get_by_feed_popular.sql", limit, offset)
             .fetch_all(pool)
             .await
     }
