@@ -6,18 +6,18 @@ import Post from "@/models/Post"
 import { Button, Link } from "@/components/elements"
 
 export default function Preview(post: Post) {
-	const likedByUser = Math.random() > 0.5
-
+	const likedByUser = false
 
 	return (
 		<section className="flex flex-row gap-2 items-start">
 			<div className="flex flex-col items-start gap-1">
 				<Button className="flex flex-row gap-1 items-center w-14 px-2 py-0.5 rounded-md">
-					{likedByUser ?
-						<HeartFilledIcon className="text-zinc-300 h-3 aspect-square" /> :
+					{likedByUser ? (
+						<HeartFilledIcon className="text-zinc-300 h-3 aspect-square" />
+					) : (
 						<HeartIcon className="text-zinc-300 h-3 aspect-square" />
-					}
-					<span className="text-sm">{Math.round(Math.random() * 30)}</span>
+					)}
+					<span className="text-sm">{post.likes}</span>
 				</Button>
 			</div>
 
@@ -31,16 +31,10 @@ export default function Preview(post: Post) {
 					</Link>
 
 					<div className="mb-2 flex flex-row gap-2 items-baseline text-sm">
-						<Link
-							href={`/profiles/${post.authorSlug}`}
-						>
+						<Link href={`/profiles/${post.authorSlug}`}>
 							{post.authorName}
 						</Link>
-						<Link
-							href={`/${post.blogSlug}`}
-						>
-							{post.blogName}
-						</Link>
+						<Link href={`/${post.blogSlug}`}>{post.blogName}</Link>
 					</div>
 				</div>
 			</div>
