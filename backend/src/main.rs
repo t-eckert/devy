@@ -47,29 +47,35 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
 
     // Build the router.
     let router = Router::new()
-        .route("/ready", get(api::ready::ready))
-        .route("/blogs", post(api::blogs::upsert_blog))
-        .route("/blogs/:blog_slug", get(api::blogs::get_blog_by_blog_slug))
+        .route("/v1/ready", get(api::ready::ready))
+        .route("/v1/blogs", post(api::blogs::upsert_blog))
         .route(
-            "/blogs/:blog_slug/posts",
+            "/v1/blogs/:blog_slug",
+            get(api::blogs::get_blog_by_blog_slug).delete(api::blogs::delete_blog),
+        )
+        .route(
+            "/v1/blogs/:blog_slug/posts",
             get(api::blogs::get_blog_posts_by_blog_slug),
         )
         .route(
-            "/blogs/:blog_slug/posts/:post_slug",
+            "/v1/blogs/:blog_slug/posts/:post_slug",
             get(api::blogs::get_post_by_blog_and_post_slug),
         )
-        .route("/feeds/:id", get(api::feeds::get_feed_by_id))
-        .route("/feeds/:id/posts", get(api::feeds::get_feed_posts_by_id))
-        .route("/auth/login", get(api::auth::login))
-        .route("/auth/callback", get(api::auth::callback))
-        .route("/posts/:post_id", get(api::posts::get_post_by_post_id))
-        .route("/posts/:post_id/likes", post(api::posts::post_like_to_post))
+        .route("/v1/feeds/:id", get(api::feeds::get_feed_by_id))
+        .route("/v1/feeds/:id/posts", get(api::feeds::get_feed_posts_by_id))
+        .route("/v1/auth/login", get(api::auth::login))
+        .route("/v1/auth/callback", get(api::auth::callback))
+        .route("/v1/posts/:post_id", get(api::posts::get_post_by_post_id))
         .route(
-            "/profiles/:username",
+            "/v1/posts/:post_id/likes",
+            post(api::posts::post_like_to_post),
+        )
+        .route(
+            "/v1/profiles/:username",
             get(api::profiles::get_profile_by_username),
         )
         .route(
-            "/profiles/:username/blogs",
+            "/v1/profiles/:username/blogs",
             get(api::profiles::get_blog_by_username),
         )
         .with_state(store)

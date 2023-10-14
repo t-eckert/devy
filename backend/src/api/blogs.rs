@@ -1,5 +1,5 @@
 use crate::{
-    entities::{Blog, Post},
+    entities::{error::EntityError, Blog, Post},
     store::Store,
 };
 use axum::{
@@ -17,7 +17,7 @@ pub async fn get_blog_by_blog_slug(
     Ok(Json(
         Blog::get_by_slug(&store.pool, blog_slug)
             .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+            .map_err(map_error)?,
     ))
 }
 
@@ -30,7 +30,7 @@ pub async fn get_blog_posts_by_blog_slug(
     Ok(Json(
         Post::get_by_blog_slug(&store.pool, blog_slug)
             .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+            .map_err(map_error)?,
     ))
 }
 
@@ -43,7 +43,7 @@ pub async fn get_post_by_blog_and_post_slug(
     Ok(Json(
         Post::get_by_blog_and_post_slug(&store.pool, blog_slug, post_slug)
             .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+            .map_err(map_error)?,
     ))
 }
 
@@ -51,9 +51,24 @@ pub async fn upsert_blog(
     State(store): State<Store>,
     Json(blog): Json<Blog>,
 ) -> Result<Json<Blog>, StatusCode> {
-    Ok(Json(
-        blog.upsert(&store.pool)
-            .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
-    ))
+    Ok(Json(blog.upsert(&store.pool).await.map_err(map_error)?))
+}
+
+pub async fn delete_blog(
+    State(store): State<Store>,
+    Path(blog_slug): Path<String>,
+) -> Result<StatusCode, StatusCode> {
+    Blog::delete_by_slug(&store.pool, blog_slug)
+        .await
+        .map_err(map_error)?;
+
+    Ok(StatusCode::OK)
+}
+
+fn map_error(e: EntityError) -> StatusCode {
+    match e {
+        EntityError::NotFound => StatusCode::NOT_FOUND,
+        EntityError::Malformed { .. } => StatusCode::BAD_REQUEST,
+        EntityError::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,
+    }
 }

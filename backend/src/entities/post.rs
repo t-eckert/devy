@@ -38,25 +38,27 @@ impl Post {
     pub async fn get_by_blog_slug(
         pool: &PgPool,
         blog_slug: String,
-    ) -> Result<Vec<Self>, sqlx::Error> {
-        sqlx::query_file_as!(Self, "queries/post_get_by_blog_slug.sql", blog_slug)
-            .fetch_all(pool)
-            .await
+    ) -> Result<Vec<Self>, EntityError> {
+        Ok(
+            sqlx::query_file_as!(Self, "queries/post_get_by_blog_slug.sql", blog_slug)
+                .fetch_all(pool)
+                .await?,
+        )
     }
 
     pub async fn get_by_blog_and_post_slug(
         pool: &PgPool,
         blog: String,
         post: String,
-    ) -> Result<Self, sqlx::Error> {
-        sqlx::query_file_as!(
+    ) -> Result<Self, EntityError> {
+        Ok(sqlx::query_file_as!(
             Self,
             "queries/post_get_by_blog_slug_and_post_slug.sql",
             blog,
             post
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
     pub async fn get_by_feed(
