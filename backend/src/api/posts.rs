@@ -24,12 +24,20 @@ pub async fn post_like_to_post(
     State(store): State<Store>,
     Path(post_id): Path<String>,
 ) -> Result<Json<Like>, StatusCode> {
-    let profile_id = headers
-        .get("profile_id")
+    dbg!(&headers);
+
+    let token = headers
+        .get("Authorization")
         .ok_or(StatusCode::BAD_REQUEST)?
         .to_str()
         .map_err(|_| StatusCode::BAD_REQUEST)?
         .to_string();
+
+    dbg!(&token);
+
+    let profile_id = token.split_whitespace().collect::<Vec<&str>>()[1].to_string();
+
+    println!("profile_id: {}", profile_id);
 
     Ok(Json(
         Like::new(profile_id, post_id)
