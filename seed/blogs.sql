@@ -3,8 +3,6 @@
 -------------------------------------------------------------------------------
 INSERT INTO "blog" (id, profile_id, name, slug)
 VALUES 
-	('3c55b723-dc5d-4f9b-aac6-60d63b7e7733', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'Machine Learning', 'machine-learning'),
-	('2d0be777-545f-4dbe-95c9-768670e6caba', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'DevOops', 'devoops'),
     ('2b9d2258-29bd-4c49-8019-b98ce06e2a12', 'b3472878-fdb5-40e0-a9eb-035ca53df02f', 'DataDriven Insights', 'datadriven-insights'),
     ('08caeab5-d01e-4849-b070-83928a6ab9f7', 'a9281b5e-c13f-46e9-b875-385774a46c98', 'CloudChasers', 'cloudchasers'),
     ('a79ee8de-79a4-4bf2-b699-5688766f266e', 'f3c8fbd2-ba77-4104-9c0b-1e3f8fe30ad4', 'AI Explorers', 'ai-explorers'),
@@ -42,6 +40,8 @@ VALUES
 
 INSERT INTO "blog" (id, profile_id, name, slug, created_at, updated_at)
 VALUES
+	('3c55b723-dc5d-4f9b-aac6-60d63b7e7733', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'Machine Learning', 'machine-learning', '2023-10-07T02:10:19.19', '2023-10-07T02:10:19.19'),
+	('2d0be777-545f-4dbe-95c9-768670e6caba', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'DevOops', 'devoops', '2023-10-07T02:10:19.19', '2023-10-07T02:10:19.19'),
     ('fbf2558c-3b06-48ae-8565-019ccaefb216', 'ebf2b363-9566-42b2-b9ff-11fcc0130783', 'IoT Insights', 'iot-insights', '2023-10-06T03:10:37.37', '2023-10-06T03:10:37.37');
 
 
