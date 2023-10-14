@@ -5,7 +5,7 @@ use std::fmt::Debug;
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum EntityError {
-    NotFound { entity: String },
+    NotFound,
 
     Malformed { error: String },
 
@@ -13,12 +13,6 @@ pub enum EntityError {
 }
 
 impl EntityError {
-    pub fn not_found<T: Debug>(entity: T) -> Self {
-        Self::NotFound {
-            entity: format!("{:?}", entity),
-        }
-    }
-
     pub fn malformed(error: &str) -> Self {
         Self::Malformed {
             error: format!("{}", error),
@@ -28,7 +22,10 @@ impl EntityError {
 
 impl From<sqlx::Error> for EntityError {
     fn from(val: sqlx::Error) -> Self {
-        Self::Sqlx(val)
+        match val {
+            sqlx::Error::RowNotFound => Self::NotFound,
+            _ => Self::Sqlx(val),
+        }
     }
 }
 

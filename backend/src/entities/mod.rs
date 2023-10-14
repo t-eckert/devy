@@ -1,5 +1,6 @@
+pub mod error;
+
 mod blog;
-mod error;
 mod feed;
 mod like;
 mod post;
