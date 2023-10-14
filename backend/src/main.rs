@@ -78,6 +78,7 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
             "/v1/profiles/:username/blogs",
             get(api::profiles::get_blog_by_username),
         )
+        .route("/v1/users/:username", get(api::users::get_user_by_username))
         .with_state(store)
         .layer(cors_layer);
 
