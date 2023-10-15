@@ -28,7 +28,8 @@ impl Client {
         }
     }
 
-    pub fn redirect_uri(&self) -> String {
+    /// Returns the URL to redirect the user to for authorization on GitHub.
+    pub fn login_url(&self) -> String {
         let (authorize_url, _) = self
             .oauth_client
             .authorize_url(CsrfToken::new_random)
@@ -39,6 +40,7 @@ impl Client {
         authorize_url.to_string()
     }
 
+    // Exchange the code for a token.
     pub async fn exchange_code(&self, code: String) -> Result<AccessToken, anyhow::Error> {
         let token = self
             .oauth_client
@@ -50,6 +52,7 @@ impl Client {
         Ok(token.access_token().clone())
     }
 
+    // Returns the URL to redirect the user to after authorization.
     pub fn post_auth_redirect_uri(&self) -> String {
         self.post_auth_redirect_uri.to_string()
     }
