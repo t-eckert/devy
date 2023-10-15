@@ -41,12 +41,10 @@ export default function Grid({ height, width, cells }: Props) {
 	}, [canvasRef, cells, height, width])
 
 	return (
-		<div>
-			<canvas
-				ref={canvasRef}
-				width={`${width * cellWidth + gap * (width - 1)}px`}
-				height={`${height * cellHeight + gap * (height - 1)}px`}
-			/>
-		</div>
+		<canvas
+			ref={canvasRef}
+			width={`${width * cellWidth + gap * (width - 1)}px`}
+			height={`${height * cellHeight + gap * (height - 1)}px`}
+		/>
 	)
 }

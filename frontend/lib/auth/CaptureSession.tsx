@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 
-import useSession from "@/auth/useSession"
+import useSession from "./useSession"
 
 export default function CaptureSession() {
 	const searchParams = useSearchParams()
