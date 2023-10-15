@@ -6,6 +6,7 @@ use sqlx::PgPool;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Profile {
+    pub id: Option<String>,
     pub user_id: Option<String>,
     pub display_name: Option<String>,
     pub avatar_url: Option<String>,
@@ -17,6 +18,7 @@ pub struct Profile {
 impl Profile {
     pub fn new(user_id: String, display_name: String, avatar_url: Option<String>) -> Self {
         Self {
+            id: None,
             user_id: Some(user_id),
             display_name: Some(display_name),
             avatar_url,
@@ -36,7 +38,7 @@ impl Profile {
                 avatar_url = EXCLUDED.avatar_url,
                 updated_at = NOW()
             RETURNING 
-                user_id::TEXT, display_name,
+                id::TEXT, user_id::TEXT, display_name,
                 to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
                 to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
                 avatar_url;
@@ -57,6 +59,7 @@ impl Profile {
             Self,
             r#"
             SELECT 
+                id::TEXT,
                 user_id::TEXT, display_name,
                 to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
                 to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
