@@ -64,7 +64,8 @@ impl Profile {
             FROM profile 
             WHERE id = $1"#,
             uuid
-        ).fetch_one(pool)
+        )
+        .fetch_one(pool)
         .await
     }
 
@@ -76,14 +77,13 @@ impl Profile {
 
     pub async fn upsert_from_github_user(
         pool: &PgPool,
+        user_id: String,
         github_user: GitHubUser,
     ) -> Result<Self, sqlx::Error> {
-        Self::new(
-            github_user.id.to_string(),
-            github_user.name,
-            Some(github_user.avatar_url),
-        )
-        .upsert(&pool)
-        .await
+        dbg!(&github_user);
+
+        Self::new(user_id, github_user.name, Some(github_user.avatar_url))
+            .upsert(&pool)
+            .await
     }
 }

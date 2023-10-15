@@ -11,8 +11,8 @@ const config: Config = {
 	HOST: mode === "production" ? "https://devy.page" : "http://localhost:3000",
 	API:
 		mode === "production"
-			? "https://api.devy.page"
-			: "http://localhost:8000",
+			? "https://api.devy.page/v1"
+			: "http://localhost:8000/v1",
 }
 
 export default config

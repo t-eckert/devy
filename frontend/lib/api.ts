@@ -1,7 +1,5 @@
 import config from "@/config"
 
-const v1 = "/v1"
-
 const handleRequest = async <T>(
 	method: string,
 	path: string,
@@ -9,7 +7,7 @@ const handleRequest = async <T>(
 	token?: string
 ): Promise<Option<T>> => {
 	try {
-		const response = await fetch(config.API + v1 + path, {
+		const response = await fetch(config.API + path, {
 			method,
 			headers: {
 				"Content-Type": "application/json",
