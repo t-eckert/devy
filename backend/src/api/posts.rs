@@ -35,7 +35,7 @@ pub async fn post_like_to_post(
 
     dbg!(&token);
 
-    let profile_id = token.split_whitespace().collect::<Vec<&str>>()[1].to_string();
+    let profile_id = String::from("e2f0fa7e-4517-4ac8-bbc6-73067d3feed4"); // token.split_whitespace().collect::<Vec<&str>>()[1].to_string();
 
     println!("profile_id: {}", profile_id);
 

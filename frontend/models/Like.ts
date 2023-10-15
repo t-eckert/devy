@@ -1,4 +1,4 @@
 export default interface Like {
-	postId: number
-	profileId: number
+	postId: string
+	profileId: string
 }

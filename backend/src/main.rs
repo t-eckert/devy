@@ -1,5 +1,5 @@
 use axum::{
-    routing::{get, post},
+    routing::{delete, get, post},
     Router,
 };
 use shuttle_secrets::SecretStore;
@@ -79,6 +79,11 @@ async fn axum(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
             get(api::profiles::get_blog_by_username),
         )
         .route("/v1/users/:username", get(api::users::get_user_by_username))
+        .route("/v1/likes", post(api::likes::post_like))
+        .route(
+            "/v1/likes/:post_id/:profile_id",
+            delete(api::likes::delete_like),
+        )
         .with_state(store)
         .layer(cors_layer);
 
