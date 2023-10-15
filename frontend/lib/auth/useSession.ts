@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken"
 
 import Session from "./Session"
 
-type SessionStatus = "logged-out" | "logged-in"
+export type SessionStatus = "logged-out" | "logged-in"
 
-interface SessionStore {
+export interface SessionStore {
 	status: SessionStatus
 	token: Option<string>
 	session: Option<Session>

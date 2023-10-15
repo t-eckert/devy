@@ -3,7 +3,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Link } from "@/components/elements"
-import CaptureSession from "@/auth/CaptureSession"
+import CaptureSession from "@/lib/auth/CaptureSession"
 
 const version = "v0.2.0"
 
@@ -32,8 +32,8 @@ export default function RootLayout({
         <div className="min-h-screen">
           <header className="mx-auto max-w-6xl px-2 py-3 flex flex-row justify-between items-center">
             <div className="flex flex-row gap-2 items-baseline">
-              <Link href="/">
-                <h1 className="font-semibold">Devy</h1>
+              <Link href="/" className="font-semibold">
+                Devy
               </Link>
             </div>
 

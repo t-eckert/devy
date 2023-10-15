@@ -15,6 +15,10 @@ export default async function Blog({ params }: Props) {
   const blog = await blogController.get.bySlug(params.blog)
   const posts = await postController.get.byBlogSlug(params.blog)
 
+  if (!blog) {
+    throw new Error("Blog not found")
+  }
+
   return (
     <>
       <main className="mx-auto my-4 flex flex-col px-2 w-full max-w-6xl gap-12">
