@@ -8,18 +8,18 @@ use sqlx::PgPool;
 #[serde(rename_all = "camelCase")]
 pub struct Post {
     pub id: Option<String>,
-    pub slug: String,
+    pub slug: Option<String>,
 
-    pub blog_slug: String,
-    pub blog_name: String,
+    pub blog_slug: Option<String>,
+    pub blog_name: Option<String>,
     pub author_name: Option<String>,
-    pub author_slug: String,
+    pub author_slug: Option<String>,
 
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
 
-    pub title: String,
-    pub content: String,
+    pub title: Option<String>,
+    pub content: Option<String>,
     pub likes: Option<i64>,
 }
 
@@ -76,6 +76,23 @@ impl Post {
                 .map_err(|_| anyhow!("Cannot find feed")),
             _ => Err(anyhow!("Cannot find feed")),
         }
+    }
+
+    pub async fn get_by_username(
+        pool: &PgPool,
+        username: String,
+    ) -> Result<Vec<Self>, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/post_get_by_username.sql", username)
+            .fetch_all(pool)
+            .await
+    }
+    pub async fn get_liked_by_username(
+        pool: &PgPool,
+        username: String,
+    ) -> Result<Vec<Self>, sqlx::Error> {
+        sqlx::query_file_as!(Self, "queries/post_get_liked_by_username.sql", username)
+            .fetch_all(pool)
+            .await
     }
 
     async fn get_by_feed_new(

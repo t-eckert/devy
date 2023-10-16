@@ -1,9 +1,10 @@
 import api from "@/lib/api"
 import Profile from "@/models/Profile"
-import { Link } from "@/components/elements"
 import User from "@/models/User"
 import Member from "@/components/segments/Member"
 import Blog from "@/models/Blog"
+import Post from "@/models/Post"
+import Posts from "@/components/Posts"
 
 interface Props {
   params: {
@@ -15,23 +16,22 @@ export default async function ProfilePage({ params }: Props) {
   const profile = await api.get<Profile>(`/profiles/${params.username}`, 60)
   const user = await api.get<User>(`/users/${params.username}`, 60)
   const blogs = await api.get<Blog[]>(`/profiles/${params.username}/blogs`, 60)
-
-  if (!profile || !user || !blogs) return <NotFound />
+  const posts = await api.get<Post[]>(`/profiles/${params.username}/posts`, 60)
+  const likes = await api.get<Post[]>(`/profiles/${params.username}/likes`, 60)
 
   return (
     <main className="mx-auto my-8 flex flex-row items-start px-2 w-full max-w-6xl gap-4 sm:gap-2">
       <Member profile={profile} user={user} blogs={blogs} />
+      <div>
+        <div>
+          <span>Posts</span>
+          <Posts posts={posts} />
+        </div>
+        <div>
+          <span>Likes</span>
+          <Posts posts={likes} />
+        </div>
+      </div>
     </main>
   )
 }
-
-const NotFound = () => (
-  <main className="mx-auto my-8 flex flex-col items-center px-2 py-24 w-full max-w-6xl gap-4 sm:gap-2">
-    <div className="flex flex-col items-center">
-      <p>Profile not found.</p>
-      <Link href="/" variant={{ underline: true }}>
-        Return home
-      </Link>
-    </div>
-  </main>
-)
