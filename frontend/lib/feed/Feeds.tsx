@@ -11,7 +11,6 @@ import Tabs from "./Tabs"
 const queryClient = new QueryClient()
 
 interface Props {
-	// NOTE: This datastructure would be more efficient as a map, but I am passing from server to client so I need to use an array.
 	content: Content[]
 	defaultSelected: string
 }

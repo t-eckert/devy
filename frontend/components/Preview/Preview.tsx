@@ -32,7 +32,10 @@ export default function Preview({
 			</div>
 
 			<div className="flex flex-col gap-1">
-				<Title title={post.title} url={`${post.blogSlug}/${post.slug}`} />
+				<Title
+					title={post.title}
+					url={`${post.blogSlug}/${post.slug}`}
+				/>
 
 				<div className="mb-2 flex flex-row gap-2 items-baseline text-sm">
 					<Link href={`/profiles/${post.authorSlug}`}>

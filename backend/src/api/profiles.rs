@@ -1,5 +1,5 @@
 use crate::{
-    entities::{Blog, Profile},
+    entities::{Blog, Like, Profile},
     store::Store,
 };
 use axum::{
@@ -27,6 +27,17 @@ pub async fn get_blog_by_username(
 ) -> Result<Json<Vec<Blog>>, StatusCode> {
     Ok(Json(
         Blog::get_by_username(&store.pool, username)
+            .await
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+    ))
+}
+
+pub async fn get_likes_ids_by_username(
+    State(store): State<Store>,
+    Path(username): Path<String>,
+) -> Result<Json<Vec<String>>, StatusCode> {
+    Ok(Json(
+        Like::get_post_ids_by_username(&store.pool, username)
             .await
             .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
     ))

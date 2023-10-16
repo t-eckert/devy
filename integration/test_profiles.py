@@ -38,3 +38,10 @@ def test_get_blogs_by_username():
 
     assert r.status_code == 200
     assert r.json() == expected
+
+
+def test_get_all_liked_post_ids_for_profile():
+    r = httpx.get(route + "/e2f0fa7e-4517-4ac8-bbc6-73067d3feed4/likes/ids")
+    print(r.json())
+
+    assert r.status_code == 200

@@ -15,23 +15,31 @@ interface Props {
 
 const pageSize = 15
 
-function Feed({ initialContent: content }: Props) {
+const fetchLikes = async (username?: string) => {
+	if (!username) return new Set<string>()
+
+	const likes = await api.get<string[]>(`/profiles/${username}/likes/ids`, 10)
+	return new Set(likes)
+}
+
+function Feed({ initialContent }: Props) {
 	const { status, session } = useSession()
 
 	const [page, setPage] = useState<number>(0)
 
-	const { data } = useQuery({
-		queryKey: [content.feed.id, page],
-		queryFn: () => fetchContent(content.feed.id, page, pageSize),
-		initialData: content,
+	const { data: userLikes } = useQuery({
+		queryKey: [session?.user.username || "no-user"],
+		queryFn: () => fetchLikes(session?.user.username),
 	})
 
-	const userLikes = new Set<string>()
+	const { data } = useQuery({
+		queryKey: [initialContent.feed.id, page],
+		queryFn: () => fetchContent(initialContent.feed.id, page, pageSize),
+		initialData: initialContent,
+	})
 
 	const onLike = (postId: string) => {
 		const profileId = session?.profile.id
-		console.log("profileId", profileId)
-		console.log(session)
 
 		if (!profileId) return
 
@@ -45,8 +53,6 @@ function Feed({ initialContent: content }: Props) {
 
 	const onUnlike = (postId: string) => {
 		const profileId = session?.profile.id
-		console.log("profileId", profileId)
-		console.log(session)
 
 		if (!profileId) return
 
@@ -59,18 +65,14 @@ function Feed({ initialContent: content }: Props) {
 		<section className="w-full mx-auto max-w-xl flex flex-col gap-4">
 			{data &&
 				data.posts &&
-				data.posts.map((post, i) => (
+				data.posts.map((post) => (
 					<Preview
-						key={i}
+						key={post.id}
 						{...post}
 						session={status}
-						isLiked={userLikes.has(post.id)}
-						onLike={() => {
-							onLike(post.id)
-						}}
-						onUnlike={() => {
-							onUnlike(post.id)
-						}}
+						isLiked={userLikes?.has(post.id) || false}
+						onLike={() => onLike(post.id)}
+						onUnlike={() => onUnlike(post.id)}
 					/>
 				))}
 			<div className="pt-2 border-t border-t-zinc-700 w-full flex flex-row-reverse justify-between">

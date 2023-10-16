@@ -52,6 +52,36 @@ impl Like {
         .map_err(|x| x.into())
     }
 
+    // Returns the ids of all posts liked by a user.
+    pub async fn get_post_ids_by_username(
+        pool: &PgPool,
+        username: String,
+    ) -> Result<Vec<String>, EntityError> {
+        sqlx::query_as!(
+            Self,
+            r#"
+            SELECT profile_id::TEXT, post_id::TEXT
+            FROM "like" LEFT JOIN (
+                SELECT 
+            profile.id, username
+            FROM "profile" LEFT JOIN "user"
+            ON user_id="user".id
+            ) AS "profile" ON profile_id="profile".id
+            WHERE username = $1;
+            "#,
+            username
+        )
+        .fetch_all(pool)
+        .await
+        .map_err(|x| x.into())
+        .map(|likes| {
+            likes
+                .into_iter()
+                .map(|like| like.post_id.unwrap())
+                .collect()
+        })
+    }
+
     pub async fn delete(self, pool: &PgPool) -> Result<Self, EntityError> {
         sqlx::query_as!(
             Self,
