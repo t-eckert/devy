@@ -1,0 +1,54 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO profile (user_id, display_name, avatar_url)\n            VALUES ($1, $2, $3)\n            ON CONFLICT (user_id) DO UPDATE SET\n                display_name = EXCLUDED.display_name,\n                avatar_url = EXCLUDED.avatar_url,\n                updated_at = NOW()\n            RETURNING \n                id::TEXT, user_id::TEXT, display_name,\n                to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n                avatar_url;\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "display_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "created_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "updated_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "avatar_url",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      true,
+      null,
+      null,
+      true
+    ]
+  },
+  "hash": "33d3a485a42a958a2a2ba5aecef8ead01261a125aadabba81cd6e434b18894f1"
+}
