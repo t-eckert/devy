@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO \"blog\" (\"profile_id\", \"name\", \"slug\", \"description\")\nVALUES (\n\t( \n\t\tSELECT id AS profile_id FROM \"profile\" \n\t\tWHERE user_id=(SELECT id from \"user\" WHERE username=$3)\n\t),\n\t$1, $2, $4\n)\nON CONFLICT (\"slug\") DO UPDATE SET\n\t\"name\" = $1,\n\t\"description\" = $4;\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2497c5966b8c8956cf06b331348094be5dcab4a49616783e3c2f306c85e21606"
+}

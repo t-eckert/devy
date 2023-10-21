@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM \"blog\"\nWHERE \"slug\" = $1\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2937e080f73edac10e72e0a9dbd19aa8ba323e0e45ed88a103f082e98ed91728"
+}
