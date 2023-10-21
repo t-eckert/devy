@@ -11,7 +11,14 @@ mod store;
 
 #[tokio::main]
 async fn main() {
-    dotenvy::dotenv().expect("Failed to load .env file");
+    match dotenvy::dotenv() {
+        Ok(_) => {
+            tracing::debug!("Loaded .env file")
+        }
+        Err(_) => {
+            tracing::warn!("Failed to load .env file");
+        }
+    }
 
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
