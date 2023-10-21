@@ -24,3 +24,4 @@ def tests_post_can_be_unliked():
 
     assert r.status_code == 200
     assert r.json() == like
+
