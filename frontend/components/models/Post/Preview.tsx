@@ -13,7 +13,7 @@ export default function Preview(post: Post) {
 
 	const like = async () => {
 		console.log("like")
-		await api.post(`/posts/${post.id}/likes`, 10, user)
+		await api.post(`/posts/${post.id}/likes`, user)
 	}
 
 	return (
