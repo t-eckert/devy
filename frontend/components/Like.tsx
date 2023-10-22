@@ -15,7 +15,13 @@ interface Props {
 	onUnlike: () => void
 }
 
-export default function Like({ active, initialIsLiked, initialCount, onLike, onUnlike }: Props) {
+export default function Like({
+	active,
+	initialIsLiked,
+	initialCount,
+	onLike,
+	onUnlike,
+}: Props) {
 	const [isLiked, setIsLiked] = useState(initialIsLiked)
 	const [count, setCount] = useState(initialCount)
 
@@ -34,7 +40,8 @@ export default function Like({ active, initialIsLiked, initialCount, onLike, onU
 	if (!active) return <Inactive count={count} />
 
 	return (
-		<Button className="flex flex-row gap-1 items-center w-14 px-2 py-0.5 rounded-md select-none group"
+		<Button
+			className="flex flex-row gap-1 items-center w-14 px-2 py-0.5 rounded-md select-none group"
 			onClick={onClick}
 		>
 			<HeartIcon isLiked={isLiked} />
@@ -53,5 +60,5 @@ const Inactive = ({ count }: { count: number }) => (
 	<span className="flex flex-row gap-1 items-center w-14 px-2 py-0.5 rounded-md select-none">
 		<HeartIcon isLiked={false} />
 		{count}
-	</span>)
-
+	</span>
+)

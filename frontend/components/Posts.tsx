@@ -10,6 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Post, Like } from "@/models"
 import Preview from "@/components/Preview"
 import api from "@/lib/api"
+import useStore from "@/lib/useStore"
 import useSession from "@/lib/auth"
 
 const queryClient = new QueryClient()
@@ -26,7 +27,10 @@ const fetchLikes = async (username?: string) => {
 }
 
 function Posts({ posts }: Props) {
-	const { status, session } = useSession()
+	const state = useStore(useSession, (state) => state)
+
+	const status = state?.status
+	const session = state?.session
 
 	const { data: userLikes } = useQuery({
 		queryKey: [session?.user.username || "no-user"],
@@ -62,7 +66,7 @@ function Posts({ posts }: Props) {
 				<Preview
 					key={post.id}
 					{...post}
-					session={status}
+					session={status || "logged-out"}
 					isLiked={userLikes?.has(post.id) || false}
 					onLike={() => onLike(post.id)}
 					onUnlike={() => onUnlike(post.id)}

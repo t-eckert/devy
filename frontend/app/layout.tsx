@@ -1,4 +1,4 @@
-import Nav from "@/components/dynamic/Nav"
+import Nav from "@/lib/nav/Nav"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
