@@ -1,5 +1,8 @@
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 import jwt from "jsonwebtoken"
+
+import useStore from "lib/useStore"
 
 import Session from "./Session"
 
@@ -13,25 +16,34 @@ export interface SessionStore {
 	clearSession: () => void
 }
 
-const useSession = create<SessionStore>((set) => ({
-	status: "logged-out",
-	token: null,
-	session: null,
-	loadSession: (token) =>
-		set((state) => {
-			if (!token || state.status === "logged-in") return state
+const useSession = create<SessionStore>()(
+	persist(
+		(set) => ({
+			status: "logged-out",
+			token: null,
+			session: null,
+			loadSession: (token) =>
+				set((state) => {
+					if (!token || state.status === "logged-in") return state
 
-			return {
-				status: "logged-in",
-				token,
-				session: getSession(token),
-			}
+					return {
+						status: "logged-in",
+						token,
+						session: decode(token),
+					}
+				}),
+			clearSession: () =>
+				set(() => ({
+					status: "logged-out",
+					token: null,
+					session: null,
+				})),
 		}),
-	clearSession: () =>
-		set(() => ({ status: "logged-out", token: null, session: null })),
-}))
+		{ name: "devy-session" }
+	)
+)
 
-const getSession = (token: string): Option<Session> => {
+const decode = (token: string): Option<Session> => {
 	const decoded = jwt.decode(token)
 
 	if (!decoded) return null

@@ -8,9 +8,10 @@ import Menu from "./Menu"
 import useSession from "@/lib/auth/useSession"
 import type Session from "@/lib/auth/Session"
 import Avatar from "@/components/elements/Avatar"
+import useStore from "@/lib/useStore"
 
 export default function Nav() {
-	const { session } = useSession()
+	const session = useStore(useSession, (state) => state.session)
 
 	return (
 		<nav className="flex flex-row gap-2">
