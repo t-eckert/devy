@@ -3,13 +3,11 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 
-import useSession from "@/lib/auth/useSession"
-import { Link } from "@/components/elements"
+import useSession, { SessionStore } from "@/lib/auth/useSession"
+import { Link, Button } from "@/components/elements"
 
 export default function Menu() {
-	const session = {
-		status: "logged-in",
-	}
+	const session = useSession()
 
 	return (
 		<DropdownMenu.Root>
@@ -26,7 +24,7 @@ export default function Menu() {
 					align="end"
 				>
 					{session.status === "logged-in" ? (
-						<LoggedIn />
+						<LoggedIn session={session} />
 					) : (
 						<LoggedOut />
 					)}
@@ -36,7 +34,7 @@ export default function Menu() {
 	)
 }
 
-const LoggedIn = () => {
+const LoggedIn = ({ session }: { session: SessionStore }) => {
 	return (
 		<>
 			<DropdownMenu.Item className="px-2 py-1 w-full">
@@ -46,9 +44,12 @@ const LoggedIn = () => {
 			</DropdownMenu.Item>
 
 			<DropdownMenu.Item className="px-2 py-1 w-full">
-				<Link href="/api/auth/sign-out" className="w-full">
+				<Button
+					className="w-full"
+					onClick={() => session.clearSession()}
+				>
 					<span className="w-full">Sign Out</span>
-				</Link>
+				</Button>
 			</DropdownMenu.Item>
 		</>
 	)
