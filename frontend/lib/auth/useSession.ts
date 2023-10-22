@@ -27,7 +27,8 @@ const useSession = create<SessionStore>((set) => ({
 				session: getSession(token),
 			}
 		}),
-	clearSession: () => set(() => ({ status: "logged-out" })),
+	clearSession: () =>
+		set(() => ({ status: "logged-out", token: null, session: null })),
 }))
 
 const getSession = (token: string): Option<Session> => {
