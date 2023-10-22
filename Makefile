@@ -11,7 +11,7 @@ run-frontend:
 
 # Backend
 run-backend:
-	@cd backend && cargo watch -- cargo shuttle run
+	@cd backend && cargo watch -- cargo run
 
 # Database
 create-local-db:
