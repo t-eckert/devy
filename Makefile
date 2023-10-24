@@ -10,6 +10,12 @@ run-frontend:
 	@cd frontend && npm run dev
 
 # Backend
+build-backend:
+	@cd backend && cargo build --release
+
+build-backend-container:
+	@cd backend && docker build -t devy-backend .
+
 run-backend:
 	@cd backend && cargo watch -- cargo run
 
