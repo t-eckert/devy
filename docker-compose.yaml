@@ -5,12 +5,12 @@ services:
   backend:
     image: devy-backend:latest
     environment:
-      DATABASE_URL: postgres://postgres:postgres@database:5432
+      DATABASE_URL: postgres://postgres:postgres@devy-postgres:5432
       RUST_BACKTRACE: 1
     ports:
       - "8000:8000"
 
-  database:
+  devy-postgres:
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
