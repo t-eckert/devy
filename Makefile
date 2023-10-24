@@ -50,3 +50,10 @@ seed-local-db:
 	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/posts.sql
 	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/likes.sql
 
+# Integration Tests
+run-integration-tests:
+	@cd integration && \
+		python3 -m venv .venv && \
+		source .venv/bin/activate && \
+		python3 -m pip install -r requirements.txt && \
+		pytest

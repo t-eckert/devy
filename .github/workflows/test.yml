@@ -14,17 +14,13 @@ jobs:
     - uses: actions/checkout@v3
       
     - name: Setup database
-      run: |
-        cd backend && cargo install sqlx-cli && cd -
-        make create-local-db
-        make migrate-local-db
-        make seed-local-db
+      run: make create-local-db
 
     - name: Run backend
       run: cd backend && cargo run
+
+    - name: Seed database
+      run: make seed-local-db
         
     - name: Run integration tests
-      run: |
-        cd integration/
-        python3 -m pip install -r requirements.txt
-        pytest
+      run: make run-integration-tests
