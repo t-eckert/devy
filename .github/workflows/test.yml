@@ -19,11 +19,8 @@ jobs:
     - name: Run environment
       run: docker-compose up &
       
-    - name: Migrate and seed database
-      run: |
-        cd backend && cargo install sqlx-cli
-        make migrate-local-db
-        make seed-local-db
+    - name: Seed database
+      run: make seed-local-db
         
     - name: Run integration tests
       run: |
