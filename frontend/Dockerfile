@@ -35,5 +35,7 @@ EXPOSE 3000
 
 ENV PORT 3000
 ENV HOSTNAME localhost
+ENV HOST http://localhost:3000
+ENV API http://localhost:8000
 
 CMD ["node", "server.js"]

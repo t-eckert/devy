@@ -1,18 +1,15 @@
-const mode = process.env.NODE_ENV
+function panic(message: string): never {
+	throw new Error(message)
+}
 
 export interface Config {
-	MODE: string
 	HOST: string
 	API: string
 }
 
 const config: Config = {
-	MODE: mode,
-	HOST: mode === "production" ? "https://devy.page" : "http://localhost:3000",
-	API:
-		mode === "production"
-			? "https://api.devy.page/v1"
-			: "http://localhost:8000/v1",
+	HOST: process.env.HOST || panic("HOST not set"),
+	API: process.env.API || panic("API not set"),
 }
 
 export default config
