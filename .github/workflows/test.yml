@@ -5,22 +5,25 @@ on:
   pull_request:
 
 jobs:
-
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-      
-    - name: Setup database
-      run: make create-local-db
+      - uses: actions/checkout@v3
 
-    - name: Run backend
-      run: cd backend && cargo run
+      - name: Setup database
+        run: make create-local-db
 
-    - name: Seed database
-      run: make seed-local-db
-        
-    - name: Run integration tests
-      run: make run-integration-tests
+      - name: Run backend
+        run: |
+          export DATABASE_URL="postgres://postgres:postgres@localhost:5432"
+          export CLIENT_ID="Iv1.9b343154e70e7b6a"
+          export CLIENT_SECRET="7a58346b9915a956cbbf4fe8d1a78ad86e1c145a"
+          export POST_AUTH_URI="http://localhost:3000/"
+          cd backend && cargo run
+
+      - name: Seed database
+        run: make seed-local-db
+
+      - name: Run integration tests
+        run: make run-integration-tests
