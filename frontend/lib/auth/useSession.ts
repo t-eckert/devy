@@ -2,8 +2,6 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import jwt from "jsonwebtoken"
 
-import useStore from "lib/useStore"
-
 import Session from "./Session"
 
 export type SessionStatus = "logged-out" | "logged-in"
