@@ -21,6 +21,7 @@ jobs:
       
     - name: Migrate and seed database
       run: |
+        cd backend && cargo install sqlx-cli
         make migrate-local-db
         make seed-local-db
         
