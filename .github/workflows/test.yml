@@ -17,6 +17,9 @@ jobs:
       - name: Run backend and database
         run: docker-compose up -d
 
+      - name: Check that the database is running
+        run: docker ps
+
       - name: Seed database
         run: make seed-local-db
 
