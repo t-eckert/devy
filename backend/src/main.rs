@@ -28,7 +28,7 @@ async fn main() {
     let db_connection_str = env::var("DATABASE_URL").expect("DATABASE_URL not set");
     let pool = PgPoolOptions::new()
         .max_connections(5)
-        .acquire_timeout(Duration::from_secs(3))
+        .acquire_timeout(Duration::from_secs(30))
         .connect(&db_connection_str)
         .await
         .expect("Failed to connect to database");
@@ -44,7 +44,7 @@ async fn main() {
 
     let router = router::make_router(store);
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(router.into_make_service())
