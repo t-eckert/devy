@@ -44,11 +44,11 @@ migrate-local-db:
 
 seed-local-db:
 	@docker cp $(shell pwd)/seed/ devy-postgres:/tmp/
-	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/users.sql
-	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/profiles.sql
-	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/blogs.sql
-	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/posts.sql
-	@docker exec -it devy-postgres psql -U postgres -f /tmp/seed/likes.sql
+	@docker exec devy-postgres psql -U postgres -f /tmp/seed/users.sql
+	@docker exec devy-postgres psql -U postgres -f /tmp/seed/profiles.sql
+	@docker exec devy-postgres psql -U postgres -f /tmp/seed/blogs.sql
+	@docker exec devy-postgres psql -U postgres -f /tmp/seed/posts.sql
+	@docker exec devy-postgres psql -U postgres -f /tmp/seed/likes.sql
 
 # Integration Tests
 run-integration-tests: build-backend-container
