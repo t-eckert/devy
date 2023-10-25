@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Integration Tests
 
 on:
   push:
@@ -10,6 +10,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Build backend
+        run: make build-backend-container
+
+      - name: Run backend and database
+        run: docker-compose up -d
+
+      - name: Seed database
+        run: make seed-local-db
 
       - name: Run integration tests
         run: make run-integration-tests
