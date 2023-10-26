@@ -6,7 +6,7 @@ version:
 build-frontend:
 	@cd frontend && npm run build
 
-run-frontend:
+serve-frontend:
 	@cd frontend && npm run dev
 
 # Backend
@@ -16,22 +16,22 @@ build-backend:
 build-backend-container:
 	@cd backend && docker build -t devy-backend .
 
-run-backend:
+serve-backend:
 	@cd backend && cargo watch -- cargo run
 
-# Database
-create-local-db:
-	@docker run \
-		--name devy-postgres \
-		-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
-		-p 5432:5432 -d postgres:alpine 
+# Test database
+# This database image of Postgres is migrated and has the seed data in it for testing.
+build-test-db:
+	@cd backend && docker build . -f Dockerfile.test-db -t devy-test-db
 
-destroy-local-db:
-	@docker stop devy-postgres
-	@docker rm devy-postgres
+run-test-db: build-test-db
+	@docker run --rm\
+		--name devy-test-db \
+		-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
+		-p 5432:5432 -d devy-test-db:latest 
 
 access-local-db:
-	@docker exec -it devy-postgres psql -U postgres
+	@docker exec -it devy-test-db psql -U postgres
 
 run-pgadmin:
 	@docker run -p 5050:80 \
@@ -39,21 +39,10 @@ run-pgadmin:
 		-e 'PGADMIN_DEFAULT_PASSWORD=password' \
 		-d dpage/pgadmin4:latest
 
-migrate-local-db:
-	@cd backend && cargo sqlx migrate run --database-url=postgres://postgres:postgres@localhost:5432
-
-seed-local-db:
-	@docker cp $(shell pwd)/seed/ devy-postgres:/tmp/
-	@docker exec devy-postgres psql -U postgres -f /tmp/seed/users.sql
-	@docker exec devy-postgres psql -U postgres -f /tmp/seed/profiles.sql
-	@docker exec devy-postgres psql -U postgres -f /tmp/seed/blogs.sql
-	@docker exec devy-postgres psql -U postgres -f /tmp/seed/posts.sql
-	@docker exec devy-postgres psql -U postgres -f /tmp/seed/likes.sql
-
 # Integration Tests
 run-integration-tests: 
 	@cd integration && \
 		python3 -m venv .venv && \
-		source .venv/bin/activate && \
+		. .venv/bin/activate && \
 		python3 -m pip install -r requirements.txt && \
 		pytest -v

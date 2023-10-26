@@ -14,14 +14,11 @@ jobs:
       - name: Build backend
         run: make build-backend-container
 
-      - name: Run backend and database
-        run: docker-compose up -d
+      - name: Build test-db
+        run: make build-test-db
 
-      - name: Check that the database is running
-        run: docker ps
-
-      - name: Seed database
-        run: make seed-local-db
-
-      - name: Run integration tests
-        run: make run-integration-tests
+      - name: Run backend and integration tests
+        run: |
+          docker-compose up -d
+          curl localhost:8000/v1/ready
+          make run-integration-tests
