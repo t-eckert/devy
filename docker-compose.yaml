@@ -14,8 +14,7 @@ services:
       - "8000:8000"
 
   database:
-    image: postgres:latest
-    container_name: devy-postgres
+    image: devy-test-db:latest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
