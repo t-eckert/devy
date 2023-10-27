@@ -15,3 +15,4 @@ jobs:
         with:
           compose-file: "./docker-compose.yaml"
           test-container: integration
+          test-command: sh -c sleep 10 && pytest
