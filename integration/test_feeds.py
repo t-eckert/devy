@@ -1,9 +1,9 @@
-from config import host
+from config import url
 
 import httpx
 
-path = "/feeds"
-route = host + path
+path = "feeds"
+route = url + path
 
 
 def test_get_feed_new():

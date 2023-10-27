@@ -1,10 +1,10 @@
-from config import host
+from config import url
 from framework import is_subset
 
 import httpx
 
-path = "/blogs"
-route = host + path
+path = "blogs"
+route = url + path
 
 
 def test_get_blog_by_slug():

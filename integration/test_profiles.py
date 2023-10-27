@@ -1,9 +1,9 @@
-from config import host
+from config import url
 
 import httpx
 
-path = "/profiles"
-route = host + path
+path = "profiles"
+route = url + path
 
 
 def test_get_profile_by_username():
