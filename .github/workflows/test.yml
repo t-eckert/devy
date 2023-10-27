@@ -11,14 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build backend
-        run: make build-backend-container
-
-      - name: Build test-db
-        run: make build-test-db
-
-      - name: Run backend and integration tests
-        run: |
-          docker-compose up -d
-          curl localhost:8000/v1/ready
-          make run-integration-tests
+      - uses: adambirds/docker-compose-action@v1.3.0
+        with:
+          compose-file: "./docker-compose.yaml"
+          test-container: integration
