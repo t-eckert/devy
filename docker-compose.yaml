@@ -12,6 +12,7 @@ services:
       RUST_BACKTRACE: 1
     ports:
       - "8000:8000"
+    build: backend
 
   database:
     image: devy-test-db:latest
@@ -20,3 +21,12 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    build:
+      context: backend
+      dockerfile: test-db.Dockerfile
+
+  integration:
+    image: devy-integration-test:latest
+    environment:
+      HOST: "backend:8000"
+    build: integration
