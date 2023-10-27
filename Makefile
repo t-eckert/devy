@@ -22,7 +22,7 @@ serve-backend:
 # Test database
 # This database image of Postgres is migrated and has the seed data in it for testing.
 build-test-db:
-	@cd backend && docker build . -f Dockerfile.test-db -t devy-test-db
+	@cd backend && docker build . -f test-db.Dockerfile -t devy-test-db
 
 run-test-db: build-test-db
 	@docker run --rm\
