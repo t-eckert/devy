@@ -1,9 +1,9 @@
-from config import host
+from config import url
 
 import httpx
 
-path = "/users"
-route = host + path
+path = "users"
+route = url + path
 
 def test_get_user_by_username():
     r = httpx.get(route + "/t-eckert")

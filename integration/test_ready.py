@@ -1,9 +1,9 @@
-from config import host
+from config import url
 
 import httpx
 
-path = "/ready"
-route = host + path
+path = "ready"
+route = url + path
 
 
 def test_ready_route_returns_ready():

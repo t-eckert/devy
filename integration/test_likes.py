@@ -1,4 +1,4 @@
-from config import host
+from config import url
 
 import httpx
 
@@ -8,7 +8,7 @@ def tests_post_can_be_liked():
         "profileId": "e2f0fa7e-4517-4ac8-bbc6-73067d3feed4"
     }
 
-    r = httpx.post(host + "/likes", json=like)
+    r = httpx.post(url + "likes", json=like)
 
     assert r.status_code == 200
     assert r.json() == like
@@ -20,7 +20,7 @@ def tests_post_can_be_unliked():
         "profileId": "e2f0fa7e-4517-4ac8-bbc6-73067d3feed4"
     }
 
-    r = httpx.delete(host + f"/likes/{like['postId']}/{like['profileId']}")
+    r = httpx.delete(url + f"likes/{like['postId']}/{like['profileId']}")
 
     assert r.status_code == 200
     assert r.json() == like
