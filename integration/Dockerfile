@@ -5,4 +5,4 @@ COPY . /app
 
 RUN pip install -r requirements.txt
 
-CMD ["./run-with-delay.sh"]
+CMD ["pytest", "-v"]
