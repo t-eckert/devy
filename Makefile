@@ -41,4 +41,6 @@ run-pgadmin:
 
 # Integration Tests
 run-integration-tests: 
-	@docker-compose up
+	@cd integration && \
+		python3 -m pip install -r requirements.txt && \
+		python3 -m pytest -v
