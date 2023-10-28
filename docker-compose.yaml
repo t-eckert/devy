@@ -6,8 +6,8 @@ services:
     image: devy-backend:latest
     environment:
       DATABASE_URL: "postgres://postgres:postgres@database:5432"
-      CLIENT_ID: "Iv1.9b343154e70e7b6a"
-      CLIENT_SECRET: "7a58346b9915a956cbbf4fe8d1a78ad86e1c145a"
+      CLIENT_ID: ""
+      CLIENT_SECRET: ""
       POST_AUTH_URI: "http://localhost:3000/"
       RUST_BACKTRACE: 1
     ports:

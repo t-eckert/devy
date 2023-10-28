@@ -1,6 +1,6 @@
 # Changelog
 
-## `v0.2.0` 
+## `v0.2.0` It's More Likeable
 
 `28 October 2023`
 
