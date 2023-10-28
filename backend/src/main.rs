@@ -20,9 +20,9 @@ async fn main() {
         }
     }
 
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
-        .init();
+    // tracing_subscriber::fmt()
+    //     .with_max_level(tracing::Level::INFO)
+    //     .init();
 
     // Connect to the database.
     let db_connection_str = env::var("DATABASE_URL").expect("DATABASE_URL not set");
