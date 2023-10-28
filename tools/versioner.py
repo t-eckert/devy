@@ -3,7 +3,6 @@
 Called by `make version`
 
 Updates the version number across all components of the project.
-The version number is the current date in the format YYYY.MM.DD
 """
 
 import json
