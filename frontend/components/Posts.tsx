@@ -22,7 +22,10 @@ interface Props {
 const fetchLikes = async (username?: string) => {
 	if (!username) return new Set<string>()
 
-	const likes = await api.get<string[]>(`/profiles/${username}/likes/ids`, 10)
+	const likes = await api.get<string[]>(
+		`/v1/profiles/${username}/likes/ids`,
+		10
+	)
 	return new Set(likes)
 }
 
@@ -42,7 +45,7 @@ function Posts({ posts }: Props) {
 
 		if (!profileId) return
 
-		api.post<Like>("/likes", {
+		api.post<Like>("/v1/likes", {
 			postId,
 			profileId,
 		}).then((res) => {
@@ -55,7 +58,7 @@ function Posts({ posts }: Props) {
 
 		if (!profileId) return
 
-		api.delete<Like>(`/likes/${postId}/${profileId}`).then((res) => {
+		api.delete<Like>(`/v1/likes/${postId}/${profileId}`).then((res) => {
 			return res
 		})
 	}

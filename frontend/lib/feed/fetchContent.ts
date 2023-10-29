@@ -13,9 +13,9 @@ export default async function fetchContent(
 
 	const offset = pageSize * page
 
-	const url = `/feeds/${id}/posts?offset=${offset}&limit=${pageSize}`
+	const url = `/v1/feeds/${id}/posts?offset=${offset}&limit=${pageSize}`
 
-	const feed = await api.get<Feed>(`/feeds/${id}`, cacheSeconds)
+	const feed = await api.get<Feed>(`/v1/feeds/${id}`, cacheSeconds)
 	const posts = await api.get<Post[]>(url, cacheSeconds)
 
 	if (!feed) return null
