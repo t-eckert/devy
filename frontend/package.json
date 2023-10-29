@@ -41,19 +41,21 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.1.1",
-    "@storybook/addon-interactions": "^7.1.1",
-    "@storybook/addon-links": "^7.1.1",
+    "@storybook/addon-essentials": "^7.5.1",
+    "@storybook/addon-interactions": "^7.5.1",
+    "@storybook/addon-links": "^7.5.1",
+    "@storybook/addon-mdx-gfm": "^7.5.1",
     "@storybook/addon-onboarding": "^1.0.8",
-    "@storybook/addon-styling": "^1.3.5",
-    "@storybook/blocks": "^7.1.1",
-    "@storybook/nextjs": "^7.1.1",
-    "@storybook/react": "^7.1.1",
-    "@storybook/testing-library": "^0.2.0",
+    "@storybook/addon-styling": "^1.3.7",
+    "@storybook/blocks": "^7.5.1",
+    "@storybook/nextjs": "^7.5.1",
+    "@storybook/react": "^7.5.1",
+    "@storybook/testing-library": "^0.2.2",
     "@types/jsonwebtoken": "^9.0.2",
-    "eslint-plugin-storybook": "^0.6.13",
-    "storybook": "^7.1.1",
-    "storybook-dark-mode": "^3.0.1"
+    "eslint-plugin-storybook": "^0.6.15",
+    "storybook": "^7.5.1",
+    "storybook-dark-mode": "^3.0.1",
+    "storybook-tailwind-dark-mode": "^1.0.22"
   },
   "prettier": {
     "semi": false,

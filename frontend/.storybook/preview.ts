@@ -1,9 +1,6 @@
 import type { Preview } from "@storybook/react"
-import { themes } from "@storybook/theming"
 import { Inter } from "next/font/google"
 import * as React from "react"
-
-import { withThemeByClassName } from "@storybook/addon-styling"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,7 +20,7 @@ const preview: Preview = {
       values: [
         {
           name: "dark",
-          value: "#09090b",
+          value: "#18181B",
         },
         {
           name: "light",
@@ -34,19 +31,18 @@ const preview: Preview = {
   },
 
   decorators: [
-    withThemeByClassName({
-      themes: {
-        light: "light",
-        dark: "dark",
-      },
-      defaultTheme: "light",
-    }),
     (Story) =>
       React.createElement("div", {
         className: inter.className,
         children: React.createElement(Story),
       }),
   ],
+
+  globalTypes: {
+    darkMode: {
+      defaultValue: true,
+    },
+  },
 }
 
 export default preview

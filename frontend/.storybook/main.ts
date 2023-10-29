@@ -20,6 +20,8 @@ const config: StorybookConfig = {
         },
       },
     },
+    "@storybook/addon-mdx-gfm",
+    "storybook-tailwind-dark-mode",
   ],
   framework: {
     name: "@storybook/nextjs",
