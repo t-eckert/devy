@@ -1,7 +1,7 @@
 "use client"
 
-import Error404 from "@/components/404"
-import Error500 from "@/components/500"
+import Error404 from "@/components/error/404"
+import Error500 from "@/components/error/500"
 
 export default function Error({
   error,

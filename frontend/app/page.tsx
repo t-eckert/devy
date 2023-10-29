@@ -1,31 +1,21 @@
-import Shoulder from "@/components/segments/Shoulder"
-import Changelog from "@/components/segments/Changelog"
-import Feeds, { Content, fetchContent } from "@/lib/feed"
+import Changelog from "@/components/changelog"
+import Shoulder from "./shoulder"
 import { fetchChangelog } from "@/lib/changelog"
+import fetchFeed from "@/lib/feed"
+import HomeFeed from "./home-feed"
 
 export default async function Home() {
-  const feeds = await fetchFeeds(0, 15)
+  const feeds = {
+    new: await fetchFeed("new", 0, 15),
+    popular: await fetchFeed("popular", 0, 15),
+  }
+
   const changelog = await fetchChangelog()
 
   return (
     <main className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
-      <Feeds content={feeds} defaultSelected={"new"} />
+      <HomeFeed feeds={feeds} defaultSelected={"new"} />
       <Shoulder>{changelog && <Changelog changelog={changelog} />}</Shoulder>
     </main>
   )
-}
-
-const fetchFeeds = async (
-  page: number,
-  pageSize: number
-): Promise<Content[]> => {
-  const feeds: Content[] = []
-
-  const newContent = await fetchContent("new", page, pageSize)
-  if (newContent) feeds.push(newContent)
-
-  const popularContent = await fetchContent("popular", page, pageSize)
-  if (popularContent) feeds.push(popularContent)
-
-  return feeds
 }
