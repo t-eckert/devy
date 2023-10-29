@@ -34,9 +34,8 @@ const Token = ({ session }: { session: Session }) => (
   <Link href={`/profiles/${session.user.username}`}>
     <div className="pl-2 pr-2 py-0.5 flex flex-row rounded-l-full gap-2 items-center transition-all">
       <Avatar
-        displayName={session.profile.displayName}
+        name={session.profile.displayName}
         avatarUrl={session.profile.avatarUrl}
-        className="w-4 h-4"
       />
       <span className="text-sm font-medium">{session.profile.displayName}</span>
     </div>
