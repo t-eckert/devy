@@ -2,6 +2,7 @@ use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
 use std::time::Duration;
+use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
 mod api;
 mod auth;
@@ -20,9 +21,10 @@ async fn main() {
         }
     }
 
-    // tracing_subscriber::fmt()
-    //     .with_max_level(tracing::Level::INFO)
-    //     .init();
+    tracing_subscriber::registry()
+        .with(fmt::layer())
+        .with(EnvFilter::from_default_env())
+        .init();
 
     // Connect to the database.
     let db_connection_str = env::var("DATABASE_URL").expect("DATABASE_URL not set");

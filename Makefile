@@ -17,7 +17,7 @@ build-backend-container:
 	@cd backend && docker build -t devy-backend .
 
 serve-backend:
-	@cd backend && cargo watch -- cargo run
+	@cd backend && RUST_LOG=DEBUG cargo watch -- cargo run
 
 # Test database
 # This database image of Postgres is migrated and has the seed data in it for testing.
