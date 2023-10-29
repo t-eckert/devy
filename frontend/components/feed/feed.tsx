@@ -3,9 +3,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 
-import fetchContent from "./fetchContent"
 import Button from "@/components/button"
-import Posts from "@/components/posts"
 import { Feed, Post } from "@/models"
 
 interface Content {
@@ -22,15 +20,15 @@ const pageSize = 15
 function Feed({ initialContent }: Props) {
 	const [page, setPage] = useState<number>(0)
 
-	const { data } = useQuery({
-		queryKey: [initialContent.feed.id, page],
-		queryFn: () => fetchContent(initialContent.feed.id, page, pageSize),
-		initialData: initialContent,
-	})
+	// const { data } = useQuery({
+	// 	queryKey: [initialContent.feed.id, page],
+	// 	queryFn: () => fetchContent(initialContent.feed.id, page, pageSize),
+	// 	initialData: initialContent,
+	// })
 
 	return (
 		<section className="w-full mx-auto max-w-xl flex flex-col gap-4">
-			<Posts posts={data?.posts || []} />
+			{/* Posts here */}
 			<div className="pt-2 border-t border-t-zinc-700 w-full flex flex-row-reverse justify-between">
 				<Button
 					onClick={() => setPage(page + 1)}

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 
-import Cell from "./Cell"
+import Cell from "./cell"
 
 interface Props {
 	height: number

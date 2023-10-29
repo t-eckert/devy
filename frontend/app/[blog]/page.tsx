@@ -1,9 +1,9 @@
-import blogController from "@/controllers/blog"
-import postController from "@/controllers/post"
+import Link from "@/components/link"
 
-import { Link } from "@/components/elements"
-import Preview from "@/components/models/Post/Preview"
-import Post from "@/models/Post"
+import { Blog, Post } from "@/models"
+import api from "@/lib/api"
+
+import BlogPosts from "./blog-posts"
 
 interface Props {
   params: {
@@ -11,13 +11,9 @@ interface Props {
   }
 }
 
-export default async function Blog({ params }: Props) {
-  const blog = await blogController.get.bySlug(params.blog)
-  const posts = await postController.get.byBlogSlug(params.blog)
-
-  if (!blog) {
-    throw new Error("Blog not found")
-  }
+export default async function BlogPage({ params }: Props) {
+  const blog = await api.get<Blog>(`/v1/blogs/${params.blog}`, 600)
+  const posts = await api.get<Post[]>(`/v1/blogs/${params.blog}/posts`, 600)
 
   return (
     <>
@@ -37,8 +33,7 @@ export default async function Blog({ params }: Props) {
         )}
         <section className="flex flex-col gap-2">
           <h2 className="font-medium text-xl">Posts</h2>
-          {posts &&
-            posts.map((post: Post, i: number) => <Preview key={i} {...post} />)}
+          <BlogPosts posts={posts} />
         </section>
       </main>
     </>

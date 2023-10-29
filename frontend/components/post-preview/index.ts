@@ -1,2 +1,2 @@
-import Preview from "./Preview"
-export default Preview
+import PostPreview from "./post-preview"
+export default PostPreview

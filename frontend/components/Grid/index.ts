@@ -1,5 +1,5 @@
-import Grid from "./Grid"
-import Cell from "./Cell"
+import Grid from "./grid"
+import Cell from "./cell"
 
 export type { Cell }
 export default Grid

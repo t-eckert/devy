@@ -12,7 +12,7 @@ interface Props extends Post {
 	onUnlike: () => void
 }
 
-export default function Preview({
+export default function PostPreview({
 	session,
 	isLiked,
 	onLike,

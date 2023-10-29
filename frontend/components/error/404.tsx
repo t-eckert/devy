@@ -1,4 +1,4 @@
-import Grid, { Cell } from "@/components/Grid"
+import Grid, { Cell } from "@/components/grid"
 
 const red = "#DC2626"
 

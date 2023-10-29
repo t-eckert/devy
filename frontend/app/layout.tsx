@@ -1,9 +1,9 @@
-import Nav from "@/lib/nav/Nav"
+import Nav from "./nav"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { Link } from "@/components/elements"
-import CaptureSession from "@/lib/auth/CaptureSession"
+import Link from "@/components/link"
+import { CaptureSession } from "@/lib/auth"
 
 const version = "v0.2.0"
 
@@ -11,14 +11,14 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Devy",
-  description: "Blog in markdown from your GitHub repo.",
+  description: "Markdown is the medium.",
 }
 
-export default function RootLayout({
-  children,
-}: {
+interface Props {
   children: React.ReactNode
-}) {
+}
+
+export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" className="dark">
       <body

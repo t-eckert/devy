@@ -1,10 +1,10 @@
 import api from "@/lib/api"
 import Profile from "@/models/Profile"
 import User from "@/models/User"
-import Member from "@/components/segments/Member"
+import Member from "@/components/member"
 import Blog from "@/models/Blog"
 import Post from "@/models/Post"
-import Posts from "@/components/Posts"
+import Posts from "@/components/posts"
 
 interface Props {
   params: {
