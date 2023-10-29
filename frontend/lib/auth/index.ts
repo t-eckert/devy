@@ -1,4 +1,4 @@
-import CaptureSession from "./CaptureSession"
+import CaptureSession from "./capture-session"
 import Session from "./Session"
 import useSession, { SessionStatus, SessionStore } from "./useSession"
 
