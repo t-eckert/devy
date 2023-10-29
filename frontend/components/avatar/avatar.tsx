@@ -3,32 +3,29 @@
 import * as RadixAvatar from "@radix-ui/react-avatar"
 
 interface Props {
-	displayName: string
+	name: string
 	avatarUrl?: string
-	className?: string
 }
 
-export default function Avatar({ displayName, avatarUrl, className }: Props) {
+export default function Avatar({ name, avatarUrl }: Props) {
 	return (
-		<RadixAvatar.Root
-			className={["bg-zinc-700 rounded-full", className].join(" ")}
-		>
+		<RadixAvatar.Root>
 			{avatarUrl && (
 				<RadixAvatar.Image
-					className="object-cover rounded-[inherit]"
+					className="w-6 aspect-square object-cover rounded-full shadow-md"
 					src={avatarUrl}
 					alt="Avatar"
 				/>
 			)}
-			<RadixAvatar.Fallback className="w-full h-full flex items-center justify-center">
-				<div className="font-semibold">{initials(displayName)}</div>
+			<RadixAvatar.Fallback className="w-6 aspect-square flex items-center justify-center text-xs bg-neutral-light text-neutral-low dark:bg-neutral-medium dark:text-neutral-light rounded-full font-semibold shadow-md">
+				<span className="m-1">
+					{name
+						.split(" ")
+						.map((name) => name[0].toUpperCase())
+						.slice(0, 2)
+						.join("")}
+				</span>
 			</RadixAvatar.Fallback>
 		</RadixAvatar.Root>
 	)
 }
-
-const initials = (displayName: string) =>
-	displayName
-		.split(" ")
-		.map((name) => name[0])
-		.join("")
