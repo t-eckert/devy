@@ -1,6 +1,6 @@
 import Post from "@/models/Post"
 import { Link } from "@/components/elements"
-import Like from "@/components/Like"
+import Like from "@/components/like"
 
 import { SessionStatus } from "@/lib/auth"
 import Title from "./Title"
