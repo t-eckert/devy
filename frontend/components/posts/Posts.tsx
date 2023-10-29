@@ -8,7 +8,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import { Post, Like } from "@/models"
-import Preview from "@/components/Preview"
+import Preview from "@/components/post-preview"
 import api from "@/lib/api"
 import useStore from "@/lib/useStore"
 import useSession from "@/lib/auth"

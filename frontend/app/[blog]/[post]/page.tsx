@@ -1,9 +1,9 @@
-import { Link } from "@/components/elements"
-
-import postController from "@/controllers/post"
-import Post from "@/models/Post"
-import Date from "@/components/elements/Date"
+import Link from "@/components/link"
+import Date from "@/components/date"
 import Markdown from "@/components/markdown"
+
+import Post from "@/models/Post"
+import api from "@/lib/api"
 
 interface Props {
   params: {
@@ -13,9 +13,9 @@ interface Props {
 }
 
 export default async function Post({ params }: Props) {
-  const post = await postController.get.byBlogSlugAndPostSlug(
-    params.blog,
-    params.post
+  const post = await api.get<Post>(
+    `/v1/blogs/${params.blog}/posts/${params.post}`,
+    600
   )
 
   if (!post) return <div>Post not found</div>

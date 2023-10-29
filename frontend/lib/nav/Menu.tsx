@@ -5,7 +5,8 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 
 import useSession, { SessionStore } from "@/lib/auth/useSession"
 import useStore from "@/lib/useStore"
-import { Link, Button } from "@/components/elements"
+import Link from "@/components/link"
+import Button from "@/components/button"
 
 export default function Menu() {
 	const session = useStore(useSession, (state) => state)

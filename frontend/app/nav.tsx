@@ -3,11 +3,11 @@
 import { GitHubLogoIcon } from "@radix-ui/react-icons"
 
 import Link from "@/components/link"
+import Avatar from "@/components/avatar"
 
-import Menu from "./Menu"
+import Menu from "@/lib/nav/Menu"
 import useSession from "@/lib/auth/useSession"
 import type Session from "@/lib/auth/Session"
-import Avatar from "@/components/elements/Avatar"
 import useStore from "@/lib/useStore"
 
 export default function Nav() {

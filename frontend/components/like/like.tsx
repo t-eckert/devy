@@ -5,7 +5,7 @@ import {
 	HeartFilledIcon,
 } from "@radix-ui/react-icons"
 
-import { Button } from "@/components/elements"
+import Button from "@/components/button"
 
 interface Props {
 	active: boolean

@@ -1,4 +1,4 @@
-import { Link } from "@/components/elements"
+import Link from "@/components/link"
 
 import { marked } from "marked"
 

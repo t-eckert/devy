@@ -1,2 +1,2 @@
-import Date from "./Date"
+import Date from "./date"
 export default Date

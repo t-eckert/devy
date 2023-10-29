@@ -1,2 +1,2 @@
-import Changelog from "./Changelog"
+import Changelog from "./changelog"
 export default Changelog

@@ -1,2 +1,2 @@
-import Avatar from "./Avatar"
+import Avatar from "./avatar"
 export default Avatar
