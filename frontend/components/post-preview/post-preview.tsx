@@ -1,6 +1,6 @@
 import Post from "@/models/Post"
 import Link from "@/components/link"
-import Like from "@/components/like"
+import Likes from "@/components/likes"
 
 import { SessionStatus } from "@/lib/auth"
 import Title from "./post-title"
@@ -22,7 +22,7 @@ export default function PostPreview({
 	return (
 		<section className="flex flex-row gap-2 items-start">
 			<div className="flex flex-col items-start gap-1">
-				<Like
+				<Likes
 					active={session === "logged-in"}
 					initialIsLiked={isLiked}
 					initialCount={post.likes}
