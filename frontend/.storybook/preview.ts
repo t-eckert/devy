@@ -11,29 +11,19 @@ const preview: Preview = {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
-        color: /(background|color)$/i,
         date: /Date$/,
       },
     },
-    backgrounds: {
-      default: "dark",
-      values: [
-        {
-          name: "dark",
-          value: "#18181B",
-        },
-        {
-          name: "light",
-          value: "#fafafa",
-        },
-      ],
-    },
+    layout: "centered",
   },
 
   decorators: [
     (Story) =>
       React.createElement("div", {
-        className: inter.className,
+        className: [
+          inter.className,
+          "text-neutral-low dark:text-neutral-light",
+        ].join(" "),
         children: React.createElement(Story),
       }),
   ],
