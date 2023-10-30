@@ -55,7 +55,7 @@
     "eslint-plugin-storybook": "^0.6.15",
     "storybook": "^7.5.1",
     "storybook-dark-mode": "^3.0.1",
-    "storybook-tailwind-dark-mode": "^1.0.22"
+    "@gfpacheco/storybook-tailwind-dark-mode": "^1.0.22"
   },
   "prettier": {
     "semi": false,
