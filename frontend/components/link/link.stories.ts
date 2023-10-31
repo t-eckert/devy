@@ -24,7 +24,7 @@ export const NoUnderline: Story = {
 export const Underline: Story = {
 	args: {
 		href: "#",
-		children: "No underline",
+		children: "Underline",
 		variant: {
 			underline: true,
 		},
