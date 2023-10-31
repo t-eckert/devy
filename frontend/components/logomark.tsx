@@ -1,3 +1,3 @@
 export default function Logomark() {
-	return <span>Devy</span>
+	return <span className="font-semibold">Devy</span>
 }
