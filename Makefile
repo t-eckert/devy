@@ -9,6 +9,9 @@ build-frontend:
 serve-frontend:
 	@cd frontend && npm run dev
 
+serve-storybook:
+	@cd frontend && npm run storybook
+
 # Backend
 build-backend:
 	@cd backend && cargo build --release
@@ -20,7 +23,6 @@ serve-backend:
 	@cd backend && RUST_LOG=DEBUG cargo watch -- cargo run
 
 # Test database
-# This database image of Postgres is migrated and has the seed data in it for testing.
 build-test-db:
 	@cd backend && docker build . -f test-db.Dockerfile -t devy-test-db
 
