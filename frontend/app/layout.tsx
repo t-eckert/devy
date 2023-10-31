@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Props) {
       <body
         className={[
           inter.className,
-          "bg-neutral-light text-neutral-low dark:bg-neutral-low dark:text-neutral-light",
+          "bg-neutral-lightest text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lightest",
         ].join(" ")}
       >
         <CaptureSession />
