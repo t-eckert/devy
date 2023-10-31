@@ -1,4 +1,5 @@
 import Link from "@/components/link"
+import Card from "@/components/card"
 
 import { marked } from "marked"
 
@@ -10,10 +11,10 @@ export default function Changelog({ changelog }: Props) {
 	const tokens = marked.lexer(changelog)
 
 	return (
-		<section className="flex flex-col">
+		<Card className="flex flex-col">
 			<h1 className="mb-1">Changelog</h1>
 			{tokens.slice(0, 10).map(formatToken)}
-		</section>
+		</Card>
 	)
 }
 
