@@ -12,7 +12,7 @@ module.exports = {
       "neutral-darkest": "#09090B",
       "neutral-darker": "#18181B",
       "neutral-medium": "#27272A",
-      "neutral-lighter": "#71717A",
+      "neutral-lighter": "#f4f4f5",
       "neutral-lightest": "#FAFAFA",
       "red-primary": "#DC2626",
       "red-high": "#FECACA",
