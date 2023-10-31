@@ -9,11 +9,11 @@ module.exports = {
   ],
   theme: {
     colors: {
-      "neutral-dark": "#09090B",
-      "neutral-low": "#18181B",
+      "neutral-darkest": "#09090B",
+      "neutral-darker": "#18181B",
       "neutral-medium": "#27272A",
-      "neutral-high": "#71717A",
-      "neutral-light": "#FAFAFA",
+      "neutral-lighter": "#71717A",
+      "neutral-lightest": "#FAFAFA",
       "red-primary": "#DC2626",
       "red-high": "#FECACA",
       "amber-primary": "#CA8A04",
