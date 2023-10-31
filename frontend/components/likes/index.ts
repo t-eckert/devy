@@ -1,2 +1,2 @@
-import LikeButton from "./like-button"
-export default LikeButton
+import Likes from "./likes"
+export default Likes
