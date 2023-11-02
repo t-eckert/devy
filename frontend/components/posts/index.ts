@@ -1,2 +1,2 @@
-import Posts from "./Posts"
+import Posts from "./posts"
 export default Posts

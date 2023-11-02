@@ -2,33 +2,17 @@ import Post from "@/models/Post"
 import Link from "@/components/link"
 import Likes from "@/components/likes"
 
-import { SessionStatus } from "@/lib/auth"
 import Title from "./post-title"
 
-interface Props extends Post {
-	session: SessionStatus
-	isLiked: boolean
-	onLike: () => void
-	onUnlike: () => void
+interface Props {
+	post: Post
 }
 
-export default function PostPreview({
-	session,
-	isLiked,
-	onLike,
-	onUnlike,
-	...post
-}: Props) {
+export default function PostPreview({ post }: Props) {
 	return (
 		<section className="flex flex-row gap-2 items-start">
 			<div className="flex flex-col items-start gap-1">
-				<Likes
-					active={session === "logged-in"}
-					initialIsLiked={isLiked}
-					initialCount={post.likes}
-					onLike={onLike}
-					onUnlike={onUnlike}
-				/>
+				<Likes initialCount={post.likes} />
 			</div>
 
 			<div className="flex flex-col gap-1">

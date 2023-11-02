@@ -1,25 +1,24 @@
 import { Dispatch, SetStateAction } from "react"
 
 import Tab from "./tab"
-import { Feed } from "@/models"
 
 interface Props {
-	feeds: Feed[]
+	labels: { id: string; name: string }[]
 	selected: string
 	setSelected: Dispatch<SetStateAction<string>>
 }
 
-export default function Tabs({ feeds, selected, setSelected }: Props) {
+export default function Tabs({ labels, selected, setSelected }: Props) {
 	return (
 		<section className="flex flex-row md:w-44 md:flex-col items-state gap-2">
-			{feeds.map((feed) => (
+			{labels.map((label) => (
 				<Tab
-					key={feed.id}
-					id={feed.id}
-					isSelected={feed.id === selected}
+					key={label.id}
+					id={label.id}
+					isSelected={label.id === selected}
 					setSelected={setSelected}
 				>
-					{feed.name}
+					{label.name}
 				</Tab>
 			))}
 		</section>
