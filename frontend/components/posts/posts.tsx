@@ -66,14 +66,7 @@ function Posts({ posts }: Props) {
 	return (
 		<>
 			{posts.map((post) => (
-				<Preview
-					key={post.id}
-					{...post}
-					session={status || "logged-out"}
-					isLiked={userLikes?.has(post.id) || false}
-					onLike={() => onLike(post.id)}
-					onUnlike={() => onUnlike(post.id)}
-				/>
+				<Preview key={post.id} post={post} />
 			))}
 		</>
 	)

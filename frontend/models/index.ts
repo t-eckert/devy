@@ -8,4 +8,15 @@ import Repo from "./Repo"
 import Upload from "./Upload"
 import User from "./User"
 
-export type { Blog, Bookmark, Feed, Like, Post, Profile, Repo, Upload, User }
+export type {
+	Blog,
+	Bookmark,
+	Feed as FeedMetadata,
+	Feed,
+	Like,
+	Post,
+	Profile,
+	Repo,
+	Upload,
+	User,
+}

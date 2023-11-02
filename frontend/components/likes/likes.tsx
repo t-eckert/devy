@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 
 import { HeartIcon, HeartFilledIcon } from "@radix-ui/react-icons"
@@ -6,30 +8,20 @@ import Button from "@/components/button"
 import Counter from "@/components/counter"
 
 interface Props {
-	active: boolean
-	initialIsLiked: boolean
 	initialCount: number
-	onLike: () => void
-	onUnlike: () => void
 }
 
-export default function Likes({
-	active,
-	initialIsLiked,
-	initialCount,
-	onLike,
-	onUnlike,
-}: Props) {
-	const [isLiked, setIsLiked] = useState(initialIsLiked)
+export default function Likes({ initialCount }: Props) {
+	const active = true
+
+	const [isLiked, setIsLiked] = useState(false)
 	const [count, setCount] = useState(initialCount)
 
 	const onClick = () => {
 		if (isLiked) {
-			onUnlike()
 			setIsLiked(false)
 			setCount(count - 1)
 		} else {
-			onLike()
 			setIsLiked(true)
 			setCount(count + 1)
 		}
