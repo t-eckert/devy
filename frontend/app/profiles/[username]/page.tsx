@@ -4,7 +4,7 @@ import User from "@/models/User"
 import Member from "@/components/member"
 import Blog from "@/models/Blog"
 import Post from "@/models/Post"
-import Posts from "@/components/posts"
+import PostCollection from "@/components/post-collection"
 
 interface Props {
   params: {
@@ -34,11 +34,11 @@ export default async function ProfilePage({ params }: Props) {
       <div>
         <div>
           <span>Posts</span>
-          <Posts posts={posts} />
+          <PostCollection posts={posts} />
         </div>
         <div>
           <span>Likes</span>
-          <Posts posts={likes} />
+          <PostCollection posts={likes} />
         </div>
       </div>
     </main>

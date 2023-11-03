@@ -18,15 +18,8 @@ export default function Feed({ feed }: Props) {
 		throw new Error("Not found")
 	}
 
-	const next = {
-		exists: false,
-		onNavigate: () => setPage(page + 1),
-	}
-
-	const prev = {
-		exists: page > 0,
-		onNavigate: () => setPage(page - 1),
-	}
+	const next = () => setPage(page + 1)
+	const prev = () => setPage(page - 1)
 
 	return <PostCollection posts={feed.posts} next={next} prev={prev} />
 }

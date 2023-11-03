@@ -3,8 +3,8 @@ import PostPreview from "@/components/post-preview"
 
 interface Props {
 	posts: Post[]
-	next: Adjacent
-	prev: Adjacent
+	next?: () => void
+	prev?: () => void
 }
 
 export default function PostCollection({ posts, next, prev }: Props) {
@@ -17,7 +17,3 @@ export default function PostCollection({ posts, next, prev }: Props) {
 	)
 }
 
-type Adjacent = {
-	exists: boolean
-	onNavigate: () => void
-}
