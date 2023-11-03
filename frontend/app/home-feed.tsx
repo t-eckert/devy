@@ -27,9 +27,11 @@ function HomeFeed({ feeds, defaultSelected }: Props) {
         selected={selected}
         setSelected={setSelected}
       />
-      <Feed
-        feed={feeds.find(({ feedMetadata }) => feedMetadata.id === selected)}
-      />
+      <div className="flex-1 flex flex-row items-center justify-center">
+        <Feed
+          feed={feeds.find(({ feedMetadata }) => feedMetadata.id === selected)}
+        />
+      </div>
     </section>
   )
 }
