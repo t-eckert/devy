@@ -21,7 +21,7 @@ export default function Menu() {
 
 			<DropdownMenu.Portal>
 				<DropdownMenu.Content
-					className="w-44 rounded-lg text-sm bg-zinc-800 border border-zinc-700 shadow-lg"
+					className="py-1 px-2 rounded-md border shadow-md border-neutral-darker dark:border-neutral-medium bg-neutral-lightest dark:bg-neutral-darker"
 					sideOffset={5}
 					align="end"
 				>
