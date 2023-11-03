@@ -3,6 +3,7 @@ import Blog from "@/models/Blog"
 import Profile from "@/models/Profile"
 import User from "@/models/User"
 import Image from "next/image"
+import Card from "@/components/card"
 
 interface Props {
 	user: User
@@ -12,7 +13,7 @@ interface Props {
 
 export default function Member({ user, profile, blogs }: Props) {
 	return (
-		<section className="w-48 rounded-xl bg-zinc-950 border border-zinc-700 shadow p-2">
+		<Card className="w-48 shadow bg-neutral-darkest px-2 py-2">
 			<div className="flex flex-col items-start gap-3">
 				<div>
 					<Header
@@ -47,7 +48,7 @@ export default function Member({ user, profile, blogs }: Props) {
 					</div>
 				</div>
 			</div>
-		</section>
+		</Card>
 	)
 }
 
@@ -66,7 +67,7 @@ const Header = ({
 					width={384}
 					height={384}
 					alt={`Profile of ${name}`}
-					className="rounded-lg"
+					className="rounded"
 				/>
 			) : (
 				<div className="w-44 rounded-lg aspect-square bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-200 via-red-200 to-yellow-100" />
