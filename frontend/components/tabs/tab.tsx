@@ -40,8 +40,8 @@ const styles = cva(
 	{
 		variants: {
 			isSelected: {
-				true: "text-white font-medium bg-zinc-800 border border-zinc-700 shadow",
-				false: "text-zinc-500 border border-transparent",
+				true: "font-medium border border-neutral-medium shadow",
+				false: "",
 			},
 		},
 		defaultVariants: {
