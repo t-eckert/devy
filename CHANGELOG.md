@@ -1,6 +1,6 @@
 # Changelog
 
-## `v0.2.1`
+## `v0.2.1` Sanding Down the Edges
 
 `2 November 2023`
 
