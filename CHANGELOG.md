@@ -1,5 +1,23 @@
 # Changelog
 
+## `v0.2.1`
+
+`2 November 2023`
+
+This minor release mostly affects component organization and addresses some of the hard edges I skipped over when doing the initial development of `v0.2.x`.
+I now have a great setup with [Storybook](https://storybook.js.org/) that I can use to test out components I develop. I also configured the set color palette
+for the site so that it will work in dark mode and an eventual light mode.
+
+[Pull Request](https://github.com/t-eckert/devy/pull/9)
+
+### Frontend
+
+- Add an opaque background to the menu.
+- Add an about section to profiles.
+- Center the feed more nicely on the home page.
+- Configure the different button types.
+- Add a counter component that will abbreviate large numbers.
+
 ## `v0.2.0` It's More Likeable
 
 `28 October 2023`
@@ -8,7 +26,7 @@ In this release, I am still experimenting with deployment and getting the develo
 I tried out a SaaS for deploying the backend, but returned to a platform where I deploy a Docker image. I know in the next phase of this project, I will
 need to have a Git binary available for cloning repositories so having a Docker image where I can ensure its presence is vital.
 
-I also swapped out the backend from using Rocket to using Axum. Both are great frameworks, I just needed a different programming model for what I was 
+I also swapped out the backend from using Rocket to using Axum. Both are great frameworks, I just needed a different programming model for what I was
 trying to do. Axum has less magic which allowed me to extend it as I needed. This did make this release take longer as I needed to reimplement authentication.
 
 [Pull request](https://github.com/t-eckert/devy/pull/8)
@@ -49,7 +67,6 @@ trying to do. Axum has less magic which allowed me to extend it as I needed. Thi
 - Integration tests can test equality of only keys contained in "expected" mapping.
 - Integration tests are run on every push and pull request.
 - There is now tooling for generating likes from posts and profiles.
-
 
 ## `v0.1.4` Francis Scott Would Have Been Disappointed
 
