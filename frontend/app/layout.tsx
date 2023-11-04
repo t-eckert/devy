@@ -8,8 +8,6 @@ import QueryProvider from "@/lib/query-provider"
 import Header from "./header"
 import Footer from "./footer"
 
-const version = "v0.2.2"
-
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -36,7 +34,7 @@ export default function RootLayout({ children }: Props) {
                 <main>{children}</main>
               </div>
 
-              <Footer version={version} />
+              <Footer />
             </div>
           </div>
         </QueryProvider>

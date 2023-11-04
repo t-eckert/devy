@@ -1,11 +1,7 @@
 import Link from "@/components/link"
 import Logomark from "@/components/logomark"
 
-interface Props {
-  version: string
-}
-
-export default function Footer({ version }: Props) {
+export default function Footer() {
   return (
     <footer className="w-full dark:bg-neutral-darkest">
       <div className="mx-auto max-w-6xl px-2 pt-8 pb-44">
@@ -13,9 +9,6 @@ export default function Footer({ version }: Props) {
           <Link href="/">
             <Logomark />
           </Link>
-          <span className="text-xs rounded-full px-2 py-0.5 select-none bg-zinc-800">
-            Pre-release {version}
-          </span>
         </div>
 
         <div className="pt-2 flex flex-row gap-12 text-sm text-zinc-300">
