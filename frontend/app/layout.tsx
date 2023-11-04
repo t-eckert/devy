@@ -8,7 +8,7 @@ import QueryProvider from "@/lib/query-provider"
 import Header from "./header"
 import Footer from "./footer"
 
-const version = "v0.2.0"
+const version = "v0.2.2"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,26 +24,23 @@ interface Props {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <QueryProvider>
-        <div className="dark">
-          <body
-            className={[
-              inter.className,
-              "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter",
-            ].join(" ")}
-          >
-            <CaptureSession />
+      <body className={inter.className}>
+        <QueryProvider>
+          <div id="dark-mode-wrapper" className="dark">
+            <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">
+              <CaptureSession />
 
-            <div className="min-h-screen">
-              <Header />
+              <div className="min-h-screen">
+                <Header />
 
-              <main>{children}</main>
+                <main>{children}</main>
+              </div>
+
+              <Footer version={version} />
             </div>
-
-            <Footer version={version} />
-          </body>
-        </div>
-      </QueryProvider>
+          </div>
+        </QueryProvider>
+      </body>
     </html>
   )
 }
