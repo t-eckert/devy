@@ -17,13 +17,13 @@ export default function Provider({ children }: Props) {
 						staleTime: 60 * 1000, // 1 minute
 					},
 				},
-			}),
+			})
 	)
 
 	return (
-		<div>
-			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+		<QueryClientProvider client={queryClient}>
+			{children}
 			<ReactQueryDevtools initialIsOpen={false} />
-		</div>
+		</QueryClientProvider>
 	)
 }

@@ -27,7 +27,6 @@ function HomeFeed({ defaultSelected }: Props) {
 
   const feeds = [newFeed, popularFeed]
 
-
   return (
     <section className="w-full flex flex-col md:flex-row items-start gap-4">
       <Tabs
@@ -39,9 +38,7 @@ function HomeFeed({ defaultSelected }: Props) {
         setSelected={setSelected}
       />
       <div className="flex-1 flex flex-row items-center justify-center">
-        <Feed
-          feed={feeds.find((feed) => feed?.feedMetadata.id === selected)}
-        />
+        <Feed feed={feeds.find((feed) => feed?.feedMetadata.id === selected)} />
       </div>
     </section>
   )
