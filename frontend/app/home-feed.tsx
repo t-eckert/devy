@@ -1,50 +1,50 @@
 "use client"
 
 import React, { useState } from "react"
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { useQuery } from "@tanstack/react-query"
 
 import Tabs from "@/components/tabs"
-
-import { FeedMetadata, Post } from "@/models"
 import Feed from "@/components/feed"
 
+import fetchFeed from "@/lib/feed"
+
 interface Props {
-  feeds: { feedMetadata: FeedMetadata; posts: Post[] }[]
   defaultSelected: string
 }
 
-function HomeFeed({ feeds, defaultSelected }: Props) {
+function HomeFeed({ defaultSelected }: Props) {
+  const { data: newFeed } = useQuery({
+    queryKey: ["feed", "new", 0, 15],
+    queryFn: () => fetchFeed("new", 0, 15),
+  })
+
+  const { data: popularFeed } = useQuery({
+    queryKey: ["feed", "popular", 0, 15],
+    queryFn: () => fetchFeed("popular", 0, 15),
+  })
+
   const [selected, setSelected] = useState<string>(defaultSelected)
+
+  const feeds = [newFeed, popularFeed]
+
 
   return (
     <section className="w-full flex flex-col md:flex-row items-start gap-4">
       <Tabs
-        labels={feeds.map(({ feedMetadata }) => ({
-          id: feedMetadata.id,
-          name: feedMetadata.name,
+        labels={feeds.map((feed) => ({
+          id: feed?.feedMetadata.id || "",
+          name: feed?.feedMetadata.name || "",
         }))}
         selected={selected}
         setSelected={setSelected}
       />
       <div className="flex-1 flex flex-row items-center justify-center">
         <Feed
-          feed={feeds.find(({ feedMetadata }) => feedMetadata.id === selected)}
+          feed={feeds.find((feed) => feed?.feedMetadata.id === selected)}
         />
       </div>
     </section>
   )
 }
 
-const queryClient = new QueryClient()
-
-const HomeFeedWithProvider = (props: Props) => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <HomeFeed {...props} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
-  )
-}
-
-export default HomeFeedWithProvider
+export default HomeFeed

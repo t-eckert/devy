@@ -1,7 +1,9 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+
 import { CaptureSession } from "@/lib/auth"
+import QueryProvider from "@/lib/query-provider"
 
 import Header from "./header"
 import Footer from "./footer"
@@ -21,23 +23,27 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={[
-          inter.className,
-          "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter",
-        ].join(" ")}
-      >
-        <CaptureSession />
+    <html lang="en">
+      <QueryProvider>
+        <div className="dark">
+          <body
+            className={[
+              inter.className,
+              "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter",
+            ].join(" ")}
+          >
+            <CaptureSession />
 
-        <div className="min-h-screen">
-          <Header />
+            <div className="min-h-screen">
+              <Header />
 
-          <main>{children}</main>
+              <main>{children}</main>
+            </div>
+
+            <Footer version={version} />
+          </body>
         </div>
-
-        <Footer version={version} />
-      </body>
+      </QueryProvider>
     </html>
   )
 }
