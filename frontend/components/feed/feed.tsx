@@ -5,8 +5,6 @@ import { useState } from "react"
 import { FeedMetadata, Post } from "@/models"
 import PostCollection from "@/components/post-collection"
 
-const pageSize = 15
-
 interface Props {
 	feed?: { feedMetadata: FeedMetadata; posts: Post[] }
 }

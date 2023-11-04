@@ -18,13 +18,13 @@ export default async function HomePage() {
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery({
-    queryKey: ["feed", "new", 0, 15],
-    queryFn: () => fetchFeed("new", 0, 15),
+    queryKey: ["feed", "new", 0, 25],
+    queryFn: () => fetchFeed("new", 0, 25),
   })
 
   await queryClient.prefetchQuery({
-    queryKey: ["feed", "popular", 0, 15],
-    queryFn: () => fetchFeed("popular", 0, 15),
+    queryKey: ["feed", "popular", 0, 25],
+    queryFn: () => fetchFeed("popular", 0, 25),
   })
 
   return (
