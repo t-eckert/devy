@@ -45,7 +45,7 @@ export default function Likes({ postId, initialCount }: Props) {
 		console.log(profileLikes)
 		const isLiked = profileLikes.some((post) => post.id === postId) ?? false
 		setLikedByUser(isLiked)
-	}, [profileLikes])
+	}, [profileLikes, hasUser, postId])
 
 
 
@@ -61,7 +61,7 @@ export default function Likes({ postId, initialCount }: Props) {
 	})
 	useEffect(() => {
 		setCount(queriedCount ?? initialCount)
-	}, [queriedCount])
+	}, [queriedCount, initialCount])
 
 
 	// Mutation to like or unlike the post.
