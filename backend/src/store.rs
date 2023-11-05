@@ -1,4 +1,5 @@
 use crate::auth::Client;
+use crate::uploader::Uploader;
 use sqlx::PgPool;
 
 /// Store is the shared state of the application.
@@ -7,10 +8,15 @@ use sqlx::PgPool;
 pub struct Store {
     pub pool: PgPool,
     pub auth_client: Client,
+    pub uploader: Uploader,
 }
 
 impl Store {
-    pub fn new(pool: PgPool, auth_client: Client) -> Self {
-        Store { pool, auth_client }
+    pub fn new(pool: PgPool, auth_client: Client, uploader: Uploader) -> Self {
+        Self {
+            pool,
+            auth_client,
+            uploader,
+        }
     }
 }
