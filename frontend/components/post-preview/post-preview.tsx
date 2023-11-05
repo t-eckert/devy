@@ -12,7 +12,7 @@ export default function PostPreview({ post }: Props) {
 	return (
 		<section className="flex flex-row gap-2 items-start">
 			<div className="flex flex-col items-start gap-1">
-				<Likes initialCount={post.likes} />
+				<Likes postId={post.id} initialCount={post.likes} />
 			</div>
 
 			<div className="flex flex-col gap-1">
