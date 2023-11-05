@@ -40,7 +40,6 @@ export default function Likes({ postId, initialCount }: Props) {
 			return
 		}
 
-		console.log(profileLikes)
 		const isLiked = profileLikes.some((post) => post.id === postId) ?? false
 		setLikedByUser(isLiked)
 	}, [profileLikes, hasUser, postId])
