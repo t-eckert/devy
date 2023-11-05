@@ -1,6 +1,6 @@
 [package]
 name = "devy-backend"
-version = "0.2.1"
+version = "v0.2.2"
 edition = "2021"
 
 [dependencies]
