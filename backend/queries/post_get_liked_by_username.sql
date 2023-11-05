@@ -10,7 +10,7 @@ SELECT
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
 	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
 	COALESCE(likes.like_count, 0) AS likes
-FROM "post" LEFT JOIN 
+FROM "post" INNER JOIN 
 	(SELECT * FROM "like" WHERE profile_id = 
 		(SELECT id FROM "profile" WHERE user_id =
 			(SELECT id FROM "user" WHERE username = $1)))
