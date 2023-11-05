@@ -5,6 +5,15 @@ use axum::{
     Json,
 };
 
+pub async fn get_uploads(State(store): State<Store>) -> Result<Json<Vec<Upload>>, StatusCode> {
+    let uploads = match Upload::get_all(&store.pool).await {
+        Ok(uploads) => uploads,
+        Err(_) => return Err(StatusCode::INTERNAL_SERVER_ERROR),
+    };
+
+    Ok(Json(uploads))
+}
+
 pub async fn post_upload(
     State(store): State<Store>,
     ExtractJson(payload): ExtractJson<Upload>,

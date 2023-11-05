@@ -100,4 +100,20 @@ impl Upload {
         .fetch_one(pool)
         .await
     }
+
+    pub async fn get_all(pool: &PgPool) -> Result<Vec<Self>, sqlx::Error> {
+        sqlx::query_as!(
+            Self,
+            r#"
+            SELECT 
+                id::TEXT, previous_upload_id::TEXT, status, repo, logs,
+                to_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
+                to_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at
+            FROM "upload"
+            ORDER BY created_at DESC
+            "#,
+        )
+        .fetch_all(pool)
+        .await
+    }
 }
