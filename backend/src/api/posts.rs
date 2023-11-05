@@ -1,10 +1,7 @@
-use crate::{
-    entities::{Like, Post},
-    store::Store,
-};
+use crate::{entities::Post, store::Store};
 use axum::{
     extract::{Path, State},
-    http::{HeaderMap, StatusCode},
+    http::StatusCode,
     Json,
 };
 

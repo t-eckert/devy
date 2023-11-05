@@ -14,4 +14,5 @@ pub use feed::Feed;
 pub use like::Like;
 pub use post::Post;
 pub use profile::Profile;
+pub use upload::Upload;
 pub use user::User;
