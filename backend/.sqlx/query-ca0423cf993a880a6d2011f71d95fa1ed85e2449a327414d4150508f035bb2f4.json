@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT \n\tid::text,\n\tCOALESCE(slug, '') AS slug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tCOALESCE(likes.like_count, 0) AS likes\nFROM \"post\" LEFT JOIN \n\t(SELECT * FROM \"like\" WHERE profile_id = \n\t\t(SELECT id FROM \"profile\" WHERE user_id =\n\t\t\t(SELECT id FROM \"user\" WHERE username = $1)))\nAS user_likes ON \"post\".id = post_id\nLEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nINNER JOIN (\n\tSELECT post_id, COUNT(*) AS like_count\n\tFROM \"like\"\n\tGROUP BY post_id\n) AS likes ON post.id = likes.post_id;\n\n",
+  "query": "SELECT \n\tid::text,\n\tCOALESCE(slug, '') AS slug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tCOALESCE(likes.like_count, 0) AS likes\nFROM \"post\" INNER JOIN \n\t(SELECT * FROM \"like\" WHERE profile_id = \n\t\t(SELECT id FROM \"profile\" WHERE user_id =\n\t\t\t(SELECT id FROM \"user\" WHERE username = $1)))\nAS user_likes ON \"post\".id = post_id\nLEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nINNER JOIN (\n\tSELECT post_id, COUNT(*) AS like_count\n\tFROM \"like\"\n\tGROUP BY post_id\n) AS likes ON post.id = likes.post_id;\n\n",
   "describe": {
     "columns": [
       {
@@ -78,5 +78,5 @@
       null
     ]
   },
-  "hash": "b3c7c44562511ff9a8b132fefd44f5389157cc6fbb876b8571d1cc22323736c1"
+  "hash": "ca0423cf993a880a6d2011f71d95fa1ed85e2449a327414d4150508f035bb2f4"
 }
