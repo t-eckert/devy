@@ -20,7 +20,7 @@ build-backend-container:
 	@cd backend && docker build -t devy-backend .
 
 serve-backend:
-	@cd backend && RUST_LOG=DEBUG cargo watch -- cargo run
+	@cd backend && RUST_LOG=ERROR cargo watch -- cargo run
 
 # Test database
 build-test-db:
