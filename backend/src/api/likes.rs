@@ -9,8 +9,6 @@ pub async fn post_like(
     State(store): State<Store>,
     ExtractJson(like): ExtractJson<Like>,
 ) -> Result<Json<Like>, StatusCode> {
-    println!("post_like");
-    dbg!(&like);
     Ok(Json(
         like.upsert(&store.pool)
             .await
@@ -23,9 +21,6 @@ pub async fn delete_like(
     Path((post_id, profile_id)): Path<(String, String)>,
 ) -> Result<Json<Like>, StatusCode> {
     let like = Like::new(profile_id, post_id);
-
-    println!("post_like");
-    dbg!(&like);
     Ok(Json(
         like.delete(&store.pool)
             .await
