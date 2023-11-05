@@ -35,10 +35,6 @@ pub fn make_router(store: Store) -> Router {
         .route("/v1/auth/callback", get(api::auth::callback))
         .route("/v1/posts/:post_id", get(api::posts::get_post_by_post_id))
         .route(
-            "/v1/posts/:post_id/likes",
-            post(api::posts::post_like_to_post),
-        )
-        .route(
             "/v1/profiles/:username",
             get(api::profiles::get_profile_by_username),
         )
