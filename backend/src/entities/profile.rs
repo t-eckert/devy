@@ -8,6 +8,7 @@ use sqlx::PgPool;
 pub struct Profile {
     pub id: Option<String>,
     pub user_id: Option<String>,
+
     pub display_name: Option<String>,
     pub avatar_url: Option<String>,
 
