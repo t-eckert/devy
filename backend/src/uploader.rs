@@ -12,6 +12,8 @@ impl Uploader {
     pub async fn upload(self, upload: Upload, pool: &PgPool) -> Result<Upload, String> {
         println!("Upload initiated");
 
-        Ok(upload)
+        let upload_received = upload.set_status(pool, "received".to_string()).await;
+
+        upload_received.map_err(|_| "AAAAAAHHHHH!!".to_string())
     }
 }
