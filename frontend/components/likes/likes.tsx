@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-import { HeartIcon, HeartFilledIcon } from "@radix-ui/react-icons"
 import { useQuery, useMutation } from "@tanstack/react-query"
-
-import Button from "@/components/button"
-import Counter from "@/components/counter"
 
 import useSession from "@/lib/auth/useSession"
 import useStore from "@/lib/useStore"
