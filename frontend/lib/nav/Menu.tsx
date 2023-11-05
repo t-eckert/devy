@@ -3,10 +3,11 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 
-import useSession, { SessionStore } from "@/lib/auth/useSession"
-import useStore from "@/lib/useStore"
 import Link from "@/components/link"
 import Button from "@/components/button"
+
+import useSession, { SessionStore } from "@/lib/auth/useSession"
+import useStore from "@/lib/useStore"
 
 export default function Menu() {
 	const session = useStore(useSession, (state) => state)

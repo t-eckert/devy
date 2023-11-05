@@ -34,12 +34,12 @@ const styles = cva(
 		variants: {
 			intent: {
 				primary: [
-					"border-neutral-dark",
-					"bg-neutral-dark",
-					"text-neutral-light",
-					"dark:border-neutral-light",
-					"dark:bg-neutral-light",
-					"dark:text-neutral-dark",
+					"border-neutral-darkest",
+					"bg-neutral-darker",
+					"text-neutral-lighter",
+					"dark:border-neutral-lightest",
+					"dark:bg-neutral-lightest",
+					"dark:text-neutral-darker",
 				],
 				secondary: [
 					"border-zinc-100",
