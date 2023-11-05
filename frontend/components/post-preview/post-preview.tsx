@@ -10,7 +10,7 @@ interface Props {
 
 export default function PostPreview({ post }: Props) {
 	return (
-		<section className="flex flex-row gap-2 items-start">
+		<section className={wrapper}>
 			<div className="flex flex-col items-start gap-1">
 				<Likes postId={post.id} initialCount={post.likes} />
 			</div>
@@ -21,7 +21,7 @@ export default function PostPreview({ post }: Props) {
 					url={`${post.blogSlug}/${post.slug}`}
 				/>
 
-				<div className="mb-2 flex flex-row gap-2 items-baseline text-sm">
+				<div className="flex flex-row gap-2 items-baseline text-xs">
 					<Link href={`/profiles/${post.authorSlug}`}>
 						{post.authorName}
 					</Link>
@@ -31,3 +31,21 @@ export default function PostPreview({ post }: Props) {
 		</section>
 	)
 }
+
+const wrapper = [
+	"flex",
+	"flex-row",
+	"gap-4",
+	"items-start",
+	"py-2",
+	"px-4",
+	"border-neutral-darker",
+	"rounded-md",
+	"hover:shadow-md",
+	"hover:border-neutral-medium",
+	"bg-neutral-lightest",
+	"dark:bg-neutral-darker",
+	"border",
+	"hover:border",
+	"transition-all",
+].join(" ")
