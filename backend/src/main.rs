@@ -3,12 +3,14 @@ use std::env;
 use std::net::SocketAddr;
 use std::time::Duration;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
+use uploader::Uploader;
 
 mod api;
 mod auth;
 mod entities;
 mod router;
 mod store;
+mod uploader;
 
 #[tokio::main]
 async fn main() {
@@ -42,7 +44,10 @@ async fn main() {
     let post_auth_redirect_uri = env::var("POST_AUTH_URI").expect("POST_AUTH_URI not set");
     let auth_client = auth::Client::new(client_id, client_secret, post_auth_redirect_uri);
 
-    let store = store::Store::new(pool, auth_client);
+    // Create the uploader.
+    let uploader = Uploader::new();
+
+    let store = store::Store::new(pool, auth_client, uploader);
 
     let router = router::make_router(store);
 

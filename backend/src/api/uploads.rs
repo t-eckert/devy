@@ -16,9 +16,10 @@ pub async fn post_upload(
         Err(_) => return Err(StatusCode::INTERNAL_SERVER_ERROR),
     };
 
-    /* x Insert the upload to the database.
-     * Once inserted, pass the upload to the uploader.
-     */
+    let received_upload = match store.uploader.upload(upload, &store.pool).await {
+        Ok(upload) => upload,
+        Err(_) => return Err(StatusCode::INTERNAL_SERVER_ERROR),
+    };
 
-    Ok(Json(upload))
+    Ok(Json(received_upload))
 }
