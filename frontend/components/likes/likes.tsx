@@ -13,6 +13,9 @@ import useStore from "@/lib/useStore"
 import api from "@/lib/api"
 import { Like, Post } from "@/models"
 
+import LikesLoggedIn from "./likes-logged-in"
+import LikesLoggedOut from "./likes-logged-out"
+
 interface Props {
 	postId: string
 	initialCount: number
@@ -20,8 +23,7 @@ interface Props {
 
 export default function Likes({ postId, initialCount }: Props) {
 	// Get the current user session.
-	const session = useStore(useSession, (session) => (session))
-
+	const session = useStore(useSession, (session) => session)
 
 	// If no user is logged in, the likes component will be non-interactive.
 	const hasUser = session?.status === "logged-in"
@@ -47,8 +49,6 @@ export default function Likes({ postId, initialCount }: Props) {
 		setLikedByUser(isLiked)
 	}, [profileLikes, hasUser, postId])
 
-
-
 	// Query the count of likes for the post and update the count state.
 	const [count, setCount] = useState(initialCount)
 	const { data: queriedCount } = useQuery({
@@ -63,15 +63,19 @@ export default function Likes({ postId, initialCount }: Props) {
 		setCount(queriedCount ?? initialCount)
 	}, [queriedCount, initialCount])
 
-
 	// Mutation to like or unlike the post.
 	const { mutate: like } = useMutation({
 		mutationFn: async () => {
 			if (!hasUser) return Promise.resolve()
 			if (likedByUser) {
-				await api.delete(`/v1/likes/${postId}/${session?.session?.profile.id}`)
+				await api.delete(
+					`/v1/likes/${postId}/${session?.session?.profile.id}`
+				)
 			} else {
-				await api.post<Like>(`/v1/likes`, { postId, profileId: session?.session?.profile.id || "" })
+				await api.post<Like>(`/v1/likes`, {
+					postId,
+					profileId: session?.session?.profile.id || "",
+				})
 			}
 		},
 		onSuccess: () => {
@@ -80,32 +84,9 @@ export default function Likes({ postId, initialCount }: Props) {
 		},
 	})
 
-
-	return hasUser ? <LikesLoggedIn count={count} isLiked={likedByUser} onClick={like} /> : <LikesNotLoggedIn count={count} />
+	return hasUser ? (
+		<LikesLoggedIn count={count} isLiked={likedByUser} onClick={like} />
+	) : (
+		<LikesLoggedOut count={count} />
+	)
 }
-
-
-const LikesNotLoggedIn = ({ count }: { count: number }) => <div className="flex flex-row gap-1 items-center justify-center px-2 py-0.5 rounded-md select-none group">
-	<span>
-		<HeartIcon className="text-neutral-low dark:text-neutral-light h-4 aspect-square" />
-	</span>
-	<span className="text-sm font-medium w-7 flex flex-col items-end">
-		<Counter count={count} />
-	</span>
-</div>
-
-
-const LikesLoggedIn = ({ count, isLiked, onClick }: { count: number, isLiked: boolean, onClick: () => void }) => <Button onClick={onClick} variant={{ intent: "secondary" }}>
-	<div className="flex flex-row gap-1 items-center justify-center rounded-md select-none group">
-		<span>
-			{isLiked ? (
-				<HeartFilledIcon className="text-neutral-low dark:text-neutral-light h-4 aspect-square" />
-			) : (
-				<HeartIcon className="text-neutral-low dark:text-neutral-light h-4 aspect-square" />
-			)}
-		</span>
-		<span className="w-7 flex flex-col items-end">
-			<Counter count={count} />
-		</span>
-	</div>
-</Button>

@@ -20,8 +20,6 @@ const styles = cva(
 		"rounded-lg",
 		"text-sm",
 		"font-medium",
-		"px-2.5",
-		"py-0.5",
 		"border",
 		"focus:outline-none",
 		"focus:ring-1",
@@ -34,6 +32,8 @@ const styles = cva(
 		variants: {
 			intent: {
 				primary: [
+					"px-2.5",
+					"py-0.5",
 					"border-neutral-darkest",
 					"bg-neutral-darker",
 					"text-neutral-lighter",
@@ -42,6 +42,8 @@ const styles = cva(
 					"dark:text-neutral-darker",
 				],
 				secondary: [
+					"px-2.5",
+					"py-0.5",
 					"border-zinc-100",
 					"bg-zinc-100",
 					"text-zinc-950",
@@ -51,7 +53,7 @@ const styles = cva(
 					"dark:bg-neutral-medium",
 					"dark:text-neutral-light",
 				],
-				tertiary: [],
+				tertiary: ["px-1", "py-0.5", "border-none"],
 				creative: [],
 				destructive: [],
 				cautionary: [],
