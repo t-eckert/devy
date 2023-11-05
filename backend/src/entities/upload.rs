@@ -63,7 +63,7 @@ impl Upload {
             Self,
             r#"
             UPDATE "upload"
-            SET status=$2
+            SET status=$2, updated_at=NOW()
             WHERE id=$1
             RETURNING
                 id::TEXT, previous_upload_id::TEXT, status, repo, logs,
@@ -72,6 +72,30 @@ impl Upload {
             "#,
             uuid,
             status
+        )
+        .fetch_one(pool)
+        .await
+    }
+
+    pub async fn log(self, pool: &PgPool, log: String) -> Result<Self, sqlx::Error> {
+        let uuid = match &self.id {
+            Some(id) => Uuid::parse_str(id).ok(),
+            None => None,
+        };
+
+        sqlx::query_as!(
+            Self,
+            r#"
+            UPDATE "upload"
+            SET logs=ARRAY_APPEND(logs,$2), updated_at=NOW()
+            WHERE id=$1
+            RETURNING
+                id::TEXT, previous_upload_id::TEXT, status, repo, logs,
+                to_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
+                to_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at; 
+            "#,
+            uuid,
+            log
         )
         .fetch_one(pool)
         .await

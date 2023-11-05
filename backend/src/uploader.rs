@@ -14,6 +14,13 @@ impl Uploader {
 
         let upload_received = upload.set_status(pool, "received".to_string()).await;
 
-        upload_received.map_err(|_| "AAAAAAHHHHH!!".to_string())
+        // I know I can nicely chain this later...
+
+        let upload_logged_to = upload_received
+            .map_err(|_| "AAAAAAHHHHH!!".to_string())?
+            .log(pool, "INFO: Upload received by uploader.".to_string())
+            .await;
+
+        upload_logged_to.map_err(|_| "AAAAAAHHHHH!!".to_string())
     }
 }
