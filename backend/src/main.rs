@@ -1,3 +1,4 @@
+use git::Git;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
@@ -8,6 +9,7 @@ use uploader::Uploader;
 mod api;
 mod auth;
 mod entities;
+mod git;
 mod router;
 mod store;
 mod uploader;
@@ -45,7 +47,8 @@ async fn main() {
     let auth_client = auth::Client::new(client_id, client_secret, post_auth_redirect_uri);
 
     // Create the uploader.
-    let uploader = Uploader::new();
+    let git = Git::new("git".to_string());
+    let uploader = Uploader::new(git);
 
     let store = store::Store::new(pool, auth_client, uploader);
 
