@@ -1,8 +1,9 @@
-use crate::entities::error::EntityError;
 use http::StatusCode;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
+
+use crate::entities::error::Error as EntitiesError;
 
 #[serde_as]
 #[derive(Debug, Serialize)]
@@ -16,12 +17,12 @@ impl From<StatusCode> for Error {
     }
 }
 
-impl From<EntityError> for Error {
-    fn from(val: EntityError) -> Self {
+impl From<EntitiesError> for Error {
+    fn from(val: EntitiesError) -> Self {
         match val {
-            EntityError::NotFound => Self::StatusCode(StatusCode::NOT_FOUND),
-            EntityError::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            EntityError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+            EntitiesError::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
+            EntitiesError::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
