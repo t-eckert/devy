@@ -1,18 +1,16 @@
-use git::Git;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
 use std::time::Duration;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
-use uploader::Uploader;
+use upload::{Git, Uploader};
 
 mod api;
 mod auth;
 mod entities;
-mod git;
 mod router;
 mod store;
-mod uploader;
+mod upload;
 
 #[tokio::main]
 async fn main() {
