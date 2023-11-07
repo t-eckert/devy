@@ -7,7 +7,7 @@ RUN SQLX_OFFLINE=true cargo build --release
 
 
 FROM debian:buster-slim
-RUN apt-get update && apt-get install -y pkg-config libssl-dev
+RUN apt-get update && apt-get install -y pkg-config libssl-dev git
 COPY --from=builder /app/target/release/devy-backend .
 ENV DATABASE_URL=
 ENV CLIENT_ID=
