@@ -1,5 +1,5 @@
 use crate::{
-    entities::{error::EntityError, Blog, Post},
+    entities::{error::Error, Blog, Post},
     store::Store,
 };
 use axum::{
@@ -65,10 +65,10 @@ pub async fn delete_blog(
     Ok(StatusCode::OK)
 }
 
-fn map_error(e: EntityError) -> StatusCode {
+fn map_error(e: Error) -> StatusCode {
     match e {
-        EntityError::NotFound => StatusCode::NOT_FOUND,
-        EntityError::Malformed { .. } => StatusCode::BAD_REQUEST,
-        EntityError::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,
+        Error::EntityNotFound => StatusCode::NOT_FOUND,
+        Error::Malformed { .. } => StatusCode::BAD_REQUEST,
+        Error::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
 }
