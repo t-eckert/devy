@@ -47,7 +47,8 @@ async fn main() {
     let auth_client = auth::Client::new(client_id, client_secret, post_auth_redirect_uri);
 
     // Create the uploader.
-    let git = Git::new("git".to_string());
+    let git_path = env::var("GIT_PATH").expect("GIT_PATH not set");
+    let git = Git::new(git_path).expect("Unable to create git client");
     let uploader = Uploader::new(git);
 
     let store = store::Store::new(pool, auth_client, uploader);

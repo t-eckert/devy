@@ -21,12 +21,13 @@ impl Uploader {
         let upload_logged_to = upload_received
             .map_err(|_| "AAAAAAHHHHH!!".to_string())?
             .log(pool, "INFO: Upload received by uploader.".to_string())
-            .await;
-
-        self.git
-            .clone_repo("")
+            .await
             .map_err(|_| "AAAAAAHHHHH!!".to_string())?;
 
-        upload_logged_to.map_err(|_| "AAAAAAHHHHH!!".to_string())
+        self.git
+            .clone_repo(&upload_logged_to.clone().repo.unwrap().as_str())
+            .map_err(|_| "AAAAAAHHHHH!!".to_string())?;
+
+        Ok(upload_logged_to)
     }
 }
