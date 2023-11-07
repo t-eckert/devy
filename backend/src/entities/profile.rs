@@ -1,3 +1,4 @@
+use super::error::Result;
 use crate::auth::GitHubUser;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
@@ -28,8 +29,8 @@ impl Profile {
         }
     }
 
-    pub async fn upsert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
-        sqlx::query_as!(
+    pub async fn upsert(self, pool: &PgPool) -> Result<Self> {
+        Ok(sqlx::query_as!(
             Self,
             r#"
             INSERT INTO profile (user_id, display_name, avatar_url)
@@ -49,14 +50,14 @@ impl Profile {
             self.avatar_url
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
     #[allow(dead_code)]
-    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self, sqlx::Error> {
+    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
         let uuid = Uuid::parse_str(&id).unwrap();
 
-        sqlx::query_as!(
+        Ok(sqlx::query_as!(
             Self,
             r#"
             SELECT 
@@ -70,20 +71,22 @@ impl Profile {
             uuid
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
-    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self, sqlx::Error> {
-        sqlx::query_file_as!(Self, "queries/profile_get_by_username.sql", username)
-            .fetch_one(pool)
-            .await
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self> {
+        Ok(
+            sqlx::query_file_as!(Self, "queries/profile_get_by_username.sql", username)
+                .fetch_one(pool)
+                .await?,
+        )
     }
 
     pub async fn upsert_from_github_user(
         pool: &PgPool,
         user_id: String,
         github_user: GitHubUser,
-    ) -> Result<Self, sqlx::Error> {
+    ) -> Result<Self> {
         dbg!(&github_user);
 
         Self::new(user_id, github_user.name, Some(github_user.avatar_url))

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 
-use super::error::EntityError;
+use super::error::Result;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -18,7 +18,7 @@ pub struct Blog {
 }
 
 impl Blog {
-    pub async fn upsert(self, pool: &PgPool) -> Result<Self, EntityError> {
+    pub async fn upsert(self, pool: &PgPool) -> Result<Self> {
         let _ = sqlx::query_file_as!(
             Self,
             "queries/blog_upsert.sql",
@@ -33,7 +33,7 @@ impl Blog {
         Blog::get_by_slug(pool, self.slug).await
     }
 
-    pub async fn get_by_slug(pool: &PgPool, slug: String) -> Result<Self, EntityError> {
+    pub async fn get_by_slug(pool: &PgPool, slug: String) -> Result<Self> {
         Ok(
             sqlx::query_file_as!(Self, "queries/blog_get_by_slug.sql", slug)
                 .fetch_one(pool)
@@ -41,10 +41,7 @@ impl Blog {
         )
     }
 
-    pub async fn get_by_username(
-        pool: &PgPool,
-        username: String,
-    ) -> Result<Vec<Self>, EntityError> {
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Vec<Self>> {
         Ok(
             sqlx::query_file_as!(Self, "queries/blog_get_by_username.sql", username)
                 .fetch_all(pool)
@@ -52,7 +49,7 @@ impl Blog {
         )
     }
 
-    pub async fn delete_by_slug(pool: &PgPool, slug: String) -> Result<(), EntityError> {
+    pub async fn delete_by_slug(pool: &PgPool, slug: String) -> Result<()> {
         sqlx::query_file!("queries/blog_delete_by_slug.sql", slug)
             .execute(pool)
             .await?;

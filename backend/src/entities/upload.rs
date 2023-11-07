@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;
 
+use super::error::Result;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Upload {
@@ -29,13 +31,13 @@ impl Upload {
         }
     }
 
-    pub async fn insert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
+    pub async fn insert(self, pool: &PgPool) -> Result<Self> {
         let previous_upload_uuid = match &self.previous_upload_id {
             Some(previous_upload_id) => Uuid::parse_str(previous_upload_id).ok(),
             None => None,
         };
 
-        sqlx::query_as!(
+        Ok(sqlx::query_as!(
             Self,
             r#"
             INSERT INTO "upload" (previous_upload_id, repo, logs)
@@ -50,16 +52,16 @@ impl Upload {
             &self.logs.unwrap_or(vec![])
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
-    pub async fn set_status(self, pool: &PgPool, status: String) -> Result<Self, sqlx::Error> {
+    pub async fn set_status(self, pool: &PgPool, status: String) -> Result<Self> {
         let uuid = match &self.id {
             Some(id) => Uuid::parse_str(id).ok(),
             None => None,
         };
 
-        sqlx::query_as!(
+        Ok(sqlx::query_as!(
             Self,
             r#"
             UPDATE "upload"
@@ -74,16 +76,16 @@ impl Upload {
             status
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
-    pub async fn log(self, pool: &PgPool, log: String) -> Result<Self, sqlx::Error> {
+    pub async fn log(self, pool: &PgPool, log: String) -> Result<Self> {
         let uuid = match &self.id {
             Some(id) => Uuid::parse_str(id).ok(),
             None => None,
         };
 
-        sqlx::query_as!(
+        Ok(sqlx::query_as!(
             Self,
             r#"
             UPDATE "upload"
@@ -98,11 +100,11 @@ impl Upload {
             log
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
-    pub async fn get_all(pool: &PgPool) -> Result<Vec<Self>, sqlx::Error> {
-        sqlx::query_as!(
+    pub async fn get_all(pool: &PgPool) -> Result<Vec<Self>> {
+        Ok(sqlx::query_as!(
             Self,
             r#"
             SELECT 
@@ -114,6 +116,6 @@ impl Upload {
             "#,
         )
         .fetch_all(pool)
-        .await
+        .await?)
     }
 }
