@@ -1,6 +1,7 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import { Analytics } from "@vercel/analytics/react"
 
 import { CaptureSession } from "@/lib/auth"
 import QueryProvider from "@/lib/query-provider"
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: Props) {
             </div>
           </div>
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   )
