@@ -1,5 +1,5 @@
 use crate::auth::Client;
-use crate::uploader::Uploader;
+use crate::upload::Uploader;
 use sqlx::PgPool;
 
 /// Store is the shared state of the application.
