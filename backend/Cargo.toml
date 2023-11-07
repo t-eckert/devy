@@ -40,5 +40,5 @@ version = "^0.7.1"
 features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time",]
 
 [dependencies.uuid]
-version = "1.4.0"
+version = "1.5.0"
 features = [ "v4", "fast-rng", "macro-diagnostics",]
