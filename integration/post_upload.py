@@ -4,7 +4,7 @@ import httpx
 import json
 
 upload = {
-    "repo": "github.com/t-eckert/devy.git"
+    "repo": "https://github.com/t-eckert/devy"
 }
 
 r = httpx.post(f"{url}uploads", json=upload)
