@@ -2,37 +2,37 @@ use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
+pub type Result<T> = std::result::Result<T, Error>;
+
 #[serde_as]
 #[derive(Debug, Serialize)]
-pub enum EntityError {
-    NotFound,
+pub enum Error {
+    EntityNotFound,
 
-    Malformed { error: String },
+    Malformed(String),
 
     Sqlx(#[serde_as(as = "DisplayFromStr")] sqlx::Error),
 }
 
-impl EntityError {
+impl Error {
     pub fn malformed(error: &str) -> Self {
-        Self::Malformed {
-            error: format!("{}", error),
-        }
+        Self::Malformed(error.to_string())
     }
 }
 
-impl From<sqlx::Error> for EntityError {
+impl From<sqlx::Error> for Error {
     fn from(val: sqlx::Error) -> Self {
         match val {
-            sqlx::Error::RowNotFound => Self::NotFound,
+            sqlx::Error::RowNotFound => Self::EntityNotFound,
             _ => Self::Sqlx(val),
         }
     }
 }
 
-impl core::fmt::Display for EntityError {
+impl core::fmt::Display for Error {
     fn fmt(&self, fmt: &mut core::fmt::Formatter) -> core::result::Result<(), core::fmt::Error> {
         write!(fmt, "{self:?}")
     }
 }
 
-impl std::error::Error for EntityError {}
+impl std::error::Error for Error {}

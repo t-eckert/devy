@@ -1,4 +1,4 @@
-use super::error::EntityError;
+use super::error::{Error, Result};
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;
@@ -18,24 +18,26 @@ impl Like {
         }
     }
 
-    pub fn profile_uuid(&self) -> Result<Uuid, EntityError> {
+    pub fn profile_uuid(&self) -> Result<Uuid> {
         match &self.profile_id {
-            Some(id) => Uuid::try_parse(&id)
-                .map_err(|_| EntityError::malformed("Like.profile_id is not UUID.")),
-            None => Err(EntityError::malformed("Like is missing profile_id.")),
+            Some(id) => {
+                Uuid::try_parse(&id).map_err(|_| Error::malformed("Like.profile_id is not UUID."))
+            }
+            None => Err(Error::malformed("Like is missing profile_id.")),
         }
     }
 
-    pub fn post_uuid(&self) -> Result<Uuid, EntityError> {
+    pub fn post_uuid(&self) -> Result<Uuid> {
         match &self.post_id {
-            Some(id) => Uuid::try_parse(&id)
-                .map_err(|_| EntityError::malformed("Like.post_id is not UUID.")),
-            None => Err(EntityError::malformed("Like is missing post_id.")),
+            Some(id) => {
+                Uuid::try_parse(&id).map_err(|_| Error::malformed("Like.post_id is not UUID."))
+            }
+            None => Err(Error::malformed("Like is missing post_id.")),
         }
     }
 
-    pub async fn upsert(self, pool: &PgPool) -> Result<Self, EntityError> {
-        sqlx::query_as!(
+    pub async fn upsert(self, pool: &PgPool) -> Result<Self> {
+        Ok(sqlx::query_as!(
             Self,
             r#"
             INSERT INTO "like" (profile_id, post_id)
@@ -48,15 +50,13 @@ impl Like {
             self.post_uuid()?
         )
         .fetch_one(pool)
-        .await
-        .map_err(|x| x.into())
+        .await?)
     }
 
     // Returns the ids of all posts liked by a user.
-    pub async fn get_post_ids_by_username(
-        pool: &PgPool,
-        username: String,
-    ) -> Result<Vec<String>, EntityError> {
+    pub async fn get_post_ids_by_username(pool: &PgPool, username: String) -> Result<Vec<String>> {
+        // TODO simplify this to just return the list of post_ids from the SQL query instead of
+        // throwing away data in the map.
         sqlx::query_as!(
             Self,
             r#"
@@ -82,8 +82,8 @@ impl Like {
         })
     }
 
-    pub async fn delete(self, pool: &PgPool) -> Result<Self, EntityError> {
-        sqlx::query_as!(
+    pub async fn delete(self, pool: &PgPool) -> Result<Self> {
+        Ok(sqlx::query_as!(
             Self,
             r#"
             DELETE FROM "like"
@@ -94,7 +94,6 @@ impl Like {
             self.post_uuid()?
         )
         .fetch_one(pool)
-        .await
-        .map_err(|x| x.into())
+        .await?)
     }
 }
