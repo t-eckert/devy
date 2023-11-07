@@ -1,5 +1,18 @@
 # Changelog
 
+## `v0.3.0` 
+
+### Frontend
+
+### Backend
+
+- Add `GET` and `POST` `/v1/uploads` route.
+- Uploads sent to the `/v1/uploads` route are cloned into random directories under `/tmp`.
+
+### Development
+
+- Add [Vecel Analytics](https://vercel.com/analytics) to the frontend.
+
 ## `v0.2.2` You Can't Like All of Them
 
 `4 November 2023`
