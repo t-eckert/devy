@@ -1,9 +1,13 @@
+use axum::response::{IntoResponse, Response};
 use http::StatusCode;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
 use crate::entities::error::Error as EntitiesError;
+use crate::upload::Error as UploadError;
+
+pub type Result<T> = std::result::Result<T, Error>;
 
 #[serde_as]
 #[derive(Debug, Serialize)]
@@ -26,3 +30,33 @@ impl From<EntitiesError> for Error {
         }
     }
 }
+
+impl From<UploadError> for Error {
+    fn from(val: UploadError) -> Self {
+        match val {
+            UploadError::DependencyError(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+            UploadError::RepositoryNotFound(_) => Self::StatusCode(StatusCode::BAD_REQUEST),
+            UploadError::GitBinaryNotFound(_) => {
+                Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+            }
+            UploadError::GitCloneFailed(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+            UploadError::CleanupFailure(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
+    }
+}
+
+impl IntoResponse for Error {
+    fn into_response(self) -> Response {
+        match self {
+            Self::StatusCode(status) => status.into_response(),
+        }
+    }
+}
+
+impl core::fmt::Display for Error {
+    fn fmt(&self, fmt: &mut core::fmt::Formatter) -> core::result::Result<(), core::fmt::Error> {
+        write!(fmt, "{self:?}")
+    }
+}
+
+impl std::error::Error for Error {}
