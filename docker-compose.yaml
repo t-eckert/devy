@@ -25,8 +25,3 @@ services:
       context: backend
       dockerfile: test-db.Dockerfile
 
-  # integration:
-  #   image: devy-integration-test:latest
-  #   environment:
-  #     HOST: "backend:8000"
-  #   build: integration
