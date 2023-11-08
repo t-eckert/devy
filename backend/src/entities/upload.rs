@@ -103,6 +103,7 @@ impl Upload {
         .await?)
     }
 
+    #[allow(dead_code)]
     pub async fn get_all(pool: &PgPool) -> Result<Vec<Self>> {
         Ok(sqlx::query_as!(
             Self,
@@ -117,5 +118,9 @@ impl Upload {
         )
         .fetch_all(pool)
         .await?)
+    }
+
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Vec<Self>> {
+        Ok(vec![])
     }
 }

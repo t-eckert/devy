@@ -1,3 +1,5 @@
+use axum::response::{IntoResponse, Response};
+use http::StatusCode;
 use serde::Serialize;
 use std::fmt::Debug;
 
@@ -23,6 +25,14 @@ impl From<EntitiesError> for Error {
     fn from(val: EntitiesError) -> Self {
         match val {
             _ => Self::DependencyError(format!("{:?}", val)),
+        }
+    }
+}
+
+impl IntoResponse for Error {
+    fn into_response(self) -> Response {
+        match self {
+            _ => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
         }
     }
 }

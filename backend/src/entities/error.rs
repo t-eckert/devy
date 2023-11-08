@@ -8,9 +8,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 #[derive(Debug, Serialize)]
 pub enum Error {
     EntityNotFound,
-
     Malformed(String),
-
     Sqlx(#[serde_as(as = "DisplayFromStr")] sqlx::Error),
 }
 
