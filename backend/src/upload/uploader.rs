@@ -2,6 +2,7 @@ use super::error::{Error, Result};
 use super::git::Git;
 use crate::entities::Upload;
 use sqlx::PgPool;
+use std::fs;
 use tracing::{event, Level};
 
 #[derive(Clone)]
@@ -39,6 +40,26 @@ impl Uploader {
             .log(pool, "INFO: Repository cloned.".to_string())
             .await?;
 
-        Ok(cloned)
+        let cleaning = cloned
+            .set_status(pool, "cleaning".to_string())
+            .await?
+            .log(pool, "INFO: Cleaning up repository.".to_string())
+            .await?;
+
+        fs::remove_dir_all(&dir).map_err(|e| {
+            Error::CleanupFailure(format!(
+                "Failed to remove directory {}: {}",
+                &dir,
+                e.to_string()
+            ))
+        })?;
+
+        let done = cleaning
+            .set_status(pool, "done".to_string())
+            .await?
+            .log(pool, "INFO: Upload complete.".to_string())
+            .await?;
+
+        Ok(done)
     }
 }

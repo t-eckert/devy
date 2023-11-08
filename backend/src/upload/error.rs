@@ -8,19 +8,21 @@ pub type Result<T> = std::result::Result<T, Error>;
 /// Error type for the `upload` module.
 #[derive(Debug, Serialize)]
 pub enum Error {
-    Base,
+    DependencyError(String),
 
     RepositoryNotFound(String),
 
     GitBinaryNotFound(String),
 
     GitCloneFailed(String),
+
+    CleanupFailure(String),
 }
 
 impl From<EntitiesError> for Error {
     fn from(val: EntitiesError) -> Self {
         match val {
-            _ => Self::Base,
+            _ => Self::DependencyError(format!("{:?}", val)),
         }
     }
 }
