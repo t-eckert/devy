@@ -9,7 +9,7 @@ pub async fn get_uploads_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Upload>>> {
-    Ok(Json(Upload::get_by_username(&store.pool, username).await?))
+    Ok(Json(Upload::get_all(&store.pool).await?))
 }
 
 pub async fn post_upload(
