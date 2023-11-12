@@ -4,17 +4,12 @@ import {
   QueryClient,
 } from "@tanstack/react-query"
 
-import Changelog from "@/components/changelog"
-
-import { fetchChangelog } from "@/lib/changelog"
 import fetchFeed from "@/lib/feed"
 
 import HomeFeed from "./home-feed"
 import Shoulder from "./shoulder"
 
 export default async function HomePage() {
-  const changelog = await fetchChangelog()
-
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery({
@@ -32,9 +27,7 @@ export default async function HomePage() {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <HomeFeed defaultSelected={"new"} />
       </HydrationBoundary>
-      <Shoulder>
-        <Changelog changelog={changelog} />
-      </Shoulder>
+      <Shoulder></Shoulder>
     </section>
   )
 }
