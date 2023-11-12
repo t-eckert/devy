@@ -14,6 +14,7 @@ http = "0.2.9"
 serde_with = "3.3.0"
 tracing = "0.1.40"
 dotenvy = "0.15.7"
+tracing-honeycomb = "0.4.1"
 
 [dependencies.tracing-subscriber]
 version = "0.3.17"
@@ -42,3 +43,6 @@ features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "t
 [dependencies.uuid]
 version = "1.5.0"
 features = [ "v4", "fast-rng", "macro-diagnostics",]
+
+[dev-dependencies]
+pretty_assertions = "1.4.0"
