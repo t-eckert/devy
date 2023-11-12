@@ -1,12 +1,15 @@
-use crate::auth::Session;
-use crate::entities::{Profile, User};
-use crate::store::Store;
+use crate::{
+    auth::Session,
+    entities::{Profile, User},
+    store::Store,
+};
 use axum::{
     extract::{Query, State},
     response::Redirect,
 };
 use jsonwebtoken::{encode, EncodingKey, Header};
 use std::collections::HashMap;
+use tracing::error;
 
 pub async fn login(State(store): State<Store>) -> Redirect {
     Redirect::permanent(&store.auth_client.login_url())
@@ -20,19 +23,25 @@ pub async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Redirect {
+    // Get the code passed from GitHub in the query params.
     let code = match params.get("code") {
         Some(code) => code,
-        None => return Redirect::to(&store.auth_client.post_auth_redirect_uri()),
-    };
-
-    let access_token = match store.auth_client.exchange_code(code.to_string()).await {
-        Ok(token) => token,
-        Err(err) => {
-            eprintln!("Failed to exchange code: {}", err);
+        None => {
+            error!("No code in params");
             return Redirect::to(&store.auth_client.post_auth_redirect_uri());
         }
     };
 
+    // Exchange the code for a token.
+    let access_token = match store.auth_client.exchange_code(code.to_string()).await {
+        Ok(token) => token,
+        Err(err) => {
+            error!("Failed to exchange code: {}", err);
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+        }
+    };
+
+    // Fetch the GitHub user.
     let github_user = match store
         .auth_client
         .fetch_github_user(access_token.clone())
@@ -40,11 +49,12 @@ pub async fn callback(
     {
         Ok(user) => user,
         Err(err) => {
-            eprintln!("Failed to fetch GitHub user: {}", err);
+            error!("Failed to fetch GitHub user: {}", err);
             return Redirect::to(&store.auth_client.post_auth_redirect_uri());
         }
     };
 
+    // Upsert the user.
     let user = match User::upsert_from_github_user(&store.pool, github_user.clone()).await {
         Ok(user) => user,
         Err(err) => {
@@ -53,6 +63,7 @@ pub async fn callback(
         }
     };
 
+    // Get the user ID.
     let user_id = match user.id.clone() {
         Some(id) => id,
         None => {
@@ -61,6 +72,7 @@ pub async fn callback(
         }
     };
 
+    // Upsert the profile.
     let profile = match Profile::upsert_from_github_user(&store.pool, user_id, github_user).await {
         Ok(profile) => profile,
         Err(err) => {
@@ -69,8 +81,10 @@ pub async fn callback(
         }
     };
 
+    // Create a session.
     let session = Session::new(user, profile, access_token.clone());
 
+    // Encode the session as a JWT.
     let jwt = match encode(
         &Header::default(),
         &session,
@@ -83,6 +97,7 @@ pub async fn callback(
         }
     };
 
+    // Redirect to the post-auth redirect URI with the JWT as a query param.
     Redirect::to(
         format!(
             "{}?token={}",

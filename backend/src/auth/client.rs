@@ -1,14 +1,17 @@
-use oauth2::reqwest::async_http_client;
-use oauth2::TokenResponse;
+use super::{
+    error::{Error, Result},
+    GitHubUser,
+};
 use oauth2::{
-    basic::BasicClient, AccessToken, AuthUrl, AuthorizationCode, ClientId, ClientSecret, CsrfToken,
-    Scope, TokenUrl,
+    basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
+    ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
 };
 use reqwest;
 
 const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
 const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
 
+/// Client is the Oauth2 client for managing GitHub authentication.
 #[derive(Clone)]
 pub struct Client {
     oauth_client: BasicClient,
@@ -41,15 +44,16 @@ impl Client {
     }
 
     // Exchange the code for a token.
-    pub async fn exchange_code(&self, code: String) -> Result<AccessToken, anyhow::Error> {
-        let token = self
+    pub async fn exchange_code(&self, code: String) -> Result<AccessToken> {
+        match self
             .oauth_client
             .exchange_code(AuthorizationCode::new(code))
             .request_async(async_http_client)
             .await
-            .map_err(|err| anyhow::anyhow!("Failed to exchange code: {}", err))?;
-
-        Ok(token.access_token().clone())
+        {
+            Ok(token) => Ok(token.access_token().clone()),
+            Err(err) => Err(Error::CodeExchangeForTokenFailed(err.to_string())),
+        }
     }
 
     // Returns the URL to redirect the user to after authorization.
@@ -57,21 +61,21 @@ impl Client {
         self.post_auth_redirect_uri.to_string()
     }
 
-    pub async fn fetch_github_user(
-        &self,
-        token: AccessToken,
-    ) -> Result<super::GitHubUser, reqwest::Error> {
-        let req_client = reqwest::Client::new();
-        let response = req_client
+    // Returns the GitHub user associated with the token.
+    pub async fn fetch_github_user(&self, token: AccessToken) -> Result<GitHubUser> {
+        match reqwest::Client::new()
             .get("https://api.github.com/user")
-            .header("User-Agent", "rust-rocket-oauth2")
+            .header("User-Agent", "devy-backend")
             .header("Accept", "application/json")
             .bearer_auth(token.secret())
             .send()
-            .await?;
-
-        let user: super::GitHubUser = response.json().await?;
-
-        Ok(user)
+            .await
+        {
+            Ok(response) => Ok(response
+                .json()
+                .await
+                .map_err(|err| Error::UnableToDeserializeUser(err.to_string()))?),
+            Err(err) => Err(Error::TokenExchangeForUserFailed(err.to_string())),
+        }
     }
 }
