@@ -1,6 +1,13 @@
 # Changelog
 
-## `v0.3.0` 
+## `v0.3.0` Clones!
+
+`12 November 2023`
+
+This release lays the groundwork for the repo uploading feature. It adds an endpoint to the backend that can accept `Repo` objects
+which are cloned into a directory named by a UUID, then just deleted. I also added a nice menu component and Vercel Analytics.
+
+[Pull Request](https://github.com/t-eckert/devy/pull/11)
 
 ### Frontend
 
@@ -8,9 +15,8 @@
 
 ### Backend
 
-- Add `GET` and `POST` `/v1/uploads` route.
+- Add `POST` `/v1/uploads` route.
 - Uploads sent to the `/v1/uploads` route are cloned into random directories under `/tmp`.
-- Markdown files in the cloned repo are 
 
 ### Development
 
