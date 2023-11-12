@@ -31,9 +31,9 @@ export default function Nav() {
     },
     {
       type: "link",
-      label: "Following",
+      label: "Followers",
       tag: "2.3k",
-      href: "/following",
+      href: "/followers",
     },
     {
       type: "link",
