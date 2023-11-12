@@ -11,16 +11,21 @@ which are cloned into a directory named by a UUID, then just deleted. I also add
 
 ### Frontend
 
-- Create a nice menu component.
+-   Create a nice menu component.
 
 ### Backend
 
-- Add `POST` `/v1/uploads` route.
-- Uploads sent to the `/v1/uploads` route are cloned into random directories under `/tmp`.
+-   Add an entity for uploads.
+-   Add an `Uploader` to the backend state.
+-   Enable the backend to use a Git binary in the environment.
+-   Add `POST` `/v1/uploads` route.
+-   Uploads sent to the `/v1/uploads` route are cloned into random directories under `/tmp`.
+-   Allow for setting the `CALLBACK_URL` by environment variable.
+-   Add a stubbed "follwers" and "following" page.
 
 ### Development
 
-- Add [Vecel Analytics](https://vercel.com/analytics) to the frontend.
+-   Add [Vecel Analytics](https://vercel.com/analytics) to the frontend.
 
 ## `v0.2.2` You Can't Like All of Them
 
@@ -59,11 +64,11 @@ for the site so that it will work in dark mode and an eventual light mode.
 
 ### Frontend
 
-- Add an opaque background to the menu.
-- Add an about section to profiles.
-- Center the feed more nicely on the home page.
-- Configure the different button types.
-- Add a counter component that will abbreviate large numbers.
+-   Add an opaque background to the menu.
+-   Add an about section to profiles.
+-   Center the feed more nicely on the home page.
+-   Configure the different button types.
+-   Add a counter component that will abbreviate large numbers.
 
 ## `v0.2.0` It's More Likeable
 
@@ -80,70 +85,70 @@ trying to do. Axum has less magic which allowed me to extend it as I needed. Thi
 
 ### Frontend
 
-- Set the default feed to `New`.
-- Add a footer to the site.
-- Add 404 and 500 error pages.
-- Add a loading component.
-- Users can now "like" posts.
-- Authentication is stored in browser local storage.
-- Feeds of posts are paginated.
-- Users can logout.
-- Posts show how many likes they have.
-- There are now profile pages with users' posts and the posts they have liked.
+-   Set the default feed to `New`.
+-   Add a footer to the site.
+-   Add 404 and 500 error pages.
+-   Add a loading component.
+-   Users can now "like" posts.
+-   Authentication is stored in browser local storage.
+-   Feeds of posts are paginated.
+-   Users can logout.
+-   Posts show how many likes they have.
+-   There are now profile pages with users' posts and the posts they have liked.
 
 ### Backend
 
-- Add SSL for backend.
-- Implement `/feeds/new` and `/feeds/popular`.
-- Implement `/profiles/:username`.
-- Profiles and usernames are upserted from GitHub on login.
-- Implement `POST` and `DELETE` for blogs.
-- Every `profile` must reference a unique `user_id`.
-- API routes are now prefixed with `/v1`.
+-   Add SSL for backend.
+-   Implement `/feeds/new` and `/feeds/popular`.
+-   Implement `/profiles/:username`.
+-   Profiles and usernames are upserted from GitHub on login.
+-   Implement `POST` and `DELETE` for blogs.
+-   Every `profile` must reference a unique `user_id`.
+-   API routes are now prefixed with `/v1`.
 
 ### Development
 
-- Update Makefile for builds.
-- Add a README for the frontend.
-- Add a README for the integration tests.
-- Implement a `lib` directory for the frontend.
-- Move from a controller model to using entities.
-- Create a `devy-test-db` image for local development.
-- Add tracing to the backend.
-- Add "like" entities to the seed.
-- Integration tests can test equality of only keys contained in "expected" mapping.
-- Integration tests are run on every push and pull request.
-- There is now tooling for generating likes from posts and profiles.
+-   Update Makefile for builds.
+-   Add a README for the frontend.
+-   Add a README for the integration tests.
+-   Implement a `lib` directory for the frontend.
+-   Move from a controller model to using entities.
+-   Create a `devy-test-db` image for local development.
+-   Add tracing to the backend.
+-   Add "like" entities to the seed.
+-   Integration tests can test equality of only keys contained in "expected" mapping.
+-   Integration tests are run on every push and pull request.
+-   There is now tooling for generating likes from posts and profiles.
 
 ## `v0.1.4` Francis Scott Would Have Been Disappointed
 
 `16 September 2023`
 
-- Fix bug where keys not being passed to blogs in member card would crash build.
+-   Fix bug where keys not being passed to blogs in member card would crash build.
 
 ## `v0.1.3` You Look Nice
 
 `16 September 2023`
 
-- Display profile information on the profile page for each user.
-- Fix issue with Shoulder not rendering on desktop.
+-   Display profile information on the profile page for each user.
+-   Fix issue with Shoulder not rendering on desktop.
 
 ## `v0.1.2` Target Adjustment
 
-- Split out the API to prevent redirection issues with path forwarding.
-- Show "NotFound" when a Profile is not found.
-- Add libssl to backend Dockerfile.
-- Store the full token in session.
-- Hide "Shoulder" in mobile view.
+-   Split out the API to prevent redirection issues with path forwarding.
+-   Show "NotFound" when a Profile is not found.
+-   Add libssl to backend Dockerfile.
+-   Store the full token in session.
+-   Hide "Shoulder" in mobile view.
 
 ## `v0.1.1` Who are you?
 
 `9 September 2023`
 
-- Now you can log in with your GitHub account.
+-   Now you can log in with your GitHub account.
 
 ## `v0.1.0` First Mover Advantage
 
 `1 September 2023`
 
-- The Devy site is now live.
+-   The Devy site is now live.
