@@ -9,6 +9,7 @@ import Menu, { Item } from "@/components/menu"
 import useSession from "@/lib/auth/useSession"
 import type Session from "@/lib/auth/Session"
 import useStore from "@/lib/useStore"
+import config from "@/config"
 
 export default function Nav() {
   const session = useStore(useSession, (state) => state)
@@ -50,7 +51,7 @@ export default function Nav() {
     {
       type: "link",
       label: "Changelog",
-      tag: "v0.5.2",
+      tag: `v${config.VERSION}`,
       href: "/changelog",
     },
     {
