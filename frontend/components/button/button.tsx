@@ -59,5 +59,8 @@ const styles = cva(
 				cautionary: [],
 			},
 		},
+		defaultVariants: {
+			intent: "primary",
+		},
 	}
 )
