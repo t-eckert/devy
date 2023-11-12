@@ -22,10 +22,18 @@ export default function PostPreview({ post }: Props) {
 				/>
 
 				<div className="flex flex-row gap-2 items-baseline text-xs">
-					<Link href={`/profiles/${post.authorSlug}`}>
+					<Link
+						href={`/profiles/${post.authorSlug}`}
+						variant={{ underline: false }}
+					>
 						{post.authorName}
 					</Link>
-					<Link href={`/${post.blogSlug}`}>{post.blogName}</Link>
+					<Link
+						href={`/${post.blogSlug}`}
+						variant={{ underline: false }}
+					>
+						{post.blogName}
+					</Link>
 				</div>
 			</div>
 		</section>
