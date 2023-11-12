@@ -26,7 +26,10 @@ const formatToken = (token: any, _: number): Option<React.ReactNode> => {
 				case 2:
 					return (
 						<div className="hover:pl-2 border-l-zinc-700 transition-all hover:border-l">
-							<Link href="/changelog">
+							<Link
+								href="/changelog"
+								variant={{ underline: false }}
+							>
 								<h2 className="mb-1 flex flex-col">
 									<span className="text-zinc-500 text-xs font-mono">
 										{token.text
