@@ -12,7 +12,7 @@ export default function Avatar({ name, avatarUrl }: Props) {
 		<RadixAvatar.Root>
 			{avatarUrl && (
 				<RadixAvatar.Image
-					className="w-6 aspect-square object-cover rounded-full shadow-md"
+					className="w-4 aspect-square object-cover rounded-full shadow-md"
 					src={avatarUrl}
 					alt="Avatar"
 				/>

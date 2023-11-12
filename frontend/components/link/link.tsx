@@ -20,11 +20,19 @@ export default function Link({
 	)
 }
 
-const styles = cva(["pointer-cursor", "rounded-sm", "transition-all"], {
+const styles = cva(["pointer-cursor", "transition-all"], {
 	variants: {
 		underline: {
-			true: ["underline"],
+			true: "underline",
 			false: "no-underline",
 		},
+		styled: {
+			true: "rounded-sm",
+			false: []
+		}
 	},
+	defaultVariants: {
+		underline: true,
+		styled: true,
+	}
 })
