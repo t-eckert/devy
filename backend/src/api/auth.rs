@@ -28,7 +28,7 @@ pub async fn callback(
         Some(code) => code,
         None => {
             error!("No code in params");
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -37,7 +37,7 @@ pub async fn callback(
         Ok(token) => token,
         Err(err) => {
             error!("Failed to exchange code: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -50,7 +50,7 @@ pub async fn callback(
         Ok(user) => user,
         Err(err) => {
             error!("Failed to fetch GitHub user: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -59,7 +59,7 @@ pub async fn callback(
         Ok(user) => user,
         Err(err) => {
             eprintln!("Failed to upsert user: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -68,7 +68,7 @@ pub async fn callback(
         Some(id) => id,
         None => {
             eprintln!("User ID is None");
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -77,7 +77,7 @@ pub async fn callback(
         Ok(profile) => profile,
         Err(err) => {
             eprintln!("Failed to upsert profile: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -93,7 +93,7 @@ pub async fn callback(
         Ok(token) => token,
         Err(err) => {
             eprintln!("Failed to encode JWT: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri());
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
 
@@ -101,8 +101,7 @@ pub async fn callback(
     Redirect::to(
         format!(
             "{}?token={}",
-            &store.auth_client.post_auth_redirect_uri(),
-            jwt
+            &store.auth_client.post_auth_redirect_uri, jwt
         )
         .as_str(),
     )

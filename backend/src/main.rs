@@ -42,7 +42,13 @@ async fn main() {
     let client_id = env::var("CLIENT_ID").expect("CLIENT_ID not set");
     let client_secret = env::var("CLIENT_SECRET").expect("CLIENT_SECRET not set");
     let post_auth_redirect_uri = env::var("POST_AUTH_URI").expect("POST_AUTH_URI not set");
-    let auth_client = auth::Client::new(client_id, client_secret, post_auth_redirect_uri);
+    let callback_url = env::var("CALLBACK_URL").expect("CALLBACK_URL not set");
+    let auth_client = auth::Client::new(
+        client_id,
+        client_secret,
+        post_auth_redirect_uri,
+        callback_url,
+    );
 
     // Create the uploader.
     let git_path = env::var("GIT_PATH").expect("GIT_PATH not set");
