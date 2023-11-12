@@ -9,6 +9,7 @@ services:
       CLIENT_ID: ""
       CLIENT_SECRET: ""
       POST_AUTH_URI: "http://localhost:3000/"
+      CALLBACK_URL: "http://localhost:8000/v1/auth/callback"
       RUST_BACKTRACE: 1
     ports:
       - "8000:8000"
