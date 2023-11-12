@@ -1,4 +1,5 @@
 mod client;
+mod error;
 mod github_user;
 mod session;
 
