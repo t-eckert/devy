@@ -15,22 +15,23 @@ export default function Menu() {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
-				<button className="p-0.5" aria-label="Navigation menu">
-					<HamburgerMenuIcon className="w-4 h-4" />
+				<button
+					className="p-0.5 hover:dark:bg-neutral-3 rounded active:dark:bg-neutral-3 transition-colors duration-200 ease-in-out"
+					aria-label="Navigation menu"
+				>
+					<HamburgerMenuIcon className="w-4 aspect-square" />
 				</button>
 			</DropdownMenu.Trigger>
 
 			<DropdownMenu.Portal>
-				<DropdownMenu.Content
-					className="py-1 px-2 rounded-md border shadow-md border-neutral-darker dark:border-neutral-medium bg-neutral-lightest dark:bg-neutral-darker"
-					sideOffset={5}
-					align="end"
-				>
-					{session?.status === "logged-in" ? (
-						<LoggedIn session={session} />
-					) : (
-						<LoggedOut />
-					)}
+				<DropdownMenu.Content sideOffset={5} align="end">
+					<section className="py-1 px-2 rounded-md border shadow-md dark:border-neutral-1 bg-neutral+3 dark:bg-neutral-3">
+						{session?.status === "logged-in" ? (
+							<LoggedIn session={session} />
+						) : (
+							<LoggedOut />
+						)}
+					</section>
 				</DropdownMenu.Content>
 			</DropdownMenu.Portal>
 		</DropdownMenu.Root>
@@ -40,7 +41,15 @@ export default function Menu() {
 const LoggedIn = ({ session }: { session: SessionStore }) => {
 	return (
 		<>
-			<DropdownMenu.Item className="px-2 py-1 w-full">
+			<span>Text</span>
+		</>
+	)
+}
+
+const LoggedIn_ = ({ session }: { session: SessionStore }) => {
+	return (
+		<>
+			<DropdownMenu.Item className="px-2 py-1 w-full flex items-start">
 				<Link href="/changelog" className="w-full">
 					<span className="w-full">Changelog</span>
 				</Link>

@@ -22,21 +22,19 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
         <QueryProvider>
-          <div id="dark-mode-wrapper" className="dark">
-            <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">
-              <CaptureSession />
+          <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">
+            <CaptureSession />
 
-              <div className="min-h-screen">
-                <Header />
+            <div className="min-h-screen">
+              <Header />
 
-                <main>{children}</main>
-              </div>
-
-              <Footer />
+              <main>{children}</main>
             </div>
+
+            <Footer />
           </div>
         </QueryProvider>
         <Analytics />
