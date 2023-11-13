@@ -14,6 +14,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Devy",
   description: "Markdown is the medium.",
+  themeColor: "#18181B"
 }
 
 interface Props {
@@ -22,7 +23,7 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark dark:bg-neutral-2">
       <body className={inter.className}>
         <QueryProvider>
           <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">

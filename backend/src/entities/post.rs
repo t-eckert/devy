@@ -1,5 +1,4 @@
 use super::error::{Error, Result};
-use anyhow::anyhow;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;

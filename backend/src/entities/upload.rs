@@ -3,6 +3,7 @@ use sqlx::types::Uuid;
 use sqlx::PgPool;
 
 use super::error::Result;
+use super::{Webhook, WebhookType};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -120,7 +121,24 @@ impl Upload {
         .await?)
     }
 
-    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Vec<Self>> {
+    #[allow(dead_code)]
+    pub async fn get_by_username(_pool: &PgPool, _username: String) -> Result<Vec<Self>> {
         Ok(vec![])
+    }
+}
+
+impl TryFrom<Webhook> for Upload {
+    type Error = super::error::Error;
+    fn try_from(value: Webhook) -> std::result::Result<Self, Self::Error> {
+        match value.webhook_type {
+            WebhookType::GitHubPushEvent => Ok(Self::new(
+                None,
+                value.payload["repository"]["url"].to_string(),
+            )),
+
+            _ => Err(super::error::Error::Malformed(
+                "Webhook does not have webhook_type of `webhook.github.push`".to_string(),
+            )),
+        }
     }
 }
