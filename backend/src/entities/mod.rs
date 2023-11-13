@@ -16,3 +16,4 @@ pub use post::Post;
 pub use profile::Profile;
 pub use upload::Upload;
 pub use user::User;
+pub use webhook::{Webhook, WebhookType};

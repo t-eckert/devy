@@ -65,6 +65,7 @@ pub fn make_router(store: Store) -> Router {
             "/v1/likes/:post_id/:profile_id",
             delete(api::likes::delete_like),
         )
+        .route("/v1/webhooks", post(api::webhooks::handle_webhook))
         .with_state(store)
         .layer(cors_layer);
 
