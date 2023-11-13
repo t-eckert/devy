@@ -9,11 +9,10 @@ import json
 import tomllib
 import toml
 
-def get_version_and_name() -> tuple[str, str]:
+def get_version() -> str:
     version = input("Version: ")
-    name = input("Name: ")
 
-    return (version, name)
+    return version
 
 
 def version_frontend(version: str):
@@ -40,9 +39,9 @@ def version_backend(version: str):
         toml.dump(cargo, file)
 
 if __name__ == "__main__":
-    version, name = get_version_and_name()
+    version = get_version()
 
-    print(f"Setting version {version}: {name}")
+    print(f"Setting version {version}")
 
     version_frontend(version)
     version_backend(version)
