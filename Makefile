@@ -22,6 +22,9 @@ build-backend-container:
 serve-backend:
 	@cd backend && RUST_LOG=DEBUG cargo watch -- cargo run
 
+backend-prepare-queries:
+	@cd backend && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
+
 # Test database
 build-test-db:
 	@cd backend && docker build . -f test-db.Dockerfile -t devy-test-db
