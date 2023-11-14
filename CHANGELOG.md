@@ -1,5 +1,18 @@
 # Changelog
 
+## `v0.3.1` Hookshot!
+
+`13 November 2023`
+
+Updates to blogs will primarily be triggered by GitHub webhooks. "Hookshot!" adds an endpoint `/v1/webhooks` that accepts webhooks and 
+properly routes them to the `Uploader` if they are a GitHub push event.
+
+[Pull Request](https://github.com/t-eckert/devy/pull/12)
+
+### Backend
+
+- POSTs to /v1/webhooks create the webhook in the database and hand off to the uploader if the webhook is a push
+
 ## `v0.3.0` Clones!
 
 `12 November 2023`
