@@ -34,13 +34,8 @@ impl From<EntitiesError> for Error {
 impl From<UploadError> for Error {
     fn from(val: UploadError) -> Self {
         match val {
-            UploadError::DependencyError(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
             UploadError::RepositoryNotFound(_) => Self::StatusCode(StatusCode::BAD_REQUEST),
-            UploadError::GitBinaryNotFound(_) => {
-                Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
-            }
-            UploadError::GitCloneFailed(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
-            UploadError::CleanupFailure(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
