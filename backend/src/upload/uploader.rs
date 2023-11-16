@@ -48,11 +48,7 @@ impl Uploader {
             let post = Self::parse_file(file)?;
         }
 
-        Ok(cloned)
-    }
-
-    pub async fn cleanup(self, upload: Upload, pool: &PgPool) -> Result<Upload> {
-        let cleaning = upload
+        let cleaning = cloned
             .set_status(pool, "cleaning".to_string())
             .await?
             .log(pool, "INFO: Cleaning up repository.".to_string())
