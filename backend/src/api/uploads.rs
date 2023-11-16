@@ -9,6 +9,7 @@ pub async fn get_uploads_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Upload>>> {
+    println!("username: {}", username);
     Ok(Json(Upload::get_all(&store.pool).await?))
 }
 
