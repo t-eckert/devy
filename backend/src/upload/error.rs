@@ -19,6 +19,8 @@ pub enum Error {
     GitCloneFailed(String),
 
     CleanupFailure(String),
+
+    FileParseError(String),
 }
 
 impl From<EntitiesError> for Error {
