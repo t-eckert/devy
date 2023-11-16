@@ -23,6 +23,22 @@ pub struct Post {
 }
 
 impl Post {
+    pub fn new(slug: String, content: String) -> Self {
+        Self {
+            id: None,
+            slug: Some(slug),
+            blog_slug: None,
+            blog_name: None,
+            author_name: None,
+            author_slug: None,
+            created_at: None,
+            updated_at: None,
+            title: None,
+            content: Some(content),
+            likes: None,
+        }
+    }
+
     pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
         sqlx::query_file_as!(
             Self,
