@@ -9,6 +9,10 @@ upload = {
 
 r = httpx.post(f"{url}uploads", json=upload)
 
-print(json.dumps(r.json()))
+if r.status_code == 200:
+    print(json.dumps(r.json()))
+else:
+    print(f"Error: {r.status_code}")
+    print(r.text)
 
 
