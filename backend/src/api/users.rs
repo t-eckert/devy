@@ -1,3 +1,4 @@
+use super::error::Result;
 use crate::{entities::User, store::Store};
 use axum::{
     extract::{Path, State},
@@ -8,7 +9,7 @@ use axum::{
 pub async fn get_user_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
-) -> Result<Json<User>, StatusCode> {
+) -> Result<Json<User>> {
     Ok(Json(
         User::get_by_username(&store.pool, username)
             .await

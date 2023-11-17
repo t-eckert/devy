@@ -1,8 +1,10 @@
-use super::error::{Error, Result};
-use super::git::Git;
-use crate::entities::{Post, Upload};
+use super::{
+    error::{Error, Result},
+    git::Git,
+};
+use crate::entities::{Blog, Post, Profile, Repo, Upload, User};
 use glob::glob;
-use serde_with::NoneAsEmptyString;
+use regex::Regex;
 use sqlx::PgPool;
 use std::fs;
 use std::path::PathBuf;
@@ -28,6 +30,18 @@ impl Uploader {
         let url = received.clone().repo.ok_or(Error::RepositoryNotFound(
             "No repository present on received upload request.".to_string(),
         ))?;
+
+        let repo = Repo::get_by_url(pool, &url).await?;
+        let blog = Blog::get_by_id(
+            pool,
+            repo.blog_id.ok_or(Error::DependencyError(
+                "Repo does not have a blog associated with it".to_string(),
+            ))?,
+        )
+        .await?;
+        let profile = Profile::get_by_username(pool, blog.username.clone()).await?;
+        let user = User::get_by_username(pool, blog.username.clone()).await?;
+
         let dir = format!(
             "/tmp/{}",
             received.clone().id.ok_or(Error::RepositoryNotFound(
@@ -44,10 +58,39 @@ impl Uploader {
             .await?;
 
         let files = Self::get_markdown_files(&dir)?;
+        let mut posts = vec![];
         for file in files {
-            let post = Self::parse_file(file)?;
+            let mut post = Self::parse_file(file)?;
+            post.title = Self::markdown_title(&post.content.clone().ok_or(
+                Error::DependencyError("Post does not have content.".to_string()),
+            )?);
+            post.blog_slug = Some(blog.slug.clone());
+            post.blog_name = Some(blog.name.clone());
+            post.author_name = profile.display_name.clone();
+            post.author_slug = Some(user.username.clone());
+
+            posts.push(post);
         }
 
+        for post in posts {
+            match post.insert(pool).await {
+                Ok(post) => {
+                    cloned
+                        .clone()
+                        .log(
+                            pool,
+                            format!(
+                                "INFO: Uploaded {}",
+                                post.title.unwrap_or("Untitled".to_string())
+                            ),
+                        )
+                        .await?;
+                }
+                Err(_) => {}
+            };
+        }
+
+        // TODO I need to set this up so it _ALWAYS_ runs cleanup even when there's an error.
         let cleaning = cloned
             .set_status(pool, "cleaning".to_string())
             .await?
@@ -104,5 +147,21 @@ impl Uploader {
             fs::read_to_string(filename).map_err(|e| Error::FileParseError(e.to_string()))?;
 
         Ok(Post::new(slug, contents))
+    }
+
+    fn markdown_title(markdown: &str) -> Option<String> {
+        let title_pattern = Regex::new(r"^#\s+(.+)").unwrap();
+
+        for line in markdown.lines() {
+            // Attempt to match the line against the title pattern
+            if let Some(captures) = title_pattern.captures(line) {
+                // Extract the captured title group and return it
+                if let Some(title) = captures.get(1) {
+                    return Some(title.as_str().to_string());
+                }
+            }
+        }
+
+        None
     }
 }

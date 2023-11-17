@@ -1,3 +1,4 @@
+use super::error::Result;
 use crate::auth::GitHubUser;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
@@ -31,8 +32,8 @@ impl User {
         }
     }
 
-    pub async fn upsert(self, pool: &PgPool) -> Result<Self, sqlx::Error> {
-        sqlx::query_file_as!(
+    pub async fn upsert(self, pool: &PgPool) -> Result<Self> {
+        Ok(sqlx::query_file_as!(
             Self,
             "queries/user_upsert.sql",
             self.username,
@@ -40,13 +41,10 @@ impl User {
             self.github_username.unwrap()
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 
-    pub async fn upsert_from_github_user(
-        pool: &PgPool,
-        github_user: GitHubUser,
-    ) -> Result<Self, sqlx::Error> {
+    pub async fn upsert_from_github_user(pool: &PgPool, github_user: GitHubUser) -> Result<Self> {
         let user = Self::new(
             github_user.login.clone(),
             github_user.email.clone(),
@@ -55,24 +53,22 @@ impl User {
         user.upsert(pool).await
     }
 
-    #[allow(dead_code)]
-    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self, sqlx::Error> {
-        sqlx::query_file_as!(User, "queries/user_get_by_username.sql", username)
-            .fetch_one(pool)
-            .await
+    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Self> {
+        Ok(
+            sqlx::query_file_as!(User, "queries/user_get_by_username.sql", username)
+                .fetch_one(pool)
+                .await?,
+        )
     }
 
     #[allow(dead_code)]
-    pub async fn get_by_github_username(
-        pool: &PgPool,
-        github_username: String,
-    ) -> Result<Self, sqlx::Error> {
-        sqlx::query_file_as!(
+    pub async fn get_by_github_username(pool: &PgPool, github_username: String) -> Result<Self> {
+        Ok(sqlx::query_file_as!(
             User,
             "queries/user_get_by_github_username.sql",
             github_username
         )
         .fetch_one(pool)
-        .await
+        .await?)
     }
 }

@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use sqlx::types::Uuid;
 use sqlx::PgPool;
 
 use super::error::Result;
@@ -28,9 +29,34 @@ impl Blog {
             self.description,
         )
         .fetch_one(pool)
-        .await;
+        .await?;
 
         Blog::get_by_slug(pool, self.slug).await
+    }
+
+    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
+        let uuid = Uuid::parse_str(&id).unwrap();
+
+        Ok(sqlx::query_as!(
+            Self,
+            r#"
+                SELECT 
+                    name, slug,
+                    to_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
+                    to_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+                    username, display_name, description
+                FROM "blog" LEFT JOIN (
+                    SELECT 
+                        profile.id, display_name, username
+                    FROM "profile" LEFT JOIN "user"
+                    ON user_id="user".id
+                ) AS "profile" ON profile_id="profile".id
+                WHERE blog.id=$1;
+                "#,
+            uuid
+        )
+        .fetch_one(pool)
+        .await?)
     }
 
     pub async fn get_by_slug(pool: &PgPool, slug: String) -> Result<Self> {

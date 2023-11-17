@@ -36,12 +36,12 @@ VALUES
     ('582d4e4b-59bb-44d6-8c5f-6b524c717014', '87acb9f5-bf3c-4ba5-8d55-301b25f5f552', 'Startup Stories', 'startup-stories'),
     ('49201844-99b3-4c89-9f81-d16b30b108db', '4fdc3d02-1bd6-4e9b-95cb-478c51a450f2', 'Code Corner', 'code-corner'),
     ('ee6c3243-7cb6-4108-af61-d83fc1e03b09', 'be539498-9c09-4133-aaf1-57b341092649', 'Cloud Chronicles', 'cloud-chronicles'),
+    ('98a375c7-6a8a-4a49-bc53-37f7311ed645', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'Devy Test Blog', 'devy-test-blog'),
     ('dee6cb1f-2df3-4163-98e8-8bd6ac0b236f', 'aa5786b8-5703-42ce-80a7-6cc26d4dbf88', 'TechTalk Today', 'techtalk-today');
 
 INSERT INTO "blog" (id, profile_id, name, slug, created_at, updated_at)
 VALUES
 	('3c55b723-dc5d-4f9b-aac6-60d63b7e7733', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'Machine Learning', 'machine-learning', '2023-10-07T02:10:19.19', '2023-10-07T02:10:19.19'),
-	('2d0be777-545f-4dbe-95c9-768670e6caba', 'e2f0fa7e-4517-4ac8-bbc6-73067d3feed4', 'DevOops', 'devoops', '2023-10-07T02:10:19.19', '2023-10-07T02:10:19.19'),
+	('2d0be777-545f-4dbe-95c9-768670e6caba', 'aa5786b8-5703-42ce-80a7-6cc26d4dbf88', 'DevOops', 'devoops', '2023-10-07T02:10:19.19', '2023-10-07T02:10:19.19'),
     ('fbf2558c-3b06-48ae-8565-019ccaefb216', 'ebf2b363-9566-42b2-b9ff-11fcc0130783', 'IoT Insights', 'iot-insights', '2023-10-06T03:10:37.37', '2023-10-06T03:10:37.37');
-
 

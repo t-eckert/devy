@@ -39,6 +39,32 @@ impl Post {
         }
     }
 
+    pub async fn insert(self, pool: &PgPool) -> Result<Self> {
+        let _ = sqlx::query_as!(
+            Self,
+            r#"
+            INSERT INTO "post" ("blog_id", "title", "slug", "body")
+            VALUES (
+                (
+                    SELECT id AS blog_id FROM "blog"
+                    WHERE slug = $1
+                ),
+                $2,
+                $3,
+                $4
+            );
+            "#,
+            self.blog_slug,
+            self.title,
+            self.slug,
+            self.content,
+        )
+        .fetch_one(pool)
+        .await?;
+
+        Post::get_by_id(pool, self.id.ok_or(Error::EntityNotFound)?).await
+    }
+
     pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
         sqlx::query_file_as!(
             Self,
