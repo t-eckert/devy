@@ -17,6 +17,7 @@ dotenvy = "0.15.7"
 tracing-honeycomb = "0.4.1"
 serde_json = "1.0.108"
 glob = "0.3.1"
+regex = "1.10.2"
 
 [dev-dependencies]
 pretty_assertions = "1.4.0"
