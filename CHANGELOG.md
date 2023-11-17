@@ -1,5 +1,20 @@
 # Changelog
 
+## `v0.3.2` Posts!
+
+`16 November 2023`
+
+Updates now create `Post` entities from the markdown files cloned down from the repo. The post gets assigned to the blog and user who made it.
+Unfortunately, in this initial state posts will just be created continuously, new ones for every repo.
+This can't be encountered in production because there is no way to create a `Repo` entity which joins the `Upload` to the `Blog` without
+manually editing the database. The upload process will abort early without this entity.
+
+[Pull Request](https://github.com/t-eckert/devy/pull/12)
+
+### Backend
+
+- Markdown files in a cloned repository get uploaded as posts to the database.
+
 ## `v0.3.1` Hookshot!
 
 `13 November 2023`
