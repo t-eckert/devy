@@ -32,7 +32,6 @@ const config: StorybookConfig = {
   stories: [
     "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../app/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../lockups/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
 
   webpackFinal: async (config) => {
