@@ -10,9 +10,3 @@ const meta = {
 export default meta
 
 type Story = StoryObj<typeof Markdown>
-
-export const Default: Story = {
-	args: {
-		content: "# Hello world",
-	},
-}
