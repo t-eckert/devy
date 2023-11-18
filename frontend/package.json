@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@gfpacheco/storybook-tailwind-dark-mode": "^1.0.25",
+    "@storybook/addon-a11y": "^7.5.3",
     "@storybook/addon-essentials": "^7.5.2",
     "@storybook/addon-interactions": "^7.5.2",
     "@storybook/addon-links": "^7.5.2",

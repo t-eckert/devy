@@ -17,6 +17,7 @@ const config: StorybookConfig = {
     },
     "@storybook/addon-mdx-gfm",
     "@gfpacheco/storybook-tailwind-dark-mode",
+    "@storybook/addon-a11y",
   ],
 
   docs: {
