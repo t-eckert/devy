@@ -24,15 +24,26 @@ const styles = cva(
 		"px-2",
 		"py-0.5",
 		"text-sm",
-		"md:hover:pl-3",
+		"font-medium",
+
+		"bg-neutral+2",
+		"dark:bg-neutral-2",
+
+		"md:hover:pl-4",
 		"md:focus:pl-3",
+		"md:hover:bg-neutral-1",
+		"md:hover:text-neutral+1",
+
 		"flex",
 		"flex-row",
+
 		"justify-center",
 		"md:justify-start",
+
 		"items-center",
 		"rounded-md",
 		"transition-all",
+
 		"focus:outline-none",
 		"focus:ring-2",
 		"focus:ring-zinc-200",
@@ -40,8 +51,14 @@ const styles = cva(
 	{
 		variants: {
 			isSelected: {
-				true: "font-medium border border-neutral-medium shadow",
-				false: "",
+				true: [
+					"border",
+					"dark:text-neutral+3",
+					"dark:bg-neutral-2",
+					"dark:border-neutral-1",
+					"shadow",
+				],
+				false: ["border", "dark:text-neutral", "dark:border-neutral-2"],
 			},
 		},
 		defaultVariants: {
