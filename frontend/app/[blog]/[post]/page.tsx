@@ -21,25 +21,25 @@ export default async function Post({ params }: Props) {
   if (!post) return <div>Post not found</div>
 
   return (
-    <main className="mx-auto my-4 flex flex-col px-2 py-12 w-full max-w-2xl gap-4 sm:gap-2">
-      <h1 className="mb-4 text-6xl font-semibold text-neutral-1 dark:text-neutral+1">
-        {post.title}
-      </h1>
-
-      <div className="mb-2 flex flex-row gap-2 items-baseline ">
-        <div className="bg-zinc-800 text-sm flex items-center justify-center px-2 py-1 rounded-full">
+    <main className="mx-auto my-4 flex flex-col px-2 py-12 w-full max-w-6xl gap-4 sm:gap-2">
+      <div className="flex flex-col gap-4">
+        <div className="bg-zinc-800 text-sm flex items-center justify-start  py-1 rounded-full gap-4">
+          <Link href={`/${post.blogSlug}`} variant={{ underline: false }}>
+            {post.blogName}
+          </Link>
           <Date date={post.createdAt} />
         </div>
-        <Link
-          href={`/profiles/${post.authorSlug}`}
-          variant={{ underline: true }}
-        >
-          {post.authorName}
-        </Link>
-        <span>/</span>
-        <Link href={`/${post.blogSlug}`} variant={{ underline: true }}>
-          {post.blogName}
-        </Link>
+        <h1 className="mb-4 text-6xl font-semibold text-neutral-1 dark:text-neutral+1">
+          {post.title}
+        </h1>
+        <div className="bg-zinc-800 text-sm flex items-center justify-start py-1 rounded-full gap-4">
+          <Link
+            href={`/profiles/${post.authorSlug}`}
+            variant={{ underline: false }}
+          >
+            {post.authorName}
+          </Link>
+        </div>
       </div>
 
       <Markdown content={post.content} />
