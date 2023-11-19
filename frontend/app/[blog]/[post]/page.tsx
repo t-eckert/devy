@@ -1,5 +1,5 @@
 import Link from "@/components/link"
-import Date from "@/components/date"
+import RelativeDate from "@/components/relative-date"
 import Markdown from "@/components/markdown"
 
 import Post from "@/models/Post"
@@ -21,18 +21,18 @@ export default async function Post({ params }: Props) {
   if (!post) return <div>Post not found</div>
 
   return (
-    <main className="mx-auto my-4 flex flex-col px-2 py-12 w-full max-w-6xl gap-4 sm:gap-2">
-      <div className="flex flex-col gap-4">
-        <div className="bg-zinc-800 text-sm flex items-center justify-start  py-1 rounded-full gap-4">
-          <Link href={`/${post.blogSlug}`} variant={{ underline: false }}>
+    <main className="mx-auto my-4 flex flex-col px-2 py-12 w-full max-w-4xl gap-4 sm:gap-2">
+      <div className="pb-12 flex flex-col gap-6">
+        <div className="bg-zinc-800 text-sm flex items-center justify-start rounded-full gap-4">
+          <Link href={`/${post.blogSlug}`} variant={{ underline: false }} className="text-neutral hover:text-neutral-1 hover:dark:text-neutral+1">
             {post.blogName}
           </Link>
-          <Date date={post.createdAt} />
+          <RelativeDate date={post.createdAt} className="text-neutral" />
         </div>
-        <h1 className="mb-4 text-6xl font-semibold text-neutral-1 dark:text-neutral+1">
+        <h1 className="text-6xl font-semibold text-neutral-1 dark:text-neutral+1">
           {post.title}
         </h1>
-        <div className="bg-zinc-800 text-sm flex items-center justify-start py-1 rounded-full gap-4">
+        <div className="bg-zinc-800 text-sm flex items-center justify-start rounded-full gap-4">
           <Link
             href={`/profiles/${post.authorSlug}`}
             variant={{ underline: false }}
