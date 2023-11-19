@@ -11,7 +11,7 @@ interface Props {
 
 export default function PostCollection({ posts, next, prev }: Props) {
 	return (
-		<section className="w-full max-w-lg flex flex-col gap-4">
+		<section className="w-full max-w-2xl flex flex-col gap-4">
 			{posts.map((post, index) => (
 				<PostPreview key={index} post={post} />
 			))}

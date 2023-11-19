@@ -43,17 +43,27 @@ export default function PostPreview({ post }: Props) {
 const wrapper = [
 	"flex",
 	"flex-row",
+
 	"gap-4",
 	"items-start",
+
 	"py-2",
 	"px-4",
-	"border-neutral-darker",
+
+	"dark:border-neutral-1",
+
 	"rounded-md",
 	"hover:shadow-md",
-	"hover:border-neutral-medium",
-	"bg-neutral-lightest",
-	"dark:bg-neutral-darker",
+	"hover:border-neutral+1",
+	"hover:dark:border-neutral-1",
+
+	"bg-neutral+2",
+	"dark:bg-neutral-2",
+
 	"border",
 	"hover:border",
+	"border-neutral+2",
+	"dark:border-neutral-2",
+
 	"transition-all",
 ].join(" ")

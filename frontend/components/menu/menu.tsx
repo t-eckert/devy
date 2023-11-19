@@ -4,6 +4,7 @@
 // https://www.radix-ui.com/primitives/docs/components/dropdown-menu
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import { VariantProps, cva } from "cva"
 
 import Link from "@/components/link"
 
@@ -26,13 +27,20 @@ export type Item = SeparatorItem | LinkItem | ButtonItem
 
 interface Props {
 	icon: React.ReactNode
+	variant: VariantProps<typeof content>
 	ariaLabel: string
 	relation: Relation
 	items: Item[]
 	initialIsOpen?: boolean
 }
 
-export default function Menu({ icon, ariaLabel, items, initialIsOpen }: Props) {
+export default function Menu({
+	icon,
+	variant,
+	ariaLabel,
+	items,
+	initialIsOpen,
+}: Props) {
 	return (
 		<DropdownMenu.Root defaultOpen={initialIsOpen}>
 			<DropdownMenu.Trigger asChild>
@@ -43,7 +51,7 @@ export default function Menu({ icon, ariaLabel, items, initialIsOpen }: Props) {
 
 			<DropdownMenu.Portal>
 				<DropdownMenu.Content
-					className={content}
+					className={content(variant)}
 					sideOffset={5}
 					align="end"
 				>
@@ -79,24 +87,36 @@ const trigger = [
 
 	"data-[state=open]:shadow",
 ].join(" ")
-const content = [
-	"w-48",
-	"rounded-md",
-	"border",
+const content = cva(
+	[
+		"rounded-md",
+		"border",
 
-	"border-neutral+1",
-	"text-neutral-2",
-	"bg-neutral+3",
+		"border-neutral+1",
+		"text-neutral-2",
+		"bg-neutral+3",
 
-	"dark:border-neutral-1",
-	"dark:text-neutral+2",
-	"dark:bg-neutral-3",
+		"dark:border-neutral-1",
+		"dark:text-neutral+2",
+		"dark:bg-neutral-3",
 
-	"data-[side=top]:animate-slideDownAndFade",
-	"data-[side=right]:animate-slideLeftAndFade",
-	"data-[side=bottom]:animate-slideUpAndFade",
-	"data-[side=left]:animate-slideRightAndFade",
-].join(" ")
+		"data-[side=top]:animate-slideDownAndFade",
+		"data-[side=right]:animate-slideLeftAndFade",
+		"data-[side=bottom]:animate-slideUpAndFade",
+		"data-[side=left]:animate-slideRightAndFade",
+	],
+	{
+		variants: {
+			hug: {
+				true: ["w-min"],
+				false: ["w-48"],
+			},
+		},
+		defaultVariants: {
+			hug: false,
+		},
+	}
+)
 
 const Item = ({ item }: { item: Item }) => {
 	switch (item.type) {
