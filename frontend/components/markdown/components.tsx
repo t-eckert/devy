@@ -36,7 +36,7 @@ const components = {
 		</h6>
 	),
 	p: ({ children }: Props) => (
-		<p className="mx-auto w-full max-w-2xl mb-2 leading-snug">{children}</p>
+		<p className="mx-auto w-full max-w-2xl mb-4 leading-snug">{children}</p>
 	),
 	blockquote: ({ children }: Props) => (
 		<blockquote className="border-l border-neutral-1 pl-2">
@@ -44,15 +44,22 @@ const components = {
 		</blockquote>
 	),
 	code: ({ children }: Props) => (
-		<div className="mb-4 mt-2 bg-neutral-3 font-mono px-2 py-1 rounded text-neutral+1 bg-zinc-800 text-sm">
+		<div className="mx-auto w-full max-w-2xl mb-4 mt-2 bg-neutral-3 font-mono px-2 py-1 rounded text-neutral+1 bg-zinc-800 text-sm">
 			<code className="font-mono">{children}</code>
 		</div>
 	),
 	ul: ({ children }: Props) => (
-		<ul className="mb-2 list-disc list-inside">{children}</ul>
+		<ul className="mx-auto w-full max-w-2xl mb-4 list-disc list-inside">
+			{children}
+		</ul>
+	),
+	li: ({ children }: Props) => (
+		<li className="mb-1 leading-snug">{children}</li>
 	),
 	ol: ({ children }: Props) => (
-		<ol className="mb-2 list-decimal list-inside">{children}</ol>
+		<ol className="mx-auto w-full max-w-2xl mb-4 list-decimal list-inside">
+			{children}
+		</ol>
 	),
 	table: ({ children }: Props) => (
 		<table className="table-auto mt-2 mb-4 w-full">{children}</table>
@@ -72,7 +79,7 @@ const components = {
 		<img
 			src={src}
 			alt={alt}
-			className="mx-auto my-4 max-w-2xl rounded shadow-lg"
+			className="mx-auto my-4 max-w-2xl rounded shadow-lg bg-neutral+1 flex text-center"
 		/>
 	),
 }

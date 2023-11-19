@@ -15,8 +15,10 @@ const card = [
 	"rounded-md",
 	"border",
 	"shadow-md",
-	"border-neutral-darker",
-	"dark:border-neutral-medium",
-	"bg-neutral-lightest",
-	"dark:bg-neutral-darker",
+
+	"border-neutral-2",
+	"dark:border-neutral-1",
+
+	"bg-neutral+2",
+	"dark:bg-neutral-2",
 ]

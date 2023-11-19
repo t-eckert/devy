@@ -53,12 +53,24 @@ const styles = cva(
 			isSelected: {
 				true: [
 					"border",
+
+					"text-neutral-3",
+					"bg-neutral+2",
+					"border-neutral",
+
 					"dark:text-neutral+3",
 					"dark:bg-neutral-2",
-					"dark:border-neutral-1",
-					"shadow",
+					"dark:border-neutral",
+
+					"focus:shadow",
 				],
-				false: ["border", "dark:text-neutral", "dark:border-neutral-2"],
+				false: [
+					"border",
+					"text-neutral",
+					"border-neutral+2",
+					"dark:text-neutral",
+					"dark:border-neutral-2",
+				],
 			},
 		},
 		defaultVariants: {
