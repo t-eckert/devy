@@ -29,14 +29,16 @@ function HomeFeed({ defaultSelected }: Props) {
 
   return (
     <section className="w-full flex flex-col md:flex-row items-start gap-4">
-      <Tabs
-        labels={feeds.map((feed) => ({
-          id: feed?.feedMetadata.id || "",
-          name: feed?.feedMetadata.name || "",
-        }))}
-        selected={selected}
-        setSelected={setSelected}
-      />
+      <div className="pb-2 border-b border-b-neutral-1">
+        <Tabs
+          labels={feeds.map((feed) => ({
+            id: feed?.feedMetadata.id || "",
+            name: feed?.feedMetadata.name || "",
+          }))}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      </div>
       <div className="flex-1 flex flex-row items-center justify-center">
         <Feed feed={feeds.find((feed) => feed?.feedMetadata.id === selected)} />
       </div>
