@@ -6,7 +6,7 @@ import {
 
 import fetchFeed from "@/lib/feed"
 
-import HomeFeed from "./home-feed"
+import HomeFeed from "./main.feed"
 import Shoulder from "./shoulder"
 
 export default async function HomePage() {
