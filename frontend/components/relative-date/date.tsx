@@ -1,13 +1,14 @@
 interface Props {
 	date: string
 	compareTo?: string
+	className?: string
 }
 
-export default function DateComponent({ date, compareTo }: Props) {
+export default function RelativeDate({ date, compareTo, className }: Props) {
 	const basis = compareTo || new Date().toISOString()
 	const delta = new Date(basis).getTime() - new Date(date).getTime()
 
-	return <time>{name(delta) || new Date(date).toLocaleDateString()}</time>
+	return <time className={className}>{name(delta) || new Date(date).toLocaleDateString()}</time>
 }
 
 const name = (delta: number): Option<string> => {
@@ -22,6 +23,8 @@ const name = (delta: number): Option<string> => {
 			return `${Math.floor(delta / (1000 * 60))} minutes ago`
 		case delta < 1000 * 60 * 60 * 24:
 			return `${Math.floor(delta / (1000 * 60 * 60))} hours ago`
+		case delta < 1000 * 60 * 60 * 24 * 2:
+			return "Yesterday"
 		case delta < 1000 * 60 * 60 * 24 * 7:
 			return `${Math.floor(delta / (1000 * 60 * 60 * 24))} days ago`
 		case delta < 1000 * 60 * 60 * 24 * 30:
