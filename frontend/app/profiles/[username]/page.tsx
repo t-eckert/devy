@@ -5,7 +5,6 @@ import Member from "@/components/member"
 import Blog from "@/models/Blog"
 import Post from "@/models/Post"
 import PostCollection from "@/components/post-collection"
-import Json from "@/debug/json"
 import Card from "@/components/card"
 
 interface Props {
@@ -41,11 +40,27 @@ export default async function ProfilePage({ params }: Props) {
           <h1 className="text-xl font-semibold">About</h1>
 
           <p className="text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ullamcorper lacus eget ipsum venenatis venenatis. Phasellus non ante risus. Aenean ante ex, tincidunt sit amet ex nec, tristique tristique tellus. Aenean laoreet aliquet dui, sit amet congue quam ullamcorper eget. Vestibulum facilisis varius interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum sapien mi, tristique mollis purus accumsan in. Praesent interdum ligula mi, et facilisis metus luctus vitae. Nunc ultricies laoreet nulla, sit amet ultrices risus finibus vel.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+            ullamcorper lacus eget ipsum venenatis venenatis. Phasellus non ante
+            risus. Aenean ante ex, tincidunt sit amet ex nec, tristique
+            tristique tellus. Aenean laoreet aliquet dui, sit amet congue quam
+            ullamcorper eget. Vestibulum facilisis varius interdum. Lorem ipsum
+            dolor sit amet, consectetur adipiscing elit. In elementum sapien mi,
+            tristique mollis purus accumsan in. Praesent interdum ligula mi, et
+            facilisis metus luctus vitae. Nunc ultricies laoreet nulla, sit amet
+            ultrices risus finibus vel.
           </p>
 
           <p className="text-sm">
-            Praesent vel est mauris. Suspendisse in mi eget purus molestie sollicitudin quis ac mi. Nunc auctor, ante sed tincidunt scelerisque, odio massa tempus ante, lobortis viverra purus odio eu metus. Nam non dui non nunc vehicula fringilla. Nam fermentum massa vel tortor sollicitudin porttitor. Phasellus blandit nulla justo. Aenean euismod est semper tortor interdum vulputate. Ut eget eros eget quam consectetur rutrum. Sed tincidunt arcu cursus rhoncus rutrum. Etiam varius orci quis turpis finibus rhoncus. Curabitur mollis diam id est mollis varius.
+            Praesent vel est mauris. Suspendisse in mi eget purus molestie
+            sollicitudin quis ac mi. Nunc auctor, ante sed tincidunt
+            scelerisque, odio massa tempus ante, lobortis viverra purus odio eu
+            metus. Nam non dui non nunc vehicula fringilla. Nam fermentum massa
+            vel tortor sollicitudin porttitor. Phasellus blandit nulla justo.
+            Aenean euismod est semper tortor interdum vulputate. Ut eget eros
+            eget quam consectetur rutrum. Sed tincidunt arcu cursus rhoncus
+            rutrum. Etiam varius orci quis turpis finibus rhoncus. Curabitur
+            mollis diam id est mollis varius.
           </p>
         </Card>
 
