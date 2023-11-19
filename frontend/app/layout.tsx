@@ -8,13 +8,14 @@ import QueryProvider from "@/lib/query-provider"
 
 import Header from "./header"
 import Footer from "./footer"
+import ThemeToggle from "./theme.toggle"
+import ThemeProvider from "./theme.provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Devy",
   description: "Markdown is the medium.",
-  themeColor: "#18181B",
 }
 
 interface Props {
@@ -23,23 +24,30 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className="dark bg-neutral+2 dark:bg-neutral-2">
-      <body className={inter.className}>
-        <QueryProvider>
-          <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">
-            <CaptureSession />
+    <html lang="en">
+      <ThemeProvider>
+        <body
+          className={[
+            inter.className,
+            "dark bg-neutral+2 dark:bg-neutral-2",
+          ].join(" ")}
+        >
+          <QueryProvider>
+            <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">
+              <CaptureSession />
 
-            <div className="min-h-screen">
-              <Header />
+              <div className="min-h-screen">
+                <Header />
 
-              <main>{children}</main>
+                <main>{children}</main>
+              </div>
+
+              <Footer />
             </div>
-
-            <Footer />
-          </div>
-        </QueryProvider>
-        <Analytics />
-      </body>
+          </QueryProvider>
+          <Analytics />
+        </body>
+      </ThemeProvider>
     </html>
   )
 }

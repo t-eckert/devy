@@ -1,10 +1,18 @@
 "use client"
 
-import { GitHubLogoIcon, HamburgerMenuIcon } from "@radix-ui/react-icons"
+import { useState, useEffect } from "react"
+
+import {
+  GitHubLogoIcon,
+  HamburgerMenuIcon,
+  MoonIcon,
+  SunIcon,
+} from "@radix-ui/react-icons"
 
 import Link from "@/components/link"
 import Avatar from "@/components/avatar"
 
+import { useTheme } from "next-themes"
 import Menu, { Item } from "@/components/menu"
 import useSession from "@/lib/auth/useSession"
 import type Session from "@/lib/auth/Session"
@@ -13,8 +21,36 @@ import config from "@/config"
 
 export default function Nav() {
   const session = useStore(useSession, (state) => state)
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
 
-  const items: Item[] = [
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const themeMenuItems: Item[] = [
+    {
+      type: "button",
+      label: "Light",
+      onClick: () => {
+        setTheme("light")
+      },
+    },
+    {
+      type: "button",
+      label: "Dark",
+      onClick: () => {
+        setTheme("dark")
+      },
+    },
+    {
+      type: "button",
+      label: "System",
+      onClick: () => {},
+    },
+  ]
+
+  const navMenuItems: Item[] = [
     {
       type: "link",
       label: "Home",
@@ -63,14 +99,26 @@ export default function Nav() {
     },
   ]
 
+  const themeIcon = theme === "light" ? <SunIcon /> : <MoonIcon />
+
   return (
     <nav className="flex flex-row gap-1 items-center">
       {session?.session ? <Token session={session.session} /> : <Login />}
+      {mounted && (
+        <Menu
+          icon={themeIcon}
+          variant={{ hug: true }}
+          ariaLabel="Theme selector"
+          relation="below-aligned-left"
+          items={themeMenuItems}
+        />
+      )}
       <Menu
         icon={<HamburgerMenuIcon />}
+        variant={{ hug: false }}
         ariaLabel="Navigation menu"
         relation="below-aligned-left"
-        items={items}
+        items={navMenuItems}
       />
     </nav>
   )
