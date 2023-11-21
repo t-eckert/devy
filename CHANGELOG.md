@@ -1,14 +1,25 @@
 # Changelog
 
-## `v0.3.3`
+## `v0.3.3` Toggle!
 
 `20 November 2023`
+
+This release is mostly frontend focused. I mostly needed some time away from the backend upload work to refresh my brain creatively.
+Many of the components I've developed have been designed with a light mode in mind. This release actually allows you to toggle the
+theme back and forth.
+
+Outside of the code, I fixed an issue where logging into the production version of the site would bring you back to the dev version
+on success.
 
 [Pull Request](https://github.com/t-eckert/devy/pull/13)
 
 ## Frontend
 
-## Backend
+-   Add a toggle component.
+-   Improve the look of tabs in the feed.
+-   Add a tasteful border to the bottom of the header.
+-   Improve the look of rendered markdown.
+-   Added a light/dark theme toggle.
 
 ## `v0.3.2` Posts!
 
