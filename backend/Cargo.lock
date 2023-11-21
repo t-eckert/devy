@@ -416,7 +416,7 @@ dependencies = [
 
 [[package]]
 name = "devy-backend"
-version = "0.3.1"
+version = "0.3.3"
 dependencies = [
  "anyhow",
  "axum",
