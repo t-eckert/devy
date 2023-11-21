@@ -5,19 +5,17 @@ import { Post } from "@/models"
 
 interface Props {
 	posts: Post[]
-	next?: () => void
-	prev?: () => void
+	loadMore?: () => void
 }
 
-export default function PostCollection({ posts, next, prev }: Props) {
+export default function PostCollection({ posts, loadMore }: Props) {
 	return (
 		<section className="w-full max-w-2xl flex flex-col gap-4">
 			{posts.map((post, index) => (
 				<PostPreview key={index} post={post} />
 			))}
-			<div className="border-t border-t-neutral-medium py-4 w-full flex flex-row-reverse justify-between">
-				{next && <Button onClick={next}>Next</Button>}
-				{prev && <Button onClick={prev}>Previous</Button>}
+			<div className="border-t border-t-neutral-medium py-4 w-full flex items-center justify-center">
+				{loadMore && <Button onClick={loadMore}>Load more</Button>}
 			</div>
 		</section>
 	)
