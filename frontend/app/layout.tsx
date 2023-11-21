@@ -23,16 +23,11 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
-      <ThemeProvider>
-        <body
-          className={[
-            inter.className,
-            "bg-neutral+3 dark:bg-neutral-2",
-          ].join(" ")}
-        >
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
           <QueryProvider>
-            <div className="bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter">
+            <div className={root}>
               <CaptureSession />
 
               <div className="min-h-screen">
@@ -45,8 +40,14 @@ export default function RootLayout({ children }: Props) {
             </div>
           </QueryProvider>
           <Analytics />
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
+
+const root = [
+  inter.className,
+  "bg-neutral+3 dark:bg-neutral-2",
+  "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter"
+].join(" ")
