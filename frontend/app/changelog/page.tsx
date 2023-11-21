@@ -2,7 +2,12 @@ import Markdown from "@/components/markdown"
 
 export default async function ChangelogPage() {
   const res = await fetch(
-    "https://raw.githubusercontent.com/t-eckert/devy/main/CHANGELOG.md"
+    "https://raw.githubusercontent.com/t-eckert/devy/main/CHANGELOG.md",
+    {
+      next: {
+        revalidate: 3600,
+      },
+    }
   )
   const changelog = await res.text()
 
