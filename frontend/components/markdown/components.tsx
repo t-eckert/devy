@@ -43,10 +43,13 @@ const components = {
 			{children}
 		</blockquote>
 	),
+	pre: ({ children }: Props) => (
+		<pre className="mx-auto w-full max-w-2xl mb-4 mt-2 bg-neutral-3 font-mono px-2 py-1 rounded text-neutral+1 bg-zinc-800 text-sm">
+			{children}
+		</pre>
+	),
 	code: ({ children }: Props) => (
-		<div className="mx-auto w-full max-w-2xl mb-4 mt-2 bg-neutral-3 font-mono px-2 py-1 rounded text-neutral+1 bg-zinc-800 text-sm">
-			<code className="font-mono">{children}</code>
-		</div>
+		<code className="font-mono">{children}</code>
 	),
 	ul: ({ children }: Props) => (
 		<ul className="mx-auto w-full max-w-2xl mb-4 list-disc list-inside">
