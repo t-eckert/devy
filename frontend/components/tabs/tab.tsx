@@ -56,11 +56,11 @@ const styles = cva(
 
 					"text-neutral-3",
 					"bg-neutral+2",
-					"border-neutral",
+					"border-neutral+1",
 
 					"dark:text-neutral+3",
-					"dark:bg-neutral-2",
-					"dark:border-neutral",
+					"dark:bg-neutral-1",
+					"dark:border-neutral-1",
 
 					"focus:shadow",
 				],
