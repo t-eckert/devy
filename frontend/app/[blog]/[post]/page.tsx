@@ -24,7 +24,7 @@ export default async function Post({ params }: Props) {
     <main className="mx-auto my-4 flex flex-col px-2 py-12 w-full max-w-4xl gap-4 sm:gap-2">
       <div className="pb-12 flex flex-col gap-6">
         <div className="bg-zinc-800 text-sm flex items-center justify-start rounded-full gap-4">
-          <Link href={`/${post.blogSlug}`} variant={{ underline: false }} className="text-neutral hover:text-neutral-1 hover:dark:text-neutral+1">
+          <Link href={{ pathname: `/${post.blogSlug}` }} variant={{ underline: false }} className="text-neutral hover:text-neutral-1 hover:dark:text-neutral+1">
             {post.blogName}
           </Link>
           <RelativeDate date={post.createdAt} className="text-neutral" />
@@ -34,7 +34,7 @@ export default async function Post({ params }: Props) {
         </h1>
         <div className="bg-zinc-800 text-sm flex items-center justify-start rounded-full gap-4">
           <Link
-            href={`/profiles/${post.authorSlug}`}
+            href={{ pathname: `/profiles/${post.authorSlug}` }}
             variant={{ underline: false }}
           >
             {post.authorName}
