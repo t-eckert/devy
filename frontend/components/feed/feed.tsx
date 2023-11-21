@@ -16,8 +16,7 @@ export default function Feed({ feed }: Props) {
 		throw new Error("Not found")
 	}
 
-	const next = () => setPage(page + 1)
-	const prev = () => setPage(page - 1)
+	const loadMore = () => setPage(page + 1)
 
-	return <PostCollection posts={feed.posts} next={next} prev={prev} />
+	return <PostCollection posts={feed.posts} loadMore={loadMore} />
 }
