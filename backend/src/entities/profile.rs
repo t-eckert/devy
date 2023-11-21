@@ -3,6 +3,7 @@ use crate::auth::GitHubUser;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;
+use std::sync::Arc;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -12,6 +13,8 @@ pub struct Profile {
 
     pub display_name: Option<String>,
     pub avatar_url: Option<String>,
+    pub bio: Option<String>,
+    pub website: Option<String>,
 
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
@@ -24,6 +27,8 @@ impl Profile {
             user_id: Some(user_id),
             display_name: Some(display_name),
             avatar_url,
+            bio: None,
+            website: None,
             created_at: None,
             updated_at: None,
         }
@@ -43,6 +48,7 @@ impl Profile {
                 id::TEXT, user_id::TEXT, display_name,
                 to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
                 to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+                bio, website_url AS website,
                 avatar_url;
             "#,
             Uuid::parse_str(&self.user_id.unwrap()).ok(),
@@ -65,6 +71,7 @@ impl Profile {
                 user_id::TEXT, display_name,
                 to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
                 to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+                bio, website_url AS website,
                 avatar_url
             FROM profile 
             WHERE id = $1"#,
@@ -87,10 +94,30 @@ impl Profile {
         user_id: String,
         github_user: GitHubUser,
     ) -> Result<Self> {
-        dbg!(&github_user);
-
         Self::new(user_id, github_user.name, Some(github_user.avatar_url))
             .upsert(&pool)
             .await
+    }
+}
+
+pub struct ProfileRepository {
+    pool: Arc<PgPool>,
+}
+
+impl ProfileRepository {
+    pub fn new(pool: Arc<PgPool>) -> Self {
+        Self { pool }
+    }
+
+    pub async fn get_by_username(&self, username: String) -> Result<Profile> {
+        Profile::get_by_username(&self.pool, username).await
+    }
+
+    pub async fn upsert_from_github_user(
+        &self,
+        user_id: String,
+        github_user: GitHubUser,
+    ) -> Result<Profile> {
+        Profile::upsert_from_github_user(&self.pool, user_id, github_user).await
     }
 }
