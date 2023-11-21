@@ -1,5 +1,15 @@
 # Changelog
 
+## `v0.3.3`
+
+`20 November 2023`
+
+[Pull Request](https://github.com/t-eckert/devy/pull/13)
+
+## Frontend
+
+## Backend
+
 ## `v0.3.2` Posts!
 
 `16 November 2023`
@@ -13,20 +23,20 @@ manually editing the database. The upload process will abort early without this 
 
 ### Backend
 
-- Markdown files in a cloned repository get uploaded as posts to the database.
+-   Markdown files in a cloned repository get uploaded as posts to the database.
 
 ## `v0.3.1` Hookshot!
 
 `13 November 2023`
 
-Updates to blogs will primarily be triggered by GitHub webhooks. "Hookshot!" adds an endpoint `/v1/webhooks` that accepts webhooks and 
+Updates to blogs will primarily be triggered by GitHub webhooks. "Hookshot!" adds an endpoint `/v1/webhooks` that accepts webhooks and
 properly routes them to the `Uploader` if they are a GitHub push event.
 
 [Pull Request](https://github.com/t-eckert/devy/pull/12)
 
 ### Backend
 
-- POSTs to /v1/webhooks create the webhook in the database and hand off to the uploader if the webhook is a push
+-   POSTs to /v1/webhooks create the webhook in the database and hand off to the uploader if the webhook is a push
 
 ## `v0.3.0` Clones!
 
@@ -179,4 +189,5 @@ trying to do. Axum has less magic which allowed me to extend it as I needed. Thi
 
 `1 September 2023`
 
+-   The Devy site is now live.
 -   The Devy site is now live.
