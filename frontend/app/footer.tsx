@@ -3,7 +3,7 @@ import Logomark from "@/components/logomark"
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-neutral+3 dark:bg-neutral-3">
+    <footer className="w-full bg-neutral+2 dark:bg-neutral-3">
       <div className="mx-auto max-w-6xl px-2 pt-8 pb-44">
         <div className="w-56 pb-2 border-b border-b-zinc-700 flex flex-row gap-2 items-baseline">
           <Link href="/" variant={{ underline: false }}>

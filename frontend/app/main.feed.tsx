@@ -29,7 +29,7 @@ function HomeFeed({ defaultSelected }: Props) {
 
   return (
     <section className="w-full flex flex-col md:flex-row items-start gap-4">
-      <div className="pb-2 border-b border-b-neutral-1">
+      <div className="pb-2 border-b border-neutral+2 dark:border-neutral-2 md:border-b-neutral+1 md:dark:border-b-neutral-1">
         <Tabs
           labels={feeds.map((feed) => ({
             id: feed?.feedMetadata.id || "",

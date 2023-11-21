@@ -8,7 +8,6 @@ import QueryProvider from "@/lib/query-provider"
 
 import Header from "./header"
 import Footer from "./footer"
-import ThemeToggle from "./theme.toggle"
 import ThemeProvider from "./theme.provider"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -29,7 +28,7 @@ export default function RootLayout({ children }: Props) {
         <body
           className={[
             inter.className,
-            "dark bg-neutral+2 dark:bg-neutral-2",
+            "bg-neutral+3 dark:bg-neutral-2",
           ].join(" ")}
         >
           <QueryProvider>

@@ -19,6 +19,9 @@ import type Session from "@/lib/auth/Session"
 import useStore from "@/lib/useStore"
 import config from "@/config"
 
+import NavToken from "./nav.token"
+import NavMenu from "./nav.menu"
+
 export default function Nav() {
   const session = useStore(useSession, (state) => state)
   const [mounted, setMounted] = useState(false)
@@ -46,64 +49,16 @@ export default function Nav() {
     {
       type: "button",
       label: "System",
-      onClick: () => {},
+      onClick: () => { },
     },
   ]
 
-  const navMenuItems: Item[] = [
-    {
-      type: "link",
-      label: "Home",
-      href: "/",
-    },
-    {
-      type: "separator",
-    },
-    {
-      type: "link",
-      label: "Following",
-      tag: "200",
-      href: "/following",
-    },
-    {
-      type: "link",
-      label: "Followers",
-      tag: "2.3k",
-      href: "/followers",
-    },
-    {
-      type: "link",
-      label: "Uploads",
-      href: "/uploads",
-    },
-    {
-      type: "link",
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      type: "separator",
-    },
-    {
-      type: "link",
-      label: "Changelog",
-      tag: `v${config.VERSION}`,
-      href: "/changelog",
-    },
-    {
-      type: "button",
-      label: "Sign out",
-      onClick: () => {
-        session?.clearSession()
-      },
-    },
-  ]
 
   const themeIcon = theme === "light" ? <SunIcon /> : <MoonIcon />
 
   return (
     <nav className="flex flex-row gap-1 items-center">
-      {session?.session ? <Token session={session.session} /> : <Login />}
+      <NavToken />
       {mounted && (
         <Menu
           icon={themeIcon}
@@ -113,43 +68,8 @@ export default function Nav() {
           items={themeMenuItems}
         />
       )}
-      <Menu
-        icon={<HamburgerMenuIcon />}
-        variant={{ hug: false }}
-        ariaLabel="Navigation menu"
-        relation="below-aligned-left"
-        items={navMenuItems}
-      />
+      <NavMenu />
     </nav>
   )
 }
 
-const Login = () => (
-  <Link
-    href="/api/auth/login"
-    prefetch={false}
-    variant={{ underline: false }}
-    className=""
-  >
-    <div className="pl-2 pr-2 py-0.5 flex flex-row rounded-l-full gap-2 items-center transition-all">
-      <GitHubLogoIcon className="w-4 h-4" />
-      <span className="text-sm">Sign in</span>
-    </div>
-  </Link>
-)
-
-const Token = ({ session }: { session: Session }) => (
-  <Link
-    href={`/profiles/${session.user.username}`}
-    variant={{ underline: false }}
-    className="rounded-xl dark:text-neutral+2 dark:hover:text-neutral+3 dark:hover:bg-neutral-1"
-  >
-    <div className="pl-1 pr-2 py-0.5 flex flex-row rounded-l-full gap-2 items-center transition-all">
-      <Avatar
-        name={session.profile.displayName}
-        avatarUrl={session.profile.avatarUrl}
-      />
-      <span className="text-sm">{session.profile.displayName}</span>
-    </div>
-  </Link>
-)
