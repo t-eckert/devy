@@ -15,9 +15,18 @@ The versions correspond to Git tags in the repository.
 
 ### `v0.3.4` Deserialize!
 
+`21 November 2023`
+
+There was an issue when a user would log in with a GitHub profile that was missing one or more of the fields that I had set up in the struct
+representing a GitHub user. This would silently fail log in and the user would not be created. Special thanks to [Paul Straw](https://github.com/paulstraw) 
+for reporting this bug.
+
+[Pull Request](https://github.com/t-eckert/devy/pull/16)
+
 #### Frontend
 
 - Add "Likes" to the Post page.
+- Show a different navigation menu if the user is logged out.
 
 #### Backend
 
