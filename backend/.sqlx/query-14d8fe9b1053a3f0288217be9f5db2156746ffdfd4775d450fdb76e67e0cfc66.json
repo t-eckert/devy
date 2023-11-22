@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n            INSERT INTO profile (user_id, display_name, avatar_url)\n            VALUES ($1, $2, $3)\n            ON CONFLICT (user_id) DO UPDATE SET\n                display_name = EXCLUDED.display_name,\n                avatar_url = EXCLUDED.avatar_url,\n                updated_at = NOW()\n            RETURNING \n                id::TEXT, user_id::TEXT, display_name,\n                to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n                avatar_url;\n            ",
+  "query": "\n            SELECT \n                id::TEXT,\n                user_id::TEXT, display_name,\n                to_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                to_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n                bio, website_url AS website,\n                avatar_url\n            FROM profile \n            WHERE id = $1",
   "describe": {
     "columns": [
       {
@@ -30,15 +30,23 @@
       },
       {
         "ordinal": 5,
+        "name": "bio",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "website",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
         "name": "avatar_url",
         "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
-        "Uuid",
-        "Text",
-        "Text"
+        "Uuid"
       ]
     },
     "nullable": [
@@ -47,8 +55,10 @@
       true,
       null,
       null,
+      true,
+      true,
       true
     ]
   },
-  "hash": "33d3a485a42a958a2a2ba5aecef8ead01261a125aadabba81cd6e434b18894f1"
+  "hash": "14d8fe9b1053a3f0288217be9f5db2156746ffdfd4775d450fdb76e67e0cfc66"
 }

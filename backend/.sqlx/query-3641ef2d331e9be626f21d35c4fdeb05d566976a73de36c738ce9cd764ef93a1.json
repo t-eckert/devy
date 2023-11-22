@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT \n\tprofile.id::TEXT as id,\n\tuser_id::TEXT,\n\tto_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tdisplay_name, avatar_url\nFROM profile LEFT JOIN \"user\" ON profile.user_id = \"user\".id\nWHERE username=$1;\n",
+  "query": "SELECT \n\tprofile.id::TEXT as id,\n\tuser_id::TEXT,\n\tto_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tbio, website_url AS website,\n\tdisplay_name, avatar_url\nFROM profile LEFT JOIN \"user\" ON profile.user_id = \"user\".id\nWHERE username=$1;\n",
   "describe": {
     "columns": [
       {
@@ -25,11 +25,21 @@
       },
       {
         "ordinal": 4,
-        "name": "display_name",
+        "name": "bio",
         "type_info": "Text"
       },
       {
         "ordinal": 5,
+        "name": "website",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "display_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
         "name": "avatar_url",
         "type_info": "Text"
       }
@@ -45,8 +55,10 @@
       null,
       null,
       true,
+      true,
+      true,
       true
     ]
   },
-  "hash": "4e761b66f767e80328fee5a05a17683b83227cc970191da7a65bed45ebd97262"
+  "hash": "3641ef2d331e9be626f21d35c4fdeb05d566976a73de36c738ce9cd764ef93a1"
 }
