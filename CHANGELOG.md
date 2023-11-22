@@ -7,11 +7,17 @@ of work with an overall theme. Each patch is another release of the site working
 
 The versions correspond to Git tags in the repository.
 
-## `v0.3.x` Uploads
+## `v0.3.x` Uploads!
 
 > Build the Upload Backend.
 
 `6 November 2023` - 
+
+### `v0.3.4` Deserialize!
+
+#### Backend
+
+- Fix an bug that occurred when a user tried to log in but had a null value for one of their GitHub metadata fields.
 
 ### `v0.3.3` Toggle!
 
