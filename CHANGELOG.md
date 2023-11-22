@@ -15,6 +15,10 @@ The versions correspond to Git tags in the repository.
 
 ### `v0.3.4` Deserialize!
 
+#### Frontend
+
+- Add "Likes" to the Post page.
+
 #### Backend
 
 - Fix an bug that occurred when a user tried to log in but had a null value for one of their GitHub metadata fields.
