@@ -5,7 +5,7 @@ export interface Config {
 }
 
 const config: Config = {
-	VERSION: "0.3.2",
+	VERSION: "0.3.4",
 	HOST: process.env.HOST ?? "http://localhost:3000",
 	API: process.env.API ?? "http://localhost:8000",
 }
