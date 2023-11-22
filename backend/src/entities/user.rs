@@ -1,4 +1,4 @@
-use super::error::Result;
+use super::error::{Error, Result};
 use crate::auth::GitHubUser;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
@@ -46,9 +46,18 @@ impl User {
 
     pub async fn upsert_from_github_user(pool: &PgPool, github_user: GitHubUser) -> Result<Self> {
         let user = Self::new(
-            github_user.login.clone(),
-            github_user.email.clone(),
-            github_user.login.clone(),
+            github_user
+                .login
+                .clone()
+                .ok_or(Error::Malformed("GitHub User missing login".to_string()))?,
+            github_user
+                .email
+                .clone()
+                .ok_or(Error::Malformed("GitHub User missing email".to_string()))?,
+            github_user
+                .login
+                .clone()
+                .ok_or(Error::Malformed("GitHub User missing login".to_string()))?,
         );
         user.upsert(pool).await
     }
