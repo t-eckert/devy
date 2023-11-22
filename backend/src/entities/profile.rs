@@ -1,4 +1,4 @@
-use super::error::Result;
+use super::error::{Error, Result};
 use crate::auth::GitHubUser;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
@@ -94,9 +94,15 @@ impl Profile {
         user_id: String,
         github_user: GitHubUser,
     ) -> Result<Self> {
-        Self::new(user_id, github_user.name, Some(github_user.avatar_url))
-            .upsert(&pool)
-            .await
+        Self::new(
+            user_id,
+            github_user
+                .name
+                .ok_or(Error::Malformed("GitHub user missing name".to_string()))?,
+            github_user.avatar_url,
+        )
+        .upsert(&pool)
+        .await
     }
 }
 
