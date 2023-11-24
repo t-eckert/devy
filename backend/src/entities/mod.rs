@@ -2,6 +2,7 @@ pub mod error;
 
 mod blog;
 mod feed;
+mod feed_config;
 mod like;
 mod post;
 mod profile;
@@ -12,6 +13,7 @@ mod webhook;
 
 pub use blog::Blog;
 pub use feed::Feed;
+pub use feed_config::{FeedConfig, FeedConfigRepository};
 pub use like::Like;
 pub use post::Post;
 pub use profile::Profile;

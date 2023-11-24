@@ -1,4 +1,6 @@
-use crate::api::{auth, blogs, feeds, likes, posts, profiles, ready, uploads, users, webhooks};
+use crate::api::{
+    auth, blogs, feed_configs, feeds, likes, posts, profiles, ready, uploads, users, webhooks,
+};
 use axum::{
     routing::{delete, get, post},
     Router,
@@ -28,9 +30,9 @@ pub fn make_router(store: Store) -> Router {
             get(posts::get_by_blog_and_post_slug),
         )
         // Feeds
-        .route("/v1/feeds", get(feeds::get_feed_by_id))
         .route("/v1/feeds/:id", get(feeds::get_feed_by_id))
         .route("/v1/feeds/:id/posts", get(feeds::get_feed_posts_by_id))
+        .route("/v1/feeds/:id/config", get(feed_configs::get_by_id))
         // Likes
         .route("/v1/likes", post(likes::post_like))
         .route("/v1/likes/:post_id/:profile_id", delete(likes::delete_like))
