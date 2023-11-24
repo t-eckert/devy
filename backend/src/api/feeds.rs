@@ -1,3 +1,4 @@
+use super::error::Result;
 use crate::{
     entities::{Feed, Post},
     store::Store,
@@ -9,7 +10,7 @@ use axum::{
 };
 use std::collections::HashMap;
 
-pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, StatusCode> {
+pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>> {
     match feed_id.as_str() {
         "new" => Ok(Json(Feed {
             id: "new".to_string(),
@@ -19,7 +20,7 @@ pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>, S
             id: "popular".to_string(),
             name: "Popular".to_string(),
         })),
-        _ => Err(StatusCode::NOT_FOUND),
+        _ => Err(super::error::Error::StatusCode(StatusCode::NOT_FOUND)),
     }
 }
 
@@ -27,7 +28,7 @@ pub async fn get_feed_posts_by_id(
     State(store): State<Store>,
     Path(feed_id): Path<String>,
     Query(params): Query<HashMap<String, String>>,
-) -> Result<Json<Vec<Post>>, StatusCode> {
+) -> Result<Json<Vec<Post>>> {
     let limit = params
         .get("limit")
         .unwrap_or(&"30".to_string())
