@@ -1,2 +1,2 @@
-import Date from "./date"
-export default Date
+import RelativeDate from "./relative-date"
+export default RelativeDate
