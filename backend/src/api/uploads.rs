@@ -5,7 +5,7 @@ use axum::{
     Json,
 };
 
-pub async fn get_uploads_by_username(
+pub async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Upload>>> {
@@ -13,7 +13,7 @@ pub async fn get_uploads_by_username(
     Ok(Json(Upload::get_all(&store.pool).await?))
 }
 
-pub async fn post_upload(
+pub async fn insert(
     State(store): State<Store>,
     ExtractJson(upload): ExtractJson<Upload>,
 ) -> Result<Json<Upload>> {

@@ -8,7 +8,7 @@ use axum::{
     Json,
 };
 
-pub async fn get_profile_by_username(
+pub async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Profile>, StatusCode> {

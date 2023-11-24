@@ -7,7 +7,7 @@ use axum::{extract::State, Json};
 use http::{HeaderMap, StatusCode};
 use serde_json::Value;
 
-pub async fn handle_webhook(
+pub async fn insert(
     State(store): State<Store>,
     headers: HeaderMap,
     Json(payload): Json<Value>,

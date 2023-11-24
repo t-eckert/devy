@@ -1,4 +1,4 @@
-use crate::api;
+use crate::api::{auth, blogs, feeds, likes, posts, profiles, ready, uploads, users, webhooks};
 use axum::{
     routing::{delete, get, post},
     Router,
@@ -15,57 +15,47 @@ pub fn make_router(store: Store) -> Router {
         .allow_origin(Any);
 
     let router = Router::new()
-        .route("/v1/ready", get(api::ready::ready))
-        .route("/v1/blogs", post(api::blogs::upsert_blog))
-        .route(
-            "/v1/blogs/:blog_slug",
-            get(api::blogs::get_blog_by_blog_slug).delete(api::blogs::delete_blog),
-        )
-        .route(
-            "/v1/blogs/:blog_slug/posts",
-            get(api::blogs::get_blog_posts_by_blog_slug),
-        )
+        // Auth
+        .route("/v1/auth/login", get(auth::login))
+        .route("/v1/auth/callback", get(auth::callback))
+        // Blogs
+        .route("/v1/blogs", post(blogs::upsert))
+        .route("/v1/blogs/:blog_slug", get(blogs::get_by_blog_slug))
+        .route("/v1/blogs/:blog_slug", delete(blogs::delete))
+        .route("/v1/blogs/:blog_slug/posts", get(posts::get_by_blog_slug))
         .route(
             "/v1/blogs/:blog_slug/posts/:post_slug",
-            get(api::blogs::get_post_by_blog_and_post_slug),
+            get(posts::get_by_blog_and_post_slug),
         )
-        .route("/v1/feeds/:id", get(api::feeds::get_feed_by_id))
-        .route("/v1/feeds/:id/posts", get(api::feeds::get_feed_posts_by_id))
-        .route("/v1/auth/login", get(api::auth::login))
-        .route("/v1/auth/callback", get(api::auth::callback))
-        .route("/v1/posts/:post_id", get(api::posts::get_post_by_post_id))
-        .route(
-            "/v1/profiles/:username",
-            get(api::profiles::get_profile_by_username),
-        )
-        .route(
-            "/v1/profiles/:username/blogs",
-            get(api::profiles::get_blog_by_username),
-        )
-        .route(
-            "/v1/profiles/:username/posts",
-            get(api::profiles::get_posts_by_username),
-        )
+        // Feeds
+        .route("/v1/feeds/:id", get(feeds::get_feed_by_id))
+        .route("/v1/feeds/:id/posts", get(feeds::get_feed_posts_by_id))
+        // Likes
+        .route("/v1/likes", post(likes::post_like))
+        .route("/v1/likes/:post_id/:profile_id", delete(likes::delete_like))
+        // Posts
+        .route("/v1/posts/:post_id", get(posts::get_by_post_id))
+        // Profiles
+        .route("/v1/profiles/:username", get(profiles::get_by_username))
+        .route("/v1/profiles/:username/blogs", get(blogs::get_by_username))
+        .route("/v1/profiles/:username/posts", get(posts::get_by_username))
         .route(
             "/v1/profiles/:username/likes",
-            get(api::profiles::get_liked_posts_by_username),
+            get(posts::get_liked_by_username),
         )
         .route(
             "/v1/profiles/:username/likes/ids",
-            get(api::profiles::get_likes_ids_by_username),
+            get(likes::get_ids_by_username),
         )
-        .route("/v1/uploads", post(api::uploads::post_upload))
-        .route(
-            "/v1/uploads/:username",
-            get(api::uploads::get_uploads_by_username),
-        )
-        .route("/v1/users/:username", get(api::users::get_user_by_username))
-        .route("/v1/likes", post(api::likes::post_like))
-        .route(
-            "/v1/likes/:post_id/:profile_id",
-            delete(api::likes::delete_like),
-        )
-        .route("/v1/webhooks", post(api::webhooks::handle_webhook))
+        // Ready
+        .route("/v1/ready", get(ready::ready))
+        // Uploads
+        .route("/v1/uploads", post(uploads::insert))
+        .route("/v1/uploads/:username", get(uploads::get_by_username))
+        // Users
+        .route("/v1/users/:username", get(users::get_by_username))
+        // Webhooks
+        .route("/v1/webhooks", post(webhooks::insert))
         .with_state(store)
         .layer(cors_layer);
 
