@@ -21,7 +21,7 @@ impl FeedConfigRepository {
             SELECT 
                 id,
                 name
-            FROM "feed_config"
+            FROM "feed"
             WHERE id = $1;
             "#,
             id
