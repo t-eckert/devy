@@ -2,7 +2,7 @@ from config import url
 
 import httpx
 
-path = "feeds"
+path = "/feeds"
 route = url + path
 
 

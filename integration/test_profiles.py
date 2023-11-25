@@ -3,7 +3,7 @@ from config import url
 import httpx
 import pytest
 
-path = "profiles"
+path = "/profiles"
 route = url + path
 
 
