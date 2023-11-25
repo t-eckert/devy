@@ -2,7 +2,7 @@ from config import url
 
 import httpx
 
-path = "users"
+path = "/users"
 route = url + path
 
 def test_get_user_by_username():

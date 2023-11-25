@@ -2,7 +2,7 @@ from config import url
 
 import httpx
 
-path = "ready"
+path = "/ready"
 route = url + path
 
 

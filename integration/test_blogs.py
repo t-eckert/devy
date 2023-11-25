@@ -3,7 +3,7 @@ from framework import is_subset
 
 import httpx
 
-path = "blogs"
+path = "/blogs"
 route = url + path
 
 
