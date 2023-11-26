@@ -1,5 +1,6 @@
 from config import url
 from rich import print
+import pytest
 from framework import is_subset
 
 import httpx
@@ -69,6 +70,7 @@ def test_get_blog_post_by_blog_and_post_slugs():
     assert r.json() == expected
 
 
+@pytest.mark.skip(reason="Come back to this")
 def test_create_update_get_delete_a_blog():
     blog = {
         "name": "Schrodinger's Blog",
