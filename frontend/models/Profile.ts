@@ -1,6 +1,6 @@
 export default interface Profile {
 	id: string
-	user_id: string
+	userId: string
 
 	displayName: string
 	avatarUrl?: string
