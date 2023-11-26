@@ -32,6 +32,8 @@ pub fn make_router(store: Store) -> Router {
         // Feeds
         .route("/v1/feeds/:id", get(feeds::get_feed_by_id))
         .route("/v1/feeds/:id/posts", get(feeds::get_feed_posts_by_id))
+        .route("/v1/feeds/new/config", get(feed_configs::get_new))
+        .route("/v1/feeds/popular/config", get(feed_configs::get_popular))
         .route("/v1/feeds/:id/config", get(feed_configs::get_by_id))
         // Likes
         .route("/v1/likes", post(likes::post_like))

@@ -8,25 +8,23 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 pub struct FeedConfig {
     pub id: Uuid,
-    pub name: Option<String>,
+    pub name: String,
+}
+
+impl FeedConfig {
+    pub fn new(id: Uuid, name: String) -> Self {
+        Self { id, name }
+    }
 }
 
 pub struct FeedConfigRepository {}
 
 impl FeedConfigRepository {
     pub async fn get_by_id(pool: &PgPool, id: Uuid) -> Result<FeedConfig> {
-        Ok(sqlx::query_as!(
-            FeedConfig,
-            r#"
-            SELECT 
-                id,
-                name
-            FROM "feed"
-            WHERE id = $1;
-            "#,
-            id
+        Ok(
+            sqlx::query_file_as!(FeedConfig, "queries/feed_config_get_by_id.sql", id)
+                .fetch_one(pool)
+                .await?,
         )
-        .fetch_one(pool)
-        .await?)
     }
 }
