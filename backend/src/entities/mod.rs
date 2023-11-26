@@ -11,7 +11,7 @@ mod upload;
 mod user;
 mod webhook;
 
-pub use blog::Blog;
+pub use blog::{Blog, BlogInput, BlogRepository};
 pub use feed::Feed;
 pub use feed_config::{FeedConfig, FeedConfigRepository};
 pub use like::Like;
