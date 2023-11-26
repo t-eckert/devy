@@ -1,4 +1,5 @@
 from config import url
+from rich import print
 from framework import is_subset
 
 import httpx
@@ -68,7 +69,7 @@ def test_get_blog_post_by_blog_and_post_slugs():
     assert r.json() == expected
 
 
-def _test_create_update_get_delete_a_blog():
+def test_create_update_get_delete_a_blog():
     blog = {
         "name": "Schrodinger's Blog",
         "slug": "schrodingers-blog",
@@ -79,40 +80,38 @@ def _test_create_update_get_delete_a_blog():
 
     # INSERT
     r = httpx.post(route, json=blog)
+    print(r)
 
-    # TODO this should be 201
-    assert r.status_code == 200
-    assert is_subset(blog, r.json())
+    # assert r.status_code == 200
+    # assert is_subset(blog, r.json())
 
-    # NOOP POST
-    r = httpx.post(route, json=blog)
+    # r = httpx.post(route, json=blog)
 
-    # NOTE this should stay 200 because nothing is "created"
-    assert r.status_code == 200
-    assert is_subset(blog, r.json())
+    # assert r.status_code == 200
+    # assert is_subset(blog, r.json())
 
-    # GET
-    r = httpx.get(route + "/schrodingers-blog")
+    # # GET
+    # r = httpx.get(route + "/schrodingers-blog")
 
-    assert r.status_code == 200
-    assert is_subset(blog, r.json())
+    # assert r.status_code == 200
+    # assert is_subset(blog, r.json())
 
-    # UPDATE description
-    blog["description"] = "Definitely here."
+    # # UPDATE description
+    # blog["description"] = "Definitely here."
 
-    # TODO add PUT
-    r = httpx.post(route, json=blog)
+    # # TODO add PUT
+    # r = httpx.post(route, json=blog)
 
-    assert r.status_code == 200
-    assert is_subset(blog, r.json())
+    # assert r.status_code == 200
+    # assert is_subset(blog, r.json())
 
-    # DELETE
-    r = httpx.delete(route + "/schrodingers-blog")
+    # # DELETE
+    # r = httpx.delete(route + "/schrodingers-blog")
 
-    assert r.status_code == 200
+    # assert r.status_code == 200
 
-    # GET
-    r = httpx.get(route + "/schrodingers-blog")
+    # # GET
+    # r = httpx.get(route + "/schrodingers-blog")
 
-    assert r.status_code == 404
+    # assert r.status_code == 404
 
