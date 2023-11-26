@@ -1,5 +1,5 @@
 use crate::{
-    entities::{Blog, Like, Post, Profile},
+    entities::{Blog, BlogRepository, Like, Post, Profile},
     store::Store,
 };
 use axum::{
@@ -26,7 +26,7 @@ pub async fn get_blog_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Blog>>, StatusCode> {
     Ok(Json(
-        Blog::get_by_username(&store.pool, username)
+        BlogRepository::get_by_username(&store.pool, username)
             .await
             .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
     ))
