@@ -80,22 +80,6 @@ impl Blog {
                 .await?,
         )
     }
-
-    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Vec<Self>> {
-        Ok(
-            sqlx::query_file_as!(Self, "queries/blog_get_by_username.sql", username)
-                .fetch_all(pool)
-                .await?,
-        )
-    }
-
-    pub async fn delete_by_slug(pool: &PgPool, slug: String) -> Result<()> {
-        sqlx::query_file!("queries/blog_delete_by_slug.sql", slug)
-            .execute(pool)
-            .await?;
-
-        Ok(())
-    }
 }
 
 pub struct BlogRepository {}
