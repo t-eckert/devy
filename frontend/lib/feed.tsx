@@ -1,6 +1,6 @@
 import api from "@/lib/api"
 
-import { FeedMetadata, Post } from "@/models"
+import { Feed, FeedConfig, Post } from "@/models"
 
 const cacheSeconds = 600
 
@@ -8,14 +8,14 @@ export default async function fetchFeed(
 	id: string,
 	page: number,
 	size: number
-): Promise<{ feedMetadata: FeedMetadata; posts: Post[] }> {
+): Promise<Feed> {
 	if (page < 0) {
 		throw new Error("Page cannot be negative")
 	}
 
 	const offset = page * size
 
-	const feedMetadata = await api.get<FeedMetadata>(
+	const feedConfig = await api.get<FeedConfig>(
 		`/v1/feeds/${id}`,
 		cacheSeconds
 	)
@@ -24,5 +24,5 @@ export default async function fetchFeed(
 		cacheSeconds
 	)
 
-	return { feedMetadata, posts }
+	return { feedConfig, posts }
 }
