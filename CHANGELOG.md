@@ -16,6 +16,22 @@ The versions correspond to Git tags in the repository.
 
 `6 November 2023` - 
 
+### `v0.3.5` Turkey!
+
+`26 November 2023`
+
+This is a small update with a lot of internal refactoring. I wanted to ship a fix to the way profile details were displayed.
+
+[Pull Request](https://github.com/t-eckert/devy/pull/18)
+
+#### Frontend
+
+- Create a `MemberCard` for showing a user's profile.
+
+#### Backend
+
+- Rework the Feeds API to have `/feeds` broken down into `/feeds/id/config` and `/feeds/id/posts`.
+
 ### `v0.3.4` Deserialize!
 
 `21 November 2023`
