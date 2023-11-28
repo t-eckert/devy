@@ -31,9 +31,9 @@ export default function NavMenu() {
   ]
 
   if (session?.status === "logged-in") {
-    navMenuItems.push(...signOut(session))
+    navMenuItems.push(...userSignedIn(session))
   } else {
-    navMenuItems.push(...signIn())
+    navMenuItems.push(...userSignedOut())
   }
 
   return (
@@ -47,7 +47,7 @@ export default function NavMenu() {
   )
 }
 
-const signIn = (): Item[] => [
+const userSignedOut = (): Item[] => [
   {
     type: "link",
     label: "Sign in",
@@ -55,16 +55,16 @@ const signIn = (): Item[] => [
   },
 ]
 
-const signOut = (session: SessionStore): Item[] => [
+const userSignedIn = (session: SessionStore): Item[] => [
+  {
+    type: "link",
+    label: "Create a new blog",
+    href: "/new/blog",
+  },
   {
     type: "link",
     label: "Uploads",
     href: "/uploads",
-  },
-  {
-    type: "link",
-    label: "Settings",
-    href: "/settings",
   },
   {
     type: "separator",
