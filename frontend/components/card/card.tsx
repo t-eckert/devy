@@ -16,7 +16,7 @@ const card = [
 	"border",
 	"shadow-md",
 
-	"border-neutral-2",
+	"border-neutral+1",
 	"dark:border-neutral-1",
 
 	"bg-neutral+2",
