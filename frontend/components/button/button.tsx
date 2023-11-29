@@ -21,12 +21,17 @@ const styles = cva(
 		"text-sm",
 		"font-medium",
 		"border",
+
 		"focus:outline-none",
 		"focus:ring-1",
 		"focus:ring-zinc-700",
 		"focus:ring-offset-1",
 		"dark:focus:ring-zinc-200",
 		"dark:text-zinc-50",
+
+		"disabled:cursor-not-allowed",
+
+		"transition-all",
 	],
 	{
 		variants: {
@@ -34,12 +39,18 @@ const styles = cva(
 				primary: [
 					"px-2.5",
 					"py-0.5",
-					"border-neutral-darkest",
-					"bg-neutral-darker",
-					"text-neutral-lighter",
-					"dark:border-neutral-lightest",
-					"dark:bg-neutral-lightest",
-					"dark:text-neutral-darker",
+
+					"border-neutral-3",
+					"bg-neutral-2",
+					"text-neutral+2",
+
+					"dark:border-neutral+2",
+					"dark:bg-neutral+2",
+					"dark:text-neutral-2",
+
+					"disabled:bg-neutral+1",
+					"disabled:border-neutral+1",
+					"disabled:text-neutral",
 				],
 				secondary: [
 					"px-2.5",
