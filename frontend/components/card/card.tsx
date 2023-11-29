@@ -10,8 +10,6 @@ export default function Card({ children, className }: Props) {
 }
 
 const card = [
-	"py-1",
-	"px-2",
 	"rounded-md",
 	"border",
 	"shadow-md",
@@ -19,6 +17,6 @@ const card = [
 	"border-neutral+1",
 	"dark:border-neutral-1",
 
-	"bg-neutral+2",
-	"dark:bg-neutral-2",
+	"bg-neutral+3",
+	"dark:bg-neutral-3",
 ]

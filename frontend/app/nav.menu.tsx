@@ -58,7 +58,7 @@ const userSignedOut = (): Item[] => [
 const userSignedIn = (session: SessionStore): Item[] => [
   {
     type: "link",
-    label: "Create a new blog",
+    label: "Create your blog",
     href: "/new/blog",
   },
   {
