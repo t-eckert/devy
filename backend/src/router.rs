@@ -7,6 +7,7 @@ use axum::{
     Router,
 };
 use tower_http::cors::{Any, CorsLayer};
+use tower_http::trace::TraceLayer;
 
 use crate::store::Store;
 
@@ -65,7 +66,8 @@ pub fn make_router(store: Store) -> Router {
         // Webhooks
         .route("/v1/webhooks", post(webhooks::insert))
         .with_state(store)
-        .layer(cors_layer);
+        .layer(cors_layer)
+        .layer(TraceLayer::new_for_http());
 
     return router;
 }
