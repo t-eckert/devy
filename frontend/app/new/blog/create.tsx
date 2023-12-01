@@ -1,15 +1,16 @@
 "use client"
 
-import Card from "@/components/card"
 import Button from "@/components/button"
-import Json from "@/components/json"
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import useSession from "@/lib/auth/useSession"
 import useStore from "@/lib/useStore"
 import { useQuery } from "@tanstack/react-query"
 
+import api from "@/lib/api"
+
 import CreateLoggedOut from "./create.logged-out"
+import { Blog } from "@/models"
 
 interface GitHubRepo {
   id: number
@@ -46,6 +47,14 @@ export default function Repos() {
     return <CreateLoggedOut />
   }
 
+  const onSubmit = async (e: any) => {
+    e.preventDefault()
+    if (!selected) return
+    console.log(e)
+
+
+  }
+
   return (
     <>
       <p className="w-full max-w-md">
@@ -54,10 +63,11 @@ export default function Repos() {
         you push changes.
       </p>
 
-      <form className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {repos?.slice(0, limit).map((repo: GitHubRepo) => (
             <RepoCard
+              key={repo.id}
               repo={repo}
               selected={selected}
               setSelected={setSelected}
@@ -91,7 +101,7 @@ export default function Repos() {
 
         <div className="border-t border-t-neutral+1 dark:border-t-neutral-1 pt-2 w-full flex justify-end">
           <Button
-            onClick={() => alert(JSON.stringify(selected))}
+            type="submit"
             disabled={!selected}
           >
             Create blog
