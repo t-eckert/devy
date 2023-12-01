@@ -116,4 +116,3 @@ def test_create_update_get_delete_a_blog():
     # r = httpx.get(route + "/schrodingers-blog")
 
     # assert r.status_code == 404
-
