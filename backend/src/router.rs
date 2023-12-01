@@ -1,5 +1,6 @@
 use crate::api::{
-    auth, blogs, feed_configs, feeds, likes, posts, profiles, ready, uploads, users, webhooks,
+    auth, blogs, feed_configs, feeds, likes, posts, profiles, ready, repos, uploads, users,
+    webhooks,
 };
 use axum::{
     routing::{delete, get, post},
@@ -54,6 +55,8 @@ pub fn make_router(store: Store) -> Router {
         )
         // Ready
         .route("/v1/ready", get(ready::ready))
+        // Repos
+        .route("/v1/repos", post(repos::insert))
         // Uploads
         .route("/v1/uploads", post(uploads::insert))
         .route("/v1/uploads/:username", get(uploads::get_by_username))

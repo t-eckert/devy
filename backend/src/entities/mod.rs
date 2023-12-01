@@ -17,7 +17,7 @@ pub use feed_config::{FeedConfig, FeedConfigRepository};
 pub use like::Like;
 pub use post::Post;
 pub use profile::Profile;
-pub use repo::Repo;
+pub use repo::{Repo, RepoInput, RepoRepository};
 pub use upload::Upload;
 pub use user::User;
 pub use webhook::{Webhook, WebhookType};
