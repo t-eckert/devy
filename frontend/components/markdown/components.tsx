@@ -55,7 +55,7 @@ const components = {
 		<code className="font-mono px-1 py-0.5 rounded bg-neutral+3 dark:bg-neutral-3 text-[0.8em]">{children}</code>
 	),
 	ul: ({ children }: Props) => (
-		<ul className="mx-auto w-full max-w-2xl mb-4 list-disc list-inside">
+		<ul className="mx-auto w-full max-w-2xl ml-4 mb-4 list-disc list-outside">
 			{children}
 		</ul>
 	),
