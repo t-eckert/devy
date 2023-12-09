@@ -13,7 +13,7 @@ interface Props {
 export default function PostHeader({ post }: Props) {
   return (
     <div className="pb-12 flex flex-col gap-6">
-      <div className="bg-zinc-800 text-sm flex items-center justify-start rounded-full gap-4">
+      <div className="bg-zinc-800 text-sm flex items-center justify-start gap-4">
         <Link
           href={{ pathname: `/${post.blogSlug}` }}
           variant={{ underline: false }}
@@ -21,7 +21,7 @@ export default function PostHeader({ post }: Props) {
         >
           {post.blogName}
         </Link>
-        <RelativeDate date={post.createdAt} className="text-neutral" />
+        <RelativeDate date={post.createdAt} className="text-neutral select-none" />
       </div>
       <h1 className="text-6xl font-semibold text-neutral-1 dark:text-neutral+1">
         {post.title}

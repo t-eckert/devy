@@ -1,6 +1,7 @@
 import Post from "@/models/Post"
 import Link from "@/components/link"
 import Likes from "@/components/likes"
+import RelativeDate from "@/components/relative-date"
 
 
 interface Props {
@@ -10,8 +11,8 @@ interface Props {
 export default function PostPreview({ post }: Props) {
 	return (
 		<section className={wrapper}>
-			<div className="flex flex-col">
-				<div className="ml-14 text-xs">
+			<div className="flex flex-col gap-1">
+				<div className="ml-14 text-xs flex items-center justify-start gap-2">
 					<Link
 						href={{ pathname: `/${post.blogSlug}` }}
 						variant={{ underline: false }}
@@ -19,6 +20,7 @@ export default function PostPreview({ post }: Props) {
 					>
 						{post.blogName}
 					</Link>
+					<RelativeDate date={post.createdAt} className="text-neutral select-none" />
 				</div>
 
 				<div className="flex flex-row gap-2">
@@ -26,7 +28,7 @@ export default function PostPreview({ post }: Props) {
 						<Likes postId={post.id} initialCount={post.likes} />
 					</div>
 
-					<div className="flex flex-col">
+					<div className="flex flex-col gap-1">
 						<Link
 							href={{ pathname: `/${post.blogSlug}/${post.slug}` }}
 							className="font-medium text-zinc-50"

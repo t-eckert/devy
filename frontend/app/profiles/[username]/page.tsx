@@ -34,10 +34,6 @@ export default async function ProfilePage({ params }: Props) {
       <MemberCard profile={profile} user={user} blogs={blogs} />
 
       <div>
-        <div className="flex flex-col gap-2 w-full max-w-3xl">
-          <Markdown content={profile.bio || ""} />
-        </div>
-
         <div>
           <div className="py-4">
             <h1 className="font-semibold">Posts by {profile.displayName}</h1>
