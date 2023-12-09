@@ -1,7 +1,10 @@
+import Link from "@/components/link"
+
 interface Props {
 	children?: React.ReactNode
 	src?: string
 	alt?: string
+	href?: string
 }
 
 const components = {
@@ -11,7 +14,7 @@ const components = {
 		</h1>
 	),
 	h2: ({ children }: Props) => (
-		<h2 className="mx-auto w-full max-w-2xl mt-4 mb-4 text-4xl font-semibold">
+		<h2 className="mx-auto w-full max-w-2xl mt-6 mb-4 text-2xl sm:text-4xl font-semibold">
 			{children}
 		</h2>
 	),
@@ -39,7 +42,7 @@ const components = {
 		<p className="mx-auto w-full max-w-2xl mb-4 leading-snug">{children}</p>
 	),
 	blockquote: ({ children }: Props) => (
-		<blockquote className="border-l border-neutral-1 pl-2">
+		<blockquote className="border-l border-neutral-1 dark:border-neutral+1 pl-2">
 			{children}
 		</blockquote>
 	),
@@ -49,7 +52,7 @@ const components = {
 		</pre>
 	),
 	code: ({ children }: Props) => (
-		<code className="font-mono">{children}</code>
+		<code className="font-mono px-1 py-0.5 rounded bg-neutral+3 dark:bg-neutral-3 text-[0.8em]">{children}</code>
 	),
 	ul: ({ children }: Props) => (
 		<ul className="mx-auto w-full max-w-2xl mb-4 list-disc list-inside">
@@ -84,6 +87,9 @@ const components = {
 			alt={alt}
 			className="mx-auto my-4 max-w-2xl rounded shadow-lg bg-neutral+1 flex text-center"
 		/>
+	),
+	a: ({ children, href }: Props) => (
+		<Link href={href || ""} variant={{ underline: true }}>{children}</Link>
 	),
 }
 
