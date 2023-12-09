@@ -12,7 +12,7 @@ interface Props {
 
 export default function PostHeader({ post }: Props) {
   return (
-    <div className="pb-12 flex flex-col gap-6">
+    <div className="pb-2 sm:pb-12 flex flex-col gap-6">
       <div className="bg-zinc-800 text-sm flex items-center justify-start gap-4">
         <Link
           href={{ pathname: `/${post.blogSlug}` }}
