@@ -23,7 +23,7 @@ export default function Link({
 const styles = cva(["pointer-cursor", "transition-all"], {
 	variants: {
 		underline: {
-			true: "underline",
+			true: "underline decoration-neutral underline-offset-2",
 			false: "no-underline",
 		},
 		styled: {
