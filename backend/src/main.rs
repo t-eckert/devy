@@ -61,8 +61,6 @@ async fn main() {
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
     tracing::debug!("listening on {}", addr);
-    axum::Server::bind(&addr)
-        .serve(router.into_make_service())
-        .await
-        .unwrap();
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    axum::serve(listener, router).await.unwrap();
 }
