@@ -14,13 +14,13 @@ interface Props {
 
 function HomeFeed({ defaultSelected }: Props) {
   const { data: newFeed } = useQuery({
-    queryKey: ["feed", "new", 0, 25],
-    queryFn: () => fetchFeed("new", 0, 25),
+    queryKey: ["feed", "new"],
+    queryFn: () => fetchFeed("new"),
   })
 
   const { data: popularFeed } = useQuery({
-    queryKey: ["feed", "popular", 0, 25],
-    queryFn: () => fetchFeed("popular", 0, 25),
+    queryKey: ["feed", "popular"],
+    queryFn: () => fetchFeed("popular"),
   })
 
   const [selected, setSelected] = useState<string>(defaultSelected)

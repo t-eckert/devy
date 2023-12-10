@@ -6,21 +6,13 @@ const cacheSeconds = 600
 
 export default async function fetchFeed(
 	id: string,
-	page: number,
-	size: number
 ): Promise<Feed> {
-	if (page < 0) {
-		throw new Error("Page cannot be negative")
-	}
-
-	const offset = page * size
-
 	const feedConfig = await api.get<FeedConfig>(
-		`/v1/feeds/${id}`,
+		`/v1/feeds/${id}/config`,
 		cacheSeconds
 	)
 	const posts = await api.get<Post[]>(
-		`/v1/feeds/${id}/posts?offset=${offset}&limit=${size}`,
+		`/v1/feeds/${id}/posts`,
 		cacheSeconds
 	)
 
