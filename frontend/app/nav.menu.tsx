@@ -26,6 +26,11 @@ export default function NavMenu() {
       href: "/about",
     },
     {
+      type: "link",
+      label: "Open an issue",
+      href: "https://github.com/t-eckert/devy/issues/new/choose",
+    },
+    {
       type: "separator",
     },
   ]
