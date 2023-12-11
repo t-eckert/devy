@@ -26,7 +26,7 @@ const styles = cva(
 		"text-sm",
 		"font-medium",
 
-		"bg-neutral+2",
+		"bg-neutral+3",
 		"dark:bg-neutral-2",
 
 		"md:hover:pl-4",
@@ -67,7 +67,7 @@ const styles = cva(
 				false: [
 					"border",
 					"text-neutral",
-					"border-neutral+2",
+					"border-neutral+3",
 					"dark:text-neutral",
 					"dark:border-neutral-2",
 				],

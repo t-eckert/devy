@@ -3,7 +3,6 @@ import Link from "@/components/link"
 import Likes from "@/components/likes"
 import RelativeDate from "@/components/relative-date"
 
-
 interface Props {
 	post: Post
 }
@@ -20,7 +19,10 @@ export default function PostPreview({ post }: Props) {
 					>
 						{post.blogName}
 					</Link>
-					<RelativeDate date={post.createdAt} className="text-neutral select-none" />
+					<RelativeDate
+						date={post.createdAt}
+						className="text-neutral select-none"
+					/>
 				</div>
 
 				<div className="flex flex-row gap-2">
@@ -30,7 +32,9 @@ export default function PostPreview({ post }: Props) {
 
 					<div className="flex flex-col gap-1">
 						<Link
-							href={{ pathname: `/${post.blogSlug}/${post.slug}` }}
+							href={{
+								pathname: `/${post.blogSlug}/${post.slug}`,
+							}}
 							className="font-medium text-zinc-50"
 							variant={{ underline: false }}
 						>
@@ -39,7 +43,9 @@ export default function PostPreview({ post }: Props) {
 
 						<div className="flex flex-row gap-2 items-baseline text-xs">
 							<Link
-								href={{ pathname: `/profiles/${post.authorSlug}` }}
+								href={{
+									pathname: `/profiles/${post.authorSlug}`,
+								}}
 								variant={{ underline: false }}
 							>
 								{post.authorName}
@@ -64,12 +70,12 @@ const wrapper = [
 	"hover:border-neutral+1",
 	"hover:dark:border-neutral-1",
 
-	"bg-neutral+2",
+	"bg-neutral+3",
 	"dark:bg-neutral-2",
 
 	"border",
 	"hover:border",
-	"border-neutral+2",
+	"border-neutral+3",
 	"dark:border-neutral-2",
 
 	"transition-all",

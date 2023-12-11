@@ -12,7 +12,7 @@ export interface VersionStore {
 const useVersion = create<VersionStore>()(
 	persist(
 		(set) => ({
-			currentVersion: "v0.4.0",
+			currentVersion: "v0.4.1",
 			lastVersion: "v0.3.6",
 			setCurrentVersion: (version: string) => {
 				set({ currentVersion: version })
