@@ -9,6 +9,7 @@ import QueryProvider from "@/lib/query-provider"
 import Header from "./header"
 import Footer from "./footer"
 import ThemeProvider from "./theme.provider"
+import VersionAnnouncement from "@/components/version-announcement"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Props) {
           <QueryProvider>
             <div className={root}>
               <CaptureSession />
+              <VersionAnnouncement />
 
               <div className="min-h-screen">
                 <Header />
@@ -49,5 +51,5 @@ export default function RootLayout({ children }: Props) {
 const root = [
   inter.className,
   "bg-neutral+3 dark:bg-neutral-2",
-  "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter"
+  "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter",
 ].join(" ")

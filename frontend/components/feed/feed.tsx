@@ -8,6 +8,5 @@ interface Props {
 }
 
 export default function Feed({ feed }: Props) {
-
 	return <PostCollection posts={feed?.posts || []} />
 }
