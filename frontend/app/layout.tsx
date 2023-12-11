@@ -50,6 +50,8 @@ export default function RootLayout({ children }: Props) {
 
 const root = [
   inter.className,
-  "bg-neutral+3 dark:bg-neutral-2",
-  "bg-neutral-lighter text-neutral-darker dark:bg-neutral-darker dark:text-neutral-lighter",
+  "bg-neutral+3",
+  "dark:bg-neutral-2",
+  "text-neutral-2",
+  "dark:text-neutral+2",
 ].join(" ")
