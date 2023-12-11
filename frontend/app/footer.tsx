@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-neutral+2 dark:bg-neutral-3 transition-all">
       <div className="mx-auto max-w-6xl px-3 pt-8 pb-44">
-        <div className="w-full sm:w-56 pb-2 border-b border-b-neutral+1 flex flex-row gap-2 items-baseline">
+        <div className="w-full sm:w-56 pb-2 border-b border-b-neutral+1 dark:border-b-neutral-1 flex flex-row gap-2 items-baseline">
           <Link href="/" variant={{ underline: false }}>
             <Logomark />
           </Link>
@@ -32,20 +32,11 @@ export default function Footer() {
             </span>
           </section>
 
-          <section className="flex flex-row sm:flex-col gap-4 sm:gap-1 items-start">
-            <Link
-              href="/changelog"
-              className="font-medium"
-              variant={{ underline: true }}
-            >
-              Changelog
-            </Link>
-            <Link
-              href="https://github.com/t-eckert/devy"
-              className="font-medium"
-              variant={{ underline: true }}
-            >
-              Repo
+          <section className="flex flex-row font-medium sm:flex-col gap-4 sm:gap-1 items-start">
+            <Link href="/changelog">Changelog</Link>
+            <Link href="https://github.com/t-eckert/devy">Repo</Link>
+            <Link href="https://github.com/t-eckert/devy/issues/new/choose">
+              Open an issue
             </Link>
           </section>
         </div>
