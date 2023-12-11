@@ -31,12 +31,16 @@ export default function LikesLoggedIn({
 }
 
 const heartIcon = [
-	"text-neutral-darker",
-	"dark:text-neutral-lighter",
 	"h-4",
 	"aspect-square",
+
+	"text-neutral-darker",
+	"dark:text-neutral-lighter",
+
 	"group-hover:-translate-y-0.5",
 	"group-hover:scale-110",
 	"group-hover:rotate-12",
+	"group-hover:text-red-primary",
+
 	"transition-all",
 ].join(" ")
