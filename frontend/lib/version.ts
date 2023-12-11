@@ -1,10 +1,12 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+import config from "@/config"
+
 export interface VersionStore {
 	currentVersion: string
 	lastVersion: string
-	setCurrentVersion: (version: string) => void
+	setLastVersion: (version: string) => void
 	loadVersion: () => void
 	isNewVersion: () => boolean
 }
@@ -12,13 +14,19 @@ export interface VersionStore {
 const useVersion = create<VersionStore>()(
 	persist(
 		(set) => ({
-			currentVersion: "v0.4.1",
-			lastVersion: "v0.3.6",
-			setCurrentVersion: (version: string) => {
-				set({ currentVersion: version })
+			currentVersion: config.VERSION,
+			lastVersion: "",
+			setLastVersion: (version: string) => {
+				set({ currentVersion: version, lastVersion: version })
 			},
 			loadVersion: () => {
-				console.log("loadVersion")
+				const version = localStorage.getItem("version")
+				console.log(version)
+				if (version) {
+					set({ lastVersion: version })
+				} else {
+					set({ lastVersion: config.VERSION })
+				}
 			},
 			isNewVersion: () => {
 				return false
