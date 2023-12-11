@@ -12,7 +12,7 @@ interface Props {
 
 export default function PostHeader({ post }: Props) {
   return (
-    <div className="pb-6 sm:pb-12 flex flex-col gap-6">
+    <div className="mx-auto w-full max-w-2xl pb-6 sm:pb-12 flex flex-col gap-6">
       <div className="mx-auto w-full max-w-2xl text-sm flex flex-row justify-between sm:justify-start sm:gap-4">
         <Link
           href={{ pathname: `/${post.blogSlug}` }}

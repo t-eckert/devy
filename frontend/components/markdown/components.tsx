@@ -52,7 +52,9 @@ const components = {
 		</pre>
 	),
 	code: ({ children }: Props) => (
-		<code className="font-mono px-1 py-0.5 rounded bg-neutral+3 dark:bg-neutral-3 text-[0.8em]">{children}</code>
+		<code className="font-mono px-1 py-0.5 rounded bg-neutral+3 dark:bg-neutral-3 text-[0.8em]">
+			{children}
+		</code>
 	),
 	ul: ({ children }: Props) => (
 		<ul className="mx-auto w-full max-w-2xl ml-4 mb-4 list-disc list-outside">
@@ -60,7 +62,9 @@ const components = {
 		</ul>
 	),
 	li: ({ children }: Props) => (
-		<li className="mb-1 leading-snug">{children}</li>
+		<li className="mb-1 leading-snug mx-auto w-full max-w-2xl">
+			{children}
+		</li>
 	),
 	ol: ({ children }: Props) => (
 		<ol className="mx-auto w-full max-w-2xl mb-4 list-decimal list-inside">
@@ -89,7 +93,9 @@ const components = {
 		/>
 	),
 	a: ({ children, href }: Props) => (
-		<Link href={href || ""} variant={{ underline: true }}>{children}</Link>
+		<Link href={href || ""} variant={{ underline: true }}>
+			{children}
+		</Link>
 	),
 }
 

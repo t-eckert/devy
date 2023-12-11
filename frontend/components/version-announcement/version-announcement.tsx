@@ -13,6 +13,9 @@ export default function VersionAnnouncement() {
 	const [visible, setVisible] = useState<boolean>(false)
 
 	useEffect(() => {
+		if (version?.currentVersion === "") {
+			setVisible(false)
+		}
 		if (version?.currentVersion !== version?.lastVersion) {
 			setVisible(true)
 		}
@@ -20,7 +23,7 @@ export default function VersionAnnouncement() {
 
 	const onClose = () => {
 		setVisible(false)
-		version?.setCurrentVersion(version?.lastVersion || "")
+		version?.setLastVersion(version?.currentVersion || "")
 	}
 
 	return (
