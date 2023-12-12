@@ -33,14 +33,18 @@ export default function Avatar({ name, avatarUrl }: Props) {
 const fallback = [
 	"w-6",
 	"aspect-square",
+
 	"flex",
 	"items-center",
 	"justify-center",
+
 	"text-xs",
-	"bg-neutral-light",
-	"text-neutral-low",
-	"dark:bg-neutral-medium",
-	"dark:text-neutral-light",
+
+	"bg-neutral-neutral+1",
+	"text-neutral-1",
+	"dark:bg-neutral-1",
+	"dark:text-neutral+1",
+
 	"rounded-full",
 	"font-semibold",
 	"shadow-md",
