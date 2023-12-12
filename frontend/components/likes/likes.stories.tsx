@@ -20,7 +20,12 @@ function Likes({ hasUser, count, initialLiked }: Props) {
 
 	if (hasUser) {
 		return (
-			<LikesLoggedIn count={count} isLiked={isLiked} onClick={onClick} />
+			<LikesLoggedIn
+				count={count}
+				title="Article"
+				isLiked={isLiked}
+				onClick={onClick}
+			/>
 		)
 	}
 	return <LikesLoggedOut count={count} />

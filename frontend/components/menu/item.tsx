@@ -1,5 +1,4 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import { VariantProps, cva } from "cva"
 
 import Link from "@/components/link"
 

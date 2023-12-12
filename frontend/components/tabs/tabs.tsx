@@ -15,6 +15,7 @@ export default function Tabs({ labels, selected, setSelected }: Props) {
 				<Tab
 					key={label.id}
 					id={label.id}
+					label={label.name}
 					isSelected={label.id === selected}
 					setSelected={setSelected}
 				>

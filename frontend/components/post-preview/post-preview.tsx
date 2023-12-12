@@ -10,12 +10,30 @@ interface Props {
 export default function PostPreview({ post }: Props) {
 	return (
 		<section className={wrapper}>
-			<div className="flex flex-col gap-1">
-				<div className="ml-14 text-xs flex items-center justify-start gap-2">
+			<div className="grid grid-rows-3 grid-cols-[max-content_1fr] gap-x-4">
+				<Link
+					href={{
+						pathname: `/${post.blogSlug}/${post.slug}`,
+					}}
+					className="font-medium text-zinc-50 col-start-2 col-span-3 row-start-2"
+					variant={{ underline: false }}
+				>
+					{post.title}
+				</Link>
+				<div className="w-8 col-start-1 row-start-2">
+					<Likes
+						postId={post.id}
+						title={post.title}
+						initialCount={post.likes}
+					/>
+				</div>
+
+				<div className="text-xs flex items-center justify-start gap-2 col-start-2 col-span-3">
 					<Link
 						href={{ pathname: `/${post.blogSlug}` }}
 						variant={{ underline: false }}
 						className="text-neutral hover:text-neutral-1 hover:dark:text-neutral+1"
+						aria-label={`View blog ${post.blogName}`}
 					>
 						{post.blogName}
 					</Link>
@@ -25,33 +43,16 @@ export default function PostPreview({ post }: Props) {
 					/>
 				</div>
 
-				<div className="flex flex-row gap-2">
-					<div className="w-12 flex flex-col items-start gap-1">
-						<Likes postId={post.id} initialCount={post.likes} />
-					</div>
-
-					<div className="flex flex-col gap-1">
-						<Link
-							href={{
-								pathname: `/${post.blogSlug}/${post.slug}`,
-							}}
-							className="font-medium text-zinc-50"
-							variant={{ underline: false }}
-						>
-							{post.title}
-						</Link>
-
-						<div className="flex flex-row gap-2 items-baseline text-xs">
-							<Link
-								href={{
-									pathname: `/profiles/${post.authorSlug}`,
-								}}
-								variant={{ underline: false }}
-							>
-								{post.authorName}
-							</Link>
-						</div>
-					</div>
+				<div className="flex flex-row gap-2 col-start-2 col-span-3 row-start-3 items-baseline text-xs">
+					<Link
+						href={{
+							pathname: `/profiles/${post.authorSlug}`,
+						}}
+						variant={{ underline: false }}
+						aria-label={`View ${post.authorName}'s profile`}
+					>
+						{post.authorName}
+					</Link>
 				</div>
 			</div>
 		</section>
@@ -59,7 +60,7 @@ export default function PostPreview({ post }: Props) {
 }
 
 const wrapper = [
-	"py-2",
+	"py-1",
 	"px-4",
 	"w-full",
 
@@ -69,6 +70,9 @@ const wrapper = [
 	"hover:shadow-md",
 	"hover:border-neutral+1",
 	"hover:dark:border-neutral-1",
+	"focus-within:shadow-md",
+	"focus-within:border-neutral+1",
+	"focus-within:dark:border-neutral-1",
 
 	"bg-neutral+3",
 	"dark:bg-neutral-2",

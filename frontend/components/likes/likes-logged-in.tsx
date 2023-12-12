@@ -5,15 +5,21 @@ import Counter from "@/components/counter"
 
 export default function LikesLoggedIn({
 	count,
+	title,
 	isLiked,
 	onClick,
 }: {
 	count: number
+	title: string
 	isLiked: boolean
 	onClick: () => void
 }) {
 	return (
-		<Button onClick={onClick} variant={{ intent: "tertiary" }}>
+		<Button
+			onClick={onClick}
+			variant={{ intent: "tertiary" }}
+			aria-label={`Like counter for ${title} with count ${count}`}
+		>
 			<div className="flex flex-row gap-0.5 items-center justify-center rounded-md select-none group">
 				<span>
 					{isLiked ? (
