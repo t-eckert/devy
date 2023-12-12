@@ -10,11 +10,17 @@ change.
 
 The versions correspond to Git tags in the repository.
 
+## `v0.4.x` Simple, Loveable, and Complete
+
+### `v0.4.1`
+
+#### Frontend
+
 ## `v0.3.x` Uploads!
 
 > Build the Upload Backend.
 
-`6 November 2023` - 
+`6 November 2023` - `26 November 2023`
 
 ### `v0.3.5` Turkey!
 
