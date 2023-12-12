@@ -41,7 +41,11 @@ export default function PostHeader({ post }: Props) {
           </Link>
         </div>
         <div className="w-12 flex flex-col items-start gap-1">
-          <Likes postId={post.id} initialCount={post.likes} />
+          <Likes
+            postId={post.id}
+            title={post.title}
+            initialCount={post.likes}
+          />
         </div>
       </div>
     </div>

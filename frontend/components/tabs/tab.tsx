@@ -4,15 +4,17 @@ import { SetStateAction } from "react"
 interface Props extends VariantProps<typeof styles> {
 	children: React.ReactNode
 	id: string
+	label: string
 	isSelected: boolean
 	setSelected: SetStateAction<any>
 }
 
-export default function Tab({ children, id, isSelected, setSelected }: Props) {
+export default function Tab({ children, id, label, isSelected, setSelected }: Props) {
 	return (
 		<button
 			className={styles({ isSelected })}
 			onClick={() => setSelected(id)}
+			aria-label={`Select feed ${label}`}
 		>
 			{children}
 		</button>

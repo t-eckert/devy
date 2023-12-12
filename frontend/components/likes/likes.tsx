@@ -14,10 +14,11 @@ import LikesLoggedOut from "./likes-logged-out"
 
 interface Props {
 	postId: string
+	title: string
 	initialCount: number
 }
 
-export default function Likes({ postId, initialCount }: Props) {
+export default function Likes({ postId, title, initialCount }: Props) {
 	// Get the current user session.
 	const session = useStore(useSession, (session) => session)
 
@@ -80,7 +81,12 @@ export default function Likes({ postId, initialCount }: Props) {
 	})
 
 	return hasUser ? (
-		<LikesLoggedIn count={count} isLiked={likedByUser} onClick={like} />
+		<LikesLoggedIn
+			count={count}
+			title={title}
+			isLiked={likedByUser}
+			onClick={like}
+		/>
 	) : (
 		<LikesLoggedOut count={count} />
 	)

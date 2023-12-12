@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import Tabs from "@/components/tabs"
-import Feed from "@/components/feed"
+import PostCollection from "@/components/post-collection"
 
 import fetchFeed from "@/lib/feed"
 
@@ -40,7 +40,11 @@ function HomeFeed({ defaultSelected }: Props) {
         />
       </div>
       <div className="flex-1 flex flex-row items-center justify-center">
-        <Feed feed={feeds.find((feed) => feed?.feedConfig.id === selected)} />
+        <PostCollection
+          posts={
+            feeds.find((feed) => feed?.feedConfig.id === selected)?.posts || []
+          }
+        />
       </div>
     </section>
   )
