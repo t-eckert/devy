@@ -39,12 +39,12 @@ const Token = ({ session }: { session: Session }) => (
     variant={{ underline: false }}
     className="rounded-xl dark:text-neutral+2 dark:hover:text-neutral+3 dark:hover:bg-neutral-1"
   >
-    <div className="pl-1 pr-2 py-0.5 flex flex-row rounded-l-full gap-2 items-center transition-all">
+    <div className="pl-1 pr-2 py-0.5 flex flex-row rounded-l-full gap-2 items-center transition-all select-none">
       <Avatar
         name={session.profile.displayName}
         avatarUrl={session.profile.avatarUrl}
       />
-      <span className="text-sm select-none">{session.profile.displayName}</span>
+      <span className="text-sm">{session.profile.displayName}</span>
     </div>
   </Link>
 )
