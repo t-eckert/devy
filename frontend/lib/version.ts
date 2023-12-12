@@ -21,7 +21,6 @@ const useVersion = create<VersionStore>()(
 			},
 			loadVersion: () => {
 				const version = localStorage.getItem("version")
-				console.log(version)
 				if (version) {
 					set({ lastVersion: version })
 				} else {
