@@ -106,24 +106,18 @@ impl Profile {
     }
 }
 
-pub struct ProfileRepository {
-    pool: Arc<PgPool>,
-}
+pub struct ProfileRepository {}
 
 impl ProfileRepository {
-    pub fn new(pool: Arc<PgPool>) -> Self {
-        Self { pool }
-    }
-
-    pub async fn get_by_username(&self, username: String) -> Result<Profile> {
-        Profile::get_by_username(&self.pool, username).await
+    pub async fn get_by_username(pool: &PgPool, username: &str) -> Result<Profile> {
+        Profile::get_by_username(pool, String::from(username)).await
     }
 
     pub async fn upsert_from_github_user(
-        &self,
+        pool: &PgPool,
         user_id: String,
         github_user: GitHubUser,
     ) -> Result<Profile> {
-        Profile::upsert_from_github_user(&self.pool, user_id, github_user).await
+        Profile::upsert_from_github_user(pool, user_id, github_user).await
     }
 }

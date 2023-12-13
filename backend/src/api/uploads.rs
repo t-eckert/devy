@@ -1,5 +1,8 @@
 use super::error::Result;
-use crate::{entities::Upload, store::Store};
+use crate::{
+    entities::{NewUpload, Upload, UploadRepository},
+    store::Store,
+};
 use axum::{
     extract::{Json as ExtractJson, Path, State},
     Json,
@@ -10,17 +13,18 @@ pub async fn get_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Upload>>> {
     println!("username: {}", username);
-    Ok(Json(Upload::get_all(&store.pool).await?))
+    Ok(Json(
+        UploadRepository::get_by_username(&store.pool, &username).await?,
+    ))
 }
 
 pub async fn insert(
     State(store): State<Store>,
-    ExtractJson(upload): ExtractJson<Upload>,
+    ExtractJson(upload): ExtractJson<NewUpload>,
 ) -> Result<Json<Upload>> {
+    let received_upload = UploadRepository::insert(&store.pool, upload).await?;
+
     Ok(Json(
-        store
-            .uploader
-            .upload(upload.insert(&store.pool).await?, &store.pool)
-            .await?,
+        store.uploader.upload(received_upload, &store.pool).await?,
     ))
 }

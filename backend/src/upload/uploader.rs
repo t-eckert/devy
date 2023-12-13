@@ -2,7 +2,9 @@ use super::{
     error::{Error, Result},
     git::Git,
 };
-use crate::entities::{Blog, Post, Profile, Repo, Upload, User};
+use crate::entities::{
+    BlogRepository, Post, ProfileRepository, RepoRepository, Upload, UploadRepository, User,
+};
 use glob::glob;
 use regex::Regex;
 use sqlx::PgPool;
@@ -21,41 +23,22 @@ impl Uploader {
     }
 
     pub async fn upload(self, upload: Upload, pool: &PgPool) -> Result<Upload> {
-        let received = upload
-            .set_status(pool, "received".to_string())
-            .await?
-            .log(pool, "INFO: Upload received by uploader.".to_string())
-            .await?;
+        UploadRepository::set_status(pool, upload.id, "received").await?;
+        UploadRepository::append_log(pool, upload.id, "INFO: Upload received by uploader.").await?;
 
-        let url = received.clone().repo.ok_or(Error::RepositoryNotFound(
-            "No repository present on received upload request.".to_string(),
-        ))?;
+        let url = upload.repo.clone();
+        let repo = RepoRepository::get_by_url(pool, &upload.repo).await?;
+        let blog = BlogRepository::get_by_id(pool, repo.blog_id).await?;
+        let profile = ProfileRepository::get_by_username(pool, &blog.username).await?;
 
-        let repo = Repo::get_by_url(pool, &url).await?;
-        let blog = Blog::get_by_id(
-            pool,
-            repo.blog_id.ok_or(Error::DependencyError(
-                "Repo does not have a blog associated with it".to_string(),
-            ))?,
-        )
-        .await?;
-        let profile = Profile::get_by_username(pool, blog.username.clone()).await?;
         let user = User::get_by_username(pool, blog.username.clone()).await?;
 
-        let dir = format!(
-            "/tmp/{}",
-            received.clone().id.ok_or(Error::RepositoryNotFound(
-                "No id present on received upload request.".to_string(),
-            ))?
-        );
+        let dir = format!("/tmp/{}", upload.id);
         self.git.clone_repo(&dir, &url)?;
         event!(Level::INFO, "Cloned repo {} to {}", url, dir);
 
-        let cloned = received
-            .set_status(pool, "cloned".to_string())
-            .await?
-            .log(pool, "INFO: Repository cloned.".to_string())
-            .await?;
+        UploadRepository::set_status(pool, upload.id, "cloned").await?;
+        UploadRepository::append_log(pool, upload.id, "INFO: Repository cloned.").await?;
 
         let files = Self::get_markdown_files(&dir)?;
         let mut posts = vec![];
@@ -75,34 +58,22 @@ impl Uploader {
         for post in posts {
             match post.insert(pool).await {
                 Ok(post) => {
-                    cloned
-                        .clone()
-                        .log(
-                            pool,
-                            format!(
-                                "INFO: Uploaded {}",
-                                post.title.unwrap_or("Untitled".to_string())
-                            ),
-                        )
-                        .await?;
+                    UploadRepository::append_log(
+                        pool,
+                        upload.id,
+                        &format!(
+                            "INFO: Uploaded {}",
+                            post.title.unwrap_or("Untitled".to_string())
+                        ),
+                    )
+                    .await?;
                 }
                 Err(_) => {}
             };
         }
 
-        // TODO I need to set this up so it _ALWAYS_ runs cleanup even when there's an error.
-        let cleaning = cloned
-            .set_status(pool, "cleaning".to_string())
-            .await?
-            .log(pool, "INFO: Cleaning up repository.".to_string())
-            .await?;
-
-        let dir = format!(
-            "/tmp/{}",
-            cleaning.clone().id.ok_or(Error::RepositoryNotFound(
-                "No id present on received upload request.".to_string(),
-            ))?
-        );
+        UploadRepository::set_status(pool, upload.id, "uploaded").await?;
+        UploadRepository::append_log(pool, upload.id, "INFO: Cleaning up repository.").await?;
 
         fs::remove_dir_all(&dir).map_err(|e| {
             Error::CleanupFailure(format!(
@@ -112,13 +83,10 @@ impl Uploader {
             ))
         })?;
 
-        let done = cleaning
-            .set_status(pool, "done".to_string())
-            .await?
-            .log(pool, "INFO: Upload complete.".to_string())
-            .await?;
+        UploadRepository::set_status(pool, upload.id, "done").await?;
+        UploadRepository::append_log(pool, upload.id, "INFO: Upload complete.").await?;
 
-        Ok(done)
+        Ok(UploadRepository::get_by_id(pool, upload.id).await?)
     }
 
     fn get_markdown_files(dir: &str) -> Result<Vec<PathBuf>> {
@@ -126,7 +94,6 @@ impl Uploader {
             .map_err(|e| Error::FileParseError(e.to_string()))?
             .filter_map(|x| x.ok())
             .filter(|x| x.is_file())
-            // TODO this is probably slow...
             .filter(|x| !format!("{}", x.display()).contains("README"))
             .collect::<Vec<PathBuf>>())
     }
