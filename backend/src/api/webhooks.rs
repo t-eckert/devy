@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{Upload, Webhook, WebhookType},
+    entities::{NewUpload, UploadRepository, Webhook, WebhookType},
     store::Store,
 };
 use axum::{extract::State, Json};
@@ -28,7 +28,8 @@ pub async fn insert(
 
     match webhook.webhook_type {
         WebhookType::GitHubPushEvent => {
-            let upload = Upload::try_from(webhook)?.insert(&store.pool).await?;
+            let upload =
+                UploadRepository::insert(&store.pool, NewUpload::try_from(webhook)?).await?;
             let _ = store.uploader.upload(upload, &store.pool).await?;
         }
         WebhookType::Generic => {}

@@ -33,21 +33,6 @@ pub struct NewBlog {
 }
 
 impl Blog {
-    pub async fn upsert(self, pool: &PgPool) -> Result<Self> {
-        let _ = sqlx::query_file_as!(
-            Self,
-            "queries/blog_upsert.sql",
-            self.name,
-            self.slug,
-            self.username,
-            self.description,
-        )
-        .fetch_one(pool)
-        .await?;
-
-        Blog::get_by_slug(pool, self.slug).await
-    }
-
     pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
         let uuid = Uuid::parse_str(&id).unwrap();
 

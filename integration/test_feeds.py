@@ -1,4 +1,5 @@
 from config import url
+from framework import is_subset
 
 import httpx
 
@@ -6,17 +7,30 @@ path = "/feeds"
 route = url + path
 
 
-def test_get_feed_new():
-    r = httpx.get(route + "/new")
+def test_get_new_feed_config():
+    r = httpx.get(url + "/feeds/new/config")
+
     assert r.status_code == 200
-    assert r.json() == {"id": "new", "name": "New"}
+    assert is_subset(
+        r.json(),
+        {
+            "id": "5941b29d-246d-4897-a69e-3201f6ad8715",
+            "name": "New",
+        },
+    )
 
 
-def test_get_feed_popular():
-    r = httpx.get(route + "/popular")
+def test_get_popular_feed_config():
+    r = httpx.get(url + "/feeds/popular/config")
+
     assert r.status_code == 200
-    assert r.json() == {"id": "popular", "name": "Popular"}
-
+    assert is_subset(
+        r.json(),
+        {
+            "id": "e9173695-1b31-465f-9e79-a80224be44ad",
+            "name": "Popular",
+        },
+    )
 
 def test_get_feed_posts_limit():
     r = httpx.get(route + "/new/posts?limit=10")
