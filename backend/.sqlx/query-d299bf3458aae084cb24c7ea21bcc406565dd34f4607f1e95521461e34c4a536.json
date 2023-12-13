@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT profile_id, post_id\nFROM \"like\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE username = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "post_id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "d299bf3458aae084cb24c7ea21bcc406565dd34f4607f1e95521461e34c4a536"
+}

@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n                SELECT \n                    name, slug,\n                    to_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                    to_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n                    username, display_name, description\n                FROM \"blog\" LEFT JOIN (\n                    SELECT \n                        profile.id, display_name, username\n                    FROM \"profile\" LEFT JOIN \"user\"\n                    ON user_id=\"user\".id\n                ) AS \"profile\" ON profile_id=\"profile\".id\n                WHERE blog.id=$1;\n                ",
+  "query": "SELECT \n\tname, slug,\n\tto_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, display_name, description\nFROM \"blog\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, display_name, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE blog.id=$1;\n",
   "describe": {
     "columns": [
       {
@@ -54,5 +54,5 @@
       true
     ]
   },
-  "hash": "9f48ed99d83bd0ade009b4923ff204900dd40d64758a7d64f84af8f860a6e38e"
+  "hash": "b2bb8b990031e66b6e7ccab6b5e91b075b1a30daac8a4fcc09c55bcb5b10ba6a"
 }
