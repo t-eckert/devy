@@ -25,10 +25,10 @@ const styles = cva(
 		"pointer-cursor",
 		"transition-all",
 
-		"focus:outline-none",
-		"focus:ring-1",
-		"focus:ring-neutral-1",
-		"focus:dark:ring-neutral+1",
+		"focus-visible:outline-none",
+		"focus-visible:ring-1",
+		"focus-visible:ring-neutral-1",
+		"focus-visible:dark:ring-neutral+1",
 	],
 	{
 		variants: {
