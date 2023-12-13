@@ -12,21 +12,24 @@ interface Props {
 
 export default function MemberCard({ user, profile, blogs }: Props) {
 	return (
-		<section className="p-2 w-56 flex flex-col gap-2 shadow rounded-xl bg-neutral+3 dark:bg-neutral-3 border border-neutral+1 dark:border-neutral-1 text-neutral-1 dark:text-neutral+1 transition-all">
+		<section className="w-56 flex flex-col rounded-xl shadow text-neutral-1 dark:text-neutral+1 transition-all">
 			<MemberImage src={profile.avatarUrl} />
-			<div className="flex flex-wrap items-baseline gap-2">
-				<MemberName
-					name={profile.displayName}
-					username={user.username}
-				/>
-				<MemberSponsor />
-			</div>
-			<MemberWebsite website={profile.website} />
-			<MemberBlogs blogs={blogs} />
 
-			<div className="mt-2 text-xs flex flex-row justify-between items-baseline">
-				<MemberGitHub username={user.githubUsername} />
-				<MemberJoined date={user.createdAt} />
+			<div className="p-2 flex flex-col items-start gap-2 rounded-b-xl bg-neutral+3 dark:bg-neutral-3 border-b border-x border-neutral+2 dark:border-neutral-2">
+				<div className="flex flex-wrap items-baseline gap-2">
+					<MemberName
+						name={profile.displayName}
+						username={user.username}
+					/>
+					<MemberSponsor />
+				</div>
+				<MemberWebsite website={profile.website} />
+				<MemberBlogs blogs={blogs} />
+
+				<div className="mt-4 w-full text-xs flex flex-row justify-between items-baseline">
+					<MemberGitHub username={user.githubUsername} />
+					<MemberJoined date={user.createdAt} />
+				</div>
 			</div>
 		</section>
 	)
@@ -43,7 +46,7 @@ const MemberImage = ({ src }: { src?: string }) => {
 			width={224}
 			height={224}
 			alt="Avatar"
-			className="rounded-md object-cover aspect-square"
+			className="rounded-t-xl object-cover aspect-square"
 		/>
 	)
 }
