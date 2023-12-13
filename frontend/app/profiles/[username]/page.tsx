@@ -1,11 +1,7 @@
 import api from "@/lib/api"
-import Profile from "@/models/Profile"
-import User from "@/models/User"
-import Blog from "@/models/Blog"
-import Post from "@/models/Post"
+import { User, Blog, Post, Profile } from "@/models"
 import PostCollection from "@/components/post-collection"
 import MemberCard from "@/components/member-card"
-import Markdown from "@/components/markdown"
 
 interface Props {
   params: {
