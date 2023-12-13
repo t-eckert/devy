@@ -11,15 +11,17 @@ export default function PostPreview({ post }: Props) {
 	return (
 		<section className={wrapper}>
 			<div className="grid grid-rows-3 grid-cols-[max-content_1fr] gap-x-4">
-				<Link
-					href={{
-						pathname: `/${post.blogSlug}/${post.slug}`,
-					}}
-					className="font-medium text-zinc-50 col-start-2 col-span-3 row-start-2"
-					variant={{ underline: false }}
-				>
-					{post.title}
-				</Link>
+				<div className="col-start-2 col-span-3 row-start-2">
+					<Link
+						href={{
+							pathname: `/${post.blogSlug}/${post.slug}`,
+						}}
+						className="font-medium text-zinc-50"
+						variant={{ underline: false }}
+					>
+						{post.title}
+					</Link>
+				</div>
 				<div className="w-8 col-start-1 row-start-2">
 					<Likes
 						postId={post.id}
@@ -59,28 +61,4 @@ export default function PostPreview({ post }: Props) {
 	)
 }
 
-const wrapper = [
-	"py-1",
-	"px-4",
-	"w-full",
-
-	"dark:border-neutral-1",
-
-	"rounded-md",
-	"hover:shadow-md",
-	"hover:border-neutral+1",
-	"hover:dark:border-neutral-1",
-	"focus-within:shadow-md",
-	"focus-within:border-neutral+1",
-	"focus-within:dark:border-neutral-1",
-
-	"bg-neutral+3",
-	"dark:bg-neutral-2",
-
-	"border",
-	"hover:border",
-	"border-neutral+3",
-	"dark:border-neutral-2",
-
-	"transition-all",
-].join(" ")
+const wrapper = ["py-1", "px-4", "w-full", "transition-all"].join(" ")
