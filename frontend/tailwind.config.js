@@ -32,6 +32,9 @@ module.exports = {
       "blue-primary": "#0284C7",
       "blue-high": "#E0F2FE",
     },
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
