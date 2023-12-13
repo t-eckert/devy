@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{Blog, BlogInput, BlogRepository},
+    entities::{Blog, BlogRepository, NewBlog},
     store::Store,
 };
 use axum::{
@@ -27,7 +27,7 @@ pub async fn get_by_blog_slug(
     ))
 }
 
-pub async fn upsert(State(store): State<Store>, Json(blog): Json<BlogInput>) -> Result<Json<Blog>> {
+pub async fn upsert(State(store): State<Store>, Json(blog): Json<NewBlog>) -> Result<Json<Blog>> {
     Ok(Json(BlogRepository::upsert(&store.pool, blog).await?))
 }
 

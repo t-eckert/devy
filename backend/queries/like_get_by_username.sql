@@ -1,5 +1,4 @@
-SELECT 
-	post_id::TEXT, profile_id::TEXT 
+SELECT profile_id, post_id
 FROM "like" LEFT JOIN (
 	SELECT 
 		profile.id, username

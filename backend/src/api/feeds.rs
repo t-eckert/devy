@@ -1,28 +1,11 @@
 use super::error::Result;
-use crate::{
-    entities::{Feed, Post},
-    store::Store,
-};
+use crate::{entities::Post, store::Store};
 use axum::{
     extract::{Path, Query, State},
     http::StatusCode,
     Json,
 };
 use std::collections::HashMap;
-
-pub async fn get_feed_by_id(Path(feed_id): Path<String>) -> Result<Json<Feed>> {
-    match feed_id.as_str() {
-        "new" => Ok(Json(Feed {
-            id: "new".to_string(),
-            name: "New".to_string(),
-        })),
-        "popular" => Ok(Json(Feed {
-            id: "popular".to_string(),
-            name: "Popular".to_string(),
-        })),
-        _ => Err(super::error::Error::StatusCode(StatusCode::NOT_FOUND)),
-    }
-}
 
 pub async fn get_feed_posts_by_id(
     State(store): State<Store>,
