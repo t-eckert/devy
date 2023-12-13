@@ -20,7 +20,7 @@ pub struct Blog {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct BlogInput {
+pub struct NewBlog {
     pub name: String,
     pub slug: String,
 
@@ -51,26 +51,11 @@ impl Blog {
     pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
         let uuid = Uuid::parse_str(&id).unwrap();
 
-        Ok(sqlx::query_as!(
-            Self,
-            r#"
-                SELECT 
-                    name, slug,
-                    to_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
-                    to_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
-                    username, display_name, description
-                FROM "blog" LEFT JOIN (
-                    SELECT 
-                        profile.id, display_name, username
-                    FROM "profile" LEFT JOIN "user"
-                    ON user_id="user".id
-                ) AS "profile" ON profile_id="profile".id
-                WHERE blog.id=$1;
-                "#,
-            uuid
+        Ok(
+            sqlx::query_file_as!(Self, "queries/blog_get_by_id.sql", uuid)
+                .fetch_one(pool)
+                .await?,
         )
-        .fetch_one(pool)
-        .await?)
     }
 
     pub async fn get_by_slug(pool: &PgPool, slug: String) -> Result<Self> {
@@ -85,7 +70,7 @@ impl Blog {
 pub struct BlogRepository {}
 
 impl BlogRepository {
-    pub async fn upsert(pool: &PgPool, blog: BlogInput) -> Result<Blog> {
+    pub async fn upsert(pool: &PgPool, blog: NewBlog) -> Result<Blog> {
         let _ = sqlx::query_file_as!(
             Blog,
             "queries/blog_upsert.sql",
@@ -101,26 +86,9 @@ impl BlogRepository {
     }
 
     pub async fn get_by_id(pool: &PgPool, id: Uuid) -> Result<Blog> {
-        Ok(sqlx::query_as!(
-            Blog,
-            r#"
-                SELECT 
-                    name, slug,
-                    to_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
-                    to_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
-                    username, display_name, description
-                FROM "blog" LEFT JOIN (
-                    SELECT 
-                        profile.id, display_name, username
-                    FROM "profile" LEFT JOIN "user"
-                    ON user_id="user".id
-                ) AS "profile" ON profile_id="profile".id
-                WHERE blog.id=$1;
-                "#,
-            id
-        )
-        .fetch_one(pool)
-        .await?)
+        Ok(sqlx::query_file_as!(Blog, "queries/blog_get_by_id.sql", id)
+            .fetch_one(pool)
+            .await?)
     }
 
     pub async fn get_by_slug(pool: &PgPool, slug: String) -> Result<Blog> {
