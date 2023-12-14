@@ -1,15 +1,18 @@
 use super::error::Result;
-use crate::{entities::Post, store::Store};
+use crate::{
+    entities::{Post, PostRepository},
+    store::Store,
+};
 use axum::{
     extract::{Path, Query, State},
-    http::StatusCode,
     Json,
 };
 use std::collections::HashMap;
+use uuid::Uuid;
 
 pub async fn get_feed_posts_by_id(
     State(store): State<Store>,
-    Path(feed_id): Path<String>,
+    Path(feed_id): Path<Uuid>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<Post>>> {
     let limit = params
@@ -24,8 +27,6 @@ pub async fn get_feed_posts_by_id(
         .unwrap_or(0);
 
     Ok(Json(
-        Post::get_by_feed(&store.pool, feed_id, limit, offset)
-            .await
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+        PostRepository::get_by_feed(&store.pool, feed_id, limit, offset).await?,
     ))
 }

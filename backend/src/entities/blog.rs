@@ -7,6 +7,8 @@ use super::error::Result;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Blog {
+    pub id: Uuid,
+
     pub name: String,
     pub slug: String,
 
@@ -32,26 +34,6 @@ pub struct NewBlog {
     pub updated_at: Option<String>,
 }
 
-impl Blog {
-    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
-        let uuid = Uuid::parse_str(&id).unwrap();
-
-        Ok(
-            sqlx::query_file_as!(Self, "queries/blog_get_by_id.sql", uuid)
-                .fetch_one(pool)
-                .await?,
-        )
-    }
-
-    pub async fn get_by_slug(pool: &PgPool, slug: String) -> Result<Self> {
-        Ok(
-            sqlx::query_file_as!(Self, "queries/blog_get_by_slug.sql", slug)
-                .fetch_one(pool)
-                .await?,
-        )
-    }
-}
-
 pub struct BlogRepository {}
 
 impl BlogRepository {
@@ -67,7 +49,7 @@ impl BlogRepository {
         .fetch_one(pool)
         .await?;
 
-        Blog::get_by_slug(pool, blog.slug).await
+        BlogRepository::get_by_slug(pool, blog.slug).await
     }
 
     pub async fn get_by_id(pool: &PgPool, id: Uuid) -> Result<Blog> {
