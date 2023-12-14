@@ -1,17 +1,17 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n            UPDATE \"upload\"\n            SET logs=ARRAY_APPEND(logs,$2), updated_at=NOW()\n            WHERE id=$1\n            RETURNING\n                id::TEXT, previous_upload_id::TEXT, status, repo, logs,\n                to_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                to_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at; \n            ",
+  "query": "UPDATE \"upload\"\nSET status=$2, updated_at=NOW()\nWHERE id=$1\nRETURNING\n\tid,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tlogs,\n\tto_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at; \n",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
         "name": "id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 1,
         "name": "previous_upload_id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 2,
@@ -46,8 +46,8 @@
       ]
     },
     "nullable": [
-      null,
-      null,
+      false,
+      true,
       false,
       false,
       true,
@@ -55,5 +55,5 @@
       null
     ]
   },
-  "hash": "fb4da69fb1a553662a3abd3704e6c334670271ee5dc81f17226711d3f10257d3"
+  "hash": "ff0554a48aa603b3c872a9c1184faf6b20e91d3b48e6d6376b8be775c6baa494"
 }

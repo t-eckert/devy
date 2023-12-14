@@ -1,17 +1,17 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n                SELECT \n                    id::TEXT, blog_id::TEXT, url, github_id, github_name, metadata,\n                    to_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                    to_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\n                FROM \"repo\" WHERE url = $1;\n                ",
+  "query": "\n                SELECT \n                    id, blog_id, url, github_id, github_name, metadata,\n                    to_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                    to_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\n                FROM \"repo\" WHERE url = $1;\n                ",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
         "name": "id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 1,
         "name": "blog_id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 2,
@@ -50,8 +50,8 @@
       ]
     },
     "nullable": [
-      null,
-      null,
+      false,
+      false,
       false,
       false,
       false,
@@ -60,5 +60,5 @@
       null
     ]
   },
-  "hash": "3ad2f244468a0e868d78ee03925198af567c92a72b7001cec17404dcecf857a0"
+  "hash": "07a0b4b47f627b2288dfc4454130e230deff6484c1c37fdbc337d87b3ac5e125"
 }

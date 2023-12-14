@@ -1,17 +1,17 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n            SELECT \n                id::TEXT, previous_upload_id::TEXT, status, repo, logs,\n                to_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n                to_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\n            FROM \"upload\"\n            ORDER BY created_at DESC\n            ",
+  "query": "SELECT\n\tid,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tlogs,\n\tto_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"upload\"\nWHERE repo=$1;\n",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
         "name": "id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 1,
         "name": "previous_upload_id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 2,
@@ -40,11 +40,13 @@
       }
     ],
     "parameters": {
-      "Left": []
+      "Left": [
+        "Text"
+      ]
     },
     "nullable": [
-      null,
-      null,
+      false,
+      true,
       false,
       false,
       true,
@@ -52,5 +54,5 @@
       null
     ]
   },
-  "hash": "d2bdc1bf644057fe15e6a452cb33d5e22db93a6c7b27deb219e8e6a468369b0f"
+  "hash": "1c04ff7369690eb85fbad159330117c810cd63a56e9571d0286f6c01d30d2842"
 }
