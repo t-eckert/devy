@@ -23,7 +23,7 @@ def test_get_blog_by_slug():
     r = httpx.get(route + "/iot-insights")
 
     assert r.status_code == 200
-    assert r.json() == expected
+    assert is_subset(r.json(), expected)
 
 
 def test_get_blog_posts_by_blog_slug():

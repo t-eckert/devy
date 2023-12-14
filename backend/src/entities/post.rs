@@ -1,99 +1,78 @@
-use super::error::{Error, Result};
 use serde::{Deserialize, Serialize};
-use sqlx::types::Uuid;
 use sqlx::PgPool;
+use uuid::Uuid;
+
+use super::error::{Error, Result};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Post {
-    pub id: Option<String>,
-    pub slug: Option<String>,
+    pub id: Uuid,
+    pub slug: String,
 
     pub blog_slug: Option<String>,
     pub blog_name: Option<String>,
     pub author_name: Option<String>,
-    pub author_slug: Option<String>,
+    pub author_username: Option<String>,
+
+    pub title: String,
+    pub content: String,
+
+    pub likes: Option<i64>,
 
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
-
-    pub title: Option<String>,
-    pub content: Option<String>,
-    pub likes: Option<i64>,
 }
 
-impl Post {
-    pub fn new(slug: String, content: String) -> Self {
-        Self {
-            id: None,
-            slug: Some(slug),
-            blog_slug: None,
-            blog_name: None,
-            author_name: None,
-            author_slug: None,
-            created_at: None,
-            updated_at: None,
-            title: None,
-            content: Some(content),
-            likes: None,
-        }
-    }
+pub struct NewPost {
+    pub slug: String,
+    pub blog_slug: String,
+    pub title: String,
+    pub content: String,
+}
 
-    pub async fn insert(self, pool: &PgPool) -> Result<Self> {
-        let _ = sqlx::query_as!(
-            Self,
-            r#"
-            INSERT INTO "post" ("blog_id", "title", "slug", "body")
-            VALUES (
-                (
-                    SELECT id AS blog_id FROM "blog"
-                    WHERE slug = $1
-                ),
-                $2,
-                $3,
-                $4
-            );
-            "#,
-            self.blog_slug,
-            self.title,
-            self.slug,
-            self.content,
+pub struct PostRepository {}
+
+impl PostRepository {
+    pub async fn insert(pool: &PgPool, post: NewPost) -> Result<()> {
+        let _ = sqlx::query_file_as!(
+            Post,
+            "queries/post_insert.sql",
+            post.slug,
+            post.blog_slug,
+            post.title,
+            post.content,
         )
         .fetch_one(pool)
         .await?;
 
-        Post::get_by_id(pool, self.id.ok_or(Error::EntityNotFound)?).await
+        Ok(())
     }
 
-    pub async fn get_by_id(pool: &PgPool, id: String) -> Result<Self> {
-        sqlx::query_file_as!(
-            Self,
-            "queries/post_get_by_id.sql",
-            Uuid::try_parse(id.as_str()).map_err(|_| Error::malformed("id is not uuid"))?
-        )
-        .fetch_one(pool)
-        .await
-        .map_err(|x| Error::Sqlx(x))
+    pub async fn get_by_id(pool: &PgPool, id: Uuid) -> Result<Post> {
+        Ok(sqlx::query_file_as!(Post, "queries/post_get_by_id.sql", id)
+            .fetch_one(pool)
+            .await?)
     }
 
-    pub async fn get_by_blog_slug(pool: &PgPool, blog_slug: String) -> Result<Vec<Self>> {
+    pub async fn get_by_blog_slug(pool: &PgPool, blog_slug: &str) -> Result<Post> {
         Ok(
-            sqlx::query_file_as!(Self, "queries/post_get_by_blog_slug.sql", blog_slug)
-                .fetch_all(pool)
+            sqlx::query_file_as!(Post, "queries/post_get_by_blog_slug.sql", blog_slug)
+                .fetch_one(pool)
                 .await?,
         )
     }
 
-    pub async fn get_by_blog_and_post_slug(
+    pub async fn get_by_blog_slug_and_post_slug(
         pool: &PgPool,
-        blog: String,
-        post: String,
-    ) -> Result<Self> {
+        blog_slug: &str,
+        post_slug: &str,
+    ) -> Result<Post> {
         Ok(sqlx::query_file_as!(
-            Self,
+            Post,
             "queries/post_get_by_blog_slug_and_post_slug.sql",
-            blog,
-            post
+            post_slug,
+            blog_slug
         )
         .fetch_one(pool)
         .await?)
@@ -101,44 +80,44 @@ impl Post {
 
     pub async fn get_by_feed(
         pool: &PgPool,
-        feed_id: String,
+        feed_id: Uuid,
         limit: i64,
         offset: i64,
     ) -> Result<Vec<Post>> {
-        Ok(match feed_id.as_str() {
-            "new" => Self::get_by_feed_new(pool, limit, offset).await,
-            "popular" => Self::get_by_feed_popular(pool, limit, offset).await,
-            _ => Err(Error::EntityNotFound),
-        }?)
-    }
-
-    pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Vec<Self>> {
         Ok(
-            sqlx::query_file_as!(Self, "queries/post_get_by_username.sql", username)
+            sqlx::query_file_as!(Post, "queries/post_get_by_feed.sql", limit, offset)
                 .fetch_all(pool)
                 .await?,
         )
     }
 
-    pub async fn get_liked_by_username(pool: &PgPool, username: String) -> Result<Vec<Self>> {
+    pub async fn get_by_feed_new(pool: &PgPool, limit: i64, offset: i64) -> Result<Vec<Post>> {
         Ok(
-            sqlx::query_file_as!(Self, "queries/post_get_liked_by_username.sql", username)
+            sqlx::query_file_as!(Post, "queries/post_get_by_feed_new.sql", limit, offset)
                 .fetch_all(pool)
                 .await?,
         )
     }
 
-    async fn get_by_feed_new(pool: &PgPool, limit: i64, offset: i64) -> Result<Vec<Self>> {
+    pub async fn get_by_feed_popular(pool: &PgPool, limit: i64, offset: i64) -> Result<Vec<Post>> {
         Ok(
-            sqlx::query_file_as!(Self, "queries/post_get_by_feed_new.sql", limit, offset)
+            sqlx::query_file_as!(Post, "queries/post_get_by_feed_popular.sql", limit, offset)
                 .fetch_all(pool)
                 .await?,
         )
     }
 
-    async fn get_by_feed_popular(pool: &PgPool, limit: i64, offset: i64) -> Result<Vec<Self>> {
+    pub async fn get_by_username(pool: &PgPool, username: &str) -> Result<Vec<Post>> {
         Ok(
-            sqlx::query_file_as!(Self, "queries/post_get_by_feed_popular.sql", limit, offset)
+            sqlx::query_file_as!(Post, "queries/post_get_by_username.sql", username)
+                .fetch_all(pool)
+                .await?,
+        )
+    }
+
+    pub async fn get_liked_by_username(pool: &PgPool, username: &str) -> Result<Vec<Post>> {
+        Ok(
+            sqlx::query_file_as!(Post, "queries/post_get_liked_by_username.sql", username)
                 .fetch_all(pool)
                 .await?,
         )
