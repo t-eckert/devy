@@ -1,10 +1,10 @@
 SELECT 
-	id::text,
+	id,
 	slug,
 	blog_slug,
 	blog_name,
 	author_name,
-	profile_slug AS author_slug,
+	profile_slug AS author_username,
 	title,
 	body AS content,
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,

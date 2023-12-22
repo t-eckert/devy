@@ -13,7 +13,7 @@ mod webhook;
 pub use blog::{Blog, BlogRepository, NewBlog};
 pub use feed_config::{FeedConfig, FeedConfigRepository};
 pub use like::{Like, LikeRepository, NewLike};
-pub use post::{NewPost, Post, PostRepository};
+pub use post::{NewPost, Post, PostRepository, UpsertPost};
 pub use profile::{Profile, ProfileRepository};
 pub use repo::{NewRepo, Repo, RepoRepository};
 pub use upload::{NewUpload, Upload, UploadRepository};

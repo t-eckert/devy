@@ -3,7 +3,8 @@ use super::{
     git::Git,
 };
 use crate::entities::{
-    BlogRepository, Post, ProfileRepository, RepoRepository, Upload, UploadRepository, User,
+    BlogRepository, PostRepository, ProfileRepository, RepoRepository, Upload, UploadRepository,
+    UpsertPost, User,
 };
 use glob::glob;
 use regex::Regex;
@@ -43,28 +44,20 @@ impl Uploader {
         let files = Self::get_markdown_files(&dir)?;
         let mut posts = vec![];
         for file in files {
-            let mut post = Self::parse_file(file)?;
-            post.title = Self::markdown_title(&post.content.clone().ok_or(
-                Error::DependencyError("Post does not have content.".to_string()),
-            )?);
-            post.blog_slug = Some(blog.slug.clone());
-            post.blog_name = Some(blog.name.clone());
-            post.author_name = profile.display_name.clone();
-            post.author_slug = Some(user.username.clone());
+            let post = Self::parse_file(file)?
+                .title_from_content()
+                .blog_slug(blog.slug.clone());
 
             posts.push(post);
         }
 
         for post in posts {
-            match post.insert(pool).await {
+            match PostRepository::upsert(pool, post).await {
                 Ok(post) => {
                     UploadRepository::append_log(
                         pool,
                         upload.id,
-                        &format!(
-                            "INFO: Uploaded {}",
-                            post.title.unwrap_or("Untitled".to_string())
-                        ),
+                        &format!("INFO: Uploaded {}", post.title),
                     )
                     .await?;
                 }
@@ -98,7 +91,7 @@ impl Uploader {
             .collect::<Vec<PathBuf>>())
     }
 
-    fn parse_file(filename: PathBuf) -> Result<Post> {
+    fn parse_file(filename: PathBuf) -> Result<UpsertPost> {
         let slug = filename
             .file_stem()
             .ok_or(Error::FileParseError(
@@ -113,7 +106,7 @@ impl Uploader {
         let contents =
             fs::read_to_string(filename).map_err(|e| Error::FileParseError(e.to_string()))?;
 
-        Ok(Post::new(slug, contents))
+        Ok(UpsertPost::new(slug, contents))
     }
 
     fn markdown_title(markdown: &str) -> Option<String> {
