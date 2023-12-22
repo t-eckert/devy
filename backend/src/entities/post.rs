@@ -25,13 +25,6 @@ pub struct Post {
     pub updated_at: Option<String>,
 }
 
-pub struct NewPost {
-    pub slug: String,
-    pub blog_slug: String,
-    pub title: String,
-    pub content: String,
-}
-
 pub struct UpsertPost {
     pub id: Option<Uuid>,
     pub slug: Option<String>,
@@ -51,28 +44,8 @@ impl UpsertPost {
         }
     }
 
-    pub fn id(mut self, id: Uuid) -> Self {
-        self.id = Some(id);
-        self
-    }
-
-    pub fn slug(mut self, slug: String) -> Self {
-        self.slug = Some(slug);
-        self
-    }
-
     pub fn blog_slug(mut self, blog_slug: String) -> Self {
         self.blog_slug = Some(blog_slug);
-        self
-    }
-
-    pub fn title(mut self, title: String) -> Self {
-        self.title = Some(title);
-        self
-    }
-
-    pub fn content(mut self, content: String) -> Self {
-        self.content = Some(content);
         self
     }
 
@@ -108,21 +81,6 @@ impl UpsertPost {
 pub struct PostRepository {}
 
 impl PostRepository {
-    pub async fn insert(pool: &PgPool, post: NewPost) -> Result<()> {
-        let _ = sqlx::query_file_as!(
-            Post,
-            "queries/post_insert.sql",
-            post.slug,
-            post.blog_slug,
-            post.title,
-            post.content,
-        )
-        .fetch_one(pool)
-        .await?;
-
-        Ok(())
-    }
-
     pub async fn upsert(pool: &PgPool, post: UpsertPost) -> Result<Post> {
         // TODO
         Ok(Post {

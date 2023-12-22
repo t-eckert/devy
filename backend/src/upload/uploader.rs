@@ -30,9 +30,6 @@ impl Uploader {
         let url = upload.repo.clone();
         let repo = RepoRepository::get_by_url(pool, &upload.repo).await?;
         let blog = BlogRepository::get_by_id(pool, repo.blog_id).await?;
-        let profile = ProfileRepository::get_by_username(pool, &blog.username).await?;
-
-        let user = User::get_by_username(pool, blog.username.clone()).await?;
 
         let dir = format!("/tmp/{}", upload.id);
         self.git.clone_repo(&dir, &url)?;
