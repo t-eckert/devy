@@ -1,10 +1,10 @@
 SELECT 
-	id::text,
+	id,
 	slug,
 	blog_slug,
 	blog_name,
 	author_name,
-	profile_slug AS author_slug,
+	author_username,
 	title,
 	body AS content,
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
@@ -17,7 +17,7 @@ FROM "post" LEFT JOIN (
 		blog.name AS blog_name,
 		profile.id AS profile_id,
 		profile.display_name AS author_name,
-		profile_slug
+		profile_slug AS author_username
 	FROM "blog" LEFT JOIN (
 		SELECT
 			profile.id,

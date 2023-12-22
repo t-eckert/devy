@@ -7,10 +7,11 @@ use axum::{
     extract::{Path, State},
     Json,
 };
+use uuid::Uuid;
 
 pub async fn get_by_post_id(
     State(store): State<Store>,
-    Path(post_id): Path<String>,
+    Path(post_id): Path<Uuid>,
 ) -> Result<Json<Post>> {
     Ok(Json(PostRepository::get_by_id(&store.pool, post_id).await?))
 }
@@ -20,7 +21,7 @@ pub async fn get_by_blog_slug(
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Vec<Post>>> {
     Ok(Json(
-        PostRepository::get_by_blog_slug(&store.pool, blog_slug).await?,
+        PostRepository::get_by_blog_slug(&store.pool, &blog_slug).await?,
     ))
 }
 

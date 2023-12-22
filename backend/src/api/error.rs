@@ -27,6 +27,7 @@ impl From<EntitiesError> for Error {
             EntitiesError::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
             EntitiesError::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
             EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
