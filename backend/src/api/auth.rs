@@ -11,6 +11,10 @@ use jsonwebtoken::{encode, EncodingKey, Header};
 use std::collections::HashMap;
 use tracing::error;
 
+/// login is the endpoint that redirects the user to GitHub to login.
+/// It returns a 302 redirect to GitHub's login page.
+///
+/// GET /auth/login
 pub async fn login(State(store): State<Store>) -> Redirect {
     Redirect::permanent(&store.auth_client.login_url())
 }
@@ -19,6 +23,8 @@ pub async fn login(State(store): State<Store>) -> Redirect {
 /// It exchanges the code for a token and then fetches the user from GitHub.
 /// If the user doesn't exist in the database, it creates a new user.
 /// It then creates a session for the user and returns a JWT.
+///
+/// GET /auth/callback
 pub async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
