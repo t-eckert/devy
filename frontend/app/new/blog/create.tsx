@@ -23,7 +23,11 @@ interface GitHubRepo {
 export default function Repos() {
   const session = useStore(useSession, (state) => state)
 
-  const { data: repos, refetch } = useQuery({
+  let {
+    data: repos,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["repos"],
     queryFn: async () => {
       if (session?.status !== "logged-in") return []
@@ -40,74 +44,19 @@ export default function Repos() {
     refetch()
   }, [session])
 
-  const [limit, setLimit] = useState(9)
-  const [selected, setSelected] = useState<GitHubRepo | null>(null)
-
   if (session?.status !== "logged-in") {
     return <CreateLoggedOut />
   }
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault()
-    if (!selected) return
-    console.log(e)
-
-
-  }
-
   return (
     <>
-      <p className="w-full max-w-md">
+      <p className="mb-4 w-full max-w-md">
         Select one of your existing repositories to create a blog from. Every
         markdown file is converted to a blog post and automatically updated when
         you push changes.
       </p>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {repos?.slice(0, limit).map((repo: GitHubRepo) => (
-            <RepoCard
-              key={repo.id}
-              repo={repo}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          ))}
-        </div>
-
-        <div className="flex justify-center">
-          {limit < 0 ? (
-            <Button
-              onClick={() => {
-                setLimit(9)
-              }}
-              variant={{ intent: "secondary" }}
-              type="button"
-            >
-              Show fewer
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                setLimit(-1)
-              }}
-              variant={{ intent: "secondary" }}
-              type="button"
-            >
-              Show all
-            </Button>
-          )}
-        </div>
-
-        <div className="border-t border-t-neutral+1 dark:border-t-neutral-1 pt-2 w-full flex justify-end">
-          <Button
-            type="submit"
-            disabled={!selected}
-          >
-            Create blog
-          </Button>
-        </div>
-      </form>
+      {isLoading ? <Loading /> : <RepoForm repos={repos || []} />}
     </>
   )
 }
@@ -135,9 +84,11 @@ const RepoCard = ({
     >
       <div
         className={[
-          "p-4 rounded-md text-left border border-neutral+1 dark:border-neutral-1 bg-neutral+2 dark:bg-neutral-2",
-          "flex flex-col items-start gap-1 h-32 hover:bg-neutral+3 hover:dark:bg-neutral-3 hover:shadow-lg transition-all",
-          selected === repo ? "bg-neutral+3 dark:bg-neutral-3 shadow-xl" : "",
+          "p-4 rounded-md text-left border ",
+          "flex flex-col items-start gap-1 h-32  hover:shadow-lg transition-all",
+          selected === repo
+            ? "bg-blue-high dark:bg-neutral-3 border-blue-primary shadow-xl"
+            : "border-neutral+1 dark:border-neutral-1 bg-neutral+2 dark:bg-neutral-2 hover:bg-neutral+3 hover:dark:bg-neutral-3",
         ].join(" ")}
       >
         <h2 className="font-medium text-neutral-2 dark:text-neutral+2">
@@ -148,5 +99,78 @@ const RepoCard = ({
         </p>
       </div>
     </button>
+  )
+}
+
+const Loading = () => {
+  return (
+    <div className="w-full h-44 col-start-1 col-span-full flex flex-col items-center justify-center">
+      <span className="font-medium animate-pulse">
+        Loading your GitHub repos
+      </span>
+    </div>
+  )
+}
+
+const RepoForm = ({ repos }: { repos: GitHubRepo[] }) => {
+  const [limit, setLimit] = useState(9)
+  const [selected, setSelected] = useState<GitHubRepo | null>(null)
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault()
+    if (!selected) return
+    console.log(e)
+  }
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {repos?.length === 0 ? (
+          <div className="w-full h-44 col-start-1 col-span-full flex flex-col items-center justify-center">
+            <span className="animate-bounce">Loading your GitHub repos</span>
+          </div>
+        ) : (
+          repos
+            .slice(0, limit)
+            .map((repo: GitHubRepo) => (
+              <RepoCard
+                key={repo.id}
+                repo={repo}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            ))
+        )}
+      </div>
+
+      <div className="flex justify-center">
+        {limit < 0 ? (
+          <Button
+            onClick={() => {
+              setLimit(9)
+            }}
+            variant={{ intent: "secondary" }}
+            type="button"
+          >
+            Show fewer
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              setLimit(-1)
+            }}
+            variant={{ intent: "secondary" }}
+            type="button"
+          >
+            Show all
+          </Button>
+        )}
+      </div>
+
+      <div className="border-t border-t-neutral+1 dark:border-t-neutral-1 pt-2 w-full flex justify-end">
+        <Button type="submit" disabled={!selected}>
+          Create blog
+        </Button>
+      </div>
+    </form>
   )
 }
