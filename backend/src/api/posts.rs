@@ -9,6 +9,7 @@ use axum::{
 };
 use uuid::Uuid;
 
+/// Get a post
 pub async fn get_by_post_id(
     State(store): State<Store>,
     Path(post_id): Path<Uuid>,
@@ -25,16 +26,7 @@ pub async fn get_by_blog_slug(
     ))
 }
 
-pub async fn get_by_blog_and_post_slug(
-    State(store): State<Store>,
-    Path((blog_slug, post_slug)): Path<(String, String)>,
-) -> Result<Json<Post>> {
-    Ok(Json(
-        PostRepository::get_by_blog_slug_and_post_slug(&store.pool, &blog_slug, &post_slug).await?,
-    ))
-}
-
-pub async fn get_by_username(
+pub async fn get_posts_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Post>>> {
