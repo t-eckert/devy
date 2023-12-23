@@ -11,6 +11,9 @@ import api from "@/lib/api"
 
 import CreateLoggedOut from "./create.logged-out"
 import { Blog } from "@/models"
+import Input from "@/components/input"
+import { Session } from "@/lib/auth"
+import Card from "@/components/card"
 
 interface GitHubRepo {
   id: number
@@ -45,19 +48,17 @@ export default function Repos() {
     refetch()
   }, [session])
 
-  if (session?.status !== "logged-in") {
+  if (session?.status !== "logged-in" || session.session === null) {
     return <CreateLoggedOut />
   }
 
   return (
     <>
-      <p className="mb-4 w-full max-w-md">
-        Select one of your existing repositories to create a blog from. Every
-        markdown file is converted to a blog post and automatically updated when
-        you push changes.
-      </p>
-
-      {isLoading ? <Loading /> : <RepoForm repos={repos || []} />}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <RepoForm repos={repos || []} session={session.session} />
+      )}
     </>
   )
 }
@@ -113,9 +114,27 @@ const Loading = () => {
   )
 }
 
-const RepoForm = ({ repos }: { repos: GitHubRepo[] }) => {
+const RepoForm = ({
+  repos,
+  session,
+}: {
+  repos: GitHubRepo[]
+  session: Session
+}) => {
   const [limit, setLimit] = useState(9)
   const [selected, setSelected] = useState<GitHubRepo | null>(null)
+  const [blogName, setBlogName] = useState<string>("")
+  const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
+  const [createButtonText, setCreateButtonText] = useState<string>("")
+
+  useEffect(() => {
+    setIsSubmittable(blogName.length > 0 && selected !== null)
+    if (isSubmittable) {
+      setCreateButtonText(`Create "${blogName}" using ${selected?.name}`)
+    } else {
+      setCreateButtonText("You still need something else")
+    }
+  }, [blogName, selected])
 
   const onSubmit = async (e: any) => {
     e.preventDefault()
@@ -123,7 +142,12 @@ const RepoForm = ({ repos }: { repos: GitHubRepo[] }) => {
     console.log(e)
 
     await api.post("/v1/blogs", {
+      username: session.user.username,
+      name: selected.name,
       repoUrl: selected.html_url,
+      githubId: selected.id,
+      githubName: selected.name,
+      metadata: selected,
     })
 
     // if (res.status === 200) {
@@ -133,53 +157,76 @@ const RepoForm = ({ repos }: { repos: GitHubRepo[] }) => {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {repos?.length === 0 ? (
-          <div className="w-full h-44 col-start-1 col-span-full flex flex-col items-center justify-center">
-            <span className="animate-bounce">Loading your GitHub repos</span>
-          </div>
-        ) : (
-          repos
-            .slice(0, limit)
-            .map((repo: GitHubRepo) => (
+    <form className="grid grid-cols-4 gap-y-8 gap-x-4">
+      <div className="col-span-1">
+        <span className="text-xs font-medium text-neutral">Step 1</span>
+        <h2 className="font-medium text-neutral+3">Name your blog</h2>
+        <p className="text-sm text-neutral+1">
+          Pick a display name for your blog. This can be anything you want and
+          you can change it later.
+        </p>
+      </div>
+      <div className="p-3 col-span-3">
+        <Input
+          className="w-96"
+          label="Blog name"
+          value={blogName}
+          setValue={setBlogName}
+          placeholder={`${session.profile.displayName}'s Blog`}
+        />
+      </div>
+      <div>
+        <span className="text-xs font-medium text-neutral">Step 2</span>
+        <h2 className="font-medium text-neutral+3">Pick a repository</h2>
+        <p className="text-sm text-neutral+1">
+          Select one of your GitHub repositories to publish posts from. All
+          markdown docs in the repository will be converted into blog posts and
+          updated on pushes to the primary branch.
+        </p>
+      </div>
+      <div className="p-3 col-span-3">
+        <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {repos.slice(0, limit).map((repo: GitHubRepo) => (
               <RepoCard
                 key={repo.id}
                 repo={repo}
                 selected={selected}
                 setSelected={setSelected}
               />
-            ))
-        )}
+            ))}
+          </div>
+
+          <div className="flex justify-center">
+            {limit < 0 ? (
+              <Button
+                onClick={() => {
+                  setLimit(9)
+                }}
+                variant={{ intent: "secondary" }}
+                type="button"
+              >
+                Show fewer
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  setLimit(-1)
+                }}
+                variant={{ intent: "secondary" }}
+                type="button"
+              >
+                Show all
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="flex justify-center">
-        {limit < 0 ? (
-          <Button
-            onClick={() => {
-              setLimit(9)
-            }}
-            variant={{ intent: "secondary" }}
-            type="button"
-          >
-            Show fewer
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              setLimit(-1)
-            }}
-            variant={{ intent: "secondary" }}
-            type="button"
-          >
-            Show all
-          </Button>
-        )}
-      </div>
-
-      <div className="border-t border-t-neutral+1 dark:border-t-neutral-1 pt-2 w-full flex justify-end">
-        <Button type="submit" disabled={!selected}>
-          Create blog
+      <div className="col-span-4 border-b border-b-neutral+1 dark:border-b-neutral-1" />
+      <div className="col-start-2 pl-3">
+        <Button onSubmit={onSubmit} disabled={!isSubmittable}>
+          Create your blog
         </Button>
       </div>
     </form>
