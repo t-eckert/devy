@@ -58,7 +58,7 @@ pub fn make_router(store: Store) -> Router {
         .route("/webhooks", post(webhooks::insert));
 
     let authed_routes = Router::new()
-        .route("/blogs", post(blogs::upsert))
+        .route("/blogs", post(blogs::create_new_blog))
         .route("/blogs/:blog_slug", delete(blogs::delete))
         .route("/likes", post(likes::post_like))
         .route("/likes/:post_id/:profile_id", delete(likes::delete_like))
