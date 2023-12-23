@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{Blog, BlogRepository, NewBlog, Post, PostRepository},
+    entities::{blog, repo, Blog, BlogRepository, Post, PostRepository},
     store::Store,
 };
 use axum::{
@@ -9,6 +9,7 @@ use axum::{
     Json,
 };
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 /// Get a blog from the database given a blog slug.
 /// GET /blogs/:blog_slug
@@ -40,6 +41,19 @@ pub async fn create_new_blog(
 ) -> Result<StatusCode> {
     dbg!(&blog_creation_req);
 
+    // Create the blog.
+
+    // Create the repo.
+    /*
+    let new_repo = repo::NewRepo{
+        blog_id: "".to_string(),
+        url: blog_creation_req.repo_url.clone(),
+        github_id: 4,
+        github_name: "".to_string(),
+    };
+    repo::RepoRepository::insert(&store.pool, )
+    */
+
     Ok(StatusCode::CREATED)
 }
 
@@ -57,5 +71,10 @@ pub async fn delete(
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BlogCreationRequest {
+    pub username: String,
+    pub name: String,
     pub repo_url: String,
+    pub github_id: i64,
+    pub github_name: String,
+    pub metadata: Value,
 }

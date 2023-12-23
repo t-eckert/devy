@@ -17,7 +17,7 @@ const styles = cva(
 	[
 		"pointer-cursor",
 		"transition-all",
-		"rounded-lg",
+		"rounded-md",
 		"text-sm",
 		"font-medium",
 		"border",
@@ -65,9 +65,6 @@ const styles = cva(
 					"dark:text-neutral-light",
 				],
 				tertiary: ["px-1", "py-0.5", "border-none"],
-				creative: [],
-				destructive: [],
-				cautionary: [],
 			},
 		},
 		defaultVariants: {
