@@ -15,6 +15,7 @@ import { Blog } from "@/models"
 interface GitHubRepo {
   id: number
   name: string
+  html_url: string
   description: string
   fork: boolean
   language?: string
@@ -120,7 +121,17 @@ const RepoForm = ({ repos }: { repos: GitHubRepo[] }) => {
     e.preventDefault()
     if (!selected) return
     console.log(e)
+
+    await api.post("/v1/blogs", {
+      repoUrl: selected.html_url,
+    })
+
+    // if (res.status === 200) {
+    //   const blog = (await res.json()) as Blog
+    //   window.location.href = `/blogs/${blog.id}`
+    // }
   }
+
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

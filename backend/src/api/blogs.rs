@@ -8,6 +8,7 @@ use axum::{
     http::StatusCode,
     Json,
 };
+use serde::{Deserialize, Serialize};
 
 /// Get a blog from the database given a blog slug.
 /// GET /blogs/:blog_slug
@@ -33,8 +34,13 @@ pub async fn get_post_by_blog_and_post_slug(
 
 /// Create a new blog in the database.
 /// POST /blogs
-pub async fn upsert(State(store): State<Store>, Json(blog): Json<NewBlog>) -> Result<Json<Blog>> {
-    Ok(Json(BlogRepository::upsert(&store.pool, blog).await?))
+pub async fn create_new_blog(
+    State(store): State<Store>,
+    Json(blog_creation_req): Json<BlogCreationRequest>,
+) -> Result<StatusCode> {
+    dbg!(&blog_creation_req);
+
+    Ok(StatusCode::CREATED)
 }
 
 /// Delete a blog from the database given a blog slug.
@@ -46,4 +52,10 @@ pub async fn delete(
     BlogRepository::delete_by_slug(&store.pool, blog_slug).await?;
 
     Ok(StatusCode::OK)
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BlogCreationRequest {
+    pub repo_url: String,
 }
