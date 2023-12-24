@@ -41,26 +41,40 @@ export default function CreateFormStep2() {
 
         <div className="flex-1">
           <div className="flex flex-col">
+            <span className="mb-1 text-sm font-medium">
+              Your public repositories
+            </span>
             <RadioGroup.Root className="flex flex-col md:grid md:grid-cols-3 md:gap-1 shadow-sm md:shadow-none">
               {repos?.slice(0, showAll ? -1 : limit).map((repo: GitHubRepo) => (
                 <RadioGroup.Item
                   className={[
-                    "p-2 h-32 bg-white first:rounded-t md:rounded border-t border-x md:border border-neutral+1 flex flex-col items-start",
-                    "data-[state=checked]:border-blue-primary",
+                    "p-2 md:h-32 first:rounded-t md:rounded border",
+                    "border-t-neutral+1 border-x-neutral+1 border-b-neutral+3 md:border-neutral+1",
+                    "dark:border-t-neutral-1 dark:border-x-neutral-1 dark:border-b-neutral-3 dark:md:border-neutral-1",
+                    "flex flex-col items-start transition-all",
+                    "data-[state=checked]:border-blue-primary  data-[state=checked]:md:shadow-lg",
+                    "dark:data-[state=checked]:border-blue-primary  dark:data-[state=checked]:md:shadow-lg",
                   ].join(" ")}
                   value={repo.name}
                 >
                   <RadioGroup.Indicator />
-                  <span className="font-medium text-neutral-3">
+                  <span className="font-medium text-neutral-3 dark:text-neutral+3">
                     {repo.name}
                   </span>
-                  <p className="hidden md:block text-left text-sm text-neutral-1">
+                  <p className="hidden md:block text-left text-sm text-neutral-1 dark:text-neutral+1">
                     {repo.description}
                   </p>
                 </RadioGroup.Item>
               ))}
 
-              <span className="py-2 col-span-full border border-neutral+1 rounded-b bg-neutral+1 md:bg-neutral+3 md:border-neutral+3 md:mt-4 w-full flex items-center justify-center">
+              <span
+                className={[
+                  "py-2 col-span-full border border-neutral+1 rounded-b",
+                  "bg-neutral+1 md:bg-neutral+3 md:border-neutral+3",
+                  "dark:bg-neutral-1 dark:md:bg-neutral-2 dark:md:border-neutral-2",
+                  "md:mt-4 w-full flex items-center justify-center",
+                ].join(" ")}
+              >
                 <Button
                   onClick={() => setShowAll(!showAll)}
                   variant={{ intent: "tertiary" }}

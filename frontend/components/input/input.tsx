@@ -43,17 +43,18 @@ const styles = cva([
 
 	"focus:outline-none",
 	"focus:ring-1",
-	"focus:ring-neutral-2",
+	"focus:ring-blue-primary",
+	"focus:shadow-md",
 
 	"shadow-sm",
 	"border",
+
 	"border-neutral+1",
 	"bg-neutral+3",
+	"dark:border-neutral-1",
+	"dark:bg-neutral-2",
 
 	"placeholder:text-neutral",
-
-	"dark:bg-neutral-2",
-	"dark:text-neutral+2",
 	"dark:placeholder:text-neutral",
 
 	"transition-all",
