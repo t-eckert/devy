@@ -8,8 +8,8 @@ export type SessionStatus = "logged-out" | "logged-in"
 
 export interface SessionStore {
 	status: SessionStatus
-	token: Option<string>
-	session: Option<Session>
+	token?: string
+	session?: Session
 	loadSession: (token: Option<string>) => void
 	clearSession: () => void
 }
@@ -18,8 +18,8 @@ const useSession = create<SessionStore>()(
 	persist(
 		(set) => ({
 			status: "logged-out",
-			token: null,
-			session: null,
+			token: undefined,
+			session: undefined,
 			loadSession: (token) =>
 				set((state) => {
 					if (!token || state.status === "logged-in") return state
@@ -33,30 +33,30 @@ const useSession = create<SessionStore>()(
 			clearSession: () =>
 				set(() => ({
 					status: "logged-out",
-					token: null,
-					session: null,
+					token: undefined,
+					session: undefined,
 				})),
 		}),
 		{ name: "devy-session" }
 	)
 )
 
-const decode = (token: string): Option<Session> => {
+const decode = (token: string): Session | undefined => {
 	const decoded = jwt.decode(token)
 
-	if (!decoded) return null
+	if (!decoded) return undefined
 
 	switch (typeof decoded) {
 		case "string":
 			try {
 				return JSON.parse(decoded) as Session
 			} catch (e) {
-				return null
+				return undefined
 			}
 		case "object":
 			return decoded as Session
 		default:
-			return null
+			return undefined
 	}
 }
 
