@@ -17,7 +17,7 @@ export default function PostPreview({ post }: Props) {
 							pathname: `/${post.blogSlug}/${post.slug}`,
 						}}
 						className="font-medium text-zinc-50"
-						variant={{ underline: false }}
+						variant={{ underline: false, styled: false }}
 					>
 						{post.title}
 					</Link>
@@ -33,7 +33,7 @@ export default function PostPreview({ post }: Props) {
 				<div className="text-xs flex items-center justify-start gap-2 col-start-2 col-span-3">
 					<Link
 						href={{ pathname: `/${post.blogSlug}` }}
-						variant={{ underline: false }}
+						variant={{ underline: false, styled: false }}
 						className="text-neutral hover:text-neutral-1 hover:dark:text-neutral+1"
 						aria-label={`View blog ${post.blogName}`}
 					>
@@ -50,7 +50,7 @@ export default function PostPreview({ post }: Props) {
 						href={{
 							pathname: `/profiles/${post.authorSlug}`,
 						}}
-						variant={{ underline: false }}
+						variant={{ underline: false, styled: false }}
 						aria-label={`View ${post.authorName}'s profile`}
 					>
 						{post.authorName}
