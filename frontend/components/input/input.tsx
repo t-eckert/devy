@@ -22,7 +22,7 @@ export default function Input({
 				" "
 			)}
 		>
-			<label className="ml-1.5 text-sm font-medium">{label}</label>
+			<label className="text-sm font-medium">{label}</label>
 			<input
 				className={styles(variant)}
 				value={value}
@@ -33,24 +33,21 @@ export default function Input({
 	)
 }
 
-const styles = cva(
-	[
-		"w-full",
-		"px-1.5",
-		"py-0.5",
-		"rounded",
-		"border-none",
-		"transition-all",
+const styles = cva([
+	"w-full",
+	"px-1.5",
+	"py-0.5",
+	"rounded",
 
-		"focus:outline-none",
+	"bg-white",
+	"shadow-sm",
+	"border-neutral-1",
 
-		"dark:bg-neutral-2",
-		"dark:border-neutral+1",
-		"dark:text-neutral+2",
-		"dark:placeholder:text-neutral",
-		"dark:focus:border",
-	],
-	{
-		variants: {},
-	}
-)
+	"placeholder:text-neutral",
+
+	"dark:bg-neutral-2",
+	"dark:text-neutral+2",
+	"dark:placeholder:text-neutral",
+
+	"transition-all",
+])

@@ -14,7 +14,7 @@ const components = {
 		</h1>
 	),
 	h2: ({ children }: Props) => (
-		<h2 className="mx-auto w-full max-w-2xl mt-6 mb-4 text-2xl sm:text-4xl font-semibold">
+		<h2 className="border-b border-b-neutral+1 dark:border-b-neutral-1 mx-auto w-full max-w-2xl mt-6 mb-4 text-2xl sm:text-4xl font-semibold">
 			{children}
 		</h2>
 	),
@@ -42,7 +42,7 @@ const components = {
 		<p className="mx-auto w-full max-w-2xl mb-4 leading-snug">{children}</p>
 	),
 	blockquote: ({ children }: Props) => (
-		<blockquote className="border-l border-neutral-1 dark:border-neutral+1 pl-2">
+		<blockquote className="border-l border-neutral+1 dark:border-neutral-1 pl-2 ">
 			{children}
 		</blockquote>
 	),
@@ -93,7 +93,7 @@ const components = {
 		/>
 	),
 	a: ({ children, href }: Props) => (
-		<Link href={href || ""} variant={{ underline: true }}>
+		<Link href={href || ""} variant={{ underline: true, styled: true }}>
 			{children}
 		</Link>
 	),

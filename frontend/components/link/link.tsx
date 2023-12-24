@@ -33,11 +33,15 @@ const styles = cva(
 	{
 		variants: {
 			underline: {
-				true: "underline decoration-neutral underline-offset-2",
+				true: "underline decoration-neutral underline-offset-2 ",
 				false: "no-underline",
 			},
 			styled: {
-				true: "rounded-sm",
+				true: [
+					"rounded-sm visited:decoration-purple-primary",
+					"visited:text-purple-primary",
+					"visited:dark:text-purple-primary",
+				],
 				false: [],
 			},
 		},

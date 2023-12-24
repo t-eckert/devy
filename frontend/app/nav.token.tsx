@@ -36,7 +36,7 @@ const Login = () => (
 const Token = ({ session }: { session: Session }) => (
   <Link
     href={`/profiles/${session.user.username}`}
-    variant={{ underline: false }}
+    variant={{ underline: false, styled: false }}
     className="rounded-xl dark:text-neutral+2 dark:hover:text-neutral+3 dark:hover:bg-neutral-1"
   >
     <div className="pl-1 pr-2 py-0.5 flex flex-row rounded-l-full gap-2 items-center transition-all select-none">

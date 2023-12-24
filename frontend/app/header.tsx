@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex flex-row gap-2 items-baseline">
           <Link
             href="/"
-            variant={{ underline: false }}
+            variant={{ underline: false, styled: false }}
             className="px-0.5 -ml-0.5"
           >
             <Logomark />

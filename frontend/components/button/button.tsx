@@ -38,8 +38,13 @@ const styles = cva(
 	{
 		variants: {
 			intent: {
-				primary: [],
-				secondary: [],
+				primary: [
+					"border",
+					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+				],
+				secondary: [
+					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+				],
 				tertiary: [],
 			},
 			action: {
@@ -54,64 +59,56 @@ const styles = cva(
 				intent: "primary",
 				action: "none",
 				className: [
-					"border text-neutral+3 dark:text-neutral-3 border-neutral-3 dark:border-neutral+3 bg-neutral-3 dark:bg-neutral+3",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"text-neutral+3 border-blue-primary bg-blue-primary",
 				].join(" "),
 			},
 			{
 				intent: "primary",
 				action: "create",
 				className: [
-					"border bg-green-primary border-green-primary text-neutral+3",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"bg-green-primary border-green-primary text-neutral+3",
 				].join(" "),
 			},
 			{
 				intent: "primary",
 				action: "modify",
 				className: [
-					"border bg-amber-primary border-amber-primary text-neutral+3",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"bg-amber-primary border-amber-primary text-neutral+3",
 				].join(" "),
 			},
 			{
 				intent: "primary",
 				action: "destroy",
 				className: [
-					"border bg-red-primary border-red-primary text-neutral+3",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"bg-red-primary border-red-primary text-neutral+3",
 				].join(" "),
 			},
 			{
 				intent: "secondary",
 				action: "none",
 				className: [
-					"border text-neutral-1 bg-neutral+1 border-neutral+1 dark:text-neutral+1 dark:bg-neutral-1 dark:border-neutral-1",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"border text-blue-primary bg-blue-high border-blue-high ",
 				].join(" "),
 			},
 			{
 				intent: "secondary",
 				action: "create",
 				className: [
-					"border text-green-primary bg-green-high border-green-high dark:text-green-primary dark:bg-green-high dark:border-green-high",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"border text-green-primary bg-green-high border-green-high ",
 				].join(" "),
 			},
 			{
 				intent: "secondary",
 				action: "modify",
 				className: [
-					"border text-amber-primary bg-amber-high border-amber-high dark:text-amber-primary dark:bg-amber-high dark:border-amber-high",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"border text-amber-primary bg-amber-high border-amber-high",
 				].join(" "),
 			},
 			{
 				intent: "secondary",
 				action: "destroy",
 				className: [
-					"border text-red-primary bg-red-high border-red-high dark:text-red-primary dark:bg-red-high dark:border-red-high",
-					"disabled:border-neutral+1 disabled:bg-neutral+1 disabled:text-neutral dark:disabled:border-neutral-1 dark:disabled:bg-neutral-1 dark:disabled:text-neutral",
+					"border text-red-primary bg-red-high border-red-high",
 				].join(" "),
 			},
 			{

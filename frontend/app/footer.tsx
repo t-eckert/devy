@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="w-full bg-neutral+2 dark:bg-neutral-3 transition-all">
       <div className="mx-auto max-w-6xl px-3 pt-8 pb-44">
         <div className="w-full sm:w-56 pb-2 border-b border-b-neutral+1 dark:border-b-neutral-1 flex flex-row gap-2 items-baseline">
-          <Link href="/" variant={{ underline: false }}>
+          <Link href="/" variant={{ underline: false, styled: false }}>
             <Logomark />
           </Link>
           <span className="text-xs font-medium px-2 py-0.5 rounded-full text-neutral-1 bg-neutral+1 dark:text-neutral+2 dark:bg-neutral-1 select-none">
@@ -25,7 +25,7 @@ export default function Footer() {
               &#8212;{" "}
               <Link
                 href="https://thomaseckert.dev"
-                variant={{ underline: true }}
+                variant={{ underline: true, styled: false }}
               >
                 Thomas Eckert
               </Link>
@@ -33,9 +33,19 @@ export default function Footer() {
           </section>
 
           <section className="flex flex-row font-medium sm:flex-col gap-4 sm:gap-1 items-start">
-            <Link href="/changelog">Changelog</Link>
-            <Link href="https://github.com/t-eckert/devy">Repo</Link>
-            <Link href="https://github.com/t-eckert/devy/issues/new/choose">
+            <Link href="/changelog" variant={{ styled: false }}>
+              Changelog
+            </Link>
+            <Link
+              href="https://github.com/t-eckert/devy"
+              variant={{ styled: false }}
+            >
+              Repo
+            </Link>
+            <Link
+              href="https://github.com/t-eckert/devy/issues/new/choose"
+              variant={{ styled: false }}
+            >
               Open an issue
             </Link>
           </section>

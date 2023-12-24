@@ -66,7 +66,7 @@ const MemberName = ({
 		<Link
 			href={{ pathname: `/profiles/${username}` }}
 			className="font-medium dark:text-neutral+2 hover:dark:text-neutral+3"
-			variant={{ underline: false }}
+			variant={{ underline: false, styled: false }}
 		>
 			{name || username}
 		</Link>
@@ -95,7 +95,7 @@ const MemberWebsite = ({ website }: { website?: string }) => {
 	return (
 		<Link
 			href={website}
-			variant={{ underline: false }}
+			variant={{ underline: false, styled: false }}
 			className="font-medium text-sm text-neutral-1 hover:text-neutral-3 dark:text-neutral+1 hover:dark:text-neutral+3"
 		>
 			Website
@@ -118,7 +118,7 @@ const MemberBlogs = ({ blogs }: { blogs: Blog[] }) => {
 					<Link
 						key={blog.slug}
 						href={{ pathname: `/${blog.slug}` }}
-						variant={{ underline: false }}
+						variant={{ underline: false, styled: false }}
 						className="text-sm font-medium dark:text-neutral+2 hover:dark:text-neutral+3"
 					>
 						{blog.name}
@@ -137,7 +137,7 @@ const MemberGitHub = ({ username }: { username?: string }) => {
 	return (
 		<Link
 			href={`https://github.com/${username}`}
-			variant={{ underline: false }}
+			variant={{ underline: false, styled: false }}
 			className="dark:text-neutral+2 hover:dark:text-neutral+3"
 		>
 			GitHub
