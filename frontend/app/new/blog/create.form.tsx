@@ -6,7 +6,7 @@ import CreateFormSubmit from "./create.form.submit"
 
 export default function CreateForm() {
   return (
-    <form className="flex flex-col gap-8">
+    <form className="flex flex-col gap-8 lg:gap-10">
       <CreateFormStep1 />
       <CreateFormStep2 />
       <CreateFormSubmit />

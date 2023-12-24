@@ -19,14 +19,6 @@ interface GitHubRepo {
 interface CreateState {
 	repos: GitHubRepo[]
 	isLoadingRepos: boolean
-	selectedRepo: GitHubRepo | null
-	setSelectedRepo: (repo: GitHubRepo) => void
-
-	blogName: string
-	setBlogName: Dispatch<SetStateAction<string>>
-
-	isSubmittable: boolean
-	onSubmit: () => void
 
 	session?: Session
 	status?: string
@@ -58,46 +50,10 @@ export default function useCreateState(): CreateState {
 		refetch()
 	}, [session])
 
-	/*
-	const [limit, setLimit] = useState(9)
-	const [selected, setSelected] = useState<GitHubRepo | null>(null)
-	const [blogName, setBlogName] = useState<string>("")
-	const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
-
-	useEffect(() => {
-		setIsSubmittable(blogName.length > 0 && selected !== null)
-	}, [blogName, selected])
-
-	const onSubmit = async (e: any) => {
-		e.preventDefault()
-		if (!selected) return
-		console.log(e)
-
-		await api.post("/v1/blogs", {
-			username: session?.session.user.username,
-			name: selected.name,
-			repoUrl: selected.html_url,
-			githubId: selected.id,
-			githubName: selected.name,
-			metadata: selected,
-		})
-
-		// if (res.status === 200) {
-		//   const blog = (await res.json()) as Blog
-		//   window.location.href = `/blogs/${blog.id}`
-		// }
-	}
-	*/
-
 	return {
 		repos: repos ?? [],
 		isLoadingRepos,
-		selectedRepo: null,
-		setSelectedRepo: () => {},
-		blogName: "",
-		setBlogName: () => {},
-		isSubmittable: false,
-		onSubmit: () => {},
+
 		session,
 		status,
 	}

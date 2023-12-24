@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 
+import * as RadioGroup from "@radix-ui/react-radio-group"
+
 import Button from "@/components/button"
 
 import useCreateState from "./useCreateState"
@@ -16,8 +18,10 @@ interface GitHubRepo {
 }
 
 export default function CreateFormStep2() {
-  const { repos, selectedRepo, setSelectedRepo } = useCreateState()
-  const [limit, setLimit] = useState(9)
+  const { repos } = useCreateState()
+  const [showAll, setShowAll] = useState(false)
+
+  const limit = 9
 
   return (
     <div>
@@ -35,63 +39,40 @@ export default function CreateFormStep2() {
           </p>
         </div>
 
-        <div className="">
-          <div className="flex flex-col gap-3">
-            <fieldset className="flex flex-col gap-2">
-              <legend>Repositories</legend>
-
-              {repos?.slice(0, limit).map((repo: GitHubRepo) => (
-                <Repo
-                  key={repo.id}
-                  repo={repo}
-                  selected={selectedRepo}
-                  setSelected={setSelectedRepo}
-                />
+        <div className="flex-1">
+          <div className="flex flex-col">
+            <RadioGroup.Root className="flex flex-col md:grid md:grid-cols-3 md:gap-1 shadow-sm md:shadow-none">
+              {repos?.slice(0, showAll ? -1 : limit).map((repo: GitHubRepo) => (
+                <RadioGroup.Item
+                  className={[
+                    "p-2 h-32 bg-white first:rounded-t md:rounded border-t border-x md:border border-neutral+1 flex flex-col items-start",
+                    "data-[state=checked]:border-blue-primary",
+                  ].join(" ")}
+                  value={repo.name}
+                >
+                  <RadioGroup.Indicator />
+                  <span className="font-medium text-neutral-3">
+                    {repo.name}
+                  </span>
+                  <p className="hidden md:block text-left text-sm text-neutral-1">
+                    {repo.description}
+                  </p>
+                </RadioGroup.Item>
               ))}
-            </fieldset>
-            <div className="flex justify-center">
-              {limit < 0 ? (
+
+              <span className="py-2 col-span-full border border-neutral+1 rounded-b bg-neutral+1 md:bg-neutral+3 md:border-neutral+3 md:mt-4 w-full flex items-center justify-center">
                 <Button
-                  onClick={() => {
-                    setLimit(9)
-                  }}
+                  onClick={() => setShowAll(!showAll)}
                   variant={{ intent: "tertiary" }}
                   type="button"
                 >
-                  Show fewer
+                  {showAll ? "Show fewer" : "Show all repos"}
                 </Button>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setLimit(-1)
-                  }}
-                  variant={{ intent: "tertiary" }}
-                  type="button"
-                >
-                  Show all
-                </Button>
-              )}
-            </div>
+              </span>
+            </RadioGroup.Root>
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-const Repo = ({
-  repo,
-  selected,
-  setSelected,
-}: {
-  repo: GitHubRepo
-  selected: GitHubRepo | null
-  setSelected: (repo: GitHubRepo) => void
-}) => {
-  return (
-    <div>
-      <input type="radio" name="repo" value={repo.name} />
-      <label>{repo.name}</label>
     </div>
   )
 }

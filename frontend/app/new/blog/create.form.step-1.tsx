@@ -4,7 +4,7 @@ import useCreateState from "./useCreateState"
 import Input from "@/components/input"
 
 export default function CreateFormStep1() {
-  const { blogName, setBlogName, session } = useCreateState()
+  const { session } = useCreateState()
 
   return (
     <div>
@@ -24,8 +24,6 @@ export default function CreateFormStep1() {
           <Input
             className="w-full sm:w-60"
             label="Blog name"
-            value={blogName}
-            setValue={setBlogName}
             placeholder={`${
               session ? session?.profile.displayName + "'s" : "Your"
             } Blog`}
