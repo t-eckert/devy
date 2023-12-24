@@ -3,8 +3,8 @@ import { Dispatch, InputHTMLAttributes, SetStateAction } from "react"
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label: string
-	value: string
-	setValue: Dispatch<SetStateAction<string>>
+	value?: string
+	setValue?: Dispatch<SetStateAction<string>>
 	variant?: VariantProps<typeof styles>
 }
 
@@ -26,7 +26,9 @@ export default function Input({
 			<input
 				className={styles(variant)}
 				value={value}
-				onChange={(e) => setValue(e.target.value)}
+				onChange={
+					setValue ? (e) => setValue(e.target.value) : undefined
+				}
 				{...props}
 			></input>
 		</span>
@@ -39,9 +41,14 @@ const styles = cva([
 	"py-0.5",
 	"rounded",
 
-	"bg-white",
+	"focus:outline-none",
+	"focus:ring-1",
+	"focus:ring-neutral-2",
+
 	"shadow-sm",
-	"border-neutral-1",
+	"border",
+	"border-neutral+1",
+	"bg-neutral+3",
 
 	"placeholder:text-neutral",
 
