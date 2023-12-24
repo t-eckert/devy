@@ -42,6 +42,10 @@ pub async fn create_new_blog(
     dbg!(&blog_creation_req);
 
     // Create the blog.
+    // let new_blog = blog::NewBlog{
+    //     name: blog_creation_req.name,
+    //     slug:
+    // };
 
     // Create the repo.
     /*

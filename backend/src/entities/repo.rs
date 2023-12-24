@@ -23,7 +23,6 @@ pub struct Repo {
 #[serde(rename_all = "camelCase")]
 pub struct NewRepo {
     pub blog_id: Uuid,
-
     pub url: String,
     pub github_id: i64,
     pub github_name: String,
