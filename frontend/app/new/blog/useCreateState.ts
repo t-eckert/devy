@@ -5,7 +5,6 @@ import useStore from "@/lib/useStore"
 import { useQuery } from "@tanstack/react-query"
 
 import { Session } from "@/lib/auth"
-import { Dispatch, SetStateAction } from "react"
 
 interface GitHubRepo {
 	id: number
