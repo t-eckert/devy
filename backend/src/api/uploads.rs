@@ -8,15 +8,17 @@ use axum::{
     Json,
 };
 
-pub async fn get_by_username(
-    State(store): State<Store>,
-    Path(username): Path<String>,
-) -> Result<Json<Vec<Upload>>> {
-    println!("username: {}", username);
-    Ok(Json(
-        UploadRepository::get_by_username(&store.pool, &username).await?,
-    ))
-}
+/// Get an upload given a user's username.
+/// GET /uploads/:username
+// pub async fn get_by_username(
+//     State(store): State<Store>,
+//     Path(username): Path<String>,
+// ) -> Result<Json<Vec<Upload>>> {
+//     println!("username: {}", username);
+//     Ok(Json(
+//         UploadRepository::get_by_username(&store.pool, &username).await?,
+//     ))
+// }
 
 pub async fn insert(
     State(store): State<Store>,

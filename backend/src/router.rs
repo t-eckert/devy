@@ -58,7 +58,7 @@ pub fn make_router(store: Store) -> Router {
             "/profiles/:username/likes/ids",
             get(likes::get_ids_by_username),
         )
-        .route("/uploads/:username", get(uploads::get_by_username))
+        // .route("/uploads/:username", get(uploads::get_by_username))
         .route("/users/:username", get(users::get_by_username))
         .route("/webhooks", post(webhooks::insert));
 
