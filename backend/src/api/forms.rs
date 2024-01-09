@@ -10,7 +10,12 @@ use axum::{
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
-pub struct NewBlog {}
+#[serde(rename_all = "camelCase")]
+pub struct NewBlog {
+    pub username: String,
+    pub name: String,
+    pub repo_url: String,
+}
 
 pub async fn new_blog(State(store): State<Store>, Form(blog): Form<NewBlog>) -> Result<StatusCode> {
     dbg!(&blog);
