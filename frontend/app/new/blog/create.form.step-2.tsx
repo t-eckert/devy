@@ -56,6 +56,7 @@ export default function CreateFormStep2() {
                     "dark:data-[state=checked]:border-blue-primary  dark:data-[state=checked]:md:shadow-lg",
                   ].join(" ")}
                   value={repo.name}
+                  key={repo.id}
                 >
                   <RadioGroup.Indicator />
                   <span className="font-medium text-neutral-3 dark:text-neutral+3">
