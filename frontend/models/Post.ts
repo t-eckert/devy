@@ -2,10 +2,10 @@ export default interface Post {
 	id: string
 	slug: string
 
-	blogSlug: string
 	blogName: string
-	authorSlug: string
+	blogSlug: string
 	authorName: string
+	authorUsername: string
 
 	title: string
 	content: string
