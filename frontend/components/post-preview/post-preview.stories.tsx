@@ -19,7 +19,7 @@ export const Default: Story = {
 
 			blogSlug: "my-blog",
 			blogName: "My Blog",
-			authorSlug: "t-eckert",
+			authorUsername: "t-eckert",
 			authorName: "Tobias Eckert",
 
 			title: "Hello, world!",
