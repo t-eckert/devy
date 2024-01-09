@@ -2,6 +2,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { CaptureSession } from "@/lib/auth"
 import QueryProvider from "@/lib/query-provider"
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <SpeedInsights />
         <ThemeProvider>
           <QueryProvider>
             <div className={root}>
