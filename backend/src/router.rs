@@ -26,6 +26,8 @@ pub fn make_router(store: Store) -> Router {
             "/blogs/:blog_slug/posts/:post_slug",
             get(blogs::get_post_by_blog_and_post_slug),
         )
+        .route("/feeds/new/posts", get(feeds::get_posts_for_new))
+        .route("/feeds/popular/posts", get(feeds::get_posts_for_popular))
         .route("/feeds/:id/posts", get(feeds::get_posts_by_feed_id))
         .route("/feeds/new/config", get(feeds::get_feed_config_for_new))
         .route(
