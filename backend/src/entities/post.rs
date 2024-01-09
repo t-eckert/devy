@@ -120,8 +120,8 @@ impl PostRepository {
         Ok(sqlx::query_file_as!(
             Post,
             "queries/post_get_by_blog_slug_and_post_slug.sql",
-            post_slug,
-            blog_slug
+            blog_slug,
+            post_slug
         )
         .fetch_one(pool)
         .await?)
