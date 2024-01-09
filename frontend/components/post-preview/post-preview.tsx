@@ -48,7 +48,7 @@ export default function PostPreview({ post }: Props) {
 				<div className="flex flex-row gap-2 col-start-2 col-span-3 row-start-3 items-baseline text-xs">
 					<Link
 						href={{
-							pathname: `/profiles/${post.authorSlug}`,
+							pathname: `/profiles/${post.authorUsername}`,
 						}}
 						variant={{ underline: false, styled: false }}
 						aria-label={`View ${post.authorName}'s profile`}
