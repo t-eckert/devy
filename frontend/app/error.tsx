@@ -8,11 +8,6 @@ export default function Error({
 }: {
   error: Error & { digest?: string }
 }) {
-  // TODO: Log error
-  // useEffect(() => {
-  //   console.error(error)
-  // }, [error])
-
   if (error.digest === "500") {
     return (
       <div className="py-20">
