@@ -1,4 +1,6 @@
-use crate::api::{auth, blogs, feeds, likes, posts, profiles, repos, uploads, users, webhooks};
+use crate::api::{
+    auth, blogs, feeds, forms, likes, posts, profiles, repos, uploads, users, webhooks,
+};
 use crate::auth::is_authenticated;
 use axum::{
     middleware,
@@ -35,6 +37,7 @@ pub fn make_router(store: Store) -> Router {
             get(feeds::get_feed_config_for_popular),
         )
         .route("/feeds/:id/config", get(feeds::get_feed_config_by_id))
+        .route("/forms/new-blog", post(forms::new_blog))
         .route(
             "/profiles/:username",
             get(profiles::get_profile_by_username),
