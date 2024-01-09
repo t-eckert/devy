@@ -34,7 +34,7 @@ export default function PostHeader({ post }: Props) {
       <div className="mx-auto w-full max-w-2xl text-sm flex flex-row items-baseline justify-between sm:flex-col sm:gap-4">
         <div className="">
           <Link
-            href={{ pathname: `/profiles/${post.authorSlug}` }}
+            href={{ pathname: `/profiles/${post.authorUsername}` }}
             variant={{ underline: false }}
           >
             {post.authorName}
