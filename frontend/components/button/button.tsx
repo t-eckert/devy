@@ -13,7 +13,7 @@ export default function Button({ children, variant, ...props }: Props) {
 	)
 }
 
-const styles = cva(
+export const styles = cva(
 	[
 		"px-2.5",
 		"py-0.5",

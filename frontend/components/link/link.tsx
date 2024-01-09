@@ -1,18 +1,35 @@
 import { VariantProps, cva } from "cva"
 import NextLink, { LinkProps } from "next/link"
 
+import { styles as buttonStyles } from "@/components/button"
+
 interface Props extends LinkProps {
 	children?: React.ReactNode
 	className?: string
 	variant?: VariantProps<typeof styles>
+	asButton?: boolean
+	buttonVariant?: VariantProps<typeof buttonStyles>
 }
 
 export default function Link({
 	children,
 	variant,
 	className,
+	asButton,
+	buttonVariant,
 	...props
 }: Props) {
+	// TODO this kind of sucks. I can use the next version of CVA to fix this
+	if (asButton)
+		return (
+			<NextLink
+				className={[buttonStyles(buttonVariant), className].join(" ")}
+				{...props}
+			>
+				{children}
+			</NextLink>
+		)
+
 	return (
 		<NextLink className={[styles(variant), className].join(" ")} {...props}>
 			{children}
