@@ -1,4 +1,6 @@
 #![allow(dead_code, unused_imports)]
+use opentelemetry::{global, trace::Tracer};
+use opentelemetry_otlp::WithExportConfig;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
@@ -24,7 +26,20 @@ async fn main() {
         }
     }
 
+    let tracer: opentelemetry_sdk::trace::Tracer = opentelemetry_otlp::new_pipeline()
+        .tracing()
+        .with_exporter(
+            opentelemetry_otlp::new_exporter()
+                .tonic()
+                .with_endpoint("api.honeycomb.io:443"),
+        )
+        .install_batch(opentelemetry_sdk::runtime::Tokio)
+        .unwrap();
+
+    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+
     tracing_subscriber::registry()
+        .with(telemetry)
         .with(fmt::layer())
         .with(EnvFilter::from_default_env())
         .init();
