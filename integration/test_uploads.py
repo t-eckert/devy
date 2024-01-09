@@ -24,6 +24,7 @@ import pytest
                 "logs": [
                     "INFO: Upload received by uploader.",
                     "INFO: Repository cloned.",
+                    "INFO: Uploaded title",
                     "INFO: Cleaning up repository.",
                     "INFO: Upload complete.",
                 ],

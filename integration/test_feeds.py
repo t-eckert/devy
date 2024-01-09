@@ -34,10 +34,12 @@ def test_get_popular_feed_config():
 
 def test_get_feed_posts_limit():
     r = httpx.get(route + "/new/posts?limit=10")
+
     assert r.status_code == 200
     assert len(r.json()) == 10
 
 
 def test_get_nonexistent_feed():
     r = httpx.get(route + "/asdf")
+
     assert r.status_code == 404
