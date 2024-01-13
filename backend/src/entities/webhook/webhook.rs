@@ -1,4 +1,4 @@
-use super::error::Result;
+use super::*;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sqlx::PgPool;

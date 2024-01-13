@@ -1,9 +1,6 @@
-use super::error::Result;
-
-use crate::{
-    entities::{NewRepo, Repo, RepoRepository},
-    store::Store,
-};
+use super::*;
+use crate::entities::{repo, Repo};
+use crate::store::Store;
 use axum::{
     extract::{Json as ExtractJson, State},
     Json,
@@ -11,7 +8,7 @@ use axum::{
 
 pub async fn insert(
     State(store): State<Store>,
-    ExtractJson(repo): ExtractJson<NewRepo>,
+    ExtractJson(repo): ExtractJson<repo::RepoForUpsert>,
 ) -> Result<Json<Repo>> {
-    Ok(Json(RepoRepository::insert(&store.pool, repo).await?))
+    Ok(Json(repo::insert(&store.pool, repo).await?))
 }

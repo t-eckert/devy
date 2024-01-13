@@ -1,8 +1,6 @@
-use super::error::Result;
-use crate::{
-    entities::{NewUpload, UploadRepository, Webhook, WebhookType},
-    store::Store,
-};
+use super::*;
+use crate::entities::{upload, webhook, Webhook};
+use crate::store::Store;
 use axum::{extract::State, Json};
 use http::{HeaderMap, StatusCode};
 use serde_json::Value;
@@ -27,12 +25,12 @@ pub async fn insert(
     };
 
     match webhook.webhook_type {
-        WebhookType::GitHubPushEvent => {
+        webhook::WebhookType::GitHubPushEvent => {
             let upload =
-                UploadRepository::insert(&store.pool, NewUpload::try_from(webhook)?).await?;
+                upload::insert(&store.pool, upload::UploadForUpsert::try_from(webhook)?).await?;
             let _ = store.uploader.upload(upload, &store.pool).await?;
         }
-        WebhookType::Generic => {}
+        webhook::WebhookType::Generic => {}
     }
 
     Ok(StatusCode::OK)
