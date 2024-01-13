@@ -15,3 +15,5 @@ def test_new_blog():
     })
 
     assert r.status_code == 201
+
+
