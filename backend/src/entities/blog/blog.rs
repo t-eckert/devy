@@ -8,11 +8,11 @@ use sqlx::PgPool;
 pub struct Blog {
     pub id: Uuid,
 
+    /// The profile_id of the user who owns this blog.
+    pub profile_id: Uuid,
+
     pub name: String,
     pub slug: String,
-
-    pub username: String,
-    pub display_name: Option<String>,
     pub description: Option<String>,
 
     pub created_at: Option<String>,
@@ -22,27 +22,25 @@ pub struct Blog {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct BlogForUpsert {
+    pub profile_id: Uuid,
+
     pub name: String,
     pub slug: String,
-
-    pub username: String,
-    pub display_name: Option<String>,
     pub description: Option<String>,
-
-    pub created_at: Option<String>,
-    pub updated_at: Option<String>,
 }
 
 impl BlogForUpsert {
-    pub fn new(name: String, slug: String, username: String) -> Self {
+    pub fn new(name: String, slug: String, profile_id: Uuid) -> Self {
         Self {
             name,
             slug,
-            username,
-            display_name: None,
+            profile_id,
             description: None,
-            created_at: None,
-            updated_at: None,
         }
+    }
+
+    pub fn with_description(mut self, description: String) -> Self {
+        self.description = Some(description);
+        self
     }
 }

@@ -9,6 +9,7 @@ use axum::{
 };
 use serde::Deserialize;
 use sqlx::PgPool;
+use uuid::uuid;
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
@@ -57,7 +58,7 @@ async fn create_blog(pool: &PgPool, new_blog_form_submission: &NewBlog) -> Resul
     let new_blog = blog::BlogForUpsert::new(
         new_blog_form_submission.name.clone(),
         blog_slug_from_repo(&new_blog_form_submission.repo_url)?,
-        new_blog_form_submission.username.clone(),
+        uuid!("00000000-0000-0000-0000-000000000000"),
     );
     dbg!(&new_blog);
     Ok(blog::upsert(pool, new_blog).await?)
