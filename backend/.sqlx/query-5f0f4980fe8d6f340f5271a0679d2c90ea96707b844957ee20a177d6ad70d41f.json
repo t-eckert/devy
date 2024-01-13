@@ -1,12 +1,12 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT \n\tid::text,\n\tslug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tprofile_slug AS author_slug,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tCOALESCE(likes.like_count, 0) AS likes\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nLEFT JOIN (\n\tSELECT post_id, COUNT(*) AS like_count\n\tFROM \"like\"\n\tGROUP BY post_id\n) AS likes ON post.id = likes.post_id\nWHERE blog_slug = $1;\n",
+  "query": "SELECT \n\tid,\n\tslug,\n\tblog_slug,\n\tblog_name,\n\tauthor_name,\n\tauthor_username,\n\ttitle,\n\tbody AS content,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tCOALESCE(likes.like_count, 0) AS likes\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug AS author_username\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nLEFT JOIN (\n\tSELECT post_id, COUNT(*) AS like_count\n\tFROM \"like\"\n\tGROUP BY post_id\n) AS likes ON post.id = likes.post_id\nWHERE blog_slug = $1 AND slug = $2;\n",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
         "name": "id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 1,
@@ -30,7 +30,7 @@
       },
       {
         "ordinal": 5,
-        "name": "author_slug",
+        "name": "author_username",
         "type_info": "Text"
       },
       {
@@ -61,11 +61,12 @@
     ],
     "parameters": {
       "Left": [
+        "Text",
         "Text"
       ]
     },
     "nullable": [
-      null,
+      false,
       false,
       false,
       false,
@@ -78,5 +79,5 @@
       null
     ]
   },
-  "hash": "bc73a2b50e81cf704b873130268ec47a7077f8f921316fba84d3f3db23c118bf"
+  "hash": "5f0f4980fe8d6f340f5271a0679d2c90ea96707b844957ee20a177d6ad70d41f"
 }

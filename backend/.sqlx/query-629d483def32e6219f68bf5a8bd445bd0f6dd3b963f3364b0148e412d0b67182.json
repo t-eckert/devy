@@ -1,12 +1,12 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT \n\tid::TEXT,\n\tto_char(\"user\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(\"user\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, email, github_username, role, status\nFROM \"user\" \nWHERE username=$1;\n",
+  "query": "SELECT \n\tid,\n\tto_char(\"user\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(\"user\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, email, github_username, role, status\nFROM \"user\" \nWHERE username=$1;\n",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
         "name": "id",
-        "type_info": "Text"
+        "type_info": "Uuid"
       },
       {
         "ordinal": 1,
@@ -50,15 +50,15 @@
       ]
     },
     "nullable": [
-      null,
+      false,
       null,
       null,
       false,
-      false,
+      true,
       true,
       false,
       false
     ]
   },
-  "hash": "d48771abdc724736ceadbce83911d8395e2aa14251b25d94c3e2e70a6b5fedcf"
+  "hash": "629d483def32e6219f68bf5a8bd445bd0f6dd3b963f3364b0148e412d0b67182"
 }
