@@ -1,6 +1,6 @@
 use crate::{
     auth::Session,
-    entities::{Profile, User},
+    entities::{profile, user, Profile},
     store::Store,
 };
 use axum::{
@@ -61,7 +61,7 @@ pub async fn callback(
     };
 
     // Upsert the user.
-    let user = match User::upsert_from_github_user(&store.pool, github_user.clone()).await {
+    let user = match user::upsert_from_github_user(&store.pool, github_user.clone()).await {
         Ok(user) => user,
         Err(err) => {
             eprintln!("Failed to upsert user: {}", err);
@@ -70,16 +70,10 @@ pub async fn callback(
     };
 
     // Get the user ID.
-    let user_id = match user.id.clone() {
-        Some(id) => id,
-        None => {
-            eprintln!("User ID is None");
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
-        }
-    };
+    let user_id = user.id.clone().to_string();
 
     // Upsert the profile.
-    let profile = match Profile::upsert_from_github_user(&store.pool, user_id, github_user).await {
+    let profile = match profile::upsert_from_github_user(&store.pool, user_id, github_user).await {
         Ok(profile) => profile,
         Err(err) => {
             eprintln!("Failed to upsert profile: {}", err);

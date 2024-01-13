@@ -1,5 +1,6 @@
 pub mod auth;
 pub mod blogs;
+pub mod error;
 pub mod feeds;
 pub mod forms;
 pub mod likes;
@@ -10,4 +11,4 @@ pub mod uploads;
 pub mod users;
 pub mod webhooks;
 
-pub mod error;
+pub use error::*;

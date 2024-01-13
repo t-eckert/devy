@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{blog, repo, Blog, BlogRepository, Post, PostRepository},
+    entities::{blog, post, repo, Blog, Post},
     store::Store,
 };
 use axum::{
@@ -17,9 +17,7 @@ pub async fn get_blog_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Blog>> {
-    Ok(Json(
-        BlogRepository::get_by_slug(&store.pool, blog_slug).await?,
-    ))
+    Ok(Json(blog::get_by_slug(&store.pool, blog_slug).await?))
 }
 
 /// Get a post from the database given a blog slug and post slug.
@@ -29,7 +27,7 @@ pub async fn get_post_by_blog_and_post_slug(
     Path((blog_slug, post_slug)): Path<(String, String)>,
 ) -> Result<Json<Post>> {
     Ok(Json(
-        PostRepository::get_by_blog_slug_and_post_slug(&store.pool, &blog_slug, &post_slug).await?,
+        post::get_by_blog_slug_and_post_slug(&store.pool, &blog_slug, &post_slug).await?,
     ))
 }
 
@@ -67,7 +65,7 @@ pub async fn delete(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<StatusCode> {
-    BlogRepository::delete_by_slug(&store.pool, blog_slug).await?;
+    blog::delete_by_slug(&store.pool, blog_slug).await?;
 
     Ok(StatusCode::OK)
 }

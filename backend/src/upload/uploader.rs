@@ -2,10 +2,7 @@ use super::{
     error::{Error, Result},
     git::Git,
 };
-use crate::entities::{
-    BlogRepository, PostRepository, ProfileRepository, RepoRepository, Upload, UploadRepository,
-    UpsertPost, User,
-};
+use crate::entities::{blog, post, repo, upload, Upload, User};
 use glob::glob;
 use regex::Regex;
 use sqlx::PgPool;
@@ -24,19 +21,19 @@ impl Uploader {
     }
 
     pub async fn upload(self, upload: Upload, pool: &PgPool) -> Result<Upload> {
-        UploadRepository::set_status(pool, upload.id, "received").await?;
-        UploadRepository::append_log(pool, upload.id, "INFO: Upload received by uploader.").await?;
+        upload::set_status(pool, upload.id, "received").await?;
+        upload::append_log(pool, upload.id, "INFO: Upload received by uploader.").await?;
 
         let url = upload.repo.clone();
-        let repo = RepoRepository::get_by_url(pool, &upload.repo).await?;
-        let blog = BlogRepository::get_by_id(pool, repo.blog_id).await?;
+        let repo = repo::get_by_url(pool, &upload.repo).await?;
+        let blog = blog::get_by_id(pool, repo.blog_id).await?;
 
         let dir = format!("/tmp/{}", upload.id);
         self.git.clone_repo(&dir, &url)?;
         event!(Level::INFO, "Cloned repo {} to {}", url, dir);
 
-        UploadRepository::set_status(pool, upload.id, "cloned").await?;
-        UploadRepository::append_log(pool, upload.id, "INFO: Repository cloned.").await?;
+        upload::set_status(pool, upload.id, "cloned").await?;
+        upload::append_log(pool, upload.id, "INFO: Repository cloned.").await?;
 
         let files = Self::get_markdown_files(&dir)?;
         let mut posts = vec![];
@@ -49,21 +46,17 @@ impl Uploader {
         }
 
         for post in posts {
-            match PostRepository::upsert(pool, post).await {
+            match post::upsert(pool, post).await {
                 Ok(post) => {
-                    UploadRepository::append_log(
-                        pool,
-                        upload.id,
-                        &format!("INFO: Uploaded {}", post.title),
-                    )
-                    .await?;
+                    upload::append_log(pool, upload.id, &format!("INFO: Uploaded {}", post.title))
+                        .await?;
                 }
                 Err(_) => {}
             };
         }
 
-        UploadRepository::set_status(pool, upload.id, "uploaded").await?;
-        UploadRepository::append_log(pool, upload.id, "INFO: Cleaning up repository.").await?;
+        upload::set_status(pool, upload.id, "uploaded").await?;
+        upload::append_log(pool, upload.id, "INFO: Cleaning up repository.").await?;
 
         fs::remove_dir_all(&dir).map_err(|e| {
             Error::CleanupFailure(format!(
@@ -73,10 +66,10 @@ impl Uploader {
             ))
         })?;
 
-        UploadRepository::set_status(pool, upload.id, "done").await?;
-        UploadRepository::append_log(pool, upload.id, "INFO: Upload complete.").await?;
+        upload::set_status(pool, upload.id, "done").await?;
+        upload::append_log(pool, upload.id, "INFO: Upload complete.").await?;
 
-        Ok(UploadRepository::get_by_id(pool, upload.id).await?)
+        Ok(upload::get_by_id(pool, upload.id).await?)
     }
 
     fn get_markdown_files(dir: &str) -> Result<Vec<PathBuf>> {
@@ -88,7 +81,7 @@ impl Uploader {
             .collect::<Vec<PathBuf>>())
     }
 
-    fn parse_file(filename: PathBuf) -> Result<UpsertPost> {
+    fn parse_file(filename: PathBuf) -> Result<post::PostForUpsert> {
         let slug = filename
             .file_stem()
             .ok_or(Error::FileParseError(
@@ -103,7 +96,7 @@ impl Uploader {
         let contents =
             fs::read_to_string(filename).map_err(|e| Error::FileParseError(e.to_string()))?;
 
-        Ok(UpsertPost::new(slug, contents))
+        Ok(post::PostForUpsert::new(slug, contents))
     }
 
     fn markdown_title(markdown: &str) -> Option<String> {

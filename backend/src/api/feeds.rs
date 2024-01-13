@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{FeedConfig, FeedConfigRepository, Post, PostRepository},
+    entities::{feed_config, post, FeedConfig, Post},
     store::Store,
 };
 use axum::{
@@ -36,7 +36,7 @@ pub async fn get_posts_by_feed_id(
     dbg!(&offset);
 
     Ok(Json(
-        PostRepository::get_by_feed(&store.pool, feed_id, limit, offset).await?,
+        post::get_by_feed(&store.pool, feed_id, limit, offset).await?,
     ))
 }
 
@@ -59,7 +59,7 @@ pub async fn get_posts_for_new(
         .unwrap_or(0);
 
     Ok(Json(
-        PostRepository::get_by_feed(&store.pool, feed_id, limit, offset).await?,
+        post::get_by_feed(&store.pool, feed_id, limit, offset).await?,
     ))
 }
 
@@ -82,7 +82,7 @@ pub async fn get_posts_for_popular(
         .unwrap_or(0);
 
     Ok(Json(
-        PostRepository::get_by_feed(&store.pool, feed_id, limit, offset).await?,
+        post::get_by_feed(&store.pool, feed_id, limit, offset).await?,
     ))
 }
 
@@ -96,9 +96,7 @@ pub async fn get_feed_config_by_id(
     State(store): State<Store>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<FeedConfig>> {
-    Ok(Json(
-        FeedConfigRepository::get_by_id(&store.pool, id).await?,
-    ))
+    Ok(Json(feed_config::get_by_id(&store.pool, id).await?))
 }
 
 /// Get the feed config for the "new" feed.

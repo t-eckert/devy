@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{blog, repo, user, Blog, BlogRepository, Post, PostRepository, Repo, User},
+    entities::{blog, post, repo, user, Blog, Post, Repo, User},
     store::Store,
 };
 use axum::{
@@ -54,13 +54,13 @@ async fn validate_user_exists(pool: &PgPool, username: &str) -> Result<()> {
 }
 
 async fn create_blog(pool: &PgPool, new_blog_form_submission: &NewBlog) -> Result<Blog> {
-    let new_blog = blog::NewBlog::new(
+    let new_blog = blog::BlogForUpsert::new(
         new_blog_form_submission.name.clone(),
         blog_slug_from_repo(&new_blog_form_submission.repo_url)?,
         new_blog_form_submission.username.clone(),
     );
     dbg!(&new_blog);
-    Ok(BlogRepository::upsert(pool, new_blog).await?)
+    Ok(blog::upsert(pool, new_blog).await?)
 }
 
 fn blog_slug_from_repo(repo_url: &str) -> Result<String> {

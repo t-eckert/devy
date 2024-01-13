@@ -11,6 +11,7 @@ use upload::{Git, Uploader};
 mod api;
 mod auth;
 mod entities;
+mod forms;
 mod router;
 mod store;
 mod upload;
@@ -26,20 +27,19 @@ async fn main() {
         }
     }
 
-    let tracer: opentelemetry_sdk::trace::Tracer = opentelemetry_otlp::new_pipeline()
-        .tracing()
-        .with_exporter(
-            opentelemetry_otlp::new_exporter()
-                .tonic()
-                .with_endpoint("api.honeycomb.io:443"),
-        )
-        .install_batch(opentelemetry_sdk::runtime::Tokio)
-        .unwrap();
+    // let tracer: opentelemetry_sdk::trace::Tracer = opentelemetry_otlp::new_pipeline()
+    //     .tracing()
+    //     .with_exporter(
+    //         opentelemetry_otlp::new_exporter()
+    //             .tonic()
+    //             .with_endpoint("api.honeycomb.io:443"),
+    //     )
+    //     .install_batch(opentelemetry_sdk::runtime::Tokio)
+    //     .unwrap();
 
-    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+    // let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
     tracing_subscriber::registry()
-        .with(telemetry)
         .with(fmt::layer())
         .with(EnvFilter::from_default_env())
         .init();

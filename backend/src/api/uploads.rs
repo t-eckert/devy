@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{NewUpload, Upload, UploadRepository},
+    entities::{upload, Upload},
     store::Store,
 };
 use axum::{
@@ -22,9 +22,9 @@ use axum::{
 
 pub async fn insert(
     State(store): State<Store>,
-    ExtractJson(upload): ExtractJson<NewUpload>,
+    ExtractJson(upload): ExtractJson<upload::UploadForUpsert>,
 ) -> Result<Json<Upload>> {
-    let received_upload = UploadRepository::insert(&store.pool, upload).await?;
+    let received_upload = upload::insert(&store.pool, upload).await?;
 
     Ok(Json(
         store.uploader.upload(received_upload, &store.pool).await?,

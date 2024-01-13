@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{Blog, BlogRepository, Post, PostRepository, Profile},
+    entities::{blog, post, profile, Blog, Post, Profile},
     store::Store,
 };
 use axum::{
@@ -13,7 +13,7 @@ pub async fn get_profile_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Profile>> {
-    Ok(Json(Profile::get_by_username(&store.pool, username).await?))
+    Ok(Json(profile::get_by_username(&store.pool, username).await?))
 }
 
 /// Get all blogs for a profile by username.
@@ -22,9 +22,7 @@ pub async fn get_blogs_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Blog>>> {
-    Ok(Json(
-        BlogRepository::get_by_username(&store.pool, username).await?,
-    ))
+    Ok(Json(blog::get_by_username(&store.pool, username).await?))
 }
 
 /// Get all posts for a profile by username.
@@ -33,7 +31,5 @@ pub async fn get_posts_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Post>>> {
-    Ok(Json(
-        PostRepository::get_by_username(&store.pool, &username).await?,
-    ))
+    Ok(Json(post::get_by_username(&store.pool, &username).await?))
 }
