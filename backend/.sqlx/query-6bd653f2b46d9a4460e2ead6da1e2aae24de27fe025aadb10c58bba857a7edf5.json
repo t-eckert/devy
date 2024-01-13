@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT \n\tid::TEXT,\n\tto_char(\"user\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(\"user\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tusername, email, github_username, role, status\nFROM \"user\" \nWHERE github_username=$1;\n",
+  "query": "SELECT \n\tid::TEXT,\n\tuser_id::TEXT, display_name,\n\tto_char(profile.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(profile.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tbio, website_url AS website,\n\tavatar_url\nFROM profile \nWHERE id = $1;\n",
   "describe": {
     "columns": [
       {
@@ -10,55 +10,55 @@
       },
       {
         "ordinal": 1,
-        "name": "created_at",
+        "name": "user_id",
         "type_info": "Text"
       },
       {
         "ordinal": 2,
-        "name": "updated_at",
+        "name": "display_name",
         "type_info": "Text"
       },
       {
         "ordinal": 3,
-        "name": "username",
+        "name": "created_at",
         "type_info": "Text"
       },
       {
         "ordinal": 4,
-        "name": "email",
+        "name": "updated_at",
         "type_info": "Text"
       },
       {
         "ordinal": 5,
-        "name": "github_username",
+        "name": "bio",
         "type_info": "Text"
       },
       {
         "ordinal": 6,
-        "name": "role",
+        "name": "website",
         "type_info": "Text"
       },
       {
         "ordinal": 7,
-        "name": "status",
+        "name": "avatar_url",
         "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
-        "Text"
+        "Uuid"
       ]
     },
     "nullable": [
       null,
       null,
-      null,
-      false,
-      false,
       true,
-      false,
-      false
+      null,
+      null,
+      true,
+      true,
+      true
     ]
   },
-  "hash": "77f843aa170f6c1d2d1fb027ea57fb164ca4ce1be11faba2b94c84d27854ccaf"
+  "hash": "6bd653f2b46d9a4460e2ead6da1e2aae24de27fe025aadb10c58bba857a7edf5"
 }
