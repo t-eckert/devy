@@ -2,8 +2,7 @@ SELECT
 	blog.id as id,
 	name, 
 	slug,
-	username, 
-	display_name, 
+	profile_id, 
 	description,
 	to_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
 	to_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at

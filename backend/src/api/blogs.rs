@@ -31,34 +31,6 @@ pub async fn get_post_by_blog_and_post_slug(
     ))
 }
 
-/// Create a new blog in the database.
-/// POST /blogs
-pub async fn create_new_blog(
-    State(store): State<Store>,
-    Json(blog_creation_req): Json<BlogCreationRequest>,
-) -> Result<StatusCode> {
-    dbg!(&blog_creation_req);
-
-    // Create the blog.
-    // let new_blog = blog::NewBlog{
-    //     name: blog_creation_req.name,
-    //     slug:
-    // };
-
-    // Create the repo.
-    /*
-    let new_repo = repo::NewRepo{
-        blog_id: "".to_string(),
-        url: blog_creation_req.repo_url.clone(),
-        github_id: 4,
-        github_name: "".to_string(),
-    };
-    repo::RepoRepository::insert(&store.pool, )
-    */
-
-    Ok(StatusCode::CREATED)
-}
-
 /// Delete a blog from the database given a blog slug.
 /// DELETE /blogs/:blog_slug
 pub async fn delete(

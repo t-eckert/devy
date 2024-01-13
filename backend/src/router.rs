@@ -37,7 +37,7 @@ pub fn make_router(store: Store) -> Router {
             get(feeds::get_feed_config_for_popular),
         )
         .route("/feeds/:id/config", get(feeds::get_feed_config_by_id))
-        .route("/forms/new-blog", post(forms::new_blog))
+        .route("/forms/new-blog", post(forms::new_blog)) // TODO move htis to authed routes
         .route(
             "/profiles/:username",
             get(profiles::get_profile_by_username),
@@ -63,7 +63,6 @@ pub fn make_router(store: Store) -> Router {
         .route("/webhooks", post(webhooks::insert));
 
     let authed_routes = Router::new()
-        .route("/blogs", post(blogs::create_new_blog))
         .route("/blogs/:blog_slug", delete(blogs::delete))
         .route("/likes", post(likes::post_like))
         .route("/likes/:post_id/:profile_id", delete(likes::delete_like))
