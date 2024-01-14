@@ -1,6 +1,6 @@
-#![allow(dead_code, unused_imports)]
-use opentelemetry::{global, trace::Tracer};
-use opentelemetry_otlp::WithExportConfig;
+#![allow(dead_code)]
+// use opentelemetry::{global, trace::Tracer};
+// use opentelemetry_otlp::WithExportConfig;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;

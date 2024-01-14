@@ -4,6 +4,10 @@ use serde_json::Value;
 use sqlx::PgPool;
 use uuid::Uuid;
 
+pub async fn upsert(pool: &PgPool, repo_input: RepoForUpsert) -> Result<Repo> {
+    insert(pool, repo_input).await
+}
+
 pub async fn insert(pool: &PgPool, repo_input: RepoForUpsert) -> Result<Repo> {
     Ok(sqlx::query_file_as!(
         Repo,
