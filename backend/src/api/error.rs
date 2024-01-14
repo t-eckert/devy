@@ -5,6 +5,7 @@ use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
 use crate::entities::error::Error as EntitiesError;
+use crate::forms::Error as FormsError;
 use crate::upload::Error as UploadError;
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -37,6 +38,14 @@ impl From<UploadError> for Error {
         match val {
             UploadError::RepositoryNotFound(_) => Self::StatusCode(StatusCode::BAD_REQUEST),
             _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
+    }
+}
+
+impl From<FormsError> for Error {
+    fn from(val: FormsError) -> Self {
+        match val {
+            FormsError::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
         }
     }
 }
