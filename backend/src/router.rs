@@ -37,7 +37,7 @@ pub fn make_router(store: Store) -> Router {
             get(feeds::get_feed_config_for_popular),
         )
         .route("/feeds/:id/config", get(feeds::get_feed_config_by_id))
-        .route("/forms/new-blog", post(forms::new_blog)) // TODO move htis to authed routes
+        .route("/forms/new-blog", post(forms::new_blog)) // TODO move this to authed routes
         .route(
             "/profiles/:username",
             get(profiles::get_profile_by_username),

@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Blog {
     pub id: Uuid,
@@ -17,7 +17,7 @@ pub struct Blog {
     pub updated_at: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub struct BlogForUpsert {
     pub profile_id: Uuid,
