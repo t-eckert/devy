@@ -1,8 +1,8 @@
-use super::*;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use sqlx::PgPool;
-use uuid::{uuid, Uuid};
+use uuid::Uuid;
+
+use super::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

@@ -53,7 +53,6 @@ pub async fn delete_by_slug(pool: &PgPool, slug: String) -> Result<()> {
 mod tests {
     use super::*;
     use crate::entities::{profile, user};
-    use uuid::uuid;
 
     #[sqlx::test]
     async fn test_upsert_with_new_blog_sets_correct_defaults(pool: PgPool) {

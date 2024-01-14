@@ -1,6 +1,6 @@
 use super::error::Result;
 use crate::{
-    entities::{blog, post, repo, Blog, Post},
+    entities::{blog, post, Blog, Post},
     store::Store,
 };
 use axum::{

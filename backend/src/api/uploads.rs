@@ -1,12 +1,11 @@
-use super::error::Result;
-use crate::{
-    entities::{upload, Upload},
-    store::Store,
-};
 use axum::{
-    extract::{Json as ExtractJson, Path, State},
+    extract::{Json as ExtractJson, State},
     Json,
 };
+
+use super::error::Result;
+use crate::entities::{upload, Upload};
+use crate::store::Store;
 
 /// Get an upload given a user's username.
 /// GET /uploads/:username
