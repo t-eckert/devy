@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT \n\tblog.id as id,\n\tname, \n\tslug,\n\tusername, \n\tdisplay_name, \n\tdescription,\n\tto_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"blog\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, display_name, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE slug=$1;\n",
+  "query": "SELECT \n\tblog.id as id,\n\tname,\n\tslug,\n\tprofile_id,\n\tdescription,\n\tto_char(blog.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(blog.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"blog\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, display_name, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE username=$1;\n",
   "describe": {
     "columns": [
       {
@@ -20,26 +20,21 @@
       },
       {
         "ordinal": 3,
-        "name": "username",
-        "type_info": "Text"
+        "name": "profile_id",
+        "type_info": "Uuid"
       },
       {
         "ordinal": 4,
-        "name": "display_name",
-        "type_info": "Text"
-      },
-      {
-        "ordinal": 5,
         "name": "description",
         "type_info": "Text"
       },
       {
-        "ordinal": 6,
+        "ordinal": 5,
         "name": "created_at",
         "type_info": "Text"
       },
       {
-        "ordinal": 7,
+        "ordinal": 6,
         "name": "updated_at",
         "type_info": "Text"
       }
@@ -55,10 +50,9 @@
       false,
       false,
       true,
-      true,
       null,
       null
     ]
   },
-  "hash": "3985f42bcc8052ab3e66d2f58c17271850367caf9154a832fd9e9277cc79cc05"
+  "hash": "842dd28d9308c62e4691048d8152b90e707231404c7999c1619eacdd10a2457b"
 }
