@@ -1,8 +1,8 @@
-use super::*;
-use crate::auth::GitHubUser;
-use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;
+
+use super::*;
+use crate::auth::GitHubUser;
 
 pub async fn upsert(pool: &PgPool, profile: ProfileForUpsert) -> Result<Profile> {
     Ok(sqlx::query_file_as!(

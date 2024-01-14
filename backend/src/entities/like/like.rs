@@ -1,7 +1,5 @@
-use crate::entities::error::Result;
 use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
-use sqlx::PgPool;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

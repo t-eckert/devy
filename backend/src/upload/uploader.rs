@@ -1,14 +1,15 @@
-use super::{
-    error::{Error, Result},
-    git::Git,
-};
-use crate::entities::{blog, post, repo, upload, Upload, User};
 use glob::glob;
 use regex::Regex;
 use sqlx::PgPool;
 use std::fs;
 use std::path::PathBuf;
 use tracing::{event, Level};
+
+use super::{
+    error::{Error, Result},
+    git::Git,
+};
+use crate::entities::{blog, post, repo, upload, Upload};
 
 #[derive(Clone)]
 pub struct Uploader {

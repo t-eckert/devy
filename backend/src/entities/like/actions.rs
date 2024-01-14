@@ -1,8 +1,8 @@
-use super::*;
-use crate::entities::error::Result;
-use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;
+
+use super::*;
+use crate::entities::error::Result;
 
 pub async fn upsert(pool: &PgPool, like: LikeForUpsert) -> Result<Like> {
     Ok(sqlx::query_file_as!(

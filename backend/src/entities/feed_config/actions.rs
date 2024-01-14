@@ -1,6 +1,7 @@
-use super::*;
 use sqlx::PgPool;
 use uuid::Uuid;
+
+use super::*;
 
 pub async fn get_by_id(pool: &PgPool, id: Uuid) -> Result<FeedConfig> {
     Ok(sqlx::query_file_as!(

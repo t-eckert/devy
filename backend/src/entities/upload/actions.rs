@@ -1,8 +1,7 @@
-use super::*;
-use crate::entities::webhook::{Webhook, WebhookType};
-use serde::{Deserialize, Serialize};
 use sqlx::types::Uuid;
 use sqlx::PgPool;
+
+use super::*;
 
 pub async fn insert(pool: &PgPool, upload: UploadForUpsert) -> Result<Upload> {
     Ok(sqlx::query_file_as!(

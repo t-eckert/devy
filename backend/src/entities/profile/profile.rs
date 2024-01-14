@@ -1,9 +1,4 @@
-use super::*;
-use crate::auth::GitHubUser;
 use serde::{Deserialize, Serialize};
-use sqlx::types::Uuid;
-use sqlx::PgPool;
-use std::sync::Arc;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

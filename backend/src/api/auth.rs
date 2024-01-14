@@ -1,6 +1,6 @@
 use crate::{
     auth::Session,
-    entities::{profile, user, Profile},
+    entities::{profile, user},
     store::Store,
 };
 use axum::{

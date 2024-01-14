@@ -1,10 +1,9 @@
-use super::*;
-use regex::Regex;
-use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use uuid::{uuid, Uuid};
 
-pub async fn upsert(pool: &PgPool, post: PostForUpsert) -> Result<Post> {
+use super::*;
+
+pub async fn upsert(_pool: &PgPool, _post: PostForUpsert) -> Result<Post> {
     // TODO
     Ok(Post {
         id: uuid!("5941b29d-246d-4897-a69e-3201f6ad8715"),
@@ -102,7 +101,7 @@ pub async fn get_by_username(pool: &PgPool, username: &str) -> Result<Vec<Post>>
     .await?)
 }
 
-pub async fn get_liked_by_username(pool: &PgPool, username: &str) -> Result<Vec<Post>> {
+pub async fn get_liked_by_username(_pool: &PgPool, _username: &str) -> Result<Vec<Post>> {
     return Ok(vec![]);
 
     // Ok(

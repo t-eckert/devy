@@ -1,8 +1,7 @@
 use serde::Serialize;
-use serde_with::{serde_as, DisplayFromStr};
+use serde_with::serde_as;
 
 use crate::entities::error::Error as EntitiesError;
-use crate::upload::Error as UploadError;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
