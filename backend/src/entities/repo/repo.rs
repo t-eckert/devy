@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use uuid::Uuid;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct Repo {
     pub id: Uuid,
@@ -24,7 +24,6 @@ pub struct RepoForUpsert {
     pub url: String,
     pub github_id: i64,
     pub github_name: String,
-    pub metadata: Option<Value>,
 }
 
 impl RepoForUpsert {
@@ -34,12 +33,6 @@ impl RepoForUpsert {
             url,
             github_id,
             github_name,
-            metadata: None,
         }
-    }
-
-    pub fn with_metadata(mut self, metadata: Value) -> Self {
-        self.metadata = Some(metadata);
-        self
     }
 }

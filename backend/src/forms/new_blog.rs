@@ -1,11 +1,11 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use uuid::Uuid;
 
 use super::*;
 use crate::entities::{blog, profile, repo, user, Blog, Profile, Repo};
 
-#[derive(Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 /// Represents a form submission for creating a new blog.
 pub struct NewBlog {
@@ -16,6 +16,8 @@ pub struct NewBlog {
     pub github_name: String,
 }
 
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
 pub struct Response {
     blog: Blog,
     repo: Repo,
@@ -27,14 +29,14 @@ impl NewBlog {
         name: String,
         repo_url: String,
         github_id: i64,
-        github_username: String,
+        github_name: String,
     ) -> Self {
         Self {
             username,
             name,
             repo_url,
             github_id,
-            github_name: github_username,
+            github_name,
         }
     }
 

@@ -10,5 +10,5 @@ pub async fn insert(
     State(store): State<Store>,
     ExtractJson(repo): ExtractJson<repo::RepoForUpsert>,
 ) -> Result<Json<Repo>> {
-    Ok(Json(repo::insert(&store.pool, repo).await?))
+    Ok(Json(repo::upsert(&store.pool, repo).await?))
 }
