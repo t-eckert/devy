@@ -1,23 +1,20 @@
 import { useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 import useSession from "@/lib/auth/useSession"
 import useStore from "@/lib/useStore"
-import { useQuery } from "@tanstack/react-query"
-
 import { Session } from "@/lib/auth"
+import { Blog } from "@/models"
+import api from "@/lib/api"
 
-interface GitHubRepo {
-	id: number
-	name: string
-	html_url: string
-	description: string
-	fork: boolean
-	language?: string
-}
+import GitHubRepo from "./GitHubRepo"
 
 interface CreateState {
-	repos: GitHubRepo[]
+	repos?: GitHubRepo[]
 	isLoadingRepos: boolean
+
+	userBlogs?: Blog[]
+	isLoadingUserBlogs: boolean
 
 	session?: Session
 	status?: string
@@ -31,27 +28,52 @@ export default function useCreateState(): CreateState {
 	let {
 		data: repos,
 		isLoading: isLoadingRepos,
-		refetch,
+		refetch: refetchRepos,
 	} = useQuery({
 		queryKey: ["repos"],
 		queryFn: async () => {
 			if (status !== "logged-in") return []
 
 			const res = await fetch(
-				`https://api.github.com/users/${session?.user?.githubUsername}/repos?per_page=100&sort=updated`
+				`https://api.github.com/users/${session?.user?.githubUsername}/repos?per_page=100&sort=updated`,
+				{
+					next: {
+						revalidate: 60 * 3,
+					},
+				}
 			)
 			const raw = (await res.json()) as GitHubRepo[]
 			return Array.from(raw).filter((repo: GitHubRepo) => !repo.fork)
 		},
 	})
 
+	let {
+		data: userBlogs,
+		isLoading: isLoadingUserBlogs,
+		refetch: refetchUserBlogs,
+	} = useQuery({
+		queryKey: ["userBlogs"],
+		queryFn: async () => {
+			if (status !== "logged-in") return []
+
+			return await api.get<Blog[]>(
+				`/v1/profiles/${session?.user?.username}/blogs`,
+				60 * 3
+			)
+		},
+	})
+
 	useEffect(() => {
-		refetch()
+		refetchRepos()
+		refetchUserBlogs()
 	}, [session])
 
 	return {
-		repos: repos ?? [],
+		repos,
 		isLoadingRepos,
+
+		userBlogs,
+		isLoadingUserBlogs,
 
 		session,
 		status,

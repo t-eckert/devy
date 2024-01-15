@@ -85,14 +85,15 @@ const content = cva(
 		"flex",
 		"flex-col",
 		"gap-1",
+		"backdrop-blur-lg",
 
 		"border-neutral+1",
 		"text-neutral-2",
-		"bg-neutral+3",
+		"bg-neutral+3/70",
 
 		"dark:border-neutral-1",
 		"dark:text-neutral+2",
-		"dark:bg-neutral-3",
+		"dark:bg-neutral-3/70",
 
 		"data-[side=top]:animate-slideDownAndFade",
 		"data-[side=right]:animate-slideLeftAndFade",

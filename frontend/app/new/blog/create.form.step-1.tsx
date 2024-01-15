@@ -1,13 +1,20 @@
 "use client"
 
+import { useState } from "react"
+
 import useCreateState from "./useCreateState"
 import Input from "@/components/input"
+import useFormState from "./useFormState"
+import DataWindow from "@/components/data-window"
+import Json from "@/components/json"
 
 export default function CreateFormStep1() {
   const { session } = useCreateState()
+  const { blogName, setBlogName } = useFormState()
 
   return (
     <div>
+      <Json data={blogName} />
       <span className="text-xs font-medium text-neutral">Step 1</span>
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
         <div className="w-96 sm:w-60">
@@ -27,6 +34,8 @@ export default function CreateFormStep1() {
             placeholder={`${
               session ? session?.profile.displayName + "'s" : "Your"
             } Blog`}
+            value={blogName}
+            setValue={setBlogName}
           />
         </div>
       </div>

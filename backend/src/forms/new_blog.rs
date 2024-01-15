@@ -9,10 +9,16 @@ use crate::entities::{blog, profile, repo, user, Blog, Profile, Repo};
 #[serde(rename_all = "camelCase")]
 /// Represents a form submission for creating a new blog.
 pub struct NewBlog {
+    /// The Devy username of the user creating the blog.
     pub username: String,
+    /// The name of the blog.
     pub name: String,
+    /// The URL of the blog's repository.
+    /// Must be a valid GitHub repository URL.
     pub repo_url: String,
+    /// The GitHub ID of the user creating the blog.
     pub github_id: i64,
+    /// The GitHub username of the user creating the blog.
     pub github_name: String,
 }
 

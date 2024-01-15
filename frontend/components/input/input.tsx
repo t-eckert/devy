@@ -4,7 +4,7 @@ import { Dispatch, InputHTMLAttributes, SetStateAction } from "react"
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	value?: string
-	setValue?: Dispatch<SetStateAction<string>>
+	setValue: Dispatch<SetStateAction<string>>
 	variant?: VariantProps<typeof styles>
 }
 
@@ -26,9 +26,7 @@ export default function Input({
 			<input
 				className={styles(variant)}
 				value={value}
-				onChange={
-					setValue ? (e) => setValue(e.target.value) : undefined
-				}
+				onChange={(e) => setValue(e.target.value)}
 				{...props}
 			></input>
 		</span>
@@ -44,9 +42,7 @@ const styles = cva([
 	"focus:outline-none",
 	"focus:ring-1",
 	"focus:ring-blue-primary",
-	"focus:shadow-md",
 
-	"shadow-sm",
 	"border",
 
 	"border-neutral+1",
