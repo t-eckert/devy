@@ -36,7 +36,7 @@ export default function DataWindow({ name, data, defaultOpen }: Props) {
 	return (
 		<section
 			ref={ref}
-			className="absolute top-2 right-2 z-50 bg-zinc-800 w-96 rounded-xl border border-zinc-700 shadow-lg"
+			className="absolute top-2 right-2 z-50 bg-zinc-800 w-96 rounded-xl border border-zinc-700 bg-neutral+3 dark:bg-neutral-3 shadow-lg"
 		>
 			<header
 				onMouseDown={drag}

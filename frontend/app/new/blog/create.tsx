@@ -3,24 +3,28 @@
 import useCreateState from "./useCreateState"
 import CreateLoggedOut from "./create.logged-out"
 import CreateForm from "./create.form"
-import Json from "@/components/json"
 
 export default function Create() {
   const state = useCreateState()
 
-  if (state.session === null) {
+  state.userBlogs = []
+
+  if (state.session === null || state.session === undefined) {
+    return <CreateLoggedOut />
+  }
+
+  if (state.userBlogs && state.userBlogs.length > 0) {
     return (
-      <>
-        <Json data={state} />
-        <CreateLoggedOut />
-      </>
+      <p>
+        You already have a blog. While this project is in preview, every user
+        can only have one blog.
+      </p>
     )
   }
 
-  return (
-    <>
-      {/* <Json data={state} /> */}
-      <CreateForm />
-    </>
-  )
+  if (state.userBlogs && state.userBlogs.length === 0) {
+    return <CreateForm />
+  }
+
+  return <></>
 }
