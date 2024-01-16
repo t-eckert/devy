@@ -4,7 +4,6 @@ import { useState } from "react"
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import { useRouter } from "next/navigation"
 
-import DataWindow from "@/components/data-window"
 import Input from "@/components/input"
 import Button from "@/components/button"
 
@@ -24,7 +23,6 @@ export default function Form({ username, repos }: Props) {
 
   return (
     <>
-      <DataWindow data={formState} />
       <form className="mb-12 flex flex-col gap-4" action={formState.submit}>
         {/* Step 1 */}
         <div>
