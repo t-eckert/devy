@@ -10,7 +10,7 @@ interface Props {
 export default function PostPreview({ post }: Props) {
 	return (
 		<section className={wrapper}>
-			<div className="grid grid-rows-3 grid-cols-[max-content_1fr] gap-x-4">
+			<div className="grid grid-rows-3 grid-cols-[max-content_1fr] gap-x-8">
 				<div className="col-start-2 col-span-3 row-start-2">
 					<Link
 						href={{
