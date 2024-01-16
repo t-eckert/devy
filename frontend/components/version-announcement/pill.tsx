@@ -15,6 +15,7 @@ export default function Pill({ version, onClose }: Props) {
 					href="/changelog"
 					className="decoration-blue-primary dark:decoration-red-high hover:text-blue-primary hover:dark:text-blue-high transition-all"
 					onClick={onClose}
+					variant={{ underline: false, styled: false }}
 				>
 					{version}
 				</Link>

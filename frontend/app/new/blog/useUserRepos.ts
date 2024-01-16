@@ -4,7 +4,7 @@ import GitHubRepo from "./GitHubRepo"
 
 export default function useUserRepos(username?: string) {
 	return useQuery({
-		queryKey: ["repos"],
+		queryKey: ["repos", username],
 		queryFn: async () => {
 			if (!username) return []
 
