@@ -12,12 +12,12 @@ interface Props {
 
 export default function PostHeader({ post }: Props) {
   return (
-    <div className="mx-auto w-full max-w-2xl pb-6 sm:pb-12 flex flex-col gap-6">
-      <div className="mx-auto w-full max-w-2xl text-sm flex flex-row justify-between sm:justify-start sm:gap-4">
+    <div className="mx-auto w-full max-w-3xl pb-6 sm:pb-12 flex flex-col gap-12">
+      <div className="mx-auto w-full text-sm flex flex-row justify-between sm:gap-4">
         <Link
           href={{ pathname: `/${post.blogSlug}` }}
-          variant={{ underline: false }}
-          className="text-neutral hover:text-neutral-1 hover:dark:text-neutral+1"
+          variant={{ underline: false, styled: false }}
+          className="text-neutral font-medium hover:text-neutral-1 hover:dark:text-neutral+1"
         >
           {post.blogName}
         </Link>
@@ -31,22 +31,16 @@ export default function PostHeader({ post }: Props) {
         {post.title}
       </h1>
 
-      <div className="mx-auto w-full max-w-2xl text-sm flex flex-row items-baseline justify-between sm:flex-col sm:gap-4">
-        <div className="">
-          <Link
-            href={{ pathname: `/profiles/${post.authorUsername}` }}
-            variant={{ underline: false }}
-          >
-            {post.authorName}
-          </Link>
-        </div>
-        <div className="w-12 flex flex-col items-start gap-1">
-          <Likes
-            postId={post.id}
-            title={post.title}
-            initialCount={post.likes}
-          />
-        </div>
+      <div className="mx-auto w-full text-sm flex flex-row justify-between sm:gap-4">
+        <Link
+          href={{ pathname: `/profiles/${post.authorUsername}` }}
+          variant={{ underline: false, styled: false }}
+          className="text-neutral font-medium hover:text-neutral-1 hover:dark:text-neutral+1"
+        >
+          {post.authorName}
+        </Link>
+
+        <Likes postId={post.id} title={post.title} initialCount={post.likes} />
       </div>
     </div>
   )

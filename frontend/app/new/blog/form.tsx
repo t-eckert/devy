@@ -12,11 +12,12 @@ import useFormState from "./useFormState"
 import GitHubRepo from "./GitHubRepo"
 
 interface Props {
+  username: string
   repos: GitHubRepo[]
 }
 
-export default function Form({ repos }: Props) {
-  const formState = useFormState(repos)
+export default function Form({ username, repos }: Props) {
+  const formState = useFormState(username, repos)
   const router = useRouter()
   const [showAll, setShowAll] = useState(false)
   const limit = 9
