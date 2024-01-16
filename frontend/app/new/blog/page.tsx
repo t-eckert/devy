@@ -1,4 +1,4 @@
-import Create from "./create"
+import FormGuard from "./form-guard"
 
 export default async function NewBlogPage() {
   return (
@@ -7,7 +7,7 @@ export default async function NewBlogPage() {
         Create a new blog
       </h1>
 
-      <Create />
+      <FormGuard />
     </section>
   )
 }

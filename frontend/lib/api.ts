@@ -25,6 +25,26 @@ const post = async <T>(path: string, body: T): Promise<T> => {
 	return (await response.json()) as T
 }
 
+const submit = async <T>(path: string, body: any): Promise<T> => {
+	const response = await fetch(config.API + path, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+			Authorization: "Bearer 123",
+		},
+		body: Object.keys(body)
+			.map(
+				(key) =>
+					encodeURIComponent(key) +
+					"=" +
+					encodeURIComponent(body[key])
+			)
+			.join("&"),
+	})
+
+	return (await response.json()) as T
+}
+
 const del = async <T>(path: string): Promise<T> => {
 	const response = await fetch(config.API + path, {
 		method: "DELETE",
@@ -36,6 +56,7 @@ const del = async <T>(path: string): Promise<T> => {
 const api = {
 	get,
 	post,
+	submit,
 	delete: del,
 }
 
