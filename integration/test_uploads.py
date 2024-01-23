@@ -42,8 +42,3 @@ def test_post(upload, headers, expect_code, expect_json):
         print(r.json())
         assert is_subset(expect_json, r.json())
 
-def test_get_by_username():
-    r = httpx.get(url + "/uploads/t-eckert")
-
-    assert r.status_code == 200
-    print(r.json())

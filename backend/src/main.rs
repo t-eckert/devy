@@ -42,35 +42,28 @@ async fn main() {
                 .unwrap(),
         )
         .build();
-    let tracer = provider.tracer("devy");
-    let tracer_test = provider.tracer("test");
-
-    let mut a = tracer_test.start("this");
-    dbg!(&a.span_context());
-    a.end();
 
     // Create a tracing layer with the configured tracer
-    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+    // let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
-    // Use the tracing subscriber `Registry`, or any other subscriber
-    // that impls `LookupSpan`
-    let subscriber = Registry::default().with(telemetry);
+    // // Use the tracing subscriber `Registry`, or any other subscriber
+    // // that impls `LookupSpan`
+    // let subscriber = Registry::default().with(telemetry);
 
-    // Trace executed code
-    tracing::subscriber::with_default(subscriber, || {
-        // Spans will be sent to the configured OpenTelemetry exporter
-        let root = span!(tracing::Level::TRACE, "app_start", work_units = 2);
-        let _enter = root.enter();
+    // // Trace executed code
+    // tracing::subscriber::with_default(subscriber, || {
+    //     // Spans will be sent to the configured OpenTelemetry exporter
+    //     let root = span!(tracing::Level::TRACE, "app_start", work_units = 2);
+    //     let _enter = root.enter();
 
-        error!("This event will be logged in the root span.");
-    });
+    //     error!("This event will be logged in the root span.");
+    // });
 
     // Just make a program with just the start the span/end the span.
 
     tracing_subscriber::registry()
         .with(fmt::layer())
         .with(EnvFilter::from_default_env())
-        .with(telemetry)
         .init();
 
     // Connect to the database.

@@ -1,7 +1,5 @@
 from config import url
-from rich import print
 import re
-from framework import is_subset
 
 import httpx
 
