@@ -1,10 +1,16 @@
 #![allow(dead_code)]
-// use opentelemetry::{global, trace::Tracer};
-// use opentelemetry_otlp::WithExportConfig;
+use opentelemetry::global::ObjectSafeSpan;
+use opentelemetry::trace::TracerProvider as _;
+use opentelemetry::{global, trace::Tracer};
+use opentelemetry_otlp::WithExportConfig;
+use opentelemetry_sdk::trace::TracerProvider;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use std::net::SocketAddr;
 use std::time::Duration;
+use tracing::{error, span};
+use tracing_subscriber::layer::SubscriberExt;
+use tracing_subscriber::Registry;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 use upload::{Git, Uploader};
 
@@ -27,21 +33,44 @@ async fn main() {
         }
     }
 
-    // let tracer: opentelemetry_sdk::trace::Tracer = opentelemetry_otlp::new_pipeline()
-    //     .tracing()
-    //     .with_exporter(
-    //         opentelemetry_otlp::new_exporter()
-    //             .tonic()
-    //             .with_endpoint("api.honeycomb.io:443"),
-    //     )
-    //     .install_batch(opentelemetry_sdk::runtime::Tokio)
-    //     .unwrap();
+    // Create a new OpenTelemetry trace pipeline that prints to stdout
+    let provider = TracerProvider::builder()
+        .with_simple_exporter(
+            opentelemetry_otlp::new_exporter()
+                .tonic()
+                .build_span_exporter()
+                .unwrap(),
+        )
+        .build();
+    let tracer = provider.tracer("devy");
+    let tracer_test = provider.tracer("test");
 
-    // let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+    let mut a = tracer_test.start("this");
+    dbg!(&a.span_context());
+    a.end();
+
+    // Create a tracing layer with the configured tracer
+    let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+
+    // Use the tracing subscriber `Registry`, or any other subscriber
+    // that impls `LookupSpan`
+    let subscriber = Registry::default().with(telemetry);
+
+    // Trace executed code
+    tracing::subscriber::with_default(subscriber, || {
+        // Spans will be sent to the configured OpenTelemetry exporter
+        let root = span!(tracing::Level::TRACE, "app_start", work_units = 2);
+        let _enter = root.enter();
+
+        error!("This event will be logged in the root span.");
+    });
+
+    // Just make a program with just the start the span/end the span.
 
     tracing_subscriber::registry()
         .with(fmt::layer())
         .with(EnvFilter::from_default_env())
+        .with(telemetry)
         .init();
 
     // Connect to the database.
