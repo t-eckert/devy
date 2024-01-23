@@ -17,6 +17,6 @@ def test_new_blog():
         "authorization": "Bearer 123",
     })
 
-    assert r.status_code == 201
+    assert r.status_code == 200
 
 
