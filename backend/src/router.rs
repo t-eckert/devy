@@ -23,7 +23,7 @@ pub fn make_router(store: Store) -> Router {
         .route("/auth/login", get(auth::login))
         .route("/auth/callback", get(auth::callback))
         .route("/blogs/:blog_slug", get(blogs::get_blog_by_blog_slug))
-        .route("/blogs/:blog_slug/posts", get(posts::get_by_blog_slug))
+        .route("/blogs/:blog_slug/posts", get(posts::get_by_blog_slug)) // TODO move to blogs mod
         .route(
             "/blogs/:blog_slug/posts/:post_slug",
             get(blogs::get_post_by_blog_and_post_slug),
@@ -37,7 +37,6 @@ pub fn make_router(store: Store) -> Router {
             get(feeds::get_feed_config_for_popular),
         )
         .route("/feeds/:id/config", get(feeds::get_feed_config_by_id))
-        .route("/forms/new-blog", post(forms::new_blog)) // TODO move this to authed routes
         .route(
             "/profiles/:username",
             get(profiles::get_profile_by_username),
@@ -58,16 +57,17 @@ pub fn make_router(store: Store) -> Router {
             "/profiles/:username/likes/ids",
             get(likes::get_ids_by_username),
         )
-        // .route("/uploads/:username", get(uploads::get_by_username))
         .route("/users/:username", get(users::get_by_username))
         .route("/webhooks", post(webhooks::insert));
 
     let authed_routes = Router::new()
         .route("/blogs/:blog_slug", delete(blogs::delete))
+        .route("/forms/new-blog", post(forms::new_blog))
         .route("/likes", post(likes::post_like))
         .route("/likes/:post_id/:profile_id", delete(likes::delete_like))
         .route("/repos", post(repos::insert))
         .route("/uploads", post(uploads::insert))
+        // .route("/uploads/:username", get(uploads::get_by_username))
         .layer(middleware::from_fn(is_authenticated));
 
     let router = Router::new()

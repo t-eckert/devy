@@ -2,6 +2,7 @@ use crate::entities::{Profile, User};
 use oauth2::AccessToken;
 use serde::{Deserialize, Serialize};
 
+/// Session is the data that is stored in the JWT.
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Session {
     user: User,

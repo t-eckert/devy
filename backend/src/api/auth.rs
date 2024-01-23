@@ -12,13 +12,14 @@ use std::collections::HashMap;
 use tracing::error;
 
 /// login is the endpoint that redirects the user to GitHub to login.
-/// It returns a 302 redirect to GitHub's login page.
+/// It returns a 308 redirect to GitHub's login page.
 ///
 /// GET /auth/login
 pub async fn login(State(store): State<Store>) -> Redirect {
     Redirect::permanent(&store.auth_client.login_url())
 }
 
+// TODO break this out into it's own handler in the auth module.
 /// callback is the endpoint that GitHub redirects to after a successful login
 /// It exchanges the code for a token and then fetches the user from GitHub.
 /// If the user doesn't exist in the database, it creates a new user.

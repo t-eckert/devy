@@ -2,13 +2,14 @@ from config import url
 from framework import is_subset
 
 import httpx
+import pytest
 
 path = "/feeds"
 route = url + path
 
 
 def test_get_new_feed_config():
-    r = httpx.get(url + "/feeds/new/config")
+    r = httpx.get(route + "/new/config")
 
     assert r.status_code == 200
     assert is_subset(
@@ -21,7 +22,7 @@ def test_get_new_feed_config():
 
 
 def test_get_popular_feed_config():
-    r = httpx.get(url + "/feeds/popular/config")
+    r = httpx.get(route + "/popular/config")
 
     assert r.status_code == 200
     assert is_subset(
@@ -32,11 +33,27 @@ def test_get_popular_feed_config():
         },
     )
 
+
+def test_get_new_feed_posts():
+    r = httpx.get(route + "/new/posts")
+
+    assert r.status_code == 200
+    assert len(r.json()) == 30
+
+
 def test_get_feed_posts_limit():
     r = httpx.get(route + "/new/posts?limit=10")
 
     assert r.status_code == 200
     assert len(r.json()) == 10
+
+
+@pytest.mark.skip(reason="offset not implemented")
+def test_get_feed_posts_limit_and_offset():
+    r = httpx.get(route + "/new/posts?limit=11?offset=10")
+
+    assert r.status_code == 200
+    assert len(r.json()) == 11
 
 
 def test_get_nonexistent_feed():
