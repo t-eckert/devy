@@ -19,7 +19,6 @@ pub async fn login(State(store): State<Store>) -> Redirect {
     Redirect::permanent(&store.auth_client.login_url())
 }
 
-// TODO break this out into it's own handler in the auth module.
 /// callback is the endpoint that GitHub redirects to after a successful login
 /// It exchanges the code for a token and then fetches the user from GitHub.
 /// If the user doesn't exist in the database, it creates a new user.
@@ -65,7 +64,7 @@ pub async fn callback(
     let user = match user::upsert_from_github_user(&store.pool, github_user.clone()).await {
         Ok(user) => user,
         Err(err) => {
-            eprintln!("Failed to upsert user: {}", err);
+            error!("Failed to upsert user: {}", err);
             return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
@@ -77,7 +76,7 @@ pub async fn callback(
     let profile = match profile::upsert_from_github_user(&store.pool, user_id, github_user).await {
         Ok(profile) => profile,
         Err(err) => {
-            eprintln!("Failed to upsert profile: {}", err);
+            error!("Failed to upsert profile: {}", err);
             return Redirect::to(&store.auth_client.post_auth_redirect_uri);
         }
     };
