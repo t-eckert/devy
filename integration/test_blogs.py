@@ -70,3 +70,21 @@ def test_get_blog_post_by_blog_and_post_slugs():
     assert r.json() == expected
 
 
+@pytest.mark.skip(reason="not implemented")
+def test_create_blog():
+    r = httpx.post(route, data={})
+    print(r.status_code)
+
+
+@pytest.mark.skip(reason="not implemented")
+def test_update_blog():
+    r = httpx.put(route + "/iot-insights", data={})
+    print(r.status_code)
+
+
+@pytest.mark.skip(reason="not implemented")
+def test_delete_blog():
+    # Create blog
+
+    r = httpx.delete(route + "/iot-insights")
+    print(r.status_code)
