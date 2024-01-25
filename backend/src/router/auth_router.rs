@@ -6,16 +6,24 @@ use crate::{
 use axum::{
     extract::{Query, State},
     response::Redirect,
+    routing::get,
 };
 use jsonwebtoken::{encode, EncodingKey, Header};
 use std::collections::HashMap;
 use tracing::error;
 
+pub fn make_router(store: Store) -> axum::Router<Store> {
+    axum::Router::new()
+        .route("/auth/login", get(login))
+        .route("/auth/callback", get(callback))
+        .with_state(store)
+}
+
 /// login is the endpoint that redirects the user to GitHub to login.
 /// It returns a 308 redirect to GitHub's login page.
 ///
 /// GET /auth/login
-pub async fn login(State(store): State<Store>) -> Redirect {
+async fn login(State(store): State<Store>) -> Redirect {
     Redirect::permanent(&store.auth_client.login_url())
 }
 
@@ -25,7 +33,7 @@ pub async fn login(State(store): State<Store>) -> Redirect {
 /// It then creates a session for the user and returns a JWT.
 ///
 /// GET /auth/callback
-pub async fn callback(
+async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Redirect {

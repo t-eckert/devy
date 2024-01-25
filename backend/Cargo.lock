@@ -490,6 +490,7 @@ dependencies = [
  "serde_with",
  "sqlx",
  "tokio 1.33.0",
+ "tower",
  "tower-http",
  "tracing",
  "tracing-honeycomb",

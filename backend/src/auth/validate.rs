@@ -2,20 +2,17 @@ use axum::{
     extract::Request, http, http::HeaderMap, http::HeaderValue, middleware::Next,
     response::Response,
 };
-use jsonwebtoken::decode;
-
-use super::Session;
 
 pub async fn is_authenticated(headers: HeaderMap, request: Request, next: Next) -> Response {
-    let auth_header = match get_header(headers) {
-        Ok(header) => header,
-        Err(response) => return response,
-    };
+    // let auth_header = match get_header(headers) {
+    //     Ok(header) => header,
+    //     Err(response) => return response,
+    // };
 
-    let _ = match get_session(auth_header) {
-        Ok(_) => (),
-        Err(response) => return response,
-    };
+    // let _ = match get_session(auth_header) {
+    //     Ok(_) => (),
+    //     Err(response) => return response,
+    // };
 
     let response = next.run(request).await;
 

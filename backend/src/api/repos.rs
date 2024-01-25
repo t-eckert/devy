@@ -6,7 +6,8 @@ use axum::{
     Json,
 };
 
-pub async fn insert(
+///
+pub async fn upsert(
     State(store): State<Store>,
     ExtractJson(repo): ExtractJson<repo::RepoForUpsert>,
 ) -> Result<Json<Repo>> {
