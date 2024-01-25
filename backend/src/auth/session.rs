@@ -11,6 +11,7 @@ pub struct Session {
 }
 
 impl Session {
+    /// Creates a new Session.
     pub fn new(user: User, profile: Profile, access_token: AccessToken) -> Self {
         Self {
             user,

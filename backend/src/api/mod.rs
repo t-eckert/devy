@@ -1,5 +1,3 @@
-pub mod auth;
-pub mod blogs;
 pub mod error;
 pub mod feeds;
 pub mod forms;

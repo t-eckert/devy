@@ -1,18 +1,11 @@
 #![allow(dead_code)]
-use opentelemetry::global::ObjectSafeSpan;
-use opentelemetry::trace::TracerProvider as _;
-use opentelemetry::{global, trace::Tracer};
-use opentelemetry_otlp::WithExportConfig;
-use opentelemetry_sdk::trace::TracerProvider;
 use sqlx::postgres::PgPoolOptions;
+use sqlx::PgPool;
 use std::env;
 use std::net::SocketAddr;
 use std::time::Duration;
-use tracing::{error, span};
 use tracing_subscriber::layer::SubscriberExt;
-use tracing_subscriber::Registry;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
-use upload::{Git, Uploader};
 
 mod api;
 mod auth;
@@ -24,6 +17,24 @@ mod upload;
 
 #[tokio::main]
 async fn main() {
+    setup_env();
+    setup_tracing();
+
+    let pool = setup_db().await;
+    let auth_client = auth::setup_client();
+    let uploader = upload::setup_uploader();
+    let store = store::Store::new(pool, auth_client, uploader);
+
+    let router = router::make_router(store);
+
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
+    tracing::debug!("listening on {}", addr);
+
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    axum::serve(listener, router).await.unwrap();
+}
+
+fn setup_env() {
     match dotenvy::dotenv() {
         Ok(_) => {
             tracing::debug!("Loaded .env file")
@@ -32,16 +43,18 @@ async fn main() {
             tracing::warn!("Failed to load .env file");
         }
     }
+}
 
+fn setup_tracing() {
     // Create a new OpenTelemetry trace pipeline that prints to stdout
-    let provider = TracerProvider::builder()
-        .with_simple_exporter(
-            opentelemetry_otlp::new_exporter()
-                .tonic()
-                .build_span_exporter()
-                .unwrap(),
-        )
-        .build();
+    // let provider = TracerProvider::builder()
+    //     .with_simple_exporter(
+    //         opentelemetry_otlp::new_exporter()
+    //             .tonic()
+    //             .build_span_exporter()
+    //             .unwrap(),
+    //     )
+    //     .build();
 
     // Create a tracing layer with the configured tracer
     // let telemetry = tracing_opentelemetry::layer().with_tracer(tracer);
@@ -65,8 +78,9 @@ async fn main() {
         .with(fmt::layer())
         .with(EnvFilter::from_default_env())
         .init();
+}
 
-    // Connect to the database.
+async fn setup_db() -> PgPool {
     let db_connection_str = env::var("DATABASE_URL").expect("DATABASE_URL not set");
     let pool = PgPoolOptions::new()
         .max_connections(5)
@@ -76,29 +90,5 @@ async fn main() {
         .expect("Failed to connect to database");
     sqlx::migrate!().run(&pool).await.unwrap();
 
-    // Create the auth client
-    let client_id = env::var("CLIENT_ID").expect("CLIENT_ID not set");
-    let client_secret = env::var("CLIENT_SECRET").expect("CLIENT_SECRET not set");
-    let post_auth_redirect_uri = env::var("POST_AUTH_URI").expect("POST_AUTH_URI not set");
-    let callback_url = env::var("CALLBACK_URL").expect("CALLBACK_URL not set");
-    let auth_client = auth::Client::new(
-        client_id,
-        client_secret,
-        post_auth_redirect_uri,
-        callback_url,
-    );
-
-    // Create the uploader.
-    let git_path = env::var("GIT_PATH").expect("GIT_PATH not set");
-    let git = Git::new(git_path).expect("Unable to create git client");
-    let uploader = Uploader::new(git);
-
-    let store = store::Store::new(pool, auth_client, uploader);
-
-    let router = router::make_router(store);
-
-    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
-    tracing::debug!("listening on {}", addr);
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    axum::serve(listener, router).await.unwrap();
+    pool
 }
