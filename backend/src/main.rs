@@ -7,7 +7,6 @@ use std::time::Duration;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
-mod api;
 mod auth;
 mod entities;
 mod forms;
