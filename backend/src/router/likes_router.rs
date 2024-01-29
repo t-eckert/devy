@@ -5,7 +5,7 @@ use crate::{
 };
 use axum::{
     extract::{Json as ExtractJson, Path, State},
-    routing::{delete, get, post},
+    routing::{delete, post},
     Json,
 };
 use uuid::Uuid;
@@ -14,7 +14,6 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
         .route("/likes", post(post_like))
         .route("/likes/:post_id/:profile_id", delete(delete_like))
-        .route("/profiles/:username/likes/ids", get(get_ids_by_username))
         .with_state(store)
 }
 
