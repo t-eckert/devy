@@ -3,7 +3,7 @@ use axum::{
     response::Response,
 };
 
-pub async fn is_authenticated(headers: HeaderMap, request: Request, next: Next) -> Response {
+pub async fn is_authenticated(_headers: HeaderMap, request: Request, next: Next) -> Response {
     // let auth_header = match get_header(headers) {
     //     Ok(header) => header,
     //     Err(response) => return response,

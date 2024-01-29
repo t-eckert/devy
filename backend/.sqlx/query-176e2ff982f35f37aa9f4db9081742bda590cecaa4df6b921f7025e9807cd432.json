@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\nINSERT INTO \"repo\" (blog_id, url, github_id, github_name, metadata)\nVALUES ($1, $2, $3, $4, $5)\nRETURNING \n\tid, blog_id, url, github_id, github_name, metadata,\n\tto_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\n",
+  "query": "-- $1: id\n-- $2: metadata\n\nINSERT INTO \"repo\" (id, metadata)\nVALUES ($1, $2)\nRETURNING \n\tid,\n\tblog_id, \n\turl,\n\tgithub_id,\n\tgithub_name, \n\tmetadata,\n\tto_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at;\n\n",
   "describe": {
     "columns": [
       {
@@ -47,9 +47,6 @@
     "parameters": {
       "Left": [
         "Uuid",
-        "Text",
-        "Int8",
-        "Text",
         "Jsonb"
       ]
     },
@@ -64,5 +61,5 @@
       null
     ]
   },
-  "hash": "5bafff08683adb66c20a2c79f3e181885af4487f924da525fe92f9f377278f57"
+  "hash": "176e2ff982f35f37aa9f4db9081742bda590cecaa4df6b921f7025e9807cd432"
 }
