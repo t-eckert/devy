@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query"
 
 import fetchFeed from "@/lib/feed"
+import Shoulder from "@/components/shoulder"
 
-import MainFeed from "./main.feed"
-import Shoulder from "./shoulder"
+import MainFeed from "@/components/main-feed"
 
 const newId = "5941b29d-246d-4897-a69e-3201f6ad8715"
 
