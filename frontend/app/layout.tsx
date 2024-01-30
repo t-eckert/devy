@@ -7,9 +7,9 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { CaptureSession } from "@/lib/auth"
 import QueryProvider from "@/lib/query-provider"
 
-import Header from "./header"
-import Footer from "./footer"
-import ThemeProvider from "./theme.provider"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import ThemeProvider from "@/components/theme-provider"
 import VersionAnnouncement from "@/components/version-announcement"
 
 const inter = Inter({ subsets: ["latin"] })
