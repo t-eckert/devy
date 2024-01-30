@@ -1,35 +1,19 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
-import fetchFeed from "@/lib/feed"
 import Shoulder from "@/components/shoulder"
-
 import MainFeed from "@/components/main-feed"
 
-const newId = "5941b29d-246d-4897-a69e-3201f6ad8715"
+import data from "./data"
 
 export default async function HomePage() {
-  const queryClient = new QueryClient()
-
-  await queryClient.prefetchQuery({
-    queryKey: ["feed", "new"],
-    queryFn: () => fetchFeed("new"),
-  })
-
-  await queryClient.prefetchQuery({
-    queryKey: ["feed", "popular"],
-    queryFn: () => fetchFeed("popular"),
-  })
+  const { id, queryClient } = await data()
 
   return (
     <section className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <MainFeed defaultSelected={newId} />
+        <MainFeed defaultSelected={id} />
       </HydrationBoundary>
-      <Shoulder></Shoulder>
+      <Shoulder />
     </section>
   )
 }
