@@ -1,34 +1,12 @@
 "use client"
 
-import { useQuery } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
-
 import Tabs from "@/components/tabs"
-
-import useSession from "@/lib/auth"
-import useStore from "@/lib/useStore"
-import api from "@/lib/api"
-import { Upload } from "@/models"
 import Card from "@/components/card"
 
+import useUploadsState from "./useUploadsState"
+
 export default function Uploads() {
-  const session = useStore(useSession, (session) => session)
-  const username = session?.session?.user?.username
-
-  const { data: uploads } = useQuery({
-    queryKey: ["uploads", username],
-    queryFn: () => {
-      if (!username) return Promise.resolve([])
-      return api.get<Upload[]>(`/v1/uploads/${username}`, 30)
-    },
-  })
-
-  const [selected, setSelected] = useState<string>("")
-  useEffect(() => {
-    if (selected === "" && uploads) {
-      setSelected(uploads[0]?.id || "")
-    }
-  }, [uploads, selected])
+  const { uploads, selected, setSelected } = useUploadsState()
 
   return (
     <section className="w-full flex flex-col md:flex-row items-start gap-4">

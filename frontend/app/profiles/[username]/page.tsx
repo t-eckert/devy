@@ -3,6 +3,8 @@ import { User, Blog, Post, Profile } from "@/models"
 import PostCollection from "@/components/post-collection"
 import MemberCard from "@/components/member-card"
 
+import data from "./data"
+
 interface Props {
   params: {
     username: string
@@ -10,20 +12,7 @@ interface Props {
 }
 
 export default async function ProfilePage({ params }: Props) {
-  const profile = await api.get<Profile>(`/v1/profiles/${params.username}`, 60)
-  const user = await api.get<User>(`/v1/users/${params.username}`, 60)
-  const blogs = await api.get<Blog[]>(
-    `/v1/profiles/${params.username}/blogs`,
-    60
-  )
-  const posts = await api.get<Post[]>(
-    `/v1/profiles/${params.username}/posts`,
-    60
-  )
-  const likes = await api.get<Post[]>(
-    `/v1/profiles/${params.username}/likes`,
-    60
-  )
+  const { profile, user, blogs, posts, likes } = await data(params.username)
 
   return (
     <main className="mx-auto my-8 flex flex-col items-center sm:flex-row sm:items-start px-2 w-full max-w-6xl gap-4 sm:gap-16">
