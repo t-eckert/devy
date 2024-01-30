@@ -1,4 +1,4 @@
-import Uploads from "./uploads"
+import Uploads from "@/components/uploads"
 
 export default function UploadsPage() {
   return (
