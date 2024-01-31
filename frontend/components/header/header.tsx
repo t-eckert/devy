@@ -1,7 +1,7 @@
-import Link from "@/components/link"
+import Link from "@/components/elements/link"
 import Logomark from "@/components/logomark"
 
-import Nav from "@/components/nav"
+import Nav from "./nav"
 
 export default function Header() {
 	return (

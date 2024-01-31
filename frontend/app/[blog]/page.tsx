@@ -1,7 +1,5 @@
-import { Blog, Post } from "@/models"
-import api from "@/lib/api"
+import BlogPosts from "@/components/post/blog-posts"
 
-import BlogPosts from "@/components/blog-posts"
 import data from "./data"
 
 interface Props {

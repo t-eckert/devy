@@ -1,7 +1,7 @@
 import { VariantProps, cva } from "cva"
 import NextLink, { LinkProps } from "next/link"
 
-import { styles as buttonStyles } from "@/components/button"
+import { styles as buttonStyles } from "@/components/elements/button"
 
 interface Props extends LinkProps {
 	children?: React.ReactNode

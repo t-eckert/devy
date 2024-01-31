@@ -1,4 +1,4 @@
-import NewBlogForm from "@/components/new-blog-form"
+import NewBlogForm from "@/components/forms/new-blog-form"
 
 export default async function NewBlogPage() {
   return (

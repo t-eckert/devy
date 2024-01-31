@@ -1,8 +1,8 @@
 "use client"
 
-import Likes from "@/components/likes"
-import Link from "@/components/link"
-import RelativeDate from "@/components/relative-date"
+import Likes from "@/components/post/likes"
+import Link from "@/components/elements/link"
+import RelativeDate from "@/components/utils/relative-date"
 
 import { Post } from "@/models"
 

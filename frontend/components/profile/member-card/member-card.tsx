@@ -1,7 +1,6 @@
 import Image from "next/image"
 
-import Link from "@/components/link"
-
+import Link from "@/components/elements/link"
 import { Blog, Profile, User } from "@/models"
 
 interface Props {

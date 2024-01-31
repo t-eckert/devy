@@ -1,4 +1,4 @@
-import Link from "@/components/link"
+import Link from "@/components/elements/link"
 import Logomark from "@/components/logomark"
 
 export default function Footer() {

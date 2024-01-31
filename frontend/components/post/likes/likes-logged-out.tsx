@@ -1,5 +1,5 @@
 import { HeartIcon } from "@radix-ui/react-icons"
-import Counter from "@/components/counter"
+import Counter from "@/components/utils/counter"
 
 export default function LikesLoggedOut({ count }: { count: number }) {
 	return (

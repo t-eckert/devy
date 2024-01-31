@@ -1,5 +1,5 @@
 import { Cross2Icon } from "@radix-ui/react-icons"
-import Link from "../link"
+import Link from "@/components/elements/link"
 
 interface Props {
 	version: string

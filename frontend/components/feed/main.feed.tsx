@@ -3,8 +3,8 @@
 import React, { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import Tabs from "@/components/tabs"
-import PostCollection from "@/components/post-collection"
+import Tabs from "@/components/elements/tabs"
+import PostCollection from "@/components/post/post-collection"
 
 import fetchFeed from "@/lib/feed"
 

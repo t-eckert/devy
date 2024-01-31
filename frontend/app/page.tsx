@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
 import Shoulder from "@/components/shoulder"
-import MainFeed from "@/components/main-feed"
+import MainFeed from "@/components/feed"
 
 import data from "./data"
 

@@ -4,8 +4,8 @@ import { useState } from "react"
 import * as RadioGroup from "@radix-ui/react-radio-group"
 import { useRouter } from "next/navigation"
 
-import Input from "@/components/input"
-import Button from "@/components/button"
+import Input from "@/components/elements/input"
+import Button from "@/components/elements/button"
 
 import useFormState from "./useFormState"
 import GitHubRepo from "./GitHubRepo"

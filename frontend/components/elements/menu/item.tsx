@@ -1,6 +1,6 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 
-import Link from "@/components/link"
+import Link from "@/components/elements/link"
 
 type SeparatorItem = { type: "separator" }
 type LinkItem = {
