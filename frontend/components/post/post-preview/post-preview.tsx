@@ -1,7 +1,7 @@
 import Post from "@/models/Post"
-import Link from "@/components/link"
-import Likes from "@/components/likes"
-import RelativeDate from "@/components/relative-date"
+import Link from "@/components/elements/link"
+import Likes from "@/components/post/likes"
+import RelativeDate from "@/components/utils/relative-date"
 
 interface Props {
 	post: Post

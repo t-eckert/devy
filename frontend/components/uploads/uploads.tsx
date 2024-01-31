@@ -1,7 +1,7 @@
 "use client"
 
-import Tabs from "@/components/tabs"
-import Card from "@/components/card"
+import Tabs from "@/components/elements/tabs"
+import Card from "@/components/elements/card"
 
 import useUploadsState from "./useUploadsState"
 

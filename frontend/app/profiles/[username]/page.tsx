@@ -1,7 +1,5 @@
-import api from "@/lib/api"
-import { User, Blog, Post, Profile } from "@/models"
-import PostCollection from "@/components/post-collection"
-import MemberCard from "@/components/member-card"
+import PostCollection from "@/components/post/post-collection"
+import MemberCard from "@/components/profile/member-card"
 
 import data from "./data"
 

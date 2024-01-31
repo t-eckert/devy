@@ -1,6 +1,6 @@
 "use client"
 import { HamburgerMenuIcon } from "@radix-ui/react-icons"
-import Menu, { Item } from "@/components/menu"
+import Menu, { Item } from "@/components/elements/menu"
 import config from "@/config"
 import useSession from "@/lib/auth/useSession"
 import useStore from "@/lib/useStore"

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
 
 import { useTheme } from "next-themes"
-import Menu, { Item } from "@/components/menu"
+import Menu, { Item } from "@/components/elements/menu"
 
 export default function NavThemeToggle() {
   const [mounted, setMounted] = useState(false)
@@ -33,7 +33,7 @@ export default function NavThemeToggle() {
     {
       type: "button",
       label: "System",
-      onClick: () => {},
+      onClick: () => { },
     },
   ]
 

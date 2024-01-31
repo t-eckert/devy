@@ -9,8 +9,8 @@ import QueryProvider from "@/lib/query-provider"
 
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import ThemeProvider from "@/components/theme-provider"
-import VersionAnnouncement from "@/components/version-announcement"
+import ThemeProvider from "@/components/utils/theme-provider"
+import VersionAnnouncement from "@/components/utils/version-announcement"
 
 const inter = Inter({ subsets: ["latin"] })
 

@@ -1,5 +1,5 @@
 import Markdown from "@/components/markdown"
-import PostHeader from "@/components/post-header"
+import PostHeader from "@/components/post/post-header"
 import Post from "@/models/Post"
 
 import data from "./data"

@@ -2,9 +2,8 @@
 
 import { GitHubLogoIcon } from "@radix-ui/react-icons"
 
-import Link from "@/components/link"
-import Avatar from "@/components/avatar"
-
+import Link from "@/components/elements/link"
+import Avatar from "@/components/elements/avatar"
 import useStore from "@/lib/useStore"
 import useSession from "@/lib/auth/useSession"
 import type Session from "@/lib/auth/Session"
