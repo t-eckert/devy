@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import Markdown from "./markdown"
 
 const meta = {
-	title: "Components/Markdown",
+	title: "Markdown",
 	component: Markdown,
 } satisfies Meta<typeof Markdown>
 

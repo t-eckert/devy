@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import Link from "./link"
 
 const meta = {
-	title: "Components/Link",
+	title: "Elements/Link",
 	component: Link,
 } satisfies Meta<typeof Link>
 

@@ -32,7 +32,7 @@ function Likes({ hasUser, count, initialLiked }: Props) {
 }
 
 const meta = {
-	title: "Components/Likes",
+	title: "Post/Likes",
 	component: Likes,
 } satisfies Meta<typeof Likes>
 

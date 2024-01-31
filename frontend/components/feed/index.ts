@@ -1,2 +1,2 @@
-import MainFeed from "./main.feed"
-export default MainFeed
+import Feed from "./feed"
+export default Feed

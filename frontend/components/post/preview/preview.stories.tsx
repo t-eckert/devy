@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import PostPreview from "./post-preview"
+import PostPreview from "./preview"
 
 const meta = {
-	title: "Components/PostPreview",
+	title: "Post/Preview",
 	component: PostPreview,
 } satisfies Meta<typeof PostPreview>
 
