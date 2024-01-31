@@ -1,9 +1,8 @@
 import Markdown from "@/components/markdown"
-
-import PostHeader from "./post.header"
-
+import PostHeader from "@/components/post-header"
 import Post from "@/models/Post"
-import api from "@/lib/api"
+
+import data from "./data"
 
 interface Props {
   params: {
@@ -13,10 +12,7 @@ interface Props {
 }
 
 export default async function Post({ params }: Props) {
-  const post = await api.get<Post>(
-    `/v1/blogs/${params.blog}/posts/${params.post}`,
-    600
-  )
+  const { post } = await data(params.blog, params.post)
 
   return (
     <main className="mx-auto my-4 flex flex-col px-3 py-4 sm:py-12 w-full max-w-6xl gap-4 sm:gap-2">
