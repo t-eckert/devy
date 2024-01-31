@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import Menu from "./menu"
 
 const meta = {
-	title: "Components/Menu",
+	title: "Elements/Menu",
 	component: Menu,
 } satisfies Meta<typeof Menu>
 

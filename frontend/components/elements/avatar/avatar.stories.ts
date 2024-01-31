@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import Avatar from "./avatar"
 
 const meta = {
-	title: "Components/Avatar",
+	title: "Elements/Avatar",
 	component: Avatar,
 } satisfies Meta<typeof Avatar>
 

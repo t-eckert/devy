@@ -7,7 +7,7 @@ interface Props {
 	post: Post
 }
 
-export default function PostPreview({ post }: Props) {
+export default function Preview({ post }: Props) {
 	return (
 		<section className={wrapper}>
 			<div className="grid grid-rows-3 grid-cols-[max-content_1fr] gap-x-8">
