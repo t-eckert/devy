@@ -1,5 +1,3 @@
-import api from "@/lib/api"
-
 export default async function FollowersPage() {
   return (
     <div>

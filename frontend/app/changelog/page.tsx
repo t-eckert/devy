@@ -1,15 +1,9 @@
 import Markdown from "@/components/markdown"
 
+import data from "./data"
+
 export default async function ChangelogPage() {
-  const res = await fetch(
-    "https://raw.githubusercontent.com/t-eckert/devy/main/CHANGELOG.md",
-    {
-      next: {
-        revalidate: 3600,
-      },
-    }
-  )
-  const changelog = await res.text()
+  const { changelog } = await data()
 
   return (
     <main className="mx-auto flex flex-col px-3 py-6 sm:py-12 w-full max-w-2xl gap-4 sm:gap-2">

@@ -1,4 +1,4 @@
-import FormGuard from "./form-guard"
+import NewBlogForm from "@/components/new-blog-form"
 
 export default async function NewBlogPage() {
   return (
@@ -7,7 +7,7 @@ export default async function NewBlogPage() {
         Create a new blog
       </h1>
 
-      <FormGuard />
+      <NewBlogForm />
     </section>
   )
 }
