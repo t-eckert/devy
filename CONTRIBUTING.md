@@ -1,5 +1,7 @@
 # Contributing
 
+## Running Integration Tests
+
 ## Building the Backend
 
 Before a build can be done for the backend, the command `cargo sqlx prepare`
