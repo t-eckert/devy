@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
 import Shoulder from "@/components/shoulder"
-import MainFeed from "@/components/feed"
+import Feed from "@/components/feed"
 
 import data from "./data"
 
@@ -11,7 +11,7 @@ export default async function HomePage() {
   return (
     <section className="mx-auto my-4 flex flex-col sm:flex-row justify-between px-2 w-full max-w-6xl gap-4 sm:gap-2">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <MainFeed defaultSelected={id} />
+        <Feed defaultSelected={id} />
       </HydrationBoundary>
       <Shoulder />
     </section>

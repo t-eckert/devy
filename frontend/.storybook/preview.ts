@@ -22,7 +22,7 @@ const preview: Preview = {
       React.createElement("div", {
         className: [
           inter.className,
-          "text-neutral-low dark:text-neutral-light",
+          "bg-neutral+3 dark:bg-neutral-2 text-neutral-2 dark:text-neutral+2",
         ].join(" "),
         children: React.createElement(Story),
       }),
