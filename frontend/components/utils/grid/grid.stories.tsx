@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
 import Grid from "./grid"
-import { d } from "@tanstack/react-query-devtools/build/legacy/devtools-c71c5f06"
 
 const meta = {
 	title: "Utils/Grid",
