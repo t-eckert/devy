@@ -1,4 +1,4 @@
-import BlogPosts from "@/components/post/blog-posts"
+import Collection from "@/components/post/collection"
 
 import data from "./data"
 
@@ -19,7 +19,7 @@ export default async function BlogPage({ params }: Props) {
         </header>
         <section className="flex flex-col gap-2">
           <h2 className="font-medium text-xl">Posts</h2>
-          <BlogPosts posts={posts} />
+          <Collection posts={posts} />
         </section>
       </main>
     </>

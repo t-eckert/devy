@@ -71,6 +71,9 @@ print(x)
 \`\`\`
 	`,
 	},
+	parameters: {
+		layout: "fullscreen",
+	},
 }
 
 export const ComputingMachineryAndIntelligence: Story = {
@@ -95,6 +98,9 @@ Alan Turing's 1950 paper "Computing Machinery and Intelligence" is a seminal wor
 In summary, Alan Turing's 1950 paper "Computing Machinery and Intelligence" is a foundational work that introduced the concept of the Turing Test as a way to assess machine intelligence. It shifted the focus of discussions about artificial intelligence from abstract philosophical questions to practical and testable criteria for machine behavior.
 `,
 	},
+	parameters: {
+		layout: "fullscreen",
+	},
 }
 
 export const Code: Story = {
@@ -113,5 +119,8 @@ x = 5
 print(x)
 \`\`\`
 `,
+	},
+	parameters: {
+		layout: "fullscreen",
 	},
 }

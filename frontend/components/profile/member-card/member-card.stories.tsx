@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import MemberCard from "./member-card"
 
 const meta = {
-	title: "Components/MemberCard",
+	title: "Profile/MemberCard",
 	component: MemberCard,
 } satisfies Meta<typeof MemberCard>
 
