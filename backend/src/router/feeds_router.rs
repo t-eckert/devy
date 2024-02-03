@@ -22,13 +22,9 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
         .with_state(store)
 }
 
-// ================================================================================
-// POSTS
-// ================================================================================
-
 /// Get posts by feed id.
 /// GET /feeds/:feed_id/posts
-pub async fn get_posts_by_feed_id(
+async fn get_posts_by_feed_id(
     State(store): State<Store>,
     Path(feed_id): Path<Uuid>,
     Query(params): Query<HashMap<String, String>>,
@@ -54,7 +50,7 @@ pub async fn get_posts_by_feed_id(
 
 /// Get posts for the "new" feed.
 /// GET /feeds/new/posts
-pub async fn get_posts_for_new(
+async fn get_posts_for_new(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<Post>>> {
@@ -77,7 +73,7 @@ pub async fn get_posts_for_new(
 
 /// Get posts for the "popular" feed.
 /// GET /feeds/popular/posts
-pub async fn get_posts_for_popular(
+async fn get_posts_for_popular(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<Post>>> {
@@ -98,13 +94,9 @@ pub async fn get_posts_for_popular(
     ))
 }
 
-// ================================================================================
-// FEED CONFIGS
-// ================================================================================
-
 /// Get the feed config by a feed id.
 /// GET /feeds/:feed_id/config
-pub async fn get_feed_config_by_id(
+async fn get_feed_config_by_id(
     State(store): State<Store>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<FeedConfig>> {
@@ -113,7 +105,7 @@ pub async fn get_feed_config_by_id(
 
 /// Get the feed config for the "new" feed.
 /// GET /feeds/new/config
-pub async fn get_feed_config_for_new() -> Result<Json<FeedConfig>> {
+async fn get_feed_config_for_new() -> Result<Json<FeedConfig>> {
     Ok(Json(FeedConfig::new(
         uuid!("5941b29d-246d-4897-a69e-3201f6ad8715"),
         "New".to_string(),
@@ -122,7 +114,7 @@ pub async fn get_feed_config_for_new() -> Result<Json<FeedConfig>> {
 
 /// Get the feed config for the "popular" feed.
 /// GET /feeds/popular/config
-pub async fn get_feed_config_for_popular() -> Result<Json<FeedConfig>> {
+async fn get_feed_config_for_popular() -> Result<Json<FeedConfig>> {
     Ok(Json(FeedConfig::new(
         uuid!("e9173695-1b31-465f-9e79-a80224be44ad"),
         "Popular".to_string(),

@@ -1,8 +1,4 @@
-use crate::{
-    auth::Session,
-    entities::{profile, user},
-    store::Store,
-};
+use crate::store::Store;
 use axum::{
     extract::{Query, State},
     response::Redirect,
@@ -19,20 +15,21 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
         .with_state(store)
 }
 
+/// GET /auth/login
+///
 /// login is the endpoint that redirects the user to GitHub to login.
 /// It returns a 308 redirect to GitHub's login page.
-///
-/// GET /auth/login
 async fn login(State(store): State<Store>) -> Redirect {
     Redirect::permanent(&store.auth_client.login_url())
 }
 
+/// GET /auth/callback
+///
 /// callback is the endpoint that GitHub redirects to after a successful login
 /// It exchanges the code for a token and then fetches the user from GitHub.
 /// If the user doesn't exist in the database, it creates a new user.
 /// It then creates a session for the user and returns a JWT.
-///
-/// GET /auth/callback
+// TODO: this is a bug fest. It needs to be reworked.
 async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
@@ -46,57 +43,17 @@ async fn callback(
         }
     };
 
-    // Exchange the code for a token.
-    let access_token = match store.auth_client.exchange_code(code.to_string()).await {
-        Ok(token) => token,
-        Err(err) => {
-            error!("Failed to exchange code: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
-        }
-    };
-
-    // Fetch the GitHub user.
-    let github_user = match store
+    let session = store
         .auth_client
-        .fetch_github_user(access_token.clone())
+        .handle_callback(&store.pool, code)
         .await
-    {
-        Ok(user) => user,
-        Err(err) => {
-            error!("Failed to fetch GitHub user: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
-        }
-    };
-
-    // Upsert the user.
-    let user = match user::upsert_from_github_user(&store.pool, github_user.clone()).await {
-        Ok(user) => user,
-        Err(err) => {
-            error!("Failed to upsert user: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
-        }
-    };
-
-    // Get the user ID.
-    let user_id = user.id.clone().to_string();
-
-    // Upsert the profile.
-    let profile = match profile::upsert_from_github_user(&store.pool, user_id, github_user).await {
-        Ok(profile) => profile,
-        Err(err) => {
-            error!("Failed to upsert profile: {}", err);
-            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
-        }
-    };
-
-    // Create a session.
-    let session = Session::new(user, profile, access_token.clone());
+        .unwrap();
 
     // Encode the session as a JWT.
     let jwt = match encode(
         &Header::default(),
         &session,
-        &EncodingKey::from_secret(access_token.secret().as_ref()), // QUESTION: Is this the right key?
+        &EncodingKey::from_secret("85b07513-a8f8-45d9-88ae-4e2cbabe72a5".as_bytes()), // TODO generate this key. I don't use it to validate anything yet. Just a placeholder.
     ) {
         Ok(token) => token,
         Err(err) => {
