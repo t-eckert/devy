@@ -1,12 +1,14 @@
 use super::{
     error::{Error, Result},
-    GitHubUser,
+    GitHubUser, Session,
 };
+use crate::entities::{profile, user};
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
 };
 use reqwest;
+use sqlx::PgPool;
 
 const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
 const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
@@ -50,6 +52,26 @@ impl Client {
             .url();
 
         authorize_url.to_string()
+    }
+
+    /// Handles the callback from GitHub after the user has authorized the app.
+    /// This function exchanges the code for a token and then fetches the user
+    /// from GitHub. If the user doesn't exist in the database, it creates a new
+    /// user. It returns the user's session.
+    pub async fn handle_callback(&self, pool: &PgPool, code: &String) -> Result<Session> {
+        let access_token = self.exchange_code(code.to_string()).await.unwrap();
+
+        let github_user = self.fetch_github_user(access_token.clone()).await.unwrap();
+        let user = user::upsert_from_github_user(pool, github_user.clone())
+            .await
+            .unwrap();
+
+        let profile =
+            profile::upsert_from_github_user(pool, user.id.clone().to_string(), github_user)
+                .await
+                .unwrap();
+
+        Ok(Session::new(user, profile, access_token))
     }
 
     // Exchange the code for a token.

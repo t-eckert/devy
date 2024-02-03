@@ -1,2 +1,2 @@
-import PostCollection from "./post-collection"
-export default PostCollection
+import Collection from "./collection"
+export default Collection
