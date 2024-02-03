@@ -12,6 +12,13 @@ serve-frontend:
 serve-storybook:
 	@cd frontend && npm run storybook
 
+# Site
+build-site:
+	@cd site && npm run build
+
+serve-site:
+	@cd site && npm run dev
+
 # Backend
 build-backend:
 	@cd backend && cargo build --release
@@ -33,7 +40,7 @@ run-test-db: build-test-db
 	@docker run --rm\
 		--name devy-test-db \
 		-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
-		-p 5432:5432 -d devy-test-db:latest 
+		-p 5432:5432 -d devy-test-db:latest
 
 access-local-db:
 	@docker exec -it devy-test-db psql -U postgres
@@ -45,7 +52,7 @@ run-pgadmin:
 		-d dpage/pgadmin4:latest
 
 # Integration Tests
-run-integration-tests: 
+run-integration-tests:
 	@cd integration && \
 		python3 -m pip install -r requirements.txt && \
 		python3 -m pytest -v
