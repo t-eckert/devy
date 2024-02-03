@@ -1,7 +1,11 @@
 <script lang="ts">
+	import type { PageData } from "./$types"
 	import Main from "$lib/layout/main.svelte"
+	import Json from "$lib/utils/json.svelte"
+
+	export let data: PageData
 </script>
 
 <Main>
-	<h1>Homepage</h1>
+	<Json {data} />
 </Main>
