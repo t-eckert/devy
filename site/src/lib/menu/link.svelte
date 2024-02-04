@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { HamburgerMenu } from 'radix-icons-svelte';
-	import { createDropdownMenu, melt } from '@melt-ui/svelte';
-	const {
-		elements: { menu, item, trigger, arrow }
-	} = createDropdownMenu();
-
-	export let href = '#';
+	import { DropdownMenu } from "bits-ui"
+	export let href = "#"
 </script>
 
-<a {href}><slot /></a>
+<DropdownMenu.Item
+	class="text-sm mx-1 px-2 py-0.5 group flex flex-row rounded items-center pointer-cursor justify-between hover:bg-zinc-100"
+>
+	<a {href} class="w-full"><slot /></a>
+</DropdownMenu.Item>

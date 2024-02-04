@@ -1,5 +1,5 @@
 <script lang="ts">
-	let theme = "dark"
+	let theme = ""
 </script>
 
 <div class={theme}>
