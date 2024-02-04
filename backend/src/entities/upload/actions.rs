@@ -52,10 +52,12 @@ pub async fn get_by_repo(pool: &PgPool, repo: &str) -> Result<Upload> {
     )
 }
 
-// pub async fn get_by_username(pool: &PgPool, username: &str) -> Result<Vec<Upload>> {
-//     Ok(
-//         sqlx::query_file_as!(Upload, "src/entities/upload/queries/get_by_username.sql", username)
-//             .fetch_all(pool)
-//             .await?,
-//     )
-// }
+pub async fn get_by_username(pool: &PgPool, username: &str) -> Result<Vec<Upload>> {
+    Ok(sqlx::query_file_as!(
+        Upload,
+        "src/entities/upload/queries/get_by_username.sql",
+        username
+    )
+    .fetch_all(pool)
+    .await?)
+}

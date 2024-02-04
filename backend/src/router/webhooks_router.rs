@@ -12,7 +12,7 @@ pub fn make_router(store: Store) -> Router<Store> {
         .with_state(store)
 }
 
-pub async fn insert(
+async fn insert(
     State(store): State<Store>,
     headers: HeaderMap,
     Json(payload): Json<Value>,

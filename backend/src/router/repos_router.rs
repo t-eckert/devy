@@ -13,7 +13,7 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
 }
 
 ///
-pub async fn upsert(
+async fn upsert(
     State(store): State<Store>,
     ExtractJson(repo): ExtractJson<repo::RepoForUpsert>,
 ) -> Result<Json<Repo>> {

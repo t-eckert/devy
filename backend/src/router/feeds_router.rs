@@ -22,8 +22,9 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
         .with_state(store)
 }
 
-/// Get posts by feed id.
 /// GET /feeds/:feed_id/posts
+///
+/// Get posts by feed id.
 async fn get_posts_by_feed_id(
     State(store): State<Store>,
     Path(feed_id): Path<Uuid>,
@@ -48,8 +49,9 @@ async fn get_posts_by_feed_id(
     ))
 }
 
-/// Get posts for the "new" feed.
 /// GET /feeds/new/posts
+///
+/// Get posts for the "new" feed.
 async fn get_posts_for_new(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
@@ -71,8 +73,9 @@ async fn get_posts_for_new(
     ))
 }
 
-/// Get posts for the "popular" feed.
 /// GET /feeds/popular/posts
+///
+/// Get posts for the "popular" feed.
 async fn get_posts_for_popular(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
