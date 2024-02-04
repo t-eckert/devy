@@ -1,5 +1,11 @@
 <script lang="ts">
-	let isOpen = false
+	import { createDropdownMenu, melt } from "@melt-ui/svelte"
+	const {
+		elements: { menu, item, trigger, arrow }
+	} = createDropdownMenu()
 </script>
 
-<div>Menu</div>
+<button use:melt={$trigger}>Toggle</button>
+<section use:melt={$menu}>
+	<div use:melt={$item}><a href="/changelog">Changelog</a></div>
+</section>
