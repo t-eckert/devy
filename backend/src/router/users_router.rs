@@ -16,7 +16,7 @@ pub fn make_router(store: Store) -> Router<Store> {
         .with_state(store)
 }
 
-pub async fn get_by_username(
+async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<User>> {

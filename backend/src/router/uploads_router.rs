@@ -1,11 +1,10 @@
-use axum::{
-    extract::{Json as ExtractJson, State},
-    Json,
-};
-
 use super::error::Result;
 use crate::entities::{upload, Upload};
 use crate::store::Store;
+use axum::{
+    extract::{Json as ExtractJson, Path, State},
+    Json,
+};
 
 pub fn make_router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
@@ -13,19 +12,20 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
         .with_state(store)
 }
 
-/// Get an upload given a user's username.
 /// GET /uploads/:username
-// pub async fn get_by_username(
-//     State(store): State<Store>,
-//     Path(username): Path<String>,
-// ) -> Result<Json<Vec<Upload>>> {
-//     println!("username: {}", username);
-//     Ok(Json(
-//         UploadRepository::get_by_username(&store.pool, &username).await?,
-//     ))
-// }
+///
+/// Get an upload given a user's username.
+async fn get_by_username(
+    State(store): State<Store>,
+    Path(username): Path<String>,
+) -> Result<Json<Vec<Upload>>> {
+    Ok(Json(upload::get_by_username(&store.pool, &username).await?))
+}
 
-pub async fn insert(
+/// POST /uploads
+///
+/// Create a new upload.
+async fn insert(
     State(store): State<Store>,
     ExtractJson(upload): ExtractJson<upload::UploadForUpsert>,
 ) -> Result<Json<Upload>> {

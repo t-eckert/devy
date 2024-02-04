@@ -29,8 +29,9 @@ pub fn make_router(store: Store) -> Router<Store> {
         .layer(CorsLayer::new().allow_origin(Any))
 }
 
-/// Get a blog from the database given a blog slug.
 /// GET /blogs/:blog_slug
+///
+/// Get a blog from the database given a blog slug.
 async fn get_blog_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
@@ -38,8 +39,9 @@ async fn get_blog_by_blog_slug(
     Ok(Json(blog::get_by_slug(&store.pool, blog_slug).await?))
 }
 
-/// Get posts from the database given a blog slug.
 /// GET /blogs/:blog_slug/posts
+///
+/// Get posts from the database given a blog slug.
 async fn get_posts_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
@@ -47,8 +49,9 @@ async fn get_posts_by_blog_slug(
     Ok(Json(post::get_by_blog_slug(&store.pool, &blog_slug).await?))
 }
 
-/// Get a post from the database given a blog slug and post slug.
 /// GET /blogs/:blog_slug/posts/:post_slug
+///
+/// Get a post from the database given a blog slug and post slug.
 async fn get_post_by_blog_and_post_slug(
     State(store): State<Store>,
     Path((blog_slug, post_slug)): Path<(String, String)>,
@@ -58,8 +61,9 @@ async fn get_post_by_blog_and_post_slug(
     ))
 }
 
-/// Delete a blog from the database given a blog slug.
 /// DELETE /blogs/:blog_slug
+///
+/// Delete a blog from the database given a blog slug.
 async fn delete_blog_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,

@@ -14,7 +14,7 @@ pub fn make_router(store: Store) -> axum::Router<Store> {
         .with_state(store)
 }
 
-pub async fn new_blog(
+async fn new_blog(
     State(store): State<Store>,
     Form(new_blog): Form<new_blog::NewBlog>,
 ) -> Result<Json<new_blog::Response>> {
