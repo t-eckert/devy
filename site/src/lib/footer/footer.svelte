@@ -1,5 +1,5 @@
-<footer class="w-full transition-all">
-	<div class="mx-auto max-w-6xl px-3 pt-8 pb-44">
+<footer class="w-full transition-all pb-12">
+	<div class="mx-auto max-w-6xl p-3 pb-12 bg-zinc-900/40 rounded-xl">
 		<div
 			class="w-full sm:w-56 pb-2 border-b border-b-neutral+1 dark:border-b-neutral-1 flex flex-row gap-2 items-baseline"
 		>
@@ -15,11 +15,11 @@
 			<section class="w-full sm:w-56 flex flex-col gap-4">
 				<p>
 					Devy is an open source platform for people to publish blog posts in markdown from their
-					GitHub repositories.{" "}
+					GitHub repositories.{' '}
 				</p>
 				<p>Thank you for checking it out.</p>
 				<span class="self-end">
-					&#8212;{" "}
+					&#8212;{' '}
 					<a href="https://thomaseckert.dev">Thomas Eckert</a>
 				</span>
 			</section>

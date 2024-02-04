@@ -1,5 +1,12 @@
 <script lang="ts">
-	import Menu from "$lib/menu/menu.svelte"
+	import { Sun } from 'radix-icons-svelte';
+	import Menu from '$lib/menu/menu.svelte';
+	import Items from '$lib/menu/items.svelte';
 </script>
 
-<div>Theme Switcher</div>
+<Menu>
+	<Sun slot="icon" />
+	<Items slot="items">
+		<a href="/theme-switcher">Theme Switcher</a>
+	</Items>
+</Menu>

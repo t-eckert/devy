@@ -6,9 +6,6 @@
 	} = createDropdownMenu();
 </script>
 
-<button use:melt={$trigger} class="p-1 hover:dark:bg-zinc-800 rounded-md transition">
-	<slot name="icon">
-		<HamburgerMenu />
-	</slot>
-</button>
-<slot name="items" />
+<section use:melt={$menu}>
+	<slot />
+</section>
