@@ -2,4 +2,4 @@
 	import Menu from "$lib/menu/menu.svelte"
 </script>
 
-<nav>Nav</nav>
+<nav><Menu /></nav>
