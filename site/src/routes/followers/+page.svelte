@@ -4,5 +4,5 @@
 </script>
 
 <Main>
-	<H1>Blog</H1>
+	<H1>Followers</H1>
 </Main>
