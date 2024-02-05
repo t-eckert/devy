@@ -1,7 +1,7 @@
 import config from "$lib/config"
 
 const get = async <T,>(path: string): Promise<T> => {
-	const response = await fetch(config.API + path, {
+	const response = await fetch(config.api + path, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json"
@@ -12,7 +12,7 @@ const get = async <T,>(path: string): Promise<T> => {
 }
 
 const post = async <T,>(path: string, body: T): Promise<T> => {
-	const response = await fetch(config.API + path, {
+	const response = await fetch(config.api + path, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -25,7 +25,7 @@ const post = async <T,>(path: string, body: T): Promise<T> => {
 }
 
 const del = async <T,>(path: string): Promise<T> => {
-	const response = await fetch(config.API + path, {
+	const response = await fetch(config.api + path, {
 		method: "DELETE"
 	})
 

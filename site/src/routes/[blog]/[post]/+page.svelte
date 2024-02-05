@@ -4,5 +4,5 @@
 </script>
 
 <Main>
-	<H1>Profile</H1>
+	<H1>Post</H1>
 </Main>

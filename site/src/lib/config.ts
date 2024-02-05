@@ -1,13 +1,15 @@
 export interface Config {
-	VERSION: string
-	HOST: string
-	API: string
+	version: string
+	host: string
+	api: string
+	mode: "development" | "production"
 }
 
 const config: Config = {
-	VERSION: "0.4.0",
-	HOST: "http://localhost:5173",
-	API: "http://localhost:8000"
+	version: "0.4.0",
+	host: "http://localhost:5173",
+	api: "http://localhost:8000",
+	mode: "development"
 }
 
 export default config

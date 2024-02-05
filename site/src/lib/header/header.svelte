@@ -6,9 +6,9 @@
 </script>
 
 <header class="">
-	<div class="mx-auto max-w-6xl p-3 flex flex-row justify-between items-center">
+	<div class="mx-auto max-w-6xl px-2 py-3 flex flex-row justify-between items-center">
 		<Home />
-		<div class="flex flex-row gap-2">
+		<div class="flex flex-row gap-1">
 			<User />
 			<ThemeSwitcher />
 			<Nav />

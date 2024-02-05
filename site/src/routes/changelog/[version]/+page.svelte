@@ -1,5 +1,8 @@
 <script lang="ts">
 	import Main from "$lib/layout/main.svelte"
+	import H1 from "$lib/element/h1.svelte"
 </script>
 
-<Main>Changelog Version</Main>
+<Main>
+	<H1>Changelog Version</H1>
+</Main>
