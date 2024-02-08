@@ -3,6 +3,7 @@
 	import type { Post } from "$lib/types"
 	import Main from "$lib/layout/main.svelte"
 	import Collection from "$lib/post/collection/collection.svelte"
+	import H1 from "$lib/element/h1.svelte"
 	import Json from "$lib/utils/json.svelte"
 
 	export let data: PageData
@@ -10,5 +11,10 @@
 </script>
 
 <Main>
-	<Collection {posts} />
+	<div class="grid grid-cols-4">
+		<div class="col-start-2 col-span-2">
+			<H1>New Posts</H1>
+			<Collection {posts} />
+		</div>
+	</div>
 </Main>

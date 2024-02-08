@@ -1,7 +1,7 @@
 <script lang="ts">
-	let theme = ""
+	let theme = "light"
 </script>
 
-<div class={theme}>
+<div class={theme} id="theme-provider">
 	<slot />
 </div>

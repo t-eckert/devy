@@ -10,7 +10,6 @@
 		<Home />
 		<div class="flex flex-row gap-1">
 			<User />
-			<ThemeSwitcher />
 			<Nav />
 		</div>
 	</div>
