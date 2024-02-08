@@ -6,7 +6,7 @@
 </script>
 
 <Menu>
-	<Items>
+	<Items classes="w-40">
 		<Link href="/">Home</Link>
 		<Link href="/changelog">Changelog</Link>
 		<Link href="/about">About</Link>
