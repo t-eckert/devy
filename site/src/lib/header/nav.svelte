@@ -8,9 +8,6 @@
 <Menu>
 	<Items classes="w-40">
 		<Link href="/">Home</Link>
-		<Link href="/changelog">Changelog</Link>
-		<Link href="/about">About</Link>
-		<Link href="#">Open an issue</Link>
 		<Sep />
 		<Link href="/new/blog">Create your blog</Link>
 		<Link href="/uploads">Uploads</Link>
