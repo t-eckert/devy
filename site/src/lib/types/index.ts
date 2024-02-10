@@ -6,7 +6,8 @@ import type Like from "./Like"
 import type Post from "./Post"
 import type Profile from "./Profile"
 import type Repo from "./Repo"
+import type Session from "./Session"
 import type Upload from "./Upload"
 import type User from "./User"
 
-export type { Blog, Bookmark, Feed, FeedConfig, Like, Post, Profile, Repo, Upload, User }
+export type { Blog, Bookmark, Feed, FeedConfig, Like, Post, Profile, Repo, Session, Upload, User }
