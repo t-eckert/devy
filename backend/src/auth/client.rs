@@ -59,23 +59,18 @@ impl Client {
     /// from GitHub. If the user doesn't exist in the database, it creates a new
     /// user. It returns the user's session.
     pub async fn handle_callback(&self, pool: &PgPool, code: &String) -> Result<Session> {
-        let access_token = self.exchange_code(code.to_string()).await.unwrap();
+        let access_token = self.exchange_code(code.to_string()).await?;
 
-        let github_user = self.fetch_github_user(access_token.clone()).await.unwrap();
-        let user = user::upsert_from_github_user(pool, github_user.clone())
-            .await
-            .unwrap();
-
+        let github_user = self.fetch_github_user(access_token.clone()).await?;
+        let user = user::upsert_from_github_user(pool, github_user.clone()).await?;
         let profile =
-            profile::upsert_from_github_user(pool, user.id.clone().to_string(), github_user)
-                .await
-                .unwrap();
+            profile::upsert_from_github_user(pool, &user.id.to_string(), github_user).await?;
 
         Ok(Session::new(user, profile, access_token))
     }
 
     // Exchange the code for a token.
-    pub async fn exchange_code(&self, code: String) -> Result<AccessToken> {
+    async fn exchange_code(&self, code: String) -> Result<AccessToken> {
         match self
             .oauth_client
             .exchange_code(AuthorizationCode::new(code))
@@ -88,7 +83,7 @@ impl Client {
     }
 
     // Returns the GitHub user associated with the token.
-    pub async fn fetch_github_user(&self, token: AccessToken) -> Result<GitHubUser> {
+    async fn fetch_github_user(&self, token: AccessToken) -> Result<GitHubUser> {
         match reqwest::Client::new()
             .get("https://api.github.com/user")
             .header("User-Agent", "devy-backend")

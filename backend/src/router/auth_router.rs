@@ -29,7 +29,6 @@ async fn login(State(store): State<Store>) -> Redirect {
 /// It exchanges the code for a token and then fetches the user from GitHub.
 /// If the user doesn't exist in the database, it creates a new user.
 /// It then creates a session for the user and returns a JWT.
-// TODO: this is a bug fest. It needs to be reworked.
 async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
@@ -43,11 +42,13 @@ async fn callback(
         }
     };
 
-    let session = store
-        .auth_client
-        .handle_callback(&store.pool, code)
-        .await
-        .unwrap();
+    let session = match store.auth_client.handle_callback(&store.pool, code).await {
+        Ok(session) => session,
+        Err(err) => {
+            error!("Failed to handle callback: {}", err);
+            return Redirect::to(&store.auth_client.post_auth_redirect_uri);
+        }
+    };
 
     // Encode the session as a JWT.
     let jwt = match encode(

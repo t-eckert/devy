@@ -15,6 +15,17 @@ pub enum Error {
     UnableToDeserializeUser(String),
 }
 
+impl From<crate::entities::error::Error> for Error {
+    fn from(err: crate::entities::error::Error) -> Self {
+        match err {
+            crate::entities::error::Error::EntityNotFound => {
+                Error::TokenExchangeForUserFailed("User not found".to_string())
+            }
+            _ => Error::TokenExchangeForUserFailed(err.to_string()),
+        }
+    }
+}
+
 impl core::fmt::Display for Error {
     fn fmt(&self, fmt: &mut core::fmt::Formatter) -> core::result::Result<(), core::fmt::Error> {
         write!(fmt, "{self:?}")

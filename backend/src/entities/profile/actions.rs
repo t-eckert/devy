@@ -38,13 +38,13 @@ pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Profile>
 
 pub async fn upsert_from_github_user(
     pool: &PgPool,
-    user_id: String,
+    user_id: &str,
     github_user: GitHubUser,
 ) -> Result<Profile> {
     upsert(
         pool,
         ProfileForUpsert::new(
-            user_id,
+            user_id.to_string(),
             github_user
                 .name
                 .ok_or(Error::Malformed("GitHub user missing name".to_string()))?,
