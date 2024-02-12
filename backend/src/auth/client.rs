@@ -1,8 +1,8 @@
 use super::{
     error::{Error, Result},
-    GitHubUser, Session,
+    generate_encoding_key, GitHubUser,
 };
-use crate::entities::{profile, user};
+use crate::entities::{profile, session, user, Session};
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
@@ -66,18 +66,22 @@ impl Client {
         let profile =
             profile::upsert_from_github_user(pool, &user.id.to_string(), github_user).await?;
 
-        Ok(Session::new(user, profile, access_token))
+        let encoding_key = generate_encoding_key();
+
+        let session = Session::from_user_and_profile(user, profile, access_token, encoding_key);
+
+        Ok(session::insert(pool, session).await?)
     }
 
     // Exchange the code for a token.
-    async fn exchange_code(&self, code: String) -> Result<AccessToken> {
+    async fn exchange_code(&self, code: String) -> Result<String> {
         match self
             .oauth_client
             .exchange_code(AuthorizationCode::new(code))
             .request_async(async_http_client)
             .await
         {
-            Ok(token) => Ok(token.access_token().clone()),
+            Ok(token) => Ok(String::from(token.access_token().clone())),
             Err(err) => Err(Error::CodeExchangeForTokenFailed(err.to_string())),
         }
     }
