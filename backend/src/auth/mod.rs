@@ -6,7 +6,7 @@ mod validate;
 
 pub use client::Client;
 pub use github_user::GitHubUser;
-pub use session::Session;
+pub use session::generate_encoding_key;
 pub use validate::is_authenticated;
 
 use std::env;
