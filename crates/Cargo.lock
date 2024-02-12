@@ -3,11 +3,23 @@
 version = 3
 
 [[package]]
+name = "api"
+version = "0.1.0"
+
+[[package]]
 name = "auth"
 version = "0.1.0"
 dependencies = [
  "serde",
 ]
+
+[[package]]
+name = "entities"
+version = "0.1.0"
+
+[[package]]
+name = "forms"
+version = "0.1.0"
 
 [[package]]
 name = "proc-macro2"
@@ -26,6 +38,10 @@ checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
 dependencies = [
  "proc-macro2",
 ]
+
+[[package]]
+name = "router"
+version = "0.1.0"
 
 [[package]]
 name = "serde"
@@ -48,6 +64,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "store"
+version = "0.1.0"
+
+[[package]]
 name = "syn"
 version = "2.0.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -63,3 +83,7 @@ name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+
+[[package]]
+name = "upload"
+version = "0.1.0"
