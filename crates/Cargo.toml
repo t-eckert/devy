@@ -1,5 +1,11 @@
 [workspace]
 
 members = [
-	"auth"
+	"api",
+	"auth",
+	"entities",
+	"forms",
+	"router",
+	"store",
+	"upload"
 ]
