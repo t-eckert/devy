@@ -1,5 +1,5 @@
+use crate::Config;
 use crate::Result;
-use config::Config;
 use sqlx::postgres::PgPoolOptions;
 use std::time::Duration;
 
