@@ -1,14 +1,10 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use config::Config;
+use database::Database;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+/// Store is the shared state of the application.
+/// It contains a database pool, configuration, an authentication client, and an uploader.
+#[derive(Clone)]
+pub struct Store {
+    pub db: Database,
+    pub config: Config,
 }

@@ -3,6 +3,10 @@ name = "auth"
 version = "0.1.0"
 edition = "2021"
 
+[dependencies]
+oauth2 = "4.4.2"
+database = { path="../database" }
+
 [dependencies.serde]
 version = "1.0"
 features = [ "derive",]

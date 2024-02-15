@@ -1,0 +1,12 @@
+[package]
+name = "database"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+config = { path="../config" }
+
+
+[dependencies.sqlx]
+version = "^0.7.1"
+features = [ "postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time",]
