@@ -3,6 +3,8 @@
 members = [
 	"api",
 	"auth",
+	"config",
+	"database",
 	"entities",
 	"forms",
 	"router",
