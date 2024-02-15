@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS "post_tag" (
+	post_id UUID NOT NULL REFERENCES "post" (id) ON DELETE CASCADE,
+	tag TEXT NOT NULL REFERENCES "tag" (value) ON DELETE CASCADE,
+
+	PRIMARY KEY (post_id, tag)
+);
