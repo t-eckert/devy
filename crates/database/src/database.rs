@@ -12,7 +12,7 @@ pub async fn connect(config: Config) -> Result<Database> {
         .acquire_timeout(Duration::from_secs(30))
         .connect(&connection_string)
         .await?;
-    // sqlx::migrate!().run(&pool).await.unwrap();
+    sqlx::migrate!().run(&pool).await.unwrap();
 
     Ok(pool)
 }
