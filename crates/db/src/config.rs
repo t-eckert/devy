@@ -2,7 +2,7 @@ use crate::error::Result;
 use std::env;
 
 /// The configuration for the database.
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct Config {
     pub database_url: String,
 }
