@@ -8,6 +8,9 @@ pub type Result<T> = std::result::Result<T, Error>;
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum Error {
+    /// The database configuration is invalid.
+    ConfigurationError(String),
+
     /// The requested entity was not found.
     EntityNotFound,
 
@@ -22,6 +25,11 @@ pub enum Error {
 }
 
 impl Error {
+    /// Returns an error indicating that the database configuration is invalid.
+    pub fn configuration_error(error: &str) -> Self {
+        Self::ConfigurationError(error.to_string())
+    }
+
     /// Returns an error indicating that the request was malformed.
     pub fn malformed(error: &str) -> Self {
         Self::Malformed(error.to_string())
@@ -30,6 +38,12 @@ impl Error {
     /// Returns an error indicating that a field was missing from the request.
     pub fn missing_field(field: &str) -> Self {
         Self::MissingField(field.to_string())
+    }
+}
+
+impl From<std::env::VarError> for Error {
+    fn from(val: std::env::VarError) -> Self {
+        Self::configuration_error(&val.to_string())
     }
 }
 
