@@ -1,12 +1,11 @@
-use sqlx::PgPool;
+use crate::{Database, Result};
+use entities::FeedConfig;
 use uuid::Uuid;
 
-pub async fn get_by_id(pool: &PgPool, id: Uuid) -> Result<FeedConfig> {
-    Ok(sqlx::query_file_as!(
-        FeedConfig,
-        "src/entities/feed_config/queries/get_by_id.sql",
-        id
+pub async fn get_by_id(db: &Database, id: Uuid) -> Result<FeedConfig> {
+    Ok(
+        sqlx::query_file_as!(FeedConfig, "src/feed_config/queries/get_by_id.sql", id)
+            .fetch_one(db)
+            .await?,
     )
-    .fetch_one(pool)
-    .await?)
 }

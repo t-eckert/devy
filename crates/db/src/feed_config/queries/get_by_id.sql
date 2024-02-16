@@ -1,6 +1,7 @@
-SELECT 
-	id,
-	name
-FROM "feed"
-WHERE id = $1;
-
+SELECT
+  id,
+  name
+FROM
+  "feed"
+WHERE
+  id = $1;
