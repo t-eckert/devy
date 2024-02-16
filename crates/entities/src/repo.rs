@@ -16,23 +16,3 @@ pub struct Repo {
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
 }
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct RepoForUpsert {
-    pub blog_id: Uuid,
-    pub url: String,
-    pub github_id: i64,
-    pub github_name: String,
-}
-
-impl RepoForUpsert {
-    pub fn new(blog_id: Uuid, url: String, github_id: i64, github_name: String) -> Self {
-        Self {
-            blog_id,
-            url,
-            github_id,
-            github_name,
-        }
-    }
-}
