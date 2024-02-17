@@ -1,9 +1,12 @@
 [workspace]
 
+resolver= "1"
+
 members = [
 	"api",
 	"auth",
-	"database",
+  "backend",
+	"db",
 	"entities",
 	"forms",
 	"router",
