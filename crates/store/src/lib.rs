@@ -1,4 +1,3 @@
-use config::Config;
 use database::Database;
 
 /// Store is the shared state of the application.
@@ -6,5 +5,4 @@ use database::Database;
 #[derive(Clone)]
 pub struct Store {
     pub db: Database,
-    pub config: Config,
 }
