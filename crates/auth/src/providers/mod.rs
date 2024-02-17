@@ -3,10 +3,10 @@ mod local;
 
 use crate::error::Result;
 
-pub use github::GitHubBackend;
+pub use github::GitHubProvider;
 pub use local::LocalBackend;
 
-pub trait Backend {
+pub trait Provider {
     fn login(&self) {}
     fn logout(&self) {}
     fn handle_callback(&self) -> Result<()> {
