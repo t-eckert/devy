@@ -74,14 +74,14 @@ impl Client {
     }
 
     // Exchange the code for a token.
-    async fn exchange_code(&self, code: String) -> Result<String> {
+    async fn exchange_code(&self, code: String) -> Result<AccessToken> {
         match self
             .oauth_client
             .exchange_code(AuthorizationCode::new(code))
             .request_async(async_http_client)
             .await
         {
-            Ok(token) => Ok(String::from(token.access_token().clone())),
+            Ok(token) => Ok(token.access_token().clone()),
             Err(err) => Err(Error::CodeExchangeForTokenFailed(err.to_string())),
         }
     }
