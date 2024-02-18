@@ -5,3 +5,7 @@ edition = "2021"
 
 
 [dependencies]
+axum = "0.7.4"
+store = { path = "../store" }
+auth = { path = "../auth" }
+forms = { path = "../forms" }
