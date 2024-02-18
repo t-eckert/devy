@@ -1,6 +1,7 @@
 use crate::{error::Result, Provider};
 use db::Database;
 
+#[derive(Debug, Clone)]
 pub struct Client<P> {
     backend: P,
 }
