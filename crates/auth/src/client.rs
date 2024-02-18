@@ -1,15 +1,15 @@
-use crate::{backend::Backend, error::Result};
-use database::Database;
+use crate::{error::Result, Provider};
+use db::Database;
 
-pub struct Client<B> {
-    backend: B,
+pub struct Client<P> {
+    backend: P,
 }
 
-impl<B> Client<B>
+impl<P> Client<P>
 where
-    B: Backend,
+    P: Provider,
 {
-    pub fn new(backend: B) -> Self {
+    pub fn new(backend: P) -> Self {
         Self { backend }
     }
 
@@ -25,7 +25,7 @@ where
         self.backend.handle_callback()
     }
 
-    pub fn validate_session(&self, session: &str, db: Database) -> Result<()> {
+    pub fn validate_session(&self, _session: &str, _db: Database) -> Result<()> {
         Ok(())
     }
 }
