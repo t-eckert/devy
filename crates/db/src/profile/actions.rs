@@ -1,9 +1,7 @@
-use crate::Database;
+use crate::{error::Result, Database};
 use entities::Profile;
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-
-use super::*;
-use crate::auth::GitHubUser;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -28,10 +26,10 @@ pub async fn upsert(
 ) -> Result<Profile> {
     Ok(sqlx::query_file_as!(
         Profile,
-        "src/entities/profile/queries/upsert.sql",
-        Uuid::parse_str(&profile.user_id.unwrap()).ok(),
-        profile.display_name.unwrap(),
-        profile.avatar_url
+        "src/profile/queries/upsert.sql",
+        id,
+        user_id.map(|u| u.to_string()),
+        display_name,
     )
     .fetch_one(db)
     .await?)
@@ -41,18 +39,16 @@ pub async fn get_by_id(db: &Database, id: String) -> Result<Profile> {
     let uuid = Uuid::parse_str(&id).unwrap();
 
     Ok(
-        sqlx::query_file_as!(Profile, "src/entities/profile/queries/get_by_id.sql", uuid)
+        sqlx::query_file_as!(Profile, "src/profile/queries/get_by_id.sql", uuid)
             .fetch_one(db)
             .await?,
     )
 }
 
 pub async fn get_by_username(db: &Database, username: String) -> Result<Profile> {
-    Ok(sqlx::query_file_as!(
-        Profile,
-        "src/entities/profile/queries/get_by_username.sql",
-        username
+    Ok(
+        sqlx::query_file_as!(Profile, "src/profile/queries/get_by_username.sql", username)
+            .fetch_one(db)
+            .await?,
     )
-    .fetch_one(db)
-    .await?)
 }
