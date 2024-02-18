@@ -10,3 +10,8 @@ pub mod blog;
 pub mod feed_config;
 pub mod post;
 pub mod profile;
+pub mod repo;
+pub mod session;
+pub mod upload;
+pub mod user;
+pub mod webhook;
