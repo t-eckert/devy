@@ -1,13 +1,10 @@
-use crate::error::{Error, Result};
+use crate::error::Result;
 use crate::Provider;
-use oauth2::{
-    basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
-    ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
-};
+use oauth2::basic::BasicClient;
 
 pub struct GitHubProvider {
-    oauth_client: BasicClient,
-    callback_url: String,
+    _oauth_client: BasicClient,
+    _callback_url: String,
 }
 
 impl Provider for GitHubProvider {

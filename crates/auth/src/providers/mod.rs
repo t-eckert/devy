@@ -4,7 +4,7 @@ mod local;
 use crate::error::Result;
 
 pub use github::GitHubProvider;
-pub use local::LocalBackend;
+pub use local::LocalProvider;
 
 pub trait Provider {
     fn login(&self) {}
