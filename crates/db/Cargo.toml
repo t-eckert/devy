@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 entities = { path = "../entities" }
 serde_with = "3.3.0"
+serde_json = "1.0.108"
 
 [dependencies.serde]
 version = "1.0"
