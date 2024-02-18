@@ -71,6 +71,7 @@ name = "api"
 version = "0.1.0"
 dependencies = [
  "router",
+ "store",
  "tokio 1.36.0",
 ]
 

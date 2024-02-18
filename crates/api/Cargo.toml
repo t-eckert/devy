@@ -4,8 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-router = { path="../router/" }
+router = { path = "../router/" }
+store = { path = "../store/" }
 
 [dependencies.tokio]
 version = "1.28.2"
-features = [ "full",]
+features = ["full"]
