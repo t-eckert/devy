@@ -472,6 +472,7 @@ version = "0.1.0"
 dependencies = [
  "entities",
  "serde",
+ "serde_json",
  "serde_with",
  "sqlx",
  "uuid 1.7.0",
@@ -685,6 +686,13 @@ dependencies = [
 [[package]]
 name = "forms"
 version = "0.1.0"
+dependencies = [
+ "db",
+ "entities",
+ "serde",
+ "serde_with",
+ "uuid 1.7.0",
+]
 
 [[package]]
 name = "fuchsia-zircon"
@@ -2287,6 +2295,12 @@ dependencies = [
 [[package]]
 name = "router"
 version = "0.1.0"
+dependencies = [
+ "auth",
+ "axum 0.7.4",
+ "forms",
+ "store",
+]
 
 [[package]]
 name = "rsa"
