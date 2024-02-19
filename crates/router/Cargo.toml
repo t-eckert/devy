@@ -9,3 +9,9 @@ axum = "0.7.4"
 store = { path = "../store" }
 auth = { path = "../auth" }
 forms = { path = "../forms" }
+jsonwebtoken = "9.2.0"
+
+
+[dependencies.tokio]
+version = "1.28.2"
+features = ["full"]
