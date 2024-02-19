@@ -1,4 +1,5 @@
-version:
+.PHONY: version
+version: 
 	@python3 ./tools/versioner.py
 
 # Site
