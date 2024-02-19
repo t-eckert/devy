@@ -10,23 +10,23 @@ site-serve:
 	@cd site && npm run dev
 
 site-package:
-	@cd images && docker build -t devy-site Dockerfile.site
+	@cd images && docker build -t devy-site images/Dockerfile.site
 
 storybook-serve:
 	@cd site && npm run storybook
 
 # API
 api-build:
-	@cd crates/backend && cargo build --release
+	@cd crates && SQLX_OFFLINE=true cargo build --bin api --release
 
 api-serve:
 	@cd crates/backend && RUST_LOG=DEBUG cargo watch -- cargo run
 
-api-package:
-	@cd images && docker build -t devy-api .
-
 api-prepare-queries:
-	@cd crates/backend && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
+	@cd crates/db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
+
+api-package:
+	@docker build -t devy-api -f ./images/Dockerfile.api .
 
 # DB
 db-build:
