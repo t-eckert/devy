@@ -1,5 +1,10 @@
-use crate::Provider;
+use super::Provider;
 
+#[derive(Clone)]
 pub struct LocalProvider {}
 
-impl Provider for LocalProvider {}
+impl LocalProvider {
+    pub fn new() -> Self {
+        Self {}
+    }
+}
