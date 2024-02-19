@@ -1,19 +1,16 @@
-use auth::{Client, Provider};
+use auth::Client;
 use db::Database;
 
 /// Store is the shared state of the application.
-/// It contains a database pool, configuration, an authentication client, and an uploader.
+/// It contains a database pool, an authentication client, and an uploader.
 #[derive(Clone)]
-pub struct Store<P> {
+pub struct Store {
     pub db: Database,
-    pub auth_client: Client<P>,
+    pub auth_client: Client,
 }
 
-impl<P> Store<P>
-where
-    P: Provider,
-{
-    pub fn new(db: Database, auth_client: Client<P>) -> Self {
+impl Store {
+    pub fn new(db: Database, auth_client: Client) -> Self {
         Self { db, auth_client }
     }
 }
