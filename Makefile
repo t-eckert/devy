@@ -20,7 +20,7 @@ api-build:
 	@cd crates && SQLX_OFFLINE=true cargo build --bin api --release
 
 api-serve:
-	@cd crates/backend && RUST_LOG=DEBUG cargo watch -- cargo run
+	@cd crates/api && RUST_LOG=DEBUG cargo watch -- cargo run
 
 api-prepare-queries:
 	@cd crates/db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
