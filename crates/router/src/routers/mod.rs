@@ -1,10 +1,1 @@
-pub mod auth_router;
 pub mod blogs_router;
-pub mod feeds_router;
-pub mod forms_router;
-pub mod likes_router;
-pub mod profiles_router;
-pub mod repos_router;
-pub mod uploads_router;
-pub mod users_router;
-pub mod webhooks_router;

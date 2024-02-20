@@ -1,3 +1,4 @@
+use crate::routers;
 use axum::{routing::get, Router as AxumRouter};
 use std::net::SocketAddr;
 use store::Store;
@@ -10,6 +11,7 @@ impl Router {
     pub fn new(store: Store) -> Self {
         let axum_router = AxumRouter::new()
             .route("/ready", get(|| async { "OK" }))
+            .merge(routers::blogs_router::BlogsRouter::create(store.clone()))
             .with_state(store);
 
         Self { axum_router }

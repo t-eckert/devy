@@ -1,15 +1,8 @@
 from framework.config import api
 from framework.utils import is_subset
-from rich import print
-import pytest
-
 import httpx
 
-path = "/blogs"
-route = api + path
 
-
-@pytest.mark.skip(reason="not implemented")
 def test_get_blog_by_slug():
     expected = {
         "name": "IoT Insights",
@@ -27,7 +20,6 @@ def test_get_blog_by_slug():
     assert is_subset(r.json(), expected)
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_blog_posts_by_blog_slug():
     expected = [
         {
@@ -45,13 +37,12 @@ def test_get_blog_posts_by_blog_slug():
         }
     ]
 
-    r = httpx.get(route + "/iot-insights/posts")
+    r = httpx.get(api + "/blogs/iot-insights/posts")
 
     assert r.status_code == 200
     assert r.json() == expected
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_blog_post_by_blog_and_post_slugs():
     expected = {
         "id": "e846050f-8e42-4d77-8e98-17185afe3d99",
@@ -67,27 +58,7 @@ def test_get_blog_post_by_blog_and_post_slugs():
         "likes": 12,
     }
 
-    r = httpx.get(route + "/iot-insights/posts/iot-and-insights")
+    r = httpx.get(api + "/blogs/iot-insights/posts/iot-and-insights")
 
     assert r.status_code == 200
     assert r.json() == expected
-
-
-@pytest.mark.skip(reason="not implemented")
-def test_create_blog():
-    r = httpx.post(route, data={})
-    print(r.status_code)
-
-
-@pytest.mark.skip(reason="not implemented")
-def test_update_blog():
-    r = httpx.put(route + "/iot-insights", data={})
-    print(r.status_code)
-
-
-@pytest.mark.skip(reason="not implemented")
-def test_delete_blog():
-    # Create blog
-
-    r = httpx.delete(route + "/iot-insights")
-    print(r.status_code)

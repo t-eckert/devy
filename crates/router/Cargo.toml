@@ -5,12 +5,25 @@ edition = "2021"
 
 
 [dependencies]
+entities = { path = "../entities" }
 axum = "0.7.4"
 store = { path = "../store" }
 auth = { path = "../auth" }
+db = { path = "../db" }
 forms = { path = "../forms" }
+upload = { path = "../upload" }
 jsonwebtoken = "9.2.0"
+http = "1.0.0"
+serde_with = "3.6.1"
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
 
 [dependencies.tokio]
 version = "1.28.2"
 features = ["full"]
+
+[dependencies.tower-http]
+version = "0.5"
+features = ["cors", "trace"]
