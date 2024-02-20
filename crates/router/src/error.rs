@@ -4,9 +4,10 @@ use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
-use crate::entities::error::Error as EntitiesError;
-use crate::forms::Error as FormsError;
-use crate::upload::Error as UploadError;
+use db::Error as DbError;
+use entities::error::Error as EntitiesError;
+use forms::Error as FormsError;
+use upload::Error as UploadError;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -27,18 +28,21 @@ impl From<EntitiesError> for Error {
         match val {
             EntitiesError::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
             EntitiesError::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+            // EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
             _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
 
 impl From<UploadError> for Error {
-    fn from(val: UploadError) -> Self {
-        match val {
-            UploadError::RepositoryNotFound(_) => Self::StatusCode(StatusCode::BAD_REQUEST),
-            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
-        }
+    fn from(_: UploadError) -> Self {
+        Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+    }
+}
+
+impl From<DbError> for Error {
+    fn from(_: DbError) -> Self {
+        Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
     }
 }
 
