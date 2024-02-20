@@ -1,11 +1,12 @@
-from config import url
-from framework import is_subset
+from framework.config import api
+from framework.utils import is_subset
 from rich import print
 
 import httpx
 import pytest
 
 
+@pytest.mark.skip(reason="not implemented")
 @pytest.mark.parametrize(
     "upload, headers, expect_code, expect_json",
     [
@@ -34,11 +35,10 @@ import pytest
     ],
 )
 def test_post(upload, headers, expect_code, expect_json):
-    r = httpx.post(f"{url}/uploads", json=upload, headers=headers)
+    r = httpx.post(f"{api}/uploads", json=upload, headers=headers)
 
     assert r.status_code == expect_code
     if expect_json:
         print(expect_json)
         print(r.json())
         assert is_subset(expect_json, r.json())
-

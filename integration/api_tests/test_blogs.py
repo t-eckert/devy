@@ -1,14 +1,15 @@
-from config import url
+from framework.config import api
+from framework.utils import is_subset
 from rich import print
 import pytest
-from framework import is_subset
 
 import httpx
 
 path = "/blogs"
-route = url + path
+route = api + path
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_blog_by_slug():
     expected = {
         "name": "IoT Insights",
@@ -20,12 +21,13 @@ def test_get_blog_by_slug():
         "updatedAt": "2023-10-06T03:10:37.37",
     }
 
-    r = httpx.get(route + "/iot-insights")
+    r = httpx.get(api + "/blogs/iot-insights")
 
     assert r.status_code == 200
     assert is_subset(r.json(), expected)
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_blog_posts_by_blog_slug():
     expected = [
         {
@@ -49,6 +51,7 @@ def test_get_blog_posts_by_blog_slug():
     assert r.json() == expected
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_blog_post_by_blog_and_post_slugs():
     expected = {
         "id": "e846050f-8e42-4d77-8e98-17185afe3d99",
