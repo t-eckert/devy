@@ -3475,7 +3475,6 @@ version = "0.1.0"
 dependencies = [
  "entities",
  "serde",
- "tower-http",
 ]
 
 [[package]]
