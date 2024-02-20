@@ -3,7 +3,7 @@ version: "3"
 
 services:
   backend:
-    image: devy-backend:latest
+    image: devy-api:latest
     environment:
       DATABASE_URL: "postgres://postgres:postgres@database:5432"
       CLIENT_ID: ""
@@ -13,7 +13,9 @@ services:
       RUST_BACKTRACE: 1
     ports:
       - "8000:8000"
-    build: backend
+    build:
+      context: ..
+      dockerfile: ./images/Dockerfile.api
 
   database:
     image: devy-test-db:latest
@@ -23,6 +25,5 @@ services:
     ports:
       - "5432:5432"
     build:
-      context: backend
-      dockerfile: test-db.Dockerfile
-
+      context: ..
+      dockerfile: ./images/Dockerfile.db.test

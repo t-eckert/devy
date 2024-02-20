@@ -2,6 +2,11 @@
 version: 
 	@python3 ./tools/versioner.py
 
+test-integration: 
+	@cd integration && \
+		python3 -m pip install -r requirements.txt && \
+		python3 run.py 
+
 # Site
 site-build:
 	@cd site && npm run build
@@ -10,7 +15,7 @@ site-serve:
 	@cd site && npm run dev
 
 site-package:
-	@cd images && docker build -t devy-site images/Dockerfile.site
+	@docker build . -f images/Dockerfile.site -t devy-site
 
 storybook-serve:
 	@cd site && npm run storybook
@@ -26,11 +31,11 @@ api-prepare-queries:
 	@cd crates/db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
 
 api-package:
-	@docker build -t devy-api -f ./images/Dockerfile.api .
+	@docker build . -f ./images/Dockerfile.api -t devy-api
 
 # DB
 db-build:
-	@cd images && docker build . -f Dockerfile.db.test -t devy-test-db
+	@docker build . -f ./images/Dockerfile.db.test -t devy-test-db
 
 db-serve: db-build
 	@docker run --rm\
@@ -40,4 +45,5 @@ db-serve: db-build
 
 db-access:
 	@docker exec -it devy-test-db psql -U postgres
+
 
