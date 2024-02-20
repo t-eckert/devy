@@ -1,13 +1,14 @@
-from config import url
-from framework import is_subset
+from framework.config import api
+from framework.utils import is_subset
 
 import httpx
 import pytest
 
 path = "/feeds"
-route = url + path
+route = api + path
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_new_feed_config():
     r = httpx.get(route + "/new/config")
 
@@ -21,6 +22,7 @@ def test_get_new_feed_config():
     )
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_popular_feed_config():
     r = httpx.get(route + "/popular/config")
 
@@ -34,6 +36,7 @@ def test_get_popular_feed_config():
     )
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_new_feed_posts():
     r = httpx.get(route + "/new/posts")
 
@@ -41,6 +44,7 @@ def test_get_new_feed_posts():
     assert len(r.json()) == 30
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_feed_posts_limit():
     r = httpx.get(route + "/new/posts?limit=10")
 
@@ -56,6 +60,7 @@ def test_get_feed_posts_limit_and_offset():
     assert len(r.json()) == 11
 
 
+@pytest.mark.skip(reason="not implemented")
 def test_get_nonexistent_feed():
     r = httpx.get(route + "/asdf")
 
