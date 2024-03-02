@@ -1,10 +1,9 @@
 use crate::error::Result;
-use axum::routing::{delete, get};
-use axum::Router;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
-    Json,
+    routing::{delete, get},
+    Json, Router,
 };
 use db::{blog, post};
 use entities::{Blog, Post};
