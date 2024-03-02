@@ -15,6 +15,7 @@ impl Router {
         let axum_router = AxumRouter::new()
             .route("/ready", get(|| async { "OK" }))
             .merge(routers::BlogsRouter::create(store.clone()))
+            .merge(routers::FeedsRouter::create(store.clone()))
             .with_state(store);
 
         Self {
