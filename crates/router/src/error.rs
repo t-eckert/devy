@@ -15,6 +15,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 #[derive(Debug, Serialize)]
 pub enum Error {
     StatusCode(#[serde_as(as = "DisplayFromStr")] StatusCode),
+    ServeFailure,
 }
 
 impl From<StatusCode> for Error {
@@ -54,10 +55,17 @@ impl From<FormsError> for Error {
     }
 }
 
+impl From<tokio::io::Error> for Error {
+    fn from(_: tokio::io::Error) -> Self {
+        Self::ServeFailure
+    }
+}
+
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
         match self {
             Self::StatusCode(status) => status.into_response(),
+            Self::ServeFailure => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
         }
     }
 }

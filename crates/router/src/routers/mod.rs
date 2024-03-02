@@ -1,1 +1,3 @@
-pub mod blogs_router;
+mod blogs_router;
+
+pub use blogs_router::BlogsRouter;
