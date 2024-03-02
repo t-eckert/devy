@@ -1,15 +1,16 @@
 [workspace]
 
-resolver= "1"
+resolver = "1"
 
 members = [
-	"api",
-	"auth",
+  "api",
+  "auth",
   "backend",
-	"db",
-	"entities",
-	"forms",
-	"router",
-	"store",
-	"upload"
+  "db",
+  "entities",
+  "forms",
+  "router",
+  "store",
+  "tracing",
+  "upload",
 ]
