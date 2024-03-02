@@ -8,7 +8,6 @@ path = "/feeds"
 route = api + path
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_new_feed_config():
     r = httpx.get(route + "/new/config")
 
@@ -22,7 +21,6 @@ def test_get_new_feed_config():
     )
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_popular_feed_config():
     r = httpx.get(route + "/popular/config")
 
@@ -36,7 +34,6 @@ def test_get_popular_feed_config():
     )
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_new_feed_posts():
     r = httpx.get(route + "/new/posts")
 
@@ -44,7 +41,6 @@ def test_get_new_feed_posts():
     assert len(r.json()) == 30
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_feed_posts_limit():
     r = httpx.get(route + "/new/posts?limit=10")
 
@@ -52,7 +48,7 @@ def test_get_feed_posts_limit():
     assert len(r.json()) == 10
 
 
-@pytest.mark.skip(reason="offset not implemented")
+@pytest.mark.skip("Limit not implemented")
 def test_get_feed_posts_limit_and_offset():
     r = httpx.get(route + "/new/posts?limit=11?offset=10")
 
@@ -60,7 +56,6 @@ def test_get_feed_posts_limit_and_offset():
     assert len(r.json()) == 11
 
 
-@pytest.mark.skip(reason="not implemented")
 def test_get_nonexistent_feed():
     r = httpx.get(route + "/asdf")
 

@@ -27,3 +27,7 @@ features = ["full"]
 [dependencies.tower-http]
 version = "0.5"
 features = ["cors", "trace"]
+
+[dependencies.uuid]
+version = "1.5.0"
+features = ["v4", "fast-rng", "macro-diagnostics", "serde"]

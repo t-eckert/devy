@@ -1,25 +1,28 @@
-use super::error::Result;
-use crate::{
-    entities::{feed_config, post, FeedConfig, Post},
-    store::Store,
-};
+use crate::error::Result;
 use axum::{
     extract::{Path, Query, State},
     routing::get,
     Json,
 };
+use db::{feed_config, post};
+use entities::{FeedConfig, Post};
 use std::collections::HashMap;
+use store::Store;
 use uuid::{uuid, Uuid};
 
-pub fn make_router(store: Store) -> axum::Router<Store> {
-    axum::Router::new()
-        .route("/feeds/new/posts", get(get_posts_for_new))
-        .route("/feeds/popular/posts", get(get_posts_for_popular))
-        .route("/feeds/:feed_id/posts", get(get_posts_by_feed_id))
-        .route("/feeds/new/config", get(get_feed_config_for_new))
-        .route("/feeds/popular/config", get(get_feed_config_for_popular))
-        .route("/feeds/:feed_id/config", get(get_feed_config_by_id))
-        .with_state(store)
+pub struct FeedsRouter;
+
+impl FeedsRouter {
+    pub fn create(store: Store) -> axum::Router<Store> {
+        axum::Router::new()
+            .route("/feeds/new/posts", get(get_posts_for_new))
+            .route("/feeds/popular/posts", get(get_posts_for_popular))
+            .route("/feeds/:feed_id/posts", get(get_posts_by_feed_id))
+            .route("/feeds/new/config", get(get_feed_config_for_new))
+            .route("/feeds/popular/config", get(get_feed_config_for_popular))
+            .route("/feeds/:feed_id/config", get(get_feed_config_by_id))
+            .with_state(store)
+    }
 }
 
 /// GET /feeds/:feed_id/posts
@@ -45,7 +48,7 @@ async fn get_posts_by_feed_id(
     dbg!(&offset);
 
     Ok(Json(
-        post::get_by_feed(&store.pool, feed_id, limit, offset).await?,
+        post::get_by_feed(&store.db, feed_id, limit, offset).await?,
     ))
 }
 
@@ -69,7 +72,7 @@ async fn get_posts_for_new(
         .unwrap_or(0);
 
     Ok(Json(
-        post::get_by_feed(&store.pool, feed_id, limit, offset).await?,
+        post::get_by_feed(&store.db, feed_id, limit, offset).await?,
     ))
 }
 
@@ -93,7 +96,7 @@ async fn get_posts_for_popular(
         .unwrap_or(0);
 
     Ok(Json(
-        post::get_by_feed(&store.pool, feed_id, limit, offset).await?,
+        post::get_by_feed(&store.db, feed_id, limit, offset).await?,
     ))
 }
 
@@ -103,7 +106,7 @@ async fn get_feed_config_by_id(
     State(store): State<Store>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<FeedConfig>> {
-    Ok(Json(feed_config::get_by_id(&store.pool, id).await?))
+    Ok(Json(feed_config::get_by_id(&store.db, id).await?))
 }
 
 /// Get the feed config for the "new" feed.
