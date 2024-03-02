@@ -76,6 +76,7 @@ dependencies = [
  "router",
  "store",
  "tokio 1.36.0",
+ "tracing 0.1.0",
 ]
 
 [[package]]
@@ -183,7 +184,7 @@ dependencies = [
  "tower",
  "tower-layer",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -221,7 +222,7 @@ dependencies = [
  "sync_wrapper",
  "tower-layer",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -534,7 +535,7 @@ dependencies = [
  "tokio 1.36.0",
  "tower",
  "tower-http",
- "tracing",
+ "tracing 0.1.40",
  "tracing-honeycomb",
  "tracing-opentelemetry",
  "tracing-subscriber",
@@ -861,7 +862,7 @@ dependencies = [
  "slab",
  "tokio 0.2.25",
  "tokio-util 0.3.1",
- "tracing",
+ "tracing 0.1.40",
  "tracing-futures",
 ]
 
@@ -881,7 +882,7 @@ dependencies = [
  "slab",
  "tokio 1.36.0",
  "tokio-util 0.7.10",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -900,7 +901,7 @@ dependencies = [
  "slab",
  "tokio 1.36.0",
  "tokio-util 0.7.10",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -1080,7 +1081,7 @@ dependencies = [
  "socket2 0.3.19",
  "tokio 0.2.25",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
  "want",
 ]
 
@@ -1104,7 +1105,7 @@ dependencies = [
  "socket2 0.5.5",
  "tokio 1.36.0",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
  "want",
 ]
 
@@ -2301,7 +2302,7 @@ dependencies = [
 
 [[package]]
 name = "router"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "auth",
  "axum 0.7.4",
@@ -2753,7 +2754,7 @@ dependencies = [
  "time",
  "tokio 1.36.0",
  "tokio-stream",
- "tracing",
+ "tracing 0.1.40",
  "url",
  "uuid 1.7.0",
  "webpki-roots 0.25.4",
@@ -2838,7 +2839,7 @@ dependencies = [
  "stringprep",
  "thiserror",
  "time",
- "tracing",
+ "tracing 0.1.40",
  "uuid 1.7.0",
  "whoami",
 ]
@@ -2879,7 +2880,7 @@ dependencies = [
  "stringprep",
  "thiserror",
  "time",
- "tracing",
+ "tracing 0.1.40",
  "uuid 1.7.0",
  "whoami",
 ]
@@ -2903,7 +2904,7 @@ dependencies = [
  "serde",
  "sqlx-core",
  "time",
- "tracing",
+ "tracing 0.1.40",
  "url",
  "urlencoding",
  "uuid 1.7.0",
@@ -3203,7 +3204,7 @@ dependencies = [
  "futures-sink",
  "pin-project-lite 0.2.13",
  "tokio 1.36.0",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -3231,7 +3232,7 @@ dependencies = [
  "tower",
  "tower-layer",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -3251,7 +3252,7 @@ dependencies = [
  "tokio-util 0.7.10",
  "tower-layer",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -3268,7 +3269,7 @@ dependencies = [
  "pin-project-lite 0.2.13",
  "tower-layer",
  "tower-service",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -3282,6 +3283,14 @@ name = "tower-service"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b6bc1c9ce2b5135ac7f93c72918fc37feb872bdc6a5533a8b85eb4b86bfdae52"
+
+[[package]]
+name = "tracing"
+version = "0.1.0"
+dependencies = [
+ "tracing 0.1.40",
+ "tracing-subscriber",
+]
 
 [[package]]
 name = "tracing"
@@ -3323,7 +3332,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "de30b98573d9e63e82996b3c9bf950210ba3f2dcf363f7eec000acebef1a4377"
 dependencies = [
  "itertools 0.9.0",
- "tracing",
+ "tracing 0.1.40",
  "tracing-core",
  "tracing-subscriber",
 ]
@@ -3335,7 +3344,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "97d095ae15e245a057c8e8451bab9b3ee1e1f68e9ba2b4fbc18d0ac5237835f2"
 dependencies = [
  "pin-project",
- "tracing",
+ "tracing 0.1.40",
 ]
 
 [[package]]
@@ -3350,7 +3359,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha-1",
- "tracing",
+ "tracing 0.1.40",
  "tracing-core",
  "tracing-distributed",
  "uuid 0.8.2",
@@ -3378,7 +3387,7 @@ dependencies = [
  "opentelemetry",
  "opentelemetry_sdk",
  "smallvec",
- "tracing",
+ "tracing 0.1.40",
  "tracing-core",
  "tracing-log",
  "tracing-subscriber",
@@ -3398,7 +3407,7 @@ dependencies = [
  "sharded-slab",
  "smallvec",
  "thread_local",
- "tracing",
+ "tracing 0.1.40",
  "tracing-core",
  "tracing-log",
 ]
