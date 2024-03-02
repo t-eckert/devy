@@ -1,26 +1,32 @@
-use crate::routers;
+use crate::{error::Result, routers};
 use axum::{routing::get, Router as AxumRouter};
 use std::net::SocketAddr;
 use store::Store;
 
+/// The main router for the API.
 pub struct Router {
     axum_router: AxumRouter,
+    socket_addr: SocketAddr,
 }
 
 impl Router {
-    pub fn new(store: Store) -> Self {
+    /// Create a new router.
+    pub fn new(store: Store, socket_addr: SocketAddr) -> Self {
         let axum_router = AxumRouter::new()
             .route("/ready", get(|| async { "OK" }))
-            .merge(routers::blogs_router::BlogsRouter::create(store.clone()))
+            .merge(routers::BlogsRouter::create(store.clone()))
             .with_state(store);
 
-        Self { axum_router }
+        Self {
+            axum_router,
+            socket_addr,
+        }
     }
 
-    pub async fn serve(self) {
-        let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
+    /// Start the server.
+    pub async fn serve(self) -> Result<()> {
+        let listener = tokio::net::TcpListener::bind(&self.socket_addr).await?;
 
-        let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-        axum::serve(listener, self.axum_router).await.unwrap();
+        Ok(axum::serve(listener, self.axum_router).await?)
     }
 }

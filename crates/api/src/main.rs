@@ -1,3 +1,5 @@
+use std::net::SocketAddr;
+
 use auth::{Client, Providers};
 use db::{connect, Config};
 use router::Router;
@@ -16,6 +18,8 @@ async fn main() {
 
     let store = Store::new(db, auth_client);
 
-    let router = Router::new(store);
-    router.serve().await;
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
+
+    let router = Router::new(store, addr);
+    router.serve().await.unwrap();
 }
