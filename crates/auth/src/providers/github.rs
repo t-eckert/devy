@@ -1,9 +1,6 @@
-use super::Provider;
 use crate::error::Result;
-use oauth2::{
-    basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
-    ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
-};
+use db::Database;
+use oauth2::{basic::BasicClient, AuthUrl, ClientId, ClientSecret, TokenUrl};
 
 const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
 const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
@@ -26,18 +23,22 @@ impl GitHubProvider {
             callback_url,
         }
     }
-}
 
-impl Provider for GitHubProvider {
-    fn login(&self) {
+    pub fn login(&self) {
         println!("Logging in with GitHub");
     }
 
-    fn logout(&self) {
+    pub fn logout(&self) {
         println!("Logging out from GitHub");
     }
 
-    fn handle_callback(&self) -> Result<()> {
+    pub fn handle_callback(&self) -> Result<()> {
+        println!("Handling GitHub callback");
+        Ok(())
+    }
+
+    pub fn validate_session(&self, _session: &str, _db: Database) -> Result<()> {
+        println!("Validating GitHub session");
         Ok(())
     }
 }
