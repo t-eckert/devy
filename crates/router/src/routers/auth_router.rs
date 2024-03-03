@@ -8,11 +8,19 @@ use jsonwebtoken::{encode, EncodingKey, Header};
 use std::collections::HashMap;
 use store::Store;
 
-pub fn make_router(store: Store<dyn Provider>) -> axum::Router<Store<dyn Provider>> {
-    axum::Router::new()
-        .route("/auth/login", get(login))
-        .route("/auth/callback", get(callback))
-        .with_state(store)
+/// /auth/*
+///
+/// Router for handling authentication requests.
+pub struct AuthRouter;
+
+impl AuthRouter {
+    /// Create a new AuthRouter.
+    pub fn create(store: Store) -> axum::Router<Store> {
+        axum::Router::new()
+            .route("/auth/login", get(login))
+            .route("/auth/callback", get(callback))
+            .with_state(store)
+    }
 }
 
 /// GET /auth/login

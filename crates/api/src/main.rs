@@ -1,8 +1,7 @@
-use std::net::SocketAddr;
-
-use auth::{Client, Providers};
-use db::{connect, Config};
+use auth::Client;
+use db::connect;
 use router::Router;
+use std::net::SocketAddr;
 use store::Store;
 
 /// Start the API server.
@@ -11,10 +10,11 @@ async fn main() {
     dotenvy::dotenv().ok();
     tracing::init();
 
-    let auth_client = Client::new(Providers::GitHub);
+    let auth_config = auth::Config::from_env().unwrap();
+    let auth_client = Client::new(auth_config);
 
-    let config = Config::from_env().unwrap();
-    let db = connect(config).await.unwrap();
+    let db_config = db::Config::from_env().unwrap();
+    let db = connect(db_config).await.unwrap();
 
     let store = Store::new(db, auth_client);
 
