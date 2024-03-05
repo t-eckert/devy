@@ -5,7 +5,7 @@ use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
 use db::Error as DbError;
-use entities::error::Error as EntitiesError;
+use entities::Error as EntitiesError;
 use forms::Error as FormsError;
 use upload::Error as UploadError;
 

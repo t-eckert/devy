@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::providers::{GitHubProvider, LocalProvider};
 use crate::Config;
 use crate::{error::Result, Provider};
@@ -11,6 +13,7 @@ pub struct Client {
 }
 
 impl Client {
+    /// Creates a new client based on the given config.
     pub fn new(config: Config) -> Self {
         // HACK I wanted to use some trait here that would be opaque to the
         // store crate, but I don't know how to do that.
@@ -21,6 +24,7 @@ impl Client {
                     config.client_id,
                     config.client_secret,
                     config.callback_url,
+                    config.redirect_url,
                 );
                 Self {
                     provider,
@@ -29,7 +33,7 @@ impl Client {
                 }
             }
             Provider::Local => {
-                let local_provider = LocalProvider::new();
+                let local_provider = LocalProvider::new(config.redirect_url);
                 Self {
                     provider,
                     github_provider: None,
@@ -39,13 +43,16 @@ impl Client {
         }
     }
 
-    pub fn login(self) {
+    // Performs login based on the provider, returning a URL to redirect the user to.
+    pub fn login(self) -> String {
+        tracing::info!("GitHub login");
         match self.provider {
             Provider::GitHub => self.github_provider.unwrap().login(),
             Provider::Local => self.local_provider.unwrap().login(),
         }
     }
 
+    /// Logs out the user from the provider.
     pub fn logout(self) {
         match self.provider {
             Provider::GitHub => self.github_provider.unwrap().logout(),
@@ -53,17 +60,28 @@ impl Client {
         }
     }
 
-    pub fn handle_callback(self) -> Result<()> {
+    /// Handles a callback from the provider.
+    pub async fn handle_callback(self, db: Database, params: HashMap<String, String>) -> String {
         match self.provider {
-            Provider::GitHub => self.github_provider.unwrap().handle_callback(),
-            Provider::Local => self.local_provider.unwrap().handle_callback(),
+            Provider::GitHub => {
+                self.github_provider
+                    .unwrap()
+                    .handle_callback(db, params)
+                    .await
+            }
+            Provider::Local => {
+                self.local_provider
+                    .unwrap()
+                    .handle_callback(db, params)
+                    .await
+            }
         }
     }
 
-    pub fn validate_session(self, session: &str, db: Database) -> Result<()> {
+    pub fn validate_session(self, db: Database, session: &str) -> Result<()> {
         match self.provider {
-            Provider::GitHub => self.github_provider.unwrap().validate_session(session, db),
-            Provider::Local => self.local_provider.unwrap().validate_session(session, db),
+            Provider::GitHub => self.github_provider.unwrap().validate_session(db, session),
+            Provider::Local => self.local_provider.unwrap().validate_session(db, session),
         }
     }
 }
