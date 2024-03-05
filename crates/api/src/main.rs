@@ -8,7 +8,7 @@ use store::Store;
 #[tokio::main]
 async fn main() {
     dotenvy::dotenv().ok();
-    tracing::init();
+    monitoring::init();
 
     let auth_config = auth::Config::from_env().unwrap();
     let auth_client = Client::new(auth_config);
