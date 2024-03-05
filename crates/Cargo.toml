@@ -9,8 +9,8 @@ members = [
   "db",
   "entities",
   "forms",
+  "monitoring",
   "router",
   "store",
-  "tracing",
   "upload",
 ]
