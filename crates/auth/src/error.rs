@@ -18,11 +18,9 @@ pub enum Error {
     UnableToDeserializeUser(String),
 }
 
-impl From<entities::error::Error> for Error {
-    fn from(err: entities::error::Error) -> Self {
-        match err {
-            _ => Error::TokenExchangeForUserFailed(err.to_string()),
-        }
+impl From<entities::Error> for Error {
+    fn from(err: entities::Error) -> Self {
+        Error::TokenExchangeForUserFailed(err.to_string())
     }
 }
 
