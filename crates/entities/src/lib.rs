@@ -1,4 +1,5 @@
-pub mod error;
+mod error;
+pub use error::Error;
 
 mod blog;
 mod feed_config;
