@@ -1,17 +1,18 @@
 [package]
 name = "router"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 
 
 [dependencies]
 entities = { path = "../entities" }
-axum = "0.7.4"
 store = { path = "../store" }
 auth = { path = "../auth" }
 db = { path = "../db" }
 forms = { path = "../forms" }
 upload = { path = "../upload" }
+
+axum = "0.7.4"
 jsonwebtoken = "9.2.0"
 http = "1.0.0"
 serde_with = "3.6.1"

@@ -2,6 +2,7 @@ use rand::{distributions::Alphanumeric, Rng};
 
 const KEY_SIZE: usize = 32;
 
+/// Generates a random encoding key of 32 bytes.
 pub fn generate_encoding_key() -> String {
     let rng = rand::thread_rng();
     let key: String = rng
