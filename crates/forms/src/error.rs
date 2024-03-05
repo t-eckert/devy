@@ -1,8 +1,6 @@
 use serde::Serialize;
 use serde_with::serde_as;
 
-use entities::error::Error as EntitiesError;
-
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[serde_as]
@@ -13,13 +11,13 @@ pub enum Error {
     Malformed { message: String },
 }
 
-impl From<EntitiesError> for Error {
-    fn from(val: EntitiesError) -> Self {
+impl From<entities::Error> for Error {
+    fn from(val: entities::Error) -> Self {
         match val {
-            EntitiesError::EntityNotFound => Self::Malformed {
+            entities::Error::EntityNotFound => Self::Malformed {
                 message: "Entity not found".to_string(),
             },
-            EntitiesError::Malformed { .. } => Self::Malformed {
+            entities::Error::Malformed { .. } => Self::Malformed {
                 message: "Malformed input".to_string(),
             },
             _ => Self::Malformed {
