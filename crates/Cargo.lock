@@ -111,7 +111,7 @@ dependencies = [
 
 [[package]]
 name = "auth"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "db",
  "entities",
@@ -120,6 +120,7 @@ dependencies = [
  "reqwest 0.11.24",
  "serde",
  "tracing",
+ "uuid 1.7.0",
 ]
 
 [[package]]
@@ -599,8 +600,9 @@ dependencies = [
 
 [[package]]
 name = "entities"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
+ "jsonwebtoken",
  "serde",
  "serde_json",
  "uuid 1.7.0",

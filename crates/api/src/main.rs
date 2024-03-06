@@ -11,7 +11,12 @@ async fn main() {
     monitoring::init();
 
     let auth_config = auth::Config::from_env().unwrap();
-    let auth_client = Client::new(auth_config);
+    let auth_client = Client::new(
+        auth_config.client_id,
+        auth_config.client_secret,
+        auth_config.callback_url,
+        auth_config.redirect_url,
+    );
 
     let db_config = db::Config::from_env().unwrap();
     let db = connect(db_config).await.unwrap();
