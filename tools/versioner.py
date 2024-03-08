@@ -5,6 +5,8 @@ Called by `make version`
 1. Sets the version of the project following yyyy.mm.dd format.
 2. Updates a `version` file at the root of the project.
 3. Creates a new file in the "CHANGELOG" directory with the version as the name
+4. Opens that file for editing.
+5. Commits the version change to git.
 """
 
 from datetime import datetime
@@ -109,6 +111,14 @@ def tag_version(version: str, message: str) -> None:
     os.execlp("git", "git", "tag", version, "-m", message)
 
 
+def open_changelog(filename: str) -> None:
+    os.execlp("$EDITOR", "$EDITOR", filename)
+
+
+def commit(version: str) -> None:
+    os.execlp("git", "git", "commit", "-am", f"version: {version}")
+
+
 if __name__ == "__main__":
     version = gen_version()
     write_version(version)
@@ -119,3 +129,5 @@ if __name__ == "__main__":
         format_changelog(version, name, get_packages(package_paths)), filename
     )
     tag_version(version, name)
+    open_changelog(filename)
+    commit(version)
