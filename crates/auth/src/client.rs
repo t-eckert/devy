@@ -1,19 +1,19 @@
-use crate::error::{Error, Result};
+use crate::error::{Error, Result as AuthResult};
 use db::Database;
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
 };
-use std::{collections::HashMap, str::FromStr};
+use std::collections::HashMap;
 
 const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
 const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
 
 #[derive(Clone)]
 pub struct Client {
-    oauth_client: BasicClient,
     callback_url: String,
-    redirect_url: String,
+    oauth_client: BasicClient,
+    pub redirect_url: String,
 }
 
 impl Client {
@@ -50,11 +50,6 @@ impl Client {
         authorize_url.to_string()
     }
 
-    /// Logs out the user from the provider.
-    pub fn logout(self) {
-        unimplemented!()
-    }
-
     // Handles a callback from GitHub by exchanging the code for a token and then
     // exchanging the token for a user.
     // User information is used to upsert a user and profile in the database.
@@ -62,27 +57,26 @@ impl Client {
     // This session is encoded as a JWT and attached as a query param to the redirect URL.
     // At the end of the process, the redirect URL is returned with the attached query param.
     // If the process fails, the redirect URL is returned without the query param.
-    pub async fn handle_callback(self, db: Database, params: HashMap<String, String>) -> String {
+    pub async fn handle_callback(
+        self,
+        db: &Database,
+        params: HashMap<String, String>,
+    ) -> Result<String, String> {
         tracing::info!("Handling GitHub callback.");
 
         // Get the code passed from GitHub in the query params.
-        let code = match params.get("code") {
-            Some(code) => code,
-            None => return self.redirect_url_with_err("Unable to get Code".to_string()),
-        };
+        let code = params
+            .get("code")
+            .ok_or("unable to get code from GitHub".to_string())?;
 
-        let access_token = match self.exchange_code(code).await {
-            Ok(token) => token,
-            Err(err) => return self.redirect_url_with_err(err.to_string()),
-        };
+        let access_token = self.exchange_code(code).await.map_err(|x| x.to_string())?;
+        let github_user = self
+            .fetch_github_user(access_token.clone())
+            .await
+            .map_err(|x| x.to_string())?;
 
-        let github_user = match self.fetch_github_user(access_token.clone()).await {
-            Ok(user) => user,
-            Err(err) => return self.redirect_url_with_err(err.to_string()),
-        };
-
-        let user = match db::user::upsert(
-            &db,
+        let user = db::user::upsert(
+            db,
             github_user.login.clone().unwrap_or(random_username()),
             github_user.email.clone(),
             github_user.login.clone(),
@@ -90,85 +84,44 @@ impl Client {
             Some("active".to_string()),
         )
         .await
-        {
-            Ok(user) => user,
-            Err(err) => return self.redirect_url_with_err(err.to_string()),
-        };
+        .map_err(|x| x.to_string())?;
 
-        let profile = match db::profile::upsert(
-            &db,
-            None,
-            Some(user.id),
+        let profile = db::profile::upsert(
+            db,
+            user.id,
             github_user.name.clone().unwrap_or("unnamed".to_string()),
+            github_user.avatar_url,
         )
         .await
-        {
-            Ok(profile) => profile,
-            Err(err) => return self.redirect_url_with_err(err.to_string()),
+        .map_err(|x| x.to_string())?;
+
+        let encoding_key = crate::generate_encoding_key();
+
+        let session = entities::Session {
+            id: uuid::Uuid::new_v4(),
+            metadata: entities::SessionMetadata { user, profile },
+            created_at: Some("".to_string()),
+            exp: 3600,
+            access_token: "".to_string(),
+            encoding_key,
         };
 
-        let secret = crate::generate_encoding_key();
+        let jwt = session.encode().map_err(|x| x.to_string())?;
 
-        let session = entities::Session::new(
-            None,
-            user.id,
-            uuid::Uuid::from_str(&profile.id.unwrap()).unwrap(),
-            user.username.clone(),
-            profile.display_name.clone(),
-            profile.avatar_url.clone(),
-            user.role.clone(),
-            user.status.clone(),
-            "access token".to_string(),
-            secret,
-        );
-
-        // let session = match db::session::insert(&db, session).await {
-        //     Ok(session) => session,
-        //     Err(_) => return self.redirect_url.clone(),
-        // };
-        //
-
-        let jwt = match session.encode() {
-            Ok(token) => token,
-            Err(err) => return self.redirect_url_with_err(err.to_string()),
-        };
-
-        /*
-
-
-            // Encode the session as a JWT.
-            let jwt = match encode(
-                &Header::default(),
-                &session,
-                &EncodingKey::from_secret(secret.as_bytes()),
-            ) {
-                Ok(token) => token,
-                Err(err) => {
-                    eprintln!("Failed to encode JWT: {}", err);
-                    return Redirect::to(&store.auth_client.post_auth_redirect_uri);
-                }
-            };
-
-            // Redirect to the post-auth redirect URI with the JWT as a query param.
-            Redirect::to(
-                format!(
-                    "{}?token={}",
-                    &store.auth_client.post_auth_redirect_uri, jwt
-                )
-                .as_str(),
-            )
-        */
-
-        format!("{}?token={}", self.redirect_url, jwt)
+        Ok(format!("{}?token={}", self.redirect_url, jwt))
     }
 
-    pub fn validate_session(self, db: Database, session: &str) -> Result<()> {
+    pub fn redirect_url_with_err(self, err: &str) -> String {
+        format!("{}?error={}", self.redirect_url, err)
+    }
+
+    pub fn validate_session(self, db: Database, session: &str) -> AuthResult<()> {
         unimplemented!();
         Ok(())
     }
 
     // Exchange the code for a token.
-    async fn exchange_code(&self, code: &String) -> Result<AccessToken> {
+    async fn exchange_code(&self, code: &String) -> AuthResult<AccessToken> {
         match self
             .oauth_client
             .exchange_code(AuthorizationCode::new(code.to_string()))
@@ -181,7 +134,7 @@ impl Client {
     }
 
     // Returns the GitHub user associated with the token.
-    async fn fetch_github_user(&self, token: AccessToken) -> Result<GitHubUser> {
+    async fn fetch_github_user(&self, token: AccessToken) -> AuthResult<GitHubUser> {
         match reqwest::Client::new()
             .get("https://api.github.com/user")
             .header("User-Agent", "devy-backend")
@@ -196,10 +149,6 @@ impl Client {
                 .map_err(|err| Error::UnableToDeserializeUser(err.to_string()))?),
             Err(err) => Err(Error::TokenExchangeForUserFailed(err.to_string())),
         }
-    }
-
-    fn redirect_url_with_err(self, err: String) -> String {
-        format!("{}?error={}", self.redirect_url, err)
     }
 }
 

@@ -20,16 +20,16 @@ pub struct ProfileForUpsert {
 
 pub async fn upsert(
     db: &Database,
-    id: Option<Uuid>,
-    user_id: Option<Uuid>,
+    user_id: Uuid,
     display_name: String,
+    avatar_url: Option<String>,
 ) -> Result<Profile> {
     Ok(sqlx::query_file_as!(
         Profile,
         "src/profile/queries/upsert.sql",
-        id,
-        user_id.map(|u| u.to_string()),
+        user_id,
         display_name,
+        avatar_url
     )
     .fetch_one(db)
     .await?)

@@ -35,5 +35,19 @@ async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Redirect {
-    Redirect::to(&store.auth_client.handle_callback(store.db, params).await)
+    let response = match store
+        .auth_client
+        .clone()
+        .handle_callback(&store.db, params)
+        .await
+    {
+        Ok(url) => url,
+        Err(err) => {
+            dbg!("======================================================================");
+            dbg!(&err);
+            dbg!("======================================================================");
+            store.auth_client.redirect_url_with_err(&err)
+        }
+    };
+    Redirect::to(&response)
 }

@@ -18,7 +18,7 @@ pub use like::Like;
 pub use post::Post;
 pub use profile::Profile;
 pub use repo::Repo;
-pub use session::Session;
+pub use session::{Session, SessionMetadata};
 pub use upload::Upload;
 pub use user::User;
 pub use webhook::Webhook;
