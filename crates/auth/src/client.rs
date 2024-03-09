@@ -1,4 +1,4 @@
-use crate::error::{Error, Result as AuthResult};
+use crate::error::{Error, Result};
 use db::Database;
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
@@ -50,8 +50,7 @@ impl Client {
         authorize_url.to_string()
     }
 
-    // Handles a callback from GitHub by exchanging the code for a token and then
-    // exchanging the token for a user.
+    // Handles a callback from GitHub by exchanging the code for a token and then exchanging the token for a user.
     // User information is used to upsert a user and profile in the database.
     // A session is created for the user.
     // This session is encoded as a JWT and attached as a query param to the redirect URL.
@@ -61,19 +60,16 @@ impl Client {
         self,
         db: &Database,
         params: HashMap<String, String>,
-    ) -> Result<String, String> {
+    ) -> Result<String> {
         tracing::info!("Handling GitHub callback.");
 
         // Get the code passed from GitHub in the query params.
         let code = params
             .get("code")
-            .ok_or("unable to get code from GitHub".to_string())?;
+            .ok_or(Error::CodeExchangeForTokenFailed)?;
 
-        let access_token = self.exchange_code(code).await.map_err(|x| x.to_string())?;
-        let github_user = self
-            .fetch_github_user(access_token.clone())
-            .await
-            .map_err(|x| x.to_string())?;
+        let access_token = self.exchange_code(code).await?;
+        let github_user = self.fetch_github_user(access_token.clone()).await?;
 
         let user = db::user::upsert(
             db,
@@ -83,8 +79,7 @@ impl Client {
             Some("user".to_string()),
             Some("active".to_string()),
         )
-        .await
-        .map_err(|x| x.to_string())?;
+        .await?;
 
         let profile = db::profile::upsert(
             db,
@@ -92,8 +87,7 @@ impl Client {
             github_user.name.clone().unwrap_or("unnamed".to_string()),
             github_user.avatar_url,
         )
-        .await
-        .map_err(|x| x.to_string())?;
+        .await?;
 
         let encoding_key = crate::generate_encoding_key();
 
@@ -106,22 +100,24 @@ impl Client {
             encoding_key,
         };
 
-        let jwt = session.encode().map_err(|x| x.to_string())?;
+        Ok(session.encode()?)
+    }
 
-        Ok(format!("{}?token={}", self.redirect_url, jwt))
+    pub fn redirect_url_with_token(self, token: &str) -> String {
+        format!("{}?token={}", self.redirect_url, token)
     }
 
     pub fn redirect_url_with_err(self, err: &str) -> String {
         format!("{}?error={}", self.redirect_url, err)
     }
 
-    pub fn validate_session(self, db: Database, session: &str) -> AuthResult<()> {
+    pub fn validate_session(self, db: Database, session: &str) -> Result<()> {
         unimplemented!();
         Ok(())
     }
 
     // Exchange the code for a token.
-    async fn exchange_code(&self, code: &String) -> AuthResult<AccessToken> {
+    async fn exchange_code(&self, code: &String) -> Result<AccessToken> {
         match self
             .oauth_client
             .exchange_code(AuthorizationCode::new(code.to_string()))
@@ -129,12 +125,12 @@ impl Client {
             .await
         {
             Ok(token) => Ok(token.access_token().clone()),
-            Err(err) => Err(Error::CodeExchangeForTokenFailed(err.to_string())),
+            Err(_) => Err(Error::CodeExchangeForTokenFailed),
         }
     }
 
     // Returns the GitHub user associated with the token.
-    async fn fetch_github_user(&self, token: AccessToken) -> AuthResult<GitHubUser> {
+    async fn fetch_github_user(&self, token: AccessToken) -> Result<GitHubUser> {
         match reqwest::Client::new()
             .get("https://api.github.com/user")
             .header("User-Agent", "devy-backend")

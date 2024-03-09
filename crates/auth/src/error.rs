@@ -9,13 +9,22 @@ pub enum Error {
     ConfigurationError(String),
 
     /// GitHub returned an error when exchanging the code for a token.
-    CodeExchangeForTokenFailed(String),
+    CodeExchangeForTokenFailed,
 
     /// GitHub returned an error when exchanging the token for a user.
     TokenExchangeForUserFailed(String),
 
     /// The GitHub user data could not be deserialized.
     UnableToDeserializeUser(String),
+
+    /// An error occurred when interacting with the database.
+    DatabaseError(String),
+}
+
+impl From<db::Error> for Error {
+    fn from(err: db::Error) -> Self {
+        Error::DatabaseError(err.to_string())
+    }
 }
 
 impl From<entities::Error> for Error {
