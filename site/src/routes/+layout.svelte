@@ -5,11 +5,13 @@
 	import Footer from "$lib/footer/footer.svelte"
 	import type { LayoutData } from "./$types"
 	import Session from "$lib/auth/session.svelte"
-	import session from "$lib/auth/session-store"
+	import { setSession } from "$lib/auth/session-store"
 
 	export let data: LayoutData
 
-	session.set(data)
+	if (data?.session) {
+		setSession(data.session)
+	}
 </script>
 
 <ThemeProvider>

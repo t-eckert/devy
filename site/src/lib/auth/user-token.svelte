@@ -2,24 +2,27 @@
 	import type { Session } from "$lib/types"
 	import session from "$lib/auth/session-store"
 
-	let data: Session | null
+	let data: Session | undefined = undefined
 
-	session.subscribe((value) => (data = value.session))
+	session.subscribe((value) => {
+		data = value.session
+	})
 </script>
 
-{#if data !== null}
-	<div
+{#if data}
+	<a
+		href={"/profiles/" + data.metadata.user.username}
 		class="text-sm flex items-center gap-1 rounded-xl justify-center px-2 py-0.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
 	>
 		<img
 			src={data.metadata.profile.avatarUrl}
 			alt="profile"
-			class="w-6 aspect-square rounded-full"
+			class="w-4 aspect-square rounded-full"
 		/>
-		<a href={"/profiles/" + data.metadata.user.username}>
+		<span>
 			{data.metadata.profile.displayName}
-		</a>
-	</div>
+		</span>
+	</a>
 {:else}
 	<a
 		href="/api/auth/signin"

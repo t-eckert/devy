@@ -1,5 +1,22 @@
 import { writable } from "svelte/store"
+import type { Session } from "$lib/types"
 
-const session = writable({})
+export interface SessionStore {
+	loggedIn: boolean
+	session?: Session
+}
 
-export default session
+const sessionStore = writable<SessionStore>({
+	loggedIn: false,
+	session: undefined
+})
+
+export const setSession = (session: Session) => {
+	sessionStore.set({ loggedIn: true, session: session })
+}
+
+export const clearSession = () => {
+	sessionStore.set({ loggedIn: false, session: undefined })
+}
+
+export default sessionStore
