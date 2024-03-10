@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Home from "./home.svelte"
-	import User from "./user.svelte"
-	import ThemeSwitcher from "./theme-switcher.svelte"
+	import UserToken from "$lib/auth/user-token.svelte"
 	import Nav from "./nav.svelte"
 </script>
 
@@ -9,7 +8,7 @@
 	<div class="mx-auto max-w-6xl px-2 py-3 flex flex-row justify-between items-center">
 		<Home />
 		<div class="flex flex-row gap-1">
-			<User />
+			<UserToken />
 			<Nav />
 		</div>
 	</div>

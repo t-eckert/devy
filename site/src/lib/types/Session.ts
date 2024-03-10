@@ -1,12 +1,14 @@
-export default interface Session {
-	userId: string
-	profileId: string
-	username: string
-	displayName: string
-	avatarUrl?: string
-	role: string
-	status: string
+import type User from "./User"
+import type Profile from "./Profile"
 
-	createdAt: Date
-	exp: Date
+export default interface Session {
+	id: string
+
+	metadata: {
+		user: User
+		profile: Profile
+	}
+
+	createdAt: string
+	exp: number
 }

@@ -63,7 +63,7 @@ async fn callback(
         }
     };
 
-    let cookie = Cookie::build(("jwt", jwt.clone()))
+    let cookie = Cookie::build(("token", jwt.clone()))
         .http_only(true)
         .same_site(SameSite::Lax);
 
@@ -72,12 +72,7 @@ async fn callback(
     headers.insert(SET_COOKIE, cookie_header_value.parse().unwrap());
     headers.insert(
         LOCATION,
-        store
-            .auth_client
-            .clone()
-            .redirect_url_with_token(&jwt)
-            .parse()
-            .unwrap(),
+        store.auth_client.clone().redirect_url.parse().unwrap(),
     );
 
     (StatusCode::FOUND, headers)

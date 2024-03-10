@@ -3,6 +3,13 @@
 	import ThemeProvider from "$lib/theme-provider/theme-provider.svelte"
 	import Header from "$lib/header/header.svelte"
 	import Footer from "$lib/footer/footer.svelte"
+	import type { LayoutData } from "./$types"
+	import Session from "$lib/auth/session.svelte"
+	import session from "$lib/auth/session-store"
+
+	export let data: LayoutData
+
+	session.set(data)
 </script>
 
 <ThemeProvider>
