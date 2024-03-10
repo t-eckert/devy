@@ -124,7 +124,7 @@ if __name__ == "__main__":
     write_version(version)
 
     name = get_name(version)
-    filename = f"changelog/{version}-{slug(name)}.md"
+    filename = f"changelog/{version}.md"
     write_changelog(
         format_changelog(version, name, get_packages(package_paths)), filename
     )
