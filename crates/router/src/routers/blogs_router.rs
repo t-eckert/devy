@@ -8,7 +8,6 @@ use axum::{
 use db::{blog, post};
 use entities::{Blog, Post};
 use store::Store;
-use tower_http::cors::{Any, CorsLayer};
 
 pub struct BlogsRouter;
 
@@ -23,7 +22,6 @@ impl BlogsRouter {
             )
             .route("/blogs/:blog_slug", delete(delete_blog_by_blog_slug))
             .with_state(store)
-            .layer(CorsLayer::new().allow_origin(Any))
     }
 }
 
