@@ -19,12 +19,6 @@
 					<a href="https://thomaseckert.dev">Thomas Eckert</a>
 				</span>
 			</section>
-
-			<section class="flex flex-row font-medium sm:flex-col gap-4 sm:gap-1 items-start">
-				<a href="/changelog"> Changelog </a>
-				<a href="https://github.com/t-eckert/devy"> Repo </a>
-				<a href="https://github.com/t-eckert/devy/issues/new/choose"> Open an issue </a>
-			</section>
 		</div>
 	</div>
 </footer>
