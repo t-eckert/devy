@@ -1,6 +1,5 @@
 <script lang="ts">
 	import SvelteMarkdown from "svelte-markdown"
-
 	import type { PageData } from "./$types"
 	import Main from "$lib/layout/main.svelte"
 	import H1 from "$lib/element/h1.svelte"

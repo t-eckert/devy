@@ -14,7 +14,7 @@
 	<div class="flex flex-row gap-0.5 text-xs">
 		<a href={`/profiles/${authorUsername}`} class="text-zinc-600">{authorName}</a>
 		<Slash class="text-zinc-500" />
-		<a href={"#"} class="text-zinc-600">{blogName}</a>
+		<a href={`/${blogSlug}`} class="text-zinc-600">{blogName}</a>
 	</div>
 	<div class="font-medium">
 		<H2><a href={`/${blogSlug}/${slug}`}>{title}</a></H2>
