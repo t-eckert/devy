@@ -21,6 +21,7 @@ impl Router {
             .merge(routers::BlogsRouter::create(store.clone()))
             .merge(routers::FeedsRouter::create(store.clone()))
             .merge(routers::AuthRouter::create(store.clone()))
+            .merge(routers::ProfilesRouter::create(store.clone()))
             .layer(TraceLayer::new_for_http())
             .layer(CorsLayer::new().allow_origin(Any))
             .with_state(store);

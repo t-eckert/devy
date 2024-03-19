@@ -8,6 +8,7 @@ pub use error::{Error, Result};
 
 pub mod blog;
 pub mod feed_config;
+pub mod like;
 pub mod post;
 pub mod profile;
 pub mod repo;
