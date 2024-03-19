@@ -2,7 +2,7 @@ use axum::{
     extract::{Query, State},
     http::header::{HeaderMap, LOCATION, SET_COOKIE},
     http::StatusCode,
-    response::{AppendHeaders, IntoResponse, Redirect},
+    response::{IntoResponse, Redirect},
     routing::get,
 };
 use cookie::{Cookie, SameSite};
@@ -34,8 +34,6 @@ async fn login(State(store): State<Store>) -> Redirect {
 /// GET /auth/callback
 ///
 /// Handles the callback of the auth provider and redirect the user to the correct page.
-// HACK this is a bit of a mess. I tried to get this working by sending a cookie with the JWT,
-// but I couldn't get it to work. So I'm sending the JWT as a query parameter for now.
 async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
@@ -50,10 +48,6 @@ async fn callback(
     {
         Ok(token) => token,
         Err(err) => {
-            dbg!("======================================================================");
-            dbg!(&err);
-            dbg!("======================================================================");
-
             let redirect_url = store
                 .auth_client
                 .clone()
