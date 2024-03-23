@@ -11,7 +11,6 @@
 		<Link href="/">Home</Link>
 		<Sep />
 		<Link href="/new/blog">Create your blog</Link>
-		<Link href="/uploads">Uploads</Link>
 		<Sep />
 		<FormButton action="?/signOut" name="sign out">Sign out</FormButton>
 	</Items>
