@@ -4,7 +4,6 @@
 	import Header from "$lib/header/header.svelte"
 	import Footer from "$lib/footer/footer.svelte"
 	import type { LayoutData } from "./$types"
-	import Session from "$lib/auth/session.svelte"
 	import { setSession } from "$lib/auth/session-store"
 
 	export let data: LayoutData
