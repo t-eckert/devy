@@ -11,12 +11,11 @@ const get = async <T,>(path: string): Promise<T> => {
 	return (await response.json()) as T
 }
 
-const post = async <T,>(path: string, body: T): Promise<T> => {
+const set = async <T,>(path: string, body: T): Promise<T> => {
 	const response = await fetch(config.api + path, {
 		method: "POST",
 		headers: {
-			"Content-Type": "application/json",
-			Authorization: "Bearer 123"
+			"Content-Type": "application/json"
 		},
 		body: JSON.stringify(body)
 	})
@@ -32,10 +31,21 @@ const del = async <T,>(path: string): Promise<T> => {
 	return (await response.json()) as T
 }
 
+const post = async <T,>(path: string, body: T): Promise<Response> => {
+	return await fetch(config.api + path, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(body)
+	})
+}
+
 const api = {
 	get,
-	post,
-	delete: del
+	set,
+	delete: del,
+	post
 }
 
 export default api
