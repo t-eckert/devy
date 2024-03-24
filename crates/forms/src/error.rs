@@ -11,6 +11,22 @@ pub enum Error {
     Malformed { message: String },
 }
 
+impl From<db::Error> for Error {
+    fn from(val: db::Error) -> Self {
+        match val {
+            db::Error::EntityNotFound => Self::Malformed {
+                message: "Entity not found".to_string(),
+            },
+            db::Error::Malformed { .. } => Self::Malformed {
+                message: "Malformed input".to_string(),
+            },
+            _ => Self::Malformed {
+                message: "Internal server error".to_string(),
+            },
+        }
+    }
+}
+
 impl From<entities::Error> for Error {
     fn from(val: entities::Error) -> Self {
         match val {

@@ -7,7 +7,10 @@ edition = "2021"
 [dependencies]
 db = { path = "../db" }
 entities = { path = "../entities" }
+reqwest = "0.12.1"
 serde_with = "3.3.0"
+slugify = "0.1.0"
+url = "2.5.0"
 
 [dependencies.serde]
 version = "1.0"

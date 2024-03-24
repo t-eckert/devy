@@ -12,6 +12,7 @@ use uuid::{uuid, Uuid};
 
 pub struct FeedsRouter;
 
+/// /feeds routes
 impl FeedsRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
