@@ -12,43 +12,33 @@ pub struct NewBlog {
     pub username: String,
     /// The name of the blog.
     pub name: String,
-    /// The URL of the blog's repository.
-    /// Must be a valid GitHub repository URL.
+    /// The URL where metadata about the repo can be retrieved.
     pub repo_url: String,
-    /// The GitHub ID of the user creating the blog.
-    pub github_id: i64,
-    /// The GitHub username of the user creating the blog.
-    pub github_name: String,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
-pub struct Response {
-    blog: Blog,
-    repo: Repo,
+pub struct NewBlogResponse {
+    // blog: Blog,
+    // repo: Repo,
 }
 
 impl NewBlog {
-    pub fn new(
-        username: String,
-        name: String,
-        repo_url: String,
-        github_id: i64,
-        github_name: String,
-    ) -> Self {
+    pub fn new(username: String, name: String, repo_url: String) -> Self {
         Self {
             username,
             name,
             repo_url,
-            github_id,
-            github_name,
         }
     }
 
     // Process takes the form submission, validates it, then creates the necessary entities
     // defined in the form.
     // It will create a blog entity and a repo entity and return both as a Response.
-    // pub async fn process(self, db: &Database) -> Result<Response> {
+    pub async fn process(self, db: &Database) -> Result<NewBlogResponse> {
+        Ok(NewBlogResponse {})
+    }
+
     // validate_repo_url(&self.repo_url)?;
     // self.validate_user_exists(pool).await?;
     //

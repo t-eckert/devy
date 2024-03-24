@@ -3,27 +3,35 @@ import api from "$lib/api"
 
 export type Status = "logged-in" | "logged-out"
 
-type NewBlogRequest = {
+type NewBlog = {
+	username: string
 	name: string
-	repoName: string
+	repoUrl: string
 }
 
 export const actions: Actions = {
-	default: async ({ request }) => {
-		const formData = await request.formData()
-		const name = formData.get("name")
-		const repoName = formData.get("githubRepo")
+	default: async ({ request, locals }) => {
+		if (locals.session === undefined) {
+			return {
+				status: 401,
+				body: "Unauthorized"
+			}
+		}
 
-		if (typeof name !== "string" || typeof repoName !== "string") {
+		const formData = await request.formData()
+		const name = formData.get("blog-name")
+		const repoUrl = formData.get("repo-url")
+		if (typeof name !== "string" || typeof repoUrl !== "string") {
 			return {
 				status: 400,
 				body: "Invalid request"
 			}
 		}
 
-		const newBlogRequest: NewBlogRequest = {
+		const newBlogRequest: NewBlog = {
+			username: locals.session.metadata.user.username,
 			name,
-			repoName
+			repoUrl
 		}
 
 		const resp = await api.post("/forms/new-blog", newBlogRequest)
