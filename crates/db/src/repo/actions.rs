@@ -3,23 +3,12 @@ use entities::Repo;
 use serde_json::Value;
 use uuid::Uuid;
 
-pub async fn upsert(
-    pool: &Database,
-    blog_id: Uuid,
-    url: String,
-    github_id: i64,
-    github_name: String,
-) -> Result<Repo> {
-    Ok(sqlx::query_file_as!(
-        Repo,
-        "src/repo/queries/upsert.sql",
-        blog_id,
-        url,
-        github_id,
-        github_name,
+pub async fn upsert(pool: &Database, blog_id: Uuid, url: String) -> Result<Repo> {
+    Ok(
+        sqlx::query_file_as!(Repo, "src/repo/queries/upsert.sql", blog_id, url)
+            .fetch_one(pool)
+            .await?,
     )
-    .fetch_one(pool)
-    .await?)
 }
 
 pub async fn set_metadata(pool: &Database, repo_id: Uuid, metadata: Value) -> Result<Repo> {

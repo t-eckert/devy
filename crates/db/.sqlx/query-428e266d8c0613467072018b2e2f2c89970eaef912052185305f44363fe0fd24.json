@@ -1,0 +1,52 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nSELECT\n\tid, blog_id, url, metadata,\n\tto_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"repo\" WHERE url = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "blog_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "metadata",
+        "type_info": "Jsonb"
+      },
+      {
+        "ordinal": 4,
+        "name": "created_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "updated_at",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      null,
+      null
+    ]
+  },
+  "hash": "428e266d8c0613467072018b2e2f2c89970eaef912052185305f44363fe0fd24"
+}

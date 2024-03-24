@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\nSELECT \n\tid, blog_id, url, github_id, github_name, metadata,\n\tto_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"repo\" WHERE url = $1;\n",
+  "query": "-- $1: blog_id\n-- $2: url\n\nINSERT INTO \"repo\" (blog_id, url)\nVALUES ($1, $2)\nON CONFLICT (blog_id) DO UPDATE SET\n\turl = $2\nRETURNING\n\tid,\n\tblog_id,\n\turl,\n\tmetadata,\n\tto_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at;\n",
   "describe": {
     "columns": [
       {
@@ -20,32 +20,23 @@
       },
       {
         "ordinal": 3,
-        "name": "github_id",
-        "type_info": "Int8"
-      },
-      {
-        "ordinal": 4,
-        "name": "github_name",
-        "type_info": "Text"
-      },
-      {
-        "ordinal": 5,
         "name": "metadata",
         "type_info": "Jsonb"
       },
       {
-        "ordinal": 6,
+        "ordinal": 4,
         "name": "created_at",
         "type_info": "Text"
       },
       {
-        "ordinal": 7,
+        "ordinal": 5,
         "name": "updated_at",
         "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
+        "Uuid",
         "Text"
       ]
     },
@@ -54,11 +45,9 @@
       false,
       false,
       false,
-      false,
-      false,
       null,
       null
     ]
   },
-  "hash": "c63d9dbe62166967d55e069dcb44144cd843f776f9e6b46086e26cedea3437cc"
+  "hash": "2138f8a7b10f7b16483a7c0f70288bf618669a7e6bfb8e6ddbfd88f5c6681019"
 }
