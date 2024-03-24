@@ -488,7 +488,7 @@ dependencies = [
 
 [[package]]
 name = "db"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "entities",
  "serde",
@@ -706,7 +706,7 @@ dependencies = [
 
 [[package]]
 name = "forms"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "db",
  "entities",
