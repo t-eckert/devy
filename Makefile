@@ -1,11 +1,11 @@
 .PHONY: version
-version: 
+version:
 	@python3 ./tools/versioner.py
 
-test-integration: 
+test-integration:
 	@cd integration && \
 		python3 -m pip install -r requirements.txt && \
-		python3 run.py 
+		python3 run.py
 
 # Site
 site-build:
@@ -35,7 +35,7 @@ api-package:
 
 # DB
 db-build:
-	@docker build . -f ./images/Dockerfile.db.test -t devy-test-db
+	@docker build . -f ./images/db/test/Dockerfile -t devy-test-db
 
 db-serve: db-build
 	@docker run --rm\
@@ -45,5 +45,3 @@ db-serve: db-build
 
 db-access:
 	@docker exec -it devy-test-db psql -U postgres
-
-
