@@ -9,8 +9,6 @@ pub struct Repo {
     pub url: String,
     pub blog_id: Uuid,
 
-    pub github_id: i64,
-    pub github_name: String,
     pub metadata: Value,
 
     pub created_at: Option<String>,
