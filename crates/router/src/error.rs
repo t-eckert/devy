@@ -4,7 +4,6 @@ use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
-use db::Error as DbError;
 use entities::Error as EntitiesError;
 use forms::Error as FormsError;
 use upload::Error as UploadError;
@@ -41,9 +40,14 @@ impl From<UploadError> for Error {
     }
 }
 
-impl From<DbError> for Error {
-    fn from(_: DbError) -> Self {
-        Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+impl From<db::Error> for Error {
+    fn from(err: db::Error) -> Self {
+        match err {
+            db::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
+            db::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            db::Error::MissingField { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
     }
 }
 
