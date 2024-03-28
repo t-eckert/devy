@@ -61,7 +61,7 @@ async fn callback(
         .http_only(true)
         .same_site(SameSite::Lax);
 
-    let cookie_header_value = format!("{}; Path=/; HttpOnly; SameSite=Lax; Secure", cookie);
+    let cookie_header_value = format!("{}; Path=/; HttpOnly; SameSite=None; Secure", cookie);
 
     headers.insert(SET_COOKIE, cookie_header_value.parse().unwrap());
     headers.insert(
