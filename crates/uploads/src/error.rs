@@ -13,11 +13,29 @@ pub enum Error {
 
     /// The GitHub user data could not be deserialized.
     UnableToDeserializeUser(String),
+
+    DependencyError(String),
+
+    RepositoryNotFound(String),
+
+    GitBinaryNotFound(String),
+
+    GitCloneFailed(String),
+
+    CleanupFailure(String),
+
+    FileParseError(String),
 }
 
 impl From<entities::Error> for Error {
     fn from(err: entities::Error) -> Self {
         Error::TokenExchangeForUserFailed(err.to_string())
+    }
+}
+
+impl From<db::Error> for Error {
+    fn from(err: db::Error) -> Self {
+        Error::DependencyError(err.to_string())
     }
 }
 
