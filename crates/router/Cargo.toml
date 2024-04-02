@@ -10,7 +10,7 @@ store = { path = "../store" }
 auth = { path = "../auth" }
 db = { path = "../db" }
 forms = { path = "../forms" }
-upload = { path = "../upload" }
+uploads = { path = "../uploads" }
 
 axum = "0.7.4"
 jsonwebtoken = "9.2.0"
