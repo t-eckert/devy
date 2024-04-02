@@ -133,7 +133,7 @@ impl Client {
     async fn fetch_github_user(&self, token: AccessToken) -> Result<GitHubUser> {
         match reqwest::Client::new()
             .get("https://api.github.com/user")
-            .header("User-Agent", "devy-backend")
+            .header("User-Agent", "devy")
             .header("Accept", "application/json")
             .bearer_auth(token.secret())
             .send()
