@@ -1,9 +1,9 @@
 export default interface Upload {
-	id: string
+	id?: string
 	previousUploadId?: string
-	status: string
+	status?: string
 	repo: string
-	logs: string[]
-	createdAt: string
-	updatedAt: string
+	logs?: string[]
+	createdAt?: string
+	updatedAt?: string
 }

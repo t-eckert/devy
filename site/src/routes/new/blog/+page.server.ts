@@ -1,5 +1,7 @@
 import type { PageServerLoad, Actions } from "./$types"
 import api from "$lib/api"
+import { redirect } from "@sveltejs/kit"
+import type { Blog, Repo } from "$lib/types"
 
 export type Status = "logged-in" | "logged-out"
 
@@ -34,19 +36,25 @@ export const actions: Actions = {
 			repoUrl
 		}
 
-		const resp = await api.post("/forms/new-blog", newBlogRequest)
-
-		if (resp.status === 200) {
+		const newBlogResponse = await api.post("/forms/new-blog", newBlogRequest)
+		if (newBlogResponse.status !== 200) {
 			return {
-				status: 200,
-				body: "Blog created"
+				status: newBlogResponse.status,
+				body: "Unable to create blog"
 			}
 		}
 
-		return {
-			status: 500,
-			body: "Internal server error"
+		const newUploadResponse = await api.post("/uploads", { repo: repoUrl })
+		if (newUploadResponse.status !== 200) {
+			return {
+				status: newUploadResponse.status,
+				body: "Unable to trigger upload"
+			}
 		}
+
+		// Redirect to the new blog
+		const resp = (await newBlogResponse.json()) as { blog: Blog; repo: Repo }
+		throw redirect(303, `/${resp.blog.slug}`)
 	}
 }
 
