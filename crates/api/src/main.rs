@@ -21,7 +21,11 @@ async fn main() {
     let db_config = db::Config::from_env().unwrap();
     let db = connect(db_config).await.unwrap();
 
-    let store = Store::new(db, auth_client);
+    let git_path = std::env::var("GIT_PATH").expect("GIT_PATH not set");
+    let git = uploads::Git::new(git_path).expect("Unable to create git client");
+    let uploader = uploads::Uploader::new(git);
+
+    let store = Store::new(db, auth_client, uploader);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
 

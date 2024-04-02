@@ -9,6 +9,8 @@ router = { path = "../router/" }
 store = { path = "../store/" }
 db = { path = "../db/" }
 monitoring = { path = "../monitoring/" }
+uploads = { path = "../uploads/" }
+
 dotenvy = "0.15.7"
 
 [dependencies.tokio]
