@@ -77,6 +77,7 @@ dependencies = [
  "router",
  "store",
  "tokio 1.36.0",
+ "uploads",
 ]
 
 [[package]]
@@ -710,7 +711,7 @@ version = "0.2.0"
 dependencies = [
  "db",
  "entities",
- "reqwest 0.12.1",
+ "reqwest 0.12.2",
  "serde",
  "serde_with",
  "slugify",
@@ -2320,9 +2321,9 @@ dependencies = [
 
 [[package]]
 name = "reqwest"
-version = "0.12.1"
+version = "0.12.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e333b1eb9fe677f6893a9efcb0d277a2d3edd83f358a236b657c32301dc6e5f6"
+checksum = "2d66674f2b6fb864665eea7a3c1ac4e3dfacd2fda83cf6f935a612e01b0e3338"
 dependencies = [
  "base64 0.21.7",
  "bytes 1.5.0",
@@ -2406,7 +2407,7 @@ dependencies = [
  "store",
  "tokio 1.36.0",
  "tower-http",
- "upload",
+ "uploads",
  "uuid 1.7.0",
 ]
 
@@ -2585,9 +2586,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.113"
+version = "1.0.115"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69801b70b1c3dac963ecb03a364ba0ceda9cf60c71cfe475e99864759c8b8a79"
+checksum = "12dc5c46daa8e9fdf4f5e71b6cf9a53f2487da0e86e55808e2d35539666497dd"
 dependencies = [
  "itoa 1.0.10",
  "ryu",
@@ -3016,6 +3017,7 @@ version = "0.1.0"
 dependencies = [
  "auth",
  "db",
+ "uploads",
 ]
 
 [[package]]
@@ -3577,11 +3579,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
 
 [[package]]
-name = "upload"
+name = "uploads"
 version = "0.1.0"
 dependencies = [
+ "db",
  "entities",
+ "reqwest 0.11.24",
  "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]
