@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-auth = { path="../auth" }
-db = { path="../db" }
+auth = { path = "../auth" }
+db = { path = "../db" }
+uploads = { path = "../uploads" }
