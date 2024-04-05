@@ -21,6 +21,7 @@ pub enum Error {
     GitBinaryNotFound(String),
 
     GitCloneFailed(String),
+    GitDiffFailed(String),
 
     CleanupFailure(String),
 

@@ -1,6 +1,15 @@
-use crate::{error::Result, Git};
-use db::{upload, Database};
-use entities::Upload;
+use crate::{
+    diff::{diff_files, Diff},
+    error::{Error, Result},
+    Git,
+};
+use db::{post, repo, upload, Database};
+use entities::{Post, Repo, Upload};
+use glob::glob;
+use serde_json::json;
+use std::fs;
+use std::path::PathBuf;
+use uuid::Uuid;
 
 #[derive(Clone)]
 pub struct Uploader {
@@ -13,14 +22,59 @@ impl Uploader {
     }
 
     pub async fn upload(self, db: &Database, mut upload: Upload) -> Result<Upload> {
+        // Set the status of the upload to "received" and append a log message.
         upload = upload::set_status(db, upload.id, "received").await?;
-        upload = upload::append_log(db, upload.id, "INFO: Upload received by uploader.").await?;
+        upload = upload::append_log(db, upload.id, "INFO: Upload received by uploader").await?;
 
+        // Fetch the repository metadata from the GitHub API.
         let repo_metadata = Self::fetch_repo_metadata(upload.repo.clone()).await?;
-        dbg!(repo_metadata);
-        let dir = format!("/tmp/{}", upload.id);
 
-        Ok(upload.clone())
+        // Check for the previous upload.
+        let previous_upload = upload::get_previous(db, &upload.repo).await?;
+        upload.previous_upload_id = previous_upload.clone().map(|u| u.id);
+        match upload.previous_upload_id {
+            Some(previous) => {
+                upload::set_previous(db, upload.id, previous).await?;
+                upload::append_log(
+                    db,
+                    upload.id,
+                    &format!("INFO: Previous upload found: {}", previous),
+                )
+                .await?;
+            }
+            None => {
+                upload::append_log(db, upload.id, "INFO: No previous upload found").await?;
+            }
+        }
+
+        // Clone the repository.
+        let dir = format!("/tmp/{}", upload.id);
+        self.git.clone_repo(&dir, &repo_metadata.clone_url)?;
+        upload::set_status(db, upload.id, "cloned").await?;
+        upload::append_log(db, upload.id, "INFO: Repository cloned").await?;
+
+        // Set the SHA for the upload.
+        let sha = self.git.sha(&dir)?;
+        upload = upload::set_sha(db, upload.id, sha.clone()).await?;
+        upload::append_log(db, upload.id, &format!("INFO: Current SHA {}", &sha)).await?;
+
+        // Diff posts.
+        let diff = match previous_upload {
+            Some(previous) => diff_files(self.git.diff(&dir, &sha, &previous.sha)?),
+            None => diff_files(self.git.diff(&dir, &sha, &self.git.first_sha(&dir)?)?),
+        };
+        dbg!(&diff);
+
+        // Sync posts.
+        let blog_slug = repo_metadata.name;
+        Self::sync_posts(db, blog_slug, diff).await?;
+
+        // Delete the temporary directory.
+        Self::cleanup(&dir)?;
+        upload::set_status(db, upload.id, "done").await?;
+        upload::append_log(db, upload.id, "INFO: Upload complete.").await?;
+
+        Ok(upload::get_by_id(db, upload.id).await?)
     }
 
     async fn fetch_repo_metadata(api_url: String) -> Result<RepoMetadata> {
@@ -38,17 +92,111 @@ impl Uploader {
             Err(err) => Err(crate::Error::DependencyError(err.to_string())),
         }
     }
+
+    async fn sync_posts(db: &Database, blog_slug: String, diffs: Vec<Diff>) -> Result<()> {
+        for diff in diffs {
+            dbg!(&diff);
+            match diff {
+                Diff::Added(file) => {
+                    if file_is_markdown(&file) {
+                        Self::add_post(db, &blog_slug.clone(), file).await?;
+                    }
+                }
+                Diff::Modified(file) => {
+                    if file_is_markdown(&file) {
+                        Self::modify_post(db, file).await?;
+                    }
+                }
+                Diff::Renamed(_, from, to) => {
+                    if file_is_markdown(&to) {
+                        Self::rename_post(db, from, to).await?;
+                    }
+                }
+                Diff::Deleted(file) => {
+                    if file_is_markdown(&file) {
+                        Self::delete_post(db, file).await?;
+                    }
+                }
+            }
+        }
+
+        Ok(())
+    }
+
+    async fn add_post(db: &Database, blog_slug: &str, path: String) -> Result<()> {
+        let title = "Title";
+        let slug = "slug";
+        let body = "Body";
+        post::insert(db, title, blog_slug, slug, body).await?;
+
+        println!("Adding post: {}", path);
+        Ok(())
+    }
+
+    async fn modify_post(db: &Database, path: String) -> Result<()> {
+        println!("Modifying post: {}", path);
+        Ok(())
+    }
+
+    async fn rename_post(db: &Database, from: String, to: String) -> Result<()> {
+        println!("Renaming post: {} -> {}", from, to);
+        Ok(())
+    }
+
+    async fn delete_post(db: &Database, path: String) -> Result<()> {
+        println!("Deleting post: {}", path);
+        Ok(())
+    }
+
+    fn get_markdown_files(dir: &str) -> Result<Vec<MarkdownFile>> {
+        let paths = glob(format!("{}/**/*.md", dir).as_str())
+            .map_err(|e| Error::FileParseError(e.to_string()))?
+            .filter_map(|x| x.ok())
+            .filter(|x| x.is_file())
+            .filter(|x| !format!("{}", x.display()).contains("README"))
+            .collect::<Vec<PathBuf>>();
+
+        let mut files = vec![];
+        for path in paths {
+            let content =
+                fs::read_to_string(&path).map_err(|e| Error::FileParseError(e.to_string()))?;
+            files.push(MarkdownFile {
+                path: path.to_str().unwrap().to_string(),
+                content,
+            });
+        }
+
+        Ok(files)
+    }
+
+    fn cleanup(dir: &str) -> Result<()> {
+        fs::remove_dir_all(&dir).map_err(|e| {
+            Error::CleanupFailure(format!(
+                "Failed to remove directory {}: {}",
+                &dir,
+                e.to_string()
+            ))
+        })?;
+        Ok(())
+    }
 }
 
-type RepoMetadata = Root;
+fn file_is_markdown(file: &str) -> bool {
+    file.ends_with(".md")
+}
 
-use serde_derive::Deserialize;
-use serde_derive::Serialize;
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct MarkdownFile {
+    path: String,
+    content: String,
+}
+
+use serde_derive::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Root {
+pub struct RepoMetadata {
     pub id: i64,
     #[serde(rename = "node_id")]
     pub node_id: String,
