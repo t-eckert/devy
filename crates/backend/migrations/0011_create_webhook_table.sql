@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS "webhook" (
-	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-
-	received_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-	type TEXT NOT NULL,
-	payload JSONB NOT NULL
-)

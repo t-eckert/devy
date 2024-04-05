@@ -5,7 +5,6 @@ resolver = "1"
 members = [
     "api",
     "auth",
-    "backend",
     "db",
     "entities",
     "forms",
