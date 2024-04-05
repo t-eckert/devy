@@ -4,7 +4,7 @@ version = "0.3.1"
 edition = "2021"
 
 [dependencies]
-db = { path = "../db" }
+db = { path = "../../db" }
 entities = { path = "../entities" }
 
 oauth2 = "4.4.2"

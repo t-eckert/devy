@@ -6,9 +6,9 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 pub struct Repo {
     pub id: Uuid,
-    pub url: String,
     pub blog_id: Uuid,
 
+    pub url: String,
     pub metadata: Value,
 
     pub created_at: Option<String>,

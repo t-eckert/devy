@@ -5,15 +5,11 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 pub struct Post {
     pub id: Uuid,
-    pub slug: String,
-
-    pub blog_slug: Option<String>,
-    pub blog_name: Option<String>,
-    pub author_name: Option<String>,
-    pub author_username: Option<String>,
+    pub blog_id: Uuid,
 
     pub title: String,
-    pub content: String,
+    pub slug: String,
+    pub body: String,
 
     pub likes: Option<i64>,
 

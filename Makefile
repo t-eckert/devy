@@ -22,20 +22,20 @@ storybook-serve:
 
 # API
 api-build:
-	@cd crates && SQLX_OFFLINE=true cargo build --bin api --release
+	@SQLX_OFFLINE=true cargo build --bin api --release
 
 api-serve:
-	@cd crates/api && RUST_LOG=DEBUG cargo watch -- cargo run
+	@cd api && RUST_LOG=DEBUG cargo watch -- cargo run
 
 api-prepare-queries:
-	@cd crates/db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
+	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
 
 api-package:
 	@docker build . -f ./images/Dockerfile.api -t devy-api
 
 # DB
 db-build:
-	@docker build . -f ./images/db/test/Dockerfile -t devy-test-db
+	@docker build . -f ./db/Dockerfile -t devy-test-db
 
 db-serve: db-build
 	@docker run --rm\

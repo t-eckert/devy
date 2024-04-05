@@ -5,11 +5,11 @@ edition = "2021"
 
 
 [dependencies]
-entities = { path = "../entities" }
-store = { path = "../store" }
+db = { path = "../../db" }
 auth = { path = "../auth" }
-db = { path = "../db" }
+entities = { path = "../entities" }
 forms = { path = "../forms" }
+store = { path = "../store" }
 uploads = { path = "../uploads" }
 
 axum = "0.7.4"

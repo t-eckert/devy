@@ -1,0 +1,18 @@
+[package]
+name = "api"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+db = { path = "../db/" }
+auth = { path = "../crates/auth/" }
+router = { path = "../crates/router/" }
+store = { path = "../crates/store/" }
+monitoring = { path = "../crates/monitoring/" }
+uploads = { path = "../crates/uploads/" }
+
+dotenvy = "0.15.7"
+
+[dependencies.tokio]
+version = "1.28.2"
+features = ["full"]

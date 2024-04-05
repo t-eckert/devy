@@ -124,11 +124,6 @@ impl Uploader {
     }
 
     async fn add_post(db: &Database, blog_slug: &str, path: String) -> Result<()> {
-        let title = "Title";
-        let slug = "slug";
-        let body = "Body";
-        post::insert(db, title, blog_slug, slug, body).await?;
-
         println!("Adding post: {}", path);
         Ok(())
     }
