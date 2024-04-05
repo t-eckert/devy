@@ -1,13 +1,11 @@
 use crate::error::Result;
 use axum::{
     extract::{Json as ExtractJson, Path, State},
-    response::IntoResponse,
     routing::{get, post},
     Json,
 };
 use db::upload;
 use entities::Upload;
-use http::StatusCode;
 use store::Store;
 use uploads::NewUpload;
 
@@ -43,12 +41,16 @@ async fn create_new_upload(
     State(store): State<Store>,
     ExtractJson(new_upload): ExtractJson<NewUpload>,
 ) -> Result<Json<Upload>> {
-    dbg!("create_new_upload");
+    print!("\n\nVVVVV create_new_upload VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n");
     dbg!(&new_upload);
 
-    let upload = upload::insert(&store.db, None, new_upload.repo).await?;
-
-    let upload = store.uploader.upload(&store.db, upload).await?;
-
-    Ok(Json(upload))
+    Ok(Json(
+        store
+            .uploader
+            .upload(
+                &store.db,
+                upload::insert(&store.db, None, new_upload.repo).await?,
+            )
+            .await?,
+    ))
 }
