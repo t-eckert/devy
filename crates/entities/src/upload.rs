@@ -9,6 +9,7 @@ pub struct Upload {
 
     pub status: String,
     pub repo: String,
+    pub sha: String,
     pub logs: Option<Vec<String>>,
 
     pub created_at: Option<String>,
