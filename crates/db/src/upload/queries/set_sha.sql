@@ -1,5 +1,5 @@
 UPDATE "upload"
-SET logs=ARRAY_APPEND(logs,$2), updated_at=NOW()
+SET sha=$2, updated_at=NOW()
 WHERE id=$1
 RETURNING
 	id,

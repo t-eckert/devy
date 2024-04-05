@@ -1,5 +1,5 @@
 UPDATE "upload"
-SET logs=ARRAY_APPEND(logs,$2), updated_at=NOW()
+SET previous_upload_id=$2, updated_at=NOW()
 WHERE id=$1
 RETURNING
 	id,

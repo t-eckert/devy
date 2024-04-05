@@ -2,6 +2,50 @@ use crate::{Database, Error, Result};
 use entities::Post;
 use uuid::{uuid, Uuid};
 
+pub async fn insert(
+    db: &Database,
+    title: &str,
+    blog_slug: &str,
+    slug: &str,
+    body: &str,
+) -> Result<Post> {
+    sqlx::query_file_as!(
+        Post,
+        "src/post/queries/insert.sql",
+        title,
+        blog_slug,
+        slug,
+        body
+    )
+    .execute(db)
+    .await?;
+
+    get_by_blog_slug_and_post_slug(db, slug, slug).await
+}
+
+pub async fn update(db: &Database, post: Post) -> Result<Post> {
+    sqlx::query_file_as!(
+        Post,
+        "src/post/queries/update.sql",
+        post.id,
+        post.blog_slug,
+        post.title,
+        post.slug,
+        post.content
+    )
+    .fetch_one(db)
+    .await?;
+
+    get_by_id(db, post.id).await
+}
+
+pub async fn delete(db: &Database, id: Uuid) -> Result<()> {
+    sqlx::query_file_as!(Post, "src/post/queries/delete.sql", id)
+        .fetch_one(db)
+        .await?;
+    Ok(())
+}
+
 pub async fn get_by_id(db: &Database, id: Uuid) -> Result<Post> {
     Ok(
         sqlx::query_file_as!(Post, "src/post/queries/get_by_id.sql", id)

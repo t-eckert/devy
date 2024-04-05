@@ -3,6 +3,8 @@
 
 INSERT INTO "repo" (id, metadata)
 VALUES ($1, $2)
+ON CONFLICT (id) DO UPDATE SET
+    metadata = $2
 RETURNING
 	id,
 	blog_id,
