@@ -489,7 +489,7 @@ dependencies = [
 
 [[package]]
 name = "db"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "entities",
  "serde",
@@ -2392,7 +2392,7 @@ dependencies = [
 
 [[package]]
 name = "router"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "auth",
  "axum 0.7.4",
@@ -3580,14 +3580,16 @@ checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
 
 [[package]]
 name = "uploads"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "db",
  "entities",
+ "glob",
  "reqwest 0.11.24",
  "serde",
  "serde_derive",
  "serde_json",
+ "uuid 1.7.0",
 ]
 
 [[package]]
