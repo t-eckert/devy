@@ -9,6 +9,7 @@
 <Menu>
 	<Items classes="w-40">
 		<Link href="/">Home</Link>
+		<Link href="/feedback">Share your feedback</Link>
 		<Sep />
 		<Link href="/new/blog">Create your blog</Link>
 		<Sep />
