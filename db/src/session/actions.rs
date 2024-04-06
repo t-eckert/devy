@@ -6,7 +6,6 @@ pub async fn insert(
     db: &Database,
     user_id: Uuid,
     metadata: SessionMetadata,
-    token: String,
     access_token: String,
     encoding_key: String,
 ) -> Result<Session> {
@@ -15,7 +14,6 @@ pub async fn insert(
         "src/session/queries/insert.sql",
         user_id,
         serde_json::to_value(metadata).unwrap_or_default(),
-        token,
         access_token,
         encoding_key
     )
