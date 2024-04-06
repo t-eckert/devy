@@ -10,7 +10,6 @@ pub struct Session {
     pub user_id: Uuid,
 
     pub metadata: SessionMetadata,
-    pub token: String,
 
     pub created_at: Option<String>,
     pub last_used_at: Option<String>,
