@@ -1,5 +1,5 @@
 use crate::error::{Error, Result};
-use db::Database;
+use db::{session, Database};
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
@@ -91,14 +91,15 @@ impl Client {
 
         let encoding_key = crate::generate_encoding_key();
 
-        let session = entities::Session {
-            id: uuid::Uuid::new_v4(),
-            metadata: entities::SessionMetadata { user, profile },
-            created_at: Some("".to_string()),
-            exp: 3600,
-            access_token: "".to_string(),
+        let session = session::insert(
+            db,
+            user.id,
+            entities::SessionMetadata { user, profile },
+            "".to_string(),
+            "".to_string(),
             encoding_key,
-        };
+        )
+        .await?;
 
         Ok(session.encode()?)
     }
