@@ -6,11 +6,13 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 pub struct Session {
     pub id: Uuid,
+    pub user_id: Uuid,
 
     pub metadata: SessionMetadata,
 
     pub created_at: Option<String>,
-    pub exp: u32,
+    pub last_used_at: Option<String>,
+    pub exp: i32,
 
     #[serde(skip)]
     pub access_token: String,
