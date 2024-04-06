@@ -66,7 +66,12 @@ async fn callback(
     headers.insert(SET_COOKIE, cookie_header_value.parse().unwrap());
     headers.insert(
         LOCATION,
-        store.auth_client.clone().redirect_url.parse().unwrap(),
+        store
+            .auth_client
+            .clone()
+            .redirect_url_with_token(&jwt)
+            .parse()
+            .unwrap(),
     );
 
     (StatusCode::FOUND, headers)
