@@ -1,5 +1,6 @@
 use crate::{error::Result, Profile, User};
 use serde::{Deserialize, Serialize};
+use serde_json::Value as JsonValue;
 use uuid::Uuid;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -9,6 +10,7 @@ pub struct Session {
     pub user_id: Uuid,
 
     pub metadata: SessionMetadata,
+    pub token: String,
 
     pub created_at: Option<String>,
     pub last_used_at: Option<String>,
@@ -35,5 +37,17 @@ impl Session {
             &self,
             &jsonwebtoken::EncodingKey::from_secret(self.encoding_key.as_ref()),
         )?)
+    }
+}
+
+impl From<JsonValue> for SessionMetadata {
+    fn from(value: JsonValue) -> Self {
+        let user = value["user"].clone();
+        let profile = value["profile"].clone();
+
+        Self {
+            user: serde_json::from_value(user).unwrap(),
+            profile: serde_json::from_value(profile).unwrap(),
+        }
     }
 }
