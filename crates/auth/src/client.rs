@@ -96,7 +96,6 @@ impl Client {
             user.id,
             entities::SessionMetadata { user, profile },
             "".to_string(),
-            "".to_string(),
             encoding_key,
         )
         .await?;
