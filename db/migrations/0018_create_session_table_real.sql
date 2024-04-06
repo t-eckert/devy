@@ -4,9 +4,6 @@ CREATE TABLE IF NOT EXISTS "session" (
 
     metadata JSONB NOT NULL DEFAULT '{}',
 
-    -- The session token
-    token TEXT NOT NULL UNIQUE,
-
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     last_used_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     exp INTEGER NOT NULL DEFAULT 3600,
