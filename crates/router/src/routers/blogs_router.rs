@@ -42,7 +42,7 @@ async fn get_posts_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Vec<Post>>> {
-    Ok(Json(post::get_by_blog_slug(&store.db, &blog_slug).await?))
+    Ok(Json(post::get_by_blog_slug(&store.db, blog_slug).await?))
 }
 
 /// GET /blogs/:blog_slug/posts/:post_slug
