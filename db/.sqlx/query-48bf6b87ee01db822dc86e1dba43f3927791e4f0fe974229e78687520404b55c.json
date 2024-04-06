@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO \"upload\" (previous_upload_id, repo) \nVALUES ($1, $2)\nRETURNING\n\tid, \n\tprevious_upload_id, \n\tstatus,\n\trepo, \n\tlogs,\n\tto_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at; \n",
+  "query": "SELECT\n\tid,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tsha,\n\tlogs,\n\tto_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"upload\"\nWHERE repo=$1;\n",
   "describe": {
     "columns": [
       {
@@ -25,23 +25,27 @@
       },
       {
         "ordinal": 4,
+        "name": "sha",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
         "name": "logs",
         "type_info": "TextArray"
       },
       {
-        "ordinal": 5,
+        "ordinal": 6,
         "name": "created_at",
         "type_info": "Text"
       },
       {
-        "ordinal": 6,
+        "ordinal": 7,
         "name": "updated_at",
         "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
-        "Uuid",
         "Text"
       ]
     },
@@ -50,10 +54,11 @@
       true,
       false,
       false,
+      false,
       true,
       null,
       null
     ]
   },
-  "hash": "1e15fb1f58cb3d59ed3dabf1aaa505107f71061198e23a53d363fea1055563b0"
+  "hash": "48bf6b87ee01db822dc86e1dba43f3927791e4f0fe974229e78687520404b55c"
 }

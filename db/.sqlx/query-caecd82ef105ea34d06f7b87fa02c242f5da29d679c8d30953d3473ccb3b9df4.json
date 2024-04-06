@@ -1,0 +1,67 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO \"post\" (blog_id, title, slug, body) \nVALUES ($1, $2, $3, $4)\nRETURNING\n  id,\n  blog_id,\n  title,\n  slug,\n  body,\n  to_char(\"post\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n  to_char(\"post\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n  0::bigint AS likes;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "blog_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "body",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "created_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "updated_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "likes",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "caecd82ef105ea34d06f7b87fa02c242f5da29d679c8d30953d3473ccb3b9df4"
+}

@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT\n\tid,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tlogs,\n\tto_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"upload\"\nWHERE repo=$1;\n",
+  "query": "SELECT\n\tid,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tsha,\n\tlogs,\n\tto_char(upload.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(upload.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM \"upload\"\nWHERE\n    repo=$1\n    AND status='done'\nORDER BY created_at DESC\nLIMIT 1;\n",
   "describe": {
     "columns": [
       {
@@ -25,16 +25,21 @@
       },
       {
         "ordinal": 4,
+        "name": "sha",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
         "name": "logs",
         "type_info": "TextArray"
       },
       {
-        "ordinal": 5,
+        "ordinal": 6,
         "name": "created_at",
         "type_info": "Text"
       },
       {
-        "ordinal": 6,
+        "ordinal": 7,
         "name": "updated_at",
         "type_info": "Text"
       }
@@ -49,10 +54,11 @@
       true,
       false,
       false,
+      false,
       true,
       null,
       null
     ]
   },
-  "hash": "1c04ff7369690eb85fbad159330117c810cd63a56e9571d0286f6c01d30d2842"
+  "hash": "37cc78101ff8144cb3c0ef0d4432739d6f044990bae14b6a216a6b634750fe6a"
 }

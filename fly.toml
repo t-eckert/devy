@@ -7,7 +7,7 @@ app = 'devy'
 primary_region = 'iad'
 
 [build]
-dockerfile = './images/api/Dockerfile'
+dockerfile = './api/Dockerfile'
 
 [http_service]
 internal_port = 8000

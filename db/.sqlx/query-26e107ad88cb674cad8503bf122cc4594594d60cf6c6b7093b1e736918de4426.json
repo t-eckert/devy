@@ -1,0 +1,68 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- $1: id\n-- $2: blog_id\n-- $3: title\n-- $4: slug\n-- $5: body\n\nWITH Upserted AS (\n    INSERT INTO \"post\" (id, blog_id, title, slug, body)\n    VALUES ($1, $2, $3, $4, $5)\n    ON CONFLICT (id) DO UPDATE SET\n        blog_id = EXCLUDED.blog_id,\n        title = EXCLUDED.title,\n        slug = EXCLUDED.slug,\n        body = EXCLUDED.body,\n        updated_at = NOW()\n    RETURNING id\n)\nSELECT\n    p.id,\n    p.blog_id,\n    p.title,\n    p.slug,\n    p.body,\n    to_char(p.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n    to_char(p.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n    COALESCE(l.like_count, 0) AS likes\nFROM post p\nLEFT JOIN (\n    SELECT post_id, COUNT(*) AS like_count\n    FROM \"like\"\n    GROUP BY post_id\n) l ON p.id = l.post_id\nWHERE p.id = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "blog_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "body",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "created_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "updated_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "likes",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "26e107ad88cb674cad8503bf122cc4594594d60cf6c6b7093b1e736918de4426"
+}
