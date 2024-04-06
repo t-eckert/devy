@@ -7,17 +7,12 @@
 	import RelativeDate from "$lib/utils/relative-date.svelte"
 
 	export let post: Post
-	const { title, slug, authorName, authorUsername, blogName, blogSlug, createdAt } = post
+	const { title, slug, createdAt } = post
 </script>
 
 <div class="flex flex-col">
-	<div class="flex flex-row gap-0.5 text-xs">
-		<a href={`/profiles/${authorUsername}`} class="text-zinc-600">{authorName}</a>
-		<Slash class="text-zinc-500" />
-		<a href={`/${blogSlug}`} class="text-zinc-600">{blogName}</a>
-	</div>
 	<div class="font-medium">
-		<H2><a href={`/${blogSlug}/${slug}`}>{title}</a></H2>
+		<H2>{title}</H2>
 	</div>
 	<div class="text-xs"><RelativeDate date={createdAt} /></div>
 </div>
