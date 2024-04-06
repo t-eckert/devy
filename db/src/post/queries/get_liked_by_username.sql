@@ -1,17 +1,14 @@
-SELECT 
+SELECT
 	id,
+	post.blog_id,
 	COALESCE(slug, '') AS slug,
-	blog_slug,
-	blog_name,
-	author_name,
-	profile_slug AS author_username,
 	title,
-	body AS content,
+	body,
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
 	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
 	COALESCE(likes.like_count, 0) AS likes
-FROM "post" INNER JOIN 
-	(SELECT * FROM "like" WHERE profile_id = 
+FROM "post" INNER JOIN
+	(SELECT * FROM "like" WHERE profile_id =
 		(SELECT id FROM "profile" WHERE user_id =
 			(SELECT id FROM "user" WHERE username = $1)))
 AS user_likes ON "post".id = post_id
@@ -38,4 +35,3 @@ INNER JOIN (
 	FROM "like"
 	GROUP BY post_id
 ) AS likes ON post.id = likes.post_id;
-

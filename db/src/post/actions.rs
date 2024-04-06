@@ -1,39 +1,69 @@
-use crate::{Database, Result};
+use crate::{Database, Error, Result};
 use entities::Post;
-use uuid::Uuid;
+use uuid::{uuid, Uuid};
 
-pub async fn insert(db: &Database, blog_id: Uuid, title: String, slug: String, body: String) -> Result<Post> {
-    Ok(
-        sqlx::query_file_as!(Post, "src/post/queries/insert.sql", blog_id, title, slug, body)
-            .fetch_one(db)
-            .await?,
+pub async fn insert(
+    db: &Database,
+    blog_id: Uuid,
+    title: String,
+    slug: String,
+    body: String,
+) -> Result<Post> {
+    Ok(sqlx::query_file_as!(
+        Post,
+        "src/post/queries/insert.sql",
+        blog_id,
+        title,
+        slug,
+        body
     )
+    .fetch_one(db)
+    .await?)
 }
-/*
+
 pub async fn update(db: &Database, post: Post) -> Result<Post> {
-    Ok(
-        sqlx::query_file_as!(Post, "src/post/queries/update.sql", post.id, post.blog_id, post.title, post.slug, post.body)
-            .fetch_one(db)
-            .await?,
+    Ok(sqlx::query_file_as!(
+        Post,
+        "src/post/queries/update.sql",
+        post.id,
+        post.blog_id,
+        post.title,
+        post.slug,
+        post.body
     )
+    .fetch_one(db)
+    .await?)
 }
 
 pub async fn get(db: &Database, id: Uuid) -> Result<Post> {
+    Ok(sqlx::query_file_as!(Post, "src/post/queries/get.sql", id)
+        .fetch_one(db)
+        .await?)
+}
+
+/// Returns all posts for a given blog, identified by its slug.
+pub async fn get_by_blog_slug(db: &Database, blog_slug: String) -> Result<Vec<Post>> {
     Ok(
-        sqlx::query_file_as!(Post, "src/post/queries/get.sql", blog_id, title, slug, content)
-            .fetch_one(db)
+        sqlx::query_file_as!(Post, "src/post/queries/get_by_blog_slug.sql", blog_slug)
+            .fetch_all(db)
             .await?,
     )
 }
 
-pub async fn get_by_blog_slug(db: &Database, blog_slug: String) -> Result<Vec<Post>> {
-    unimplemented!()
+pub async fn get_by_blog_slug_and_post_slug(
+    db: &Database,
+    blog_slug: &str,
+    post_slug: &str,
+) -> Result<Post> {
+    Ok(sqlx::query_file_as!(
+        Post,
+        "src/post/queries/get_by_blog_slug_and_post_slug.sql",
+        blog_slug,
+        post_slug
+    )
+    .fetch_one(db)
+    .await?)
 }
-
-pub async fn get_by_blog_slug_and_post_slug(db: &Database, blog_slug: &str, post_slug: &str) -> Result<Post> {
-    unimplemented!()
-}
-
 
 pub async fn get_by_feed(
     db: &Database,
@@ -79,10 +109,11 @@ pub async fn get_by_username(db: &Database, username: &str) -> Result<Vec<Post>>
 }
 
 pub async fn delete(db: &Database, id: Uuid) -> Result<()> {
-    sqlx::query_file_as!(Post, "src/post/queries/delete.sql", id).execute(db).await?;
+    sqlx::query_file_as!(Post, "src/post/queries/delete.sql", id)
+        .execute(db)
+        .await?;
     Ok(())
 }
-*/
 
 #[cfg(test)]
 mod test {

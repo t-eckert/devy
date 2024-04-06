@@ -1,12 +1,13 @@
-SELECT 
+SELECT
 	id,
-  blog_id,
+    blog_id,
 	title,
 	slug,
-	body AS content,
+	body,
+	COALESCE(likes.like_count, 0)::bigint AS likes,
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
-	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
-	COALESCE(likes.like_count, 0) AS likes
+	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at
+FROM post
 LEFT JOIN (
 	SELECT post_id, COUNT(*) AS like_count
 	FROM "like"
