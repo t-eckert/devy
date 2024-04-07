@@ -4,8 +4,8 @@ use axum::{
     routing::get,
     Json,
 };
-use db::{feed_config, post};
-use entities::{FeedConfig, Post};
+use db::{feed, post};
+use entities::{Feed, Post};
 use std::collections::HashMap;
 use store::Store;
 use uuid::{uuid, Uuid};
@@ -16,15 +16,19 @@ pub struct FeedsRouter;
 impl FeedsRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
-            .route("/feeds/new/posts", get(get_posts_for_new))
-            .route("/feeds/popular/posts", get(get_posts_for_popular))
-            .route("/feeds/:feed_id/posts", get(get_posts_by_feed_id))
-            .route("/feeds/new/config", get(get_feed_config_for_new))
-            .route("/feeds/popular/config", get(get_feed_config_for_popular))
-            .route("/feeds/:feed_id/config", get(get_feed_config_by_id))
+            .route("/feeds/recent", get(get_recent))
             .with_state(store)
     }
 }
+
+/// `GET /feeds/recent`
+///
+/// Get the most recent posts.
+async fn get_recent(State(store): State<Store>) -> Result<Json<Feed>> {
+    Ok(Json(feed::get_recent(&store.db).await?))
+}
+
+/*
 
 /// GET /feeds/:feed_id/posts
 ///
@@ -127,3 +131,5 @@ async fn get_feed_config_for_popular() -> Result<Json<FeedConfig>> {
         "Popular".to_string(),
     )))
 }
+
+*/
