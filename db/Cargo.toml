@@ -1,6 +1,6 @@
 [package]
 name = "db"
-version = "0.3.1"
+version = "0.4.0"
 edition = "2021"
 
 [dependencies]
@@ -16,12 +16,12 @@ features = ["derive"]
 [dependencies.sqlx]
 version = "^0.7.1"
 features = [
-    "postgres",
-    "macros",
-    "migrate",
-    "runtime-tokio-rustls",
-    "uuid",
-    "time",
+  "postgres",
+  "macros",
+  "migrate",
+  "runtime-tokio-rustls",
+  "uuid",
+  "time",
 ]
 
 [dependencies.uuid]
