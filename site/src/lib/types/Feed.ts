@@ -1,7 +1,7 @@
-import type Post from "./Post"
-import type Blog from "./Blog"
-import type Profile from "./Profile"
+import type Entry from "./Entry"
 
-type Feed = { post: Post; blog: Blog; profile: Profile }[]
+interface Feed {
+	entries: Entry[]
+}
 
 export default Feed

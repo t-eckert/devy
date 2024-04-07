@@ -1,5 +1,6 @@
 import type Blog from "./Blog"
 import type Bookmark from "./Bookmark"
+import type Entry from "./Entry"
 import type Feed from "./Feed"
 import type FeedConfig from "./FeedConfig"
 import type Like from "./Like"
@@ -10,4 +11,17 @@ import type Session from "./Session"
 import type Upload from "./Upload"
 import type User from "./User"
 
-export type { Blog, Bookmark, Feed, FeedConfig, Like, Post, Profile, Repo, Session, Upload, User }
+export type {
+	Blog,
+	Bookmark,
+	Entry,
+	Feed,
+	FeedConfig,
+	Like,
+	Post,
+	Profile,
+	Repo,
+	Session,
+	Upload,
+	User
+}

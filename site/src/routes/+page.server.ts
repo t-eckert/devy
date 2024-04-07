@@ -1,5 +1,6 @@
 import type { PageServerLoad, Actions } from "./$types"
 import { redirect } from "@sveltejs/kit"
+import type { Feed } from "$lib/types"
 import api from "$lib/api"
 
 export const actions: Actions = {
@@ -21,17 +22,8 @@ export const actions: Actions = {
 }
 
 export const load: PageServerLoad = async () => {
-	const feeds = await Promise.all(
-		["new", "popular"].map(async (feed) => {
-			const posts = await api.get("/v1/feeds/" + feed + "/posts")
-			const config = await api.get("/v1/feeds/" + feed + "/config")
-
-			return {
-				feed,
-				posts,
-				config
-			}
-		})
+	const feeds: Feed[] = await Promise.all(
+		["recent"].map(async (feed) => await api.get("/feeds/" + feed))
 	)
 
 	return {
