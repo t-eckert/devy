@@ -2707,10 +2707,12 @@ dependencies = [
  "db",
  "entities",
  "glob",
+ "regex",
  "reqwest 0.11.27",
  "serde",
  "serde_derive",
  "serde_json",
+ "slugify",
  "uuid",
 ]
 
