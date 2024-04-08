@@ -3,10 +3,12 @@ use crate::{
     error::{Error, Result},
     Git,
 };
-use db::{post, repo, upload, Database};
-use entities::{Post, Repo, Upload};
+use db::{blog, post, repo, upload, Database};
+use entities::{Blog, Post, Repo, Upload};
 use glob::glob;
+use regex::Regex;
 use serde_json::json;
+use slugify::slugify;
 use std::fs;
 use std::path::PathBuf;
 use uuid::Uuid;
@@ -28,6 +30,11 @@ impl Uploader {
 
         // Fetch the repository metadata from the GitHub API.
         let repo_metadata = Self::fetch_repo_metadata(upload.repo.clone()).await?;
+        dbg!(&repo_metadata);
+
+        // Fetch related repo and blog.
+        let repo = repo::get_by_url(db, &repo_metadata.url).await?;
+        let blog = blog::get_by_id(db, repo.blog_id).await?;
 
         // Check for the previous upload.
         let previous_upload = upload::get_previous(db, &upload.repo).await?;
@@ -66,8 +73,7 @@ impl Uploader {
         dbg!(&diff);
 
         // Sync posts.
-        let blog_slug = repo_metadata.name;
-        Self::sync_posts(db, blog_slug, diff).await?;
+        Self::sync_posts(db, blog, &dir, diff).await?;
 
         // Delete the temporary directory.
         Self::cleanup(&dir)?;
@@ -93,28 +99,52 @@ impl Uploader {
         }
     }
 
-    async fn sync_posts(db: &Database, blog_slug: String, diffs: Vec<Diff>) -> Result<()> {
+    async fn sync_posts(db: &Database, blog: Blog, dir: &str, diffs: Vec<Diff>) -> Result<()> {
         for diff in diffs {
             dbg!(&diff);
             match diff {
                 Diff::Added(file) => {
                     if file_is_markdown(&file) {
-                        Self::add_post(db, &blog_slug.clone(), file).await?;
+                        match Self::add_post(db, &blog, dir, file).await {
+                            Ok(_) => {}
+                            Err(e) => {
+                                println!("Error: {:?}", e);
+                                return Ok(());
+                            }
+                        };
                     }
                 }
                 Diff::Modified(file) => {
                     if file_is_markdown(&file) {
-                        Self::modify_post(db, file).await?;
+                        match Self::modify_post(db, &blog, dir, file).await {
+                            Ok(_) => {}
+                            Err(e) => {
+                                println!("Error: {:?}", e);
+                                return Ok(());
+                            }
+                        };
                     }
                 }
                 Diff::Renamed(_, from, to) => {
                     if file_is_markdown(&to) {
-                        Self::rename_post(db, from, to).await?;
+                        match Self::rename_post(db, &blog, dir, from, to).await {
+                            Ok(_) => {}
+                            Err(e) => {
+                                println!("Error: {:?}", e);
+                                return Ok(());
+                            }
+                        };
                     }
                 }
                 Diff::Deleted(file) => {
                     if file_is_markdown(&file) {
-                        Self::delete_post(db, file).await?;
+                        match Self::delete_post(db, &blog, file).await {
+                            Ok(_) => {}
+                            Err(e) => {
+                                println!("Error: {:?}", e);
+                                return Ok(());
+                            }
+                        };
                     }
                 }
             }
@@ -123,23 +153,70 @@ impl Uploader {
         Ok(())
     }
 
-    async fn add_post(db: &Database, blog_slug: &str, path: String) -> Result<()> {
-        println!("Adding post: {}", path);
+    async fn add_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
+        let content = fs::read_to_string(format!("{}/{}", dir, path))
+            .map_err(|e| Error::FileParseError(e.to_string()))?;
+
+        let title = title(&content);
+        let slug = slugify!(&path.replace(".md", ""));
+        let body = content;
+
+        post::insert(db, blog.id, title, slug, body).await?;
         Ok(())
     }
 
-    async fn modify_post(db: &Database, path: String) -> Result<()> {
-        println!("Modifying post: {}", path);
+    async fn modify_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
+        let slug = slugify!(&path.replace(".md", ""));
+        let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await?;
+
+        let content = fs::read_to_string(format!("{}/{}", dir, path))
+            .map_err(|e| Error::FileParseError(e.to_string()))?;
+
+        let title = title(&content);
+        let slug = slugify!(&path.replace(".md", ""));
+        let body = content;
+
+        post.title = title;
+        post.slug = slug;
+        post.body = body;
+
+        post::update(db, post).await?;
+
         Ok(())
     }
 
-    async fn rename_post(db: &Database, from: String, to: String) -> Result<()> {
-        println!("Renaming post: {} -> {}", from, to);
+    async fn rename_post(
+        db: &Database,
+        blog: &Blog,
+        dir: &str,
+        from: String,
+        to: String,
+    ) -> Result<()> {
+        let from_slug = slugify!(&from.replace(".md", ""));
+        let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &from_slug).await?;
+
+        let content = fs::read_to_string(format!("{}/{}", dir, from))
+            .map_err(|e| Error::FileParseError(e.to_string()))?;
+
+        let title = title(&content);
+        let slug = slugify!(&to.replace(".md", ""));
+        let body = content;
+
+        post.title = title;
+        post.slug = slug;
+        post.body = body;
+
+        post::update(db, post).await?;
         Ok(())
     }
 
-    async fn delete_post(db: &Database, path: String) -> Result<()> {
-        println!("Deleting post: {}", path);
+    async fn delete_post(db: &Database, blog: &Blog, path: String) -> Result<()> {
+        let slug = slugify!(&path.replace(".md", ""));
+        let post = match post::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await {
+            Ok(post) => post,
+            Err(_) => return Ok(()),
+        };
+        post::delete(db, post.id).await?;
         Ok(())
     }
 
@@ -178,6 +255,14 @@ impl Uploader {
 
 fn file_is_markdown(file: &str) -> bool {
     file.ends_with(".md")
+}
+
+fn title(body: &str) -> String {
+    let re = Regex::new(r"^# (.*)").unwrap();
+    match re.captures(body) {
+        Some(caps) => caps.get(1).unwrap().as_str().to_owned(),
+        None => "Untitled".to_owned(),
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
