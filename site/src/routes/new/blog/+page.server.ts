@@ -59,6 +59,8 @@ export const actions: Actions = {
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
+	console.log("locals", locals)
+
 	if (locals.session === undefined) {
 		return {
 			props: {

@@ -1,17 +1,18 @@
 import config from "$lib/config"
 
-const get = async <T,>(path: string): Promise<T> => {
+const get = async <T>(path: string): Promise<T> => {
 	const response = await fetch(config.api + path, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json"
 		}
 	})
+	const entity: T = await response.json()
 
-	return (await response.json()) as T
+	return entity
 }
 
-const set = async <T,>(path: string, body: T): Promise<T> => {
+const set = async <T>(path: string, body: T): Promise<T> => {
 	const response = await fetch(config.api + path, {
 		method: "POST",
 		headers: {
@@ -23,7 +24,7 @@ const set = async <T,>(path: string, body: T): Promise<T> => {
 	return (await response.json()) as T
 }
 
-const del = async <T,>(path: string): Promise<T> => {
+const del = async <T>(path: string): Promise<T> => {
 	const response = await fetch(config.api + path, {
 		method: "DELETE"
 	})
@@ -31,7 +32,7 @@ const del = async <T,>(path: string): Promise<T> => {
 	return (await response.json()) as T
 }
 
-const post = async <T,>(path: string, body: T): Promise<Response> => {
+const post = async <T>(path: string, body: T): Promise<Response> => {
 	return await fetch(config.api + path, {
 		method: "POST",
 		headers: {

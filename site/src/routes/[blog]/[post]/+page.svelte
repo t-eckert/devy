@@ -9,12 +9,16 @@
 
 <Main>
 	<div class="py-4 mx-auto w-full max-w-3xl">
-		<H1>{data.props.post.title}</H1>
-		<a href={`/${data.props.post.blogSlug}`}>{data.props.post.blogName}</a>
-		<a href={`/profiles/${data.props.post.authorUsername}`}>{data.props.post.authorName}</a>
+		<a href={`/${data.props.entry.blogSlug}`} class="text-sm text-zinc-500"
+			>{data.props.entry.blogName}</a
+		>
+		<H1>{data.props.entry.title}</H1>
+		<a href={`/profiles/${data.props.entry.authorSlug}`} class="text-sm text-zinc-500"
+			>{data.props.entry.authorName}</a
+		>
 	</div>
 
 	<article class="mx-auto w-full max-w-3xl">
-		<SvelteMarkdown source={data.props.post.content} />
+		<SvelteMarkdown source={data.props.entry.body} />
 	</article>
 </Main>

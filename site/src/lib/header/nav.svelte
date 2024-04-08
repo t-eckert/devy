@@ -9,8 +9,8 @@
 <Menu>
 	<Items classes="w-40">
 		<Link href="/">Home</Link>
-		<Link href="/feedback">Share your feedback</Link>
 		<Sep />
+		<Link href="/feedback">Share your feedback</Link>
 		<Link href="/new/blog">Create your blog</Link>
 		<Sep />
 		<FormButton action="?/signOut" name="sign out">Sign out</FormButton>

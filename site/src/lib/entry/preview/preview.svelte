@@ -7,10 +7,11 @@
 	import RelativeDate from "$lib/utils/relative-date.svelte"
 
 	export let entry: Entry
-	const { postSlug, title, blogSlug, blogName } = entry
+	const { postSlug, title, blogSlug, blogName, authorName, authorSlug } = entry
 </script>
 
 <div class="flex flex-col">
 	<a href={`${blogSlug}`} class="text-xs text-zinc-500">{blogName}</a>
 	<a href={`${blogSlug}/${postSlug}`} class="font-medium">{title}</a>
+	<div><a href={`/profiles/${authorSlug}`} class="text-xs text-zinc-500">{authorName}</a></div>
 </div>
