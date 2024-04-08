@@ -5,8 +5,8 @@ use axum::{
     routing::{delete, get},
     Json, Router,
 };
-use db::{blog, post};
-use entities::{Blog, Post};
+use db::{blog, entry, post};
+use entities::{Blog, Entry, Post};
 use store::Store;
 
 pub struct BlogsRouter;
@@ -16,9 +16,14 @@ impl BlogsRouter {
         Router::new()
             .route("/blogs/:blog_slug", get(get_blog_by_blog_slug))
             .route("/blogs/:blog_slug/posts", get(get_posts_by_blog_slug))
+            .route("/blogs/:blog_slug/entries", get(get_entries_by_blog_slug))
             .route(
                 "/blogs/:blog_slug/posts/:post_slug",
                 get(get_post_by_blog_and_post_slug),
+            )
+            .route(
+                "/blogs/:blog_slug/entries/:post_slug",
+                get(get_entry_by_blog_and_post_slug),
             )
             .route("/blogs/:blog_slug", delete(delete_blog_by_blog_slug))
             .with_state(store)
@@ -45,6 +50,16 @@ async fn get_posts_by_blog_slug(
     Ok(Json(post::get_by_blog_slug(&store.db, blog_slug).await?))
 }
 
+/// GET /blogs/:blog_slug/entries
+///
+/// Get entries from the database given a blog slug.
+async fn get_entries_by_blog_slug(
+    State(store): State<Store>,
+    Path(blog_slug): Path<String>,
+) -> Result<Json<Vec<Entry>>> {
+    Ok(Json(entry::get_by_blog_slug(&store.db, &blog_slug).await?))
+}
+
 /// GET /blogs/:blog_slug/posts/:post_slug
 ///
 /// Get a post from the database given a blog slug and post slug.
@@ -54,6 +69,18 @@ async fn get_post_by_blog_and_post_slug(
 ) -> Result<Json<Post>> {
     Ok(Json(
         post::get_by_blog_slug_and_post_slug(&store.db, &blog_slug, &post_slug).await?,
+    ))
+}
+
+/// GET /blogs/:blog_slug/entries/post_slug
+///
+/// Get an entry from the database given a blog slug and post slug.
+async fn get_entry_by_blog_and_post_slug(
+    State(store): State<Store>,
+    Path((blog_slug, post_slug)): Path<(String, String)>,
+) -> Result<Json<Entry>> {
+    Ok(Json(
+        entry::get_by_blog_slug_and_post_slug(&store.db, &blog_slug, &post_slug).await?,
     ))
 }
 
