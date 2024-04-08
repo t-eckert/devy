@@ -42,8 +42,6 @@ impl NewBlog {
         let blog = blog::upsert(&db, profile.id, &self.name, &slug(&self.name), None).await?;
         let repo = repo::upsert(&db, blog.id, self.repo_url).await?;
 
-        // TODO Abstract this somewhere... I'm just not sure where yet.
-
         Ok(NewBlogResponse { blog, repo })
     }
 
