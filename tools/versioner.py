@@ -13,19 +13,20 @@ from datetime import datetime
 from pathlib import Path
 
 import tomllib
+import subprocess
 import json
 import os
 
 package_paths = [
     Path("./site/package.json"),
-    Path("./crates/api/Cargo.toml"),
+    Path("./api/Cargo.toml"),
+    Path("./db/Cargo.toml"),
     Path("./crates/auth/Cargo.toml"),
-    Path("./crates/db/Cargo.toml"),
     Path("./crates/entities/Cargo.toml"),
     Path("./crates/forms/Cargo.toml"),
     Path("./crates/router/Cargo.toml"),
     Path("./crates/store/Cargo.toml"),
-    Path("./crates/upload/Cargo.toml"),
+    Path("./crates/uploads/Cargo.toml"),
 ]
 
 
@@ -63,6 +64,11 @@ def slug(s: str) -> str:
     )
 
 
+def read_version() -> str:
+    with open("version", "r") as f:
+        return f.read()
+
+
 def write_version(version: str) -> None:
     # Writes the version to a version file at the root of the project.
     with open("version", "w") as f:
@@ -84,7 +90,9 @@ def get_packages(paths: list[Path]) -> dict[str, str]:
     return packages
 
 
-def format_changelog(version: str, name: str, packages: dict[str, str]) -> str:
+def format_changelog(
+    version: str, name: str, changes: str, packages: dict[str, str]
+) -> str:
     # Formats the changelog for a given version.
 
     package_list = "\n".join(
@@ -94,6 +102,10 @@ def format_changelog(version: str, name: str, packages: dict[str, str]) -> str:
     return f"""# `v{version}` {name}
 
 ## Release Notes
+
+## Changes
+
+{changes}
 
 ## Packages
 
@@ -112,21 +124,36 @@ def tag_version(version: str, message: str) -> None:
 
 
 def open_changelog(filename: str) -> None:
-    os.execlp("$EDITOR", "$EDITOR", filename)
+    os.execlp("nvim", "nvim", filename)
 
 
 def commit(version: str) -> None:
     os.execlp("git", "git", "commit", "-am", f"version: {version}")
 
 
+def changes(previous: str) -> str:
+    command = ["git", "hist", previous + "..HEAD"]
+
+    result = subprocess.run(command, text=True, capture_output=True)
+
+    if result.returncode == 0:
+        return result.stdout
+    else:
+        return result.stderr
+
+
 if __name__ == "__main__":
+    prev_version = read_version()
     version = gen_version()
     write_version(version)
 
     name = get_name(version)
     filename = f"changelog/{version}.md"
     write_changelog(
-        format_changelog(version, name, get_packages(package_paths)), filename
+        format_changelog(
+            version, name, changes(prev_version), get_packages(package_paths)
+        ),
+        filename,
     )
     tag_version(version, name)
     open_changelog(filename)
