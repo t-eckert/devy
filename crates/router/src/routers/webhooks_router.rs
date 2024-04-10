@@ -1,23 +1,31 @@
-use super::error::Result;
-use crate::entities::{upload, webhook, Webhook};
-use crate::store::Store;
+use crate::error::Result;
 use axum::Router;
 use axum::{extract::State, routing::post, Json};
+use db::{upload, webhook};
+use entities::WebhookType;
 use http::{HeaderMap, StatusCode};
 use serde_json::Value;
+use store::Store;
 
-pub fn make_router(store: Store) -> Router<Store> {
-    Router::new()
-        .route("/webhooks", post(insert))
-        .with_state(store)
+pub struct WebhooksRouter;
+
+impl WebhooksRouter {
+    pub fn create(store: Store) -> Router<Store> {
+        Router::new()
+            .route("/webhooks", post(receive))
+            .with_state(store)
+    }
 }
 
-async fn insert(
+async fn receive(
     State(store): State<Store>,
     headers: HeaderMap,
     Json(payload): Json<Value>,
 ) -> Result<StatusCode> {
+    dbg!(&payload);
+
     // This will only vibe with GitHub headers for now, but that's future problem.
+    // TODO break this out into a separate crate called `webhooks`.
     let event = format!(
         "webhook.github.{}",
         headers
@@ -25,19 +33,29 @@ async fn insert(
             .map(|header_value| header_value.to_str().unwrap_or_default())
             .unwrap_or_default()
     );
+    dbg!(&event);
 
-    let webhook = match Webhook::new(event, payload).insert(&store.pool).await {
-        Ok(webhook) => webhook,
-        Err(e) => return Err(e.into()),
-    };
+    let webhook_type = WebhookType::from(event);
+    dbg!(&webhook_type);
+    let webhook = webhook::insert(&store.db, webhook_type, payload).await?;
+    dbg!(&webhook);
 
     match webhook.webhook_type {
-        webhook::WebhookType::GitHubPushEvent => {
-            let upload =
-                upload::insert(&store.pool, upload::UploadForUpsert::try_from(webhook)?).await?;
-            let _ = store.uploader.upload(upload, &store.pool).await?;
+        WebhookType::GitHubPushEvent => {
+            let repo = format!(
+                "https://api.github.com/repos/{}",
+                webhook.payload["repository"]["full_name"]
+                    .as_str()
+                    .unwrap_or_default()
+                    .replace(r#"""#, "")
+            );
+            dbg!(&repo);
+            let upload = upload::insert(&store.db, None, repo).await?;
+            dbg!(&upload);
+            let upload = store.uploader.upload(&store.db, upload).await?;
+            dbg!(&upload);
         }
-        webhook::WebhookType::Generic => {}
+        _ => {}
     }
 
     Ok(StatusCode::OK)

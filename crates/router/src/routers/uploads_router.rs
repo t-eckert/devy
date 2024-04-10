@@ -41,9 +41,6 @@ async fn create_new_upload(
     State(store): State<Store>,
     ExtractJson(new_upload): ExtractJson<NewUpload>,
 ) -> Result<Json<Upload>> {
-    print!("\n\nVVVVV create_new_upload VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\n");
-    dbg!(&new_upload);
-
     Ok(Json(
         store
             .uploader
