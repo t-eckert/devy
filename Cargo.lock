@@ -1767,6 +1767,31 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
+=======
+name = "router"
+version = "0.3.4"
+dependencies = [
+ "auth",
+ "axum",
+ "cookie",
+ "db",
+ "entities",
+ "forms",
+ "http 1.1.0",
+ "jsonwebtoken",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "store",
+ "tokio",
+ "tower-http",
+ "uploads",
+ "uuid",
+]
+
+[[package]]
+>>>>>>> 93e9627 (cargo: update deps)
 name = "rsa"
 version = "0.9.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
