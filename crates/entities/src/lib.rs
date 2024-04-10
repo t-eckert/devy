@@ -25,4 +25,4 @@ pub use repo::Repo;
 pub use session::{Session, SessionMetadata};
 pub use upload::Upload;
 pub use user::User;
-pub use webhook::Webhook;
+pub use webhook::{Webhook, WebhookType};
