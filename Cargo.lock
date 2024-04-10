@@ -1728,6 +1728,7 @@ dependencies = [
  "http 1.1.0",
  "jsonwebtoken",
  "serde",
+ "serde_json",
  "serde_with",
  "store",
  "tokio",
