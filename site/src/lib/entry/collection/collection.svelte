@@ -5,7 +5,7 @@
 	export let entries: Entry[]
 </script>
 
-<section class="flex flex-col gap-6 pt-6">
+<section class="flex flex-col gap-4">
 	{#each entries as entry}
 		<Preview {entry} />
 	{/each}

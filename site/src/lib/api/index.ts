@@ -7,6 +7,11 @@ const get = async <T>(path: string): Promise<T> => {
 			"Content-Type": "application/json"
 		}
 	})
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch ${path}`)
+	}
+
 	const entity: T = await response.json()
 
 	return entity
