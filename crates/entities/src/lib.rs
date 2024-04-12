@@ -12,6 +12,7 @@ mod repo;
 mod session;
 mod upload;
 mod user;
+mod user_metadata;
 mod webhook;
 
 pub use blog::Blog;
@@ -25,4 +26,5 @@ pub use repo::Repo;
 pub use session::{Session, SessionMetadata};
 pub use upload::Upload;
 pub use user::User;
+pub use user_metadata::UserMetadata;
 pub use webhook::Webhook;
