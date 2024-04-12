@@ -1,18 +1,22 @@
-use crate::error::Result;
+use std::collections::HashMap;
+
+use crate::{error::Result, Error};
 use axum::{
     extract::{Path, Query, State},
     routing::get,
     Json,
 };
-use db::{feed, post};
-use entities::{Feed, Post};
-use std::collections::HashMap;
+use db::{feed, feed_config};
+use entities::{Feed, FeedConfig};
+use http::StatusCode;
 use store::Store;
-use uuid::{uuid, Uuid};
+use uuid::Uuid;
 
 pub struct FeedsRouter;
 
-/// /feeds routes
+/// `/feeds` routes
+///
+/// These routes get and manage feeds of entities.
 impl FeedsRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
@@ -23,113 +27,54 @@ impl FeedsRouter {
 
 /// `GET /feeds/recent`
 ///
-/// Get the most recent posts.
+/// Get a feed of the most recent posts.
 async fn get_recent(State(store): State<Store>) -> Result<Json<Feed>> {
     Ok(Json(feed::get_recent(&store.db).await?))
 }
 
-/*
-
-/// GET /feeds/:feed_id/posts
+/// `GET /feeds/popular`
 ///
-/// Get posts by feed id.
-async fn get_posts_by_feed_id(
-    State(store): State<Store>,
-    Path(feed_id): Path<Uuid>,
-    Query(params): Query<HashMap<String, String>>,
-) -> Result<Json<Vec<Post>>> {
-    let limit = params
-        .get("limit")
-        .unwrap_or(&"30".to_string())
-        .parse::<i64>()
-        .unwrap_or(30);
-    let offset = params
-        .get("offset")
-        .unwrap_or(&"0".to_string())
-        .parse::<i64>()
-        .unwrap_or(0);
-
-    dbg!(&limit);
-    dbg!(&offset);
-
-    Ok(Json(
-        post::get_by_feed(&store.db, feed_id, limit, offset).await?,
-    ))
-}
-
-/// GET /feeds/new/posts
-///
-/// Get posts for the "new" feed.
-async fn get_posts_for_new(
+/// Get a feed of the most popular posts.
+async fn get_popular(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,
-) -> Result<Json<Vec<Post>>> {
-    let feed_id = uuid!("5941b29d-246d-4897-a69e-3201f6ad8715");
-    let limit = params
-        .get("limit")
-        .unwrap_or(&"30".to_string())
-        .parse::<i64>()
-        .unwrap_or(30);
-    let offset = params
-        .get("offset")
-        .unwrap_or(&"0".to_string())
-        .parse::<i64>()
-        .unwrap_or(0);
-
-    Ok(Json(
-        post::get_by_feed(&store.db, feed_id, limit, offset).await?,
-    ))
+) -> Result<Json<Feed>> {
+    unimplemented!()
 }
 
-/// GET /feeds/popular/posts
+/// `GET /feeds/:feed_id/config`
 ///
-/// Get posts for the "popular" feed.
-async fn get_posts_for_popular(
-    State(store): State<Store>,
-    Query(params): Query<HashMap<String, String>>,
-) -> Result<Json<Vec<Post>>> {
-    let feed_id = uuid!("e9173695-1b31-465f-9e79-a80224be44ad");
-    let limit = params
-        .get("limit")
-        .unwrap_or(&"30".to_string())
-        .parse::<i64>()
-        .unwrap_or(30);
-    let offset = params
-        .get("offset")
-        .unwrap_or(&"0".to_string())
-        .parse::<i64>()
-        .unwrap_or(0);
-
-    Ok(Json(
-        post::get_by_feed(&store.db, feed_id, limit, offset).await?,
-    ))
-}
-
 /// Get the feed config by a feed id.
-/// GET /feeds/:feed_id/config
-async fn get_feed_config_by_id(
-    State(store): State<Store>,
-    Path(id): Path<Uuid>,
-) -> Result<Json<FeedConfig>> {
-    Ok(Json(feed_config::get_by_id(&store.db, id).await?))
+async fn get_id(State(store): State<Store>, Path(id): Path<String>) -> Result<Json<Feed>> {
+    unimplemented!()
 }
 
-/// Get the feed config for the "new" feed.
-/// GET /feeds/new/config
-async fn get_feed_config_for_new() -> Result<Json<FeedConfig>> {
-    Ok(Json(FeedConfig::new(
-        uuid!("5941b29d-246d-4897-a69e-3201f6ad8715"),
-        "New".to_string(),
-    )))
+/// `GET /feeds/recent/config`
+///
+/// Get the feed config for the "recent" feed.
+async fn get_recent_config() -> Result<Json<FeedConfig>> {
+    Ok(Json(FeedConfig::new("recent", "Recent")))
 }
 
+/// `GET /feeds/popular/config`
+///
 /// Get the feed config for the "popular" feed.
-/// GET /feeds/popular/config
-async fn get_feed_config_for_popular() -> Result<Json<FeedConfig>> {
-    Ok(Json(FeedConfig::new(
-        uuid!("e9173695-1b31-465f-9e79-a80224be44ad"),
-        "Popular".to_string(),
-    )))
+async fn get_popular_feed() -> Result<Json<FeedConfig>> {
+    Ok(Json(FeedConfig::new("popular", "Popular")))
 }
 
-*/
+/// `GET /feeds/:feed_id/config`
+///
+/// Get the feed config by a feed id.
+async fn get_id_config(
+    State(store): State<Store>,
+    Path(id): Path<String>,
+) -> Result<Json<FeedConfig>> {
+    Ok(Json(
+        feed_config::get_by_id(&store.db, str_to_uuid(id)?).await?,
+    ))
+}
+
+fn str_to_uuid(s: String) -> Result<Uuid> {
+    Uuid::parse_str(&s).map_err(|_| Error::StatusCode(StatusCode::BAD_REQUEST))
+}
