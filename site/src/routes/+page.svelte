@@ -1,24 +1,21 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
-	import type { Post } from "$lib/types"
 	import Main from "$lib/layout/main.svelte"
-	import Feed from "$lib/feed/feed.svelte"
-	import Collection from "$lib/post/collection/collection.svelte"
-	import H1 from "$lib/element/h1.svelte"
-	import Json from "$lib/utils/json.svelte"
+	import Feeds from "$lib/feed/feeds.svelte"
+	import Sidebar from "$lib/sidebar/sidebar.svelte"
 
 	export let data: PageData
-	const { feeds } = data.props
-	const feed = feeds[0]
+
+	let { feeds } = data.props
 </script>
 
 <Main>
-	<div class="grid grid-cols-4">
-		<div>
-			<h1 class="font-semibold">Recent</h1>
+	<div class="grid grid-cols-1 sm:grid-cols-4 gap-8 items-start">
+		<div class="col-start-1 sm:col-span-3">
+			<Feeds {feeds} />
 		</div>
-		<div class="col-start-2 col-span-2">
-			<Feed {feed} />
+		<div class="">
+			<Sidebar />
 		</div>
 	</div>
 </Main>
