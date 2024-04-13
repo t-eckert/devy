@@ -31,8 +31,11 @@ impl From<entities::Error> for Error {
 }
 
 impl From<uploads::Error> for Error {
-    fn from(_: uploads::Error) -> Self {
-        Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+    fn from(err: uploads::Error) -> Self {
+        match err {
+            uploads::Error::RepositoryNotFound(_) => Self::StatusCode(StatusCode::NOT_FOUND),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
     }
 }
 
