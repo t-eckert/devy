@@ -1,13 +1,15 @@
+use crate::error::{Error, Result};
+use crate::uploader::Diff;
 use std::fs;
 
-use super::error::{Error, Result};
-
+/// A struct that represents a Git binary.
 #[derive(Debug, Clone)]
 pub struct Git {
     bin: String,
 }
 
 impl Git {
+    /// Create a new Git instance.
     pub fn new(bin: String) -> Result<Self> {
         if !fs::metadata(&bin).is_ok() {
             return Err(Error::GitBinaryNotFound(format!(
@@ -19,6 +21,7 @@ impl Git {
         Ok(Self { bin })
     }
 
+    /// Clone the repo at the url to the given directory.
     pub fn clone_repo(&self, dir: &str, url: &str) -> Result<()> {
         std::process::Command::new(&self.bin)
             .arg("clone")
@@ -30,6 +33,7 @@ impl Git {
         Ok(())
     }
 
+    /// Get the SHA of the HEAD commit in the given directory.
     pub fn sha(&self, dir: &str) -> Result<String> {
         let output = std::process::Command::new(&self.bin)
             .arg("rev-parse")
@@ -41,6 +45,7 @@ impl Git {
         Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
     }
 
+    /// Get the SHA of the first commit in the given directory.
     pub fn first_sha(&self, dir: &str) -> Result<String> {
         let output = std::process::Command::new(&self.bin)
             .arg("rev-list")
@@ -53,7 +58,8 @@ impl Git {
         Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
     }
 
-    pub fn diff(&self, dir: &str, to: &str, from: &str) -> Result<String> {
+    /// Get the diff between two commits in the given directory.
+    pub fn diff(&self, dir: &str, to: &str, from: &str) -> Result<Vec<Diff>> {
         let output = std::process::Command::new(&self.bin)
             .arg("--no-pager")
             .arg("diff")
@@ -66,6 +72,8 @@ impl Git {
 
         dbg!(&output);
 
-        Ok(String::from_utf8_lossy(&output.stdout).to_string())
+        Ok(Diff::from_raw(
+            String::from_utf8_lossy(&output.stdout).to_string(),
+        ))
     }
 }
