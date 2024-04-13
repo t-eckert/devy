@@ -3,7 +3,6 @@ use crate::error::{Error, Result};
 use db::{blog, post, repo, upload, Database};
 use entities::Blog;
 use slugify::slugify;
-use std::fs;
 use uuid::Uuid;
 
 pub async fn sync_posts(db: &Database, id: Uuid, dir: &str, diffs: Vec<Diff>) -> Result<()> {
@@ -69,31 +68,22 @@ pub async fn sync_posts(db: &Database, id: Uuid, dir: &str, diffs: Vec<Diff>) ->
 }
 
 async fn add_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
-    let content = fs::read_to_string(format!("{}/{}", dir, path))
-        .map_err(|e| Error::FileParseError(e.to_string()))?;
-
-    let title = markdown::title(&content);
     let slug = slugify!(&path.replace(".md", ""));
-    let body = content;
+    let markdown = markdown::Markdown::from_file(format!("{}/{}", dir, path))?;
 
-    post::insert(db, blog.id, title, slug, body).await?;
+    post::insert(db, blog.id, markdown.title, slug, markdown.body).await?;
+
     Ok(())
 }
 
 async fn modify_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
     let slug = slugify!(&path.replace(".md", ""));
     let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await?;
+    let markdown = markdown::Markdown::from_file(format!("{}/{}", dir, path))?;
 
-    let content = fs::read_to_string(format!("{}/{}", dir, path))
-        .map_err(|e| Error::FileParseError(e.to_string()))?;
-
-    let title = markdown::title(&content);
-    let slug = slugify!(&path.replace(".md", ""));
-    let body = content;
-
-    post.title = title;
+    post.title = markdown.title;
     post.slug = slug;
-    post.body = body;
+    post.body = markdown.body;
 
     post::update(db, post).await?;
 
@@ -110,18 +100,15 @@ async fn rename_post(
     let from_slug = slugify!(&from.replace(".md", ""));
     let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &from_slug).await?;
 
-    let content = fs::read_to_string(format!("{}/{}", dir, from))
-        .map_err(|e| Error::FileParseError(e.to_string()))?;
-
-    let title = markdown::title(&content);
     let slug = slugify!(&to.replace(".md", ""));
-    let body = content;
+    let markdown = markdown::Markdown::from_file(format!("{}/{}", dir, to))?;
 
-    post.title = title;
+    post.title = markdown.title;
     post.slug = slug;
-    post.body = body;
+    post.body = markdown.body;
 
     post::update(db, post).await?;
+
     Ok(())
 }
 
