@@ -6,42 +6,44 @@ pub enum Diff {
     Renamed(i32, String, String),
 }
 
-pub fn diff_files(raw: String) -> Vec<Diff> {
-    let mut diffs = Vec::new();
-    for line in raw.lines() {
-        let mut parts = line.split('\t');
-        let status = parts.next().unwrap();
-        let (from, to): (&str, &str) = match status {
-            "A" => {
-                let to = parts.next().unwrap();
-                diffs.push(Diff::Added(to.to_string()));
-                continue;
-            }
-            "D" => {
-                let from = parts.next().unwrap();
-                diffs.push(Diff::Deleted(from.to_string()));
-                continue;
-            }
-            "M" => {
-                let to = parts.next().unwrap();
-                diffs.push(Diff::Modified(to.to_string()));
-                continue;
-            }
-            "R" => {
-                let from = parts.next().unwrap();
-                let to = parts.next().unwrap();
-                let similarity = parts.next().unwrap();
-                diffs.push(Diff::Renamed(
-                    similarity.parse().unwrap(),
-                    from.to_string(),
-                    to.to_string(),
-                ));
-                continue;
-            }
-            _ => continue,
-        };
+impl Diff {
+    pub fn from_raw(raw: String) -> Vec<Diff> {
+        let mut diffs = Vec::new();
+        for line in raw.lines() {
+            let mut parts = line.split('\t');
+            let status = parts.next().unwrap();
+            let (from, to): (&str, &str) = match status {
+                "A" => {
+                    let to = parts.next().unwrap();
+                    diffs.push(Diff::Added(to.to_string()));
+                    continue;
+                }
+                "D" => {
+                    let from = parts.next().unwrap();
+                    diffs.push(Diff::Deleted(from.to_string()));
+                    continue;
+                }
+                "M" => {
+                    let to = parts.next().unwrap();
+                    diffs.push(Diff::Modified(to.to_string()));
+                    continue;
+                }
+                "R" => {
+                    let from = parts.next().unwrap();
+                    let to = parts.next().unwrap();
+                    let similarity = parts.next().unwrap();
+                    diffs.push(Diff::Renamed(
+                        similarity.parse().unwrap(),
+                        from.to_string(),
+                        to.to_string(),
+                    ));
+                    continue;
+                }
+                _ => continue,
+            };
+        }
+        diffs
     }
-    diffs
 }
 
 #[cfg(test)]
@@ -94,7 +96,7 @@ mod tests {
             Diff::Modified("site/src/routes/new/blog/+page.server.ts".to_string()),
         ];
 
-        let diff = diff_files(raw);
+        let diff = Diff::from_raw(raw);
 
         for (i, d) in diff.iter().enumerate() {
             assert_eq!(d, &expected[i]);

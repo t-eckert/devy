@@ -1,4 +1,3 @@
-mod diff;
 mod error;
 mod git;
 mod new_upload;
