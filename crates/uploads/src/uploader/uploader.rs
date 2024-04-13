@@ -3,7 +3,6 @@ use crate::{error::Result, Error, Git};
 use db::{upload, Database};
 use entities::{RepoMetadata, Upload};
 use std::fs;
-
 use uuid::Uuid;
 
 /// The Uploader struct is responsible for handling the upload process.
@@ -13,16 +12,19 @@ pub struct Uploader {
 }
 
 impl Uploader {
+    /// Create a new Uploader with the given Git instance.
     pub fn new(git: Git) -> Self {
         Self { git }
     }
 
+    /// Upload posts based on the upload object.
     pub async fn upload(self, db: &Database, mut upload: Upload) -> Result<Upload> {
         upload::set_status(db, upload.id, "received").await?;
         upload::append_log(db, upload.id, "INFO: Upload received by uploader").await?;
 
         upload = Self::set_previous_upload(db, upload).await?;
 
+        // TODO cleanup when there are errors.
         self.clone_repo(db, upload.clone()).await?;
         upload = self.set_sha(db, upload).await?;
         self.sync_posts(db, upload.clone()).await?;
@@ -62,18 +64,17 @@ impl Uploader {
     async fn set_sha(&self, db: &Database, upload: Upload) -> Result<Upload> {
         let sha = self.git.sha(&Self::dir(upload.id))?;
         upload::set_sha(db, upload.id, sha.clone()).await?;
-        upload::append_log(db, upload.id, &format!("INFO: Current SHA {}", &sha)).await?;
-        Ok(upload)
+        Ok(upload::append_log(db, upload.id, &format!("INFO: Current SHA {}", &sha)).await?)
     }
 
     async fn sync_posts(&self, db: &Database, upload: Upload) -> Result<()> {
         let from = upload::get_previous(db, &upload.repo)
             .await?
             .map(|u| u.sha)
-            .unwrap_or(self.git.first_sha(&Self::dir(upload.id))?);
+            .unwrap_or(self.git.first_sha(&dir(upload.id))?);
 
-        let diffs = self.git.diff(&Self::dir(upload.id), &upload.sha, &from)?;
-        sync_posts(db, upload.id, &Self::dir(upload.id), diffs).await?;
+        let diffs = self.git.diff(&dir(upload.id), &upload.sha, &from)?;
+        sync_posts(db, upload.id, &dir(upload.id), diffs).await?;
 
         Ok(())
     }
@@ -110,4 +111,9 @@ impl Uploader {
             Err(err) => Err(crate::Error::DependencyError(err.to_string())),
         }
     }
+}
+
+/// The directory where an upload will be cloned based on its ID.
+fn dir(id: Uuid) -> String {
+    format!("/tmp/{}/", id)
 }

@@ -8,9 +8,14 @@ use uuid::Uuid;
 
 pub async fn sync_posts(db: &Database, id: Uuid, dir: &str, diffs: Vec<Diff>) -> Result<()> {
     let upload = upload::get_by_id(db, id).await?;
-    let repo = repo::get_by_url(db, &upload.repo).await?;
-    let blog = blog::get_by_id(db, repo.blog_id).await?;
+    let repo = repo::get_by_url(db, &upload.repo)
+        .await
+        .map_err(|e| match e {
+            db::Error::EntityNotFound => Error::RepositoryNotFound(upload.repo.clone()),
+            _ => Error::DependencyError(e.to_string()),
+        })?;
 
+    let blog = blog::get_by_id(db, repo.blog_id).await?;
     for diff in diffs {
         dbg!(&diff);
         match diff {
