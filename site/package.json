@@ -60,6 +60,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sentry/sveltekit": "^7.110.0",
 		"bits-ui": "^0.17.0",
 		"jwt-decode": "^4.0.0",
 		"radix-icons-svelte": "^1.2.1",
