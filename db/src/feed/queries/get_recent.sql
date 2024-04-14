@@ -7,8 +7,8 @@ SELECT
 	blog.blog_name,
 	blog.profile_slug as author_slug,
 	blog.author_name,
-	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
-	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at
+	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss"Z"') AS created_at,
+	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss"Z"') AS updated_at
 FROM "post" LEFT JOIN (
 	SELECT
 		blog.id AS blog_id,
