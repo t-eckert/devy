@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Feed } from "$lib/types"
-	import Collection from "$lib/entry/collection/collection.svelte"
+	import Column from "$lib/layouts/column.svelte"
+	import Preview from "$lib/entry/preview/preview.svelte"
 
 	export let feeds: Feed[]
 
@@ -24,7 +25,11 @@
 
 	<div class="col-start-2 col-span-2">
 		{#each feeds as feed}
-			<Collection entries={feed.entries} />
+			<Column>
+				{#each feed.entries as entry}
+					<Preview {entry} />
+				{/each}
+			</Column>
 		{/each}
 	</div>
 </section>
