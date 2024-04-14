@@ -1,8 +1,5 @@
 <script lang="ts">
 	import type { Entry } from "$lib/types"
-	import Json from "$lib/utils/json.svelte"
-	import { Slash } from "radix-icons-svelte"
-	import H2 from "$lib/element/h2.svelte"
 	import RelativeDate from "$lib/utils/relative-date.svelte"
 
 	export let entry: Entry
