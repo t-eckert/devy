@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Menu from "$lib/menu/menu.svelte"
-	import Items from "$lib/menu/items.svelte"
-	import Link from "$lib/menu/link.svelte"
-	import Sep from "$lib/menu/sep.svelte"
-	import FormButton from "$lib/menu/form-button.svelte"
+	import Menu from "$lib/components/menu/menu.svelte"
+	import Items from "$lib/components/menu/items.svelte"
+	import Link from "$lib/components/menu/link.svelte"
+	import Sep from "$lib/components/menu/sep.svelte"
+	import FormButton from "$lib/components/menu/form-button.svelte"
 </script>
 
 <Menu>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Onboarding from "$lib/sidebar/onboarding.svelte"
+	import Onboarding from "./onboarding.svelte"
 </script>
 
 <section class="flex flex-col gap-4 text-sm">

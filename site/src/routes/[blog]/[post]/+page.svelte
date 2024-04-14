@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SvelteMarkdown from "svelte-markdown"
 	import type { PageData } from "./$types"
-	import Main from "$lib/layout/main.svelte"
-	import H1 from "$lib/element/h1.svelte"
+	import SvelteMarkdown from "svelte-markdown"
+	import Main from "$lib/layouts/main.svelte"
+	import H1 from "$lib/elements/h1.svelte"
 
 	export let data: PageData
 </script>
