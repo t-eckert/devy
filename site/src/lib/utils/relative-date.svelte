@@ -25,8 +25,10 @@
 		relativeDate = `${hours} hour${hours > 1 ? "s" : ""} ago`
 	} else if (minutes > 0) {
 		relativeDate = `${minutes} minute${minutes > 1 ? "s" : ""} ago`
-	} else {
+	} else if (seconds > 30) {
 		relativeDate = `${seconds} second${seconds > 1 ? "s" : ""} ago`
+	} else {
+		relativeDate = "now"
 	}
 </script>
 
