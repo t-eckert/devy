@@ -10,6 +10,7 @@
 	import Blog from "$lib/entry/preview/segments/blog.svelte"
 	export let data: PageData
 
+<<<<<<< HEAD
 	let { blogs, profile, user, entries } = data.props
 </script>
 
@@ -32,4 +33,11 @@
 			</Column>
 		</div>
 	</div>
+=======
+	let { blogs, profile, user } = data.props
+</script>
+
+<Main>
+	<CallingCard {blogs} {profile} {user} />
+>>>>>>> d458d24 (site,router: link to profile on calling card)
 </Main>
