@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
 	import Main from "$lib/layouts/main.svelte"
-	import Button from "$lib/element/button.svelte"
+	import Button from "$lib/elements/button.svelte"
 
 	export let data: PageData
 </script>
