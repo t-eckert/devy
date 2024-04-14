@@ -4,9 +4,9 @@
 	import CallingCard from "$lib/components/calling-card/calling-card.svelte"
 	export let data: PageData
 
-	let { blogs, profile } = data.props
+	let { blogs, profile, user } = data.props
 </script>
 
 <Main>
-	<CallingCard {blogs} {profile} />
+	<CallingCard {blogs} {profile} {user} />
 </Main>
