@@ -1,3 +1,4 @@
+import { error, NumericRange } from "@sveltejs/kit"
 import config from "$lib/config"
 
 const get = async <T>(path: string): Promise<T> => {
@@ -8,8 +9,8 @@ const get = async <T>(path: string): Promise<T> => {
 		}
 	})
 
-	if (!response.ok) {
-		throw new Error(`Failed to fetch ${path}`)
+	if (!response.ok && 400 <= response.status && response.status <= 599) {
+		error(response.status as NumericRange<400, 599>)
 	}
 
 	const entity: T = await response.json()
