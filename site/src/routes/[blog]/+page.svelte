@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
-	import Main from "$lib/layout/main.svelte"
-	import H1 from "$lib/element/h1.svelte"
+	import Main from "$lib/layouts/main.svelte"
+	import H1 from "$lib/elements/h1.svelte"
 	import Collection from "$lib/entry/collection/collection.svelte"
-	import Json from "$lib/utils/json.svelte"
 
 	export let data: PageData
 </script>

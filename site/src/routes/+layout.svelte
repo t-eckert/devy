@@ -1,12 +1,12 @@
 <script lang="ts">
 	import "../app.css"
-	import ThemeProvider from "$lib/theme-provider/theme-provider.svelte"
-	import Header from "$lib/header/header.svelte"
-	import Footer from "$lib/footer/footer.svelte"
 	import type { LayoutData } from "./$types"
+	import ThemeProvider from "$lib/theme-provider/theme-provider.svelte"
+	import Header from "$lib/components/header/header.svelte"
+	import Footer from "$lib/components/footer/footer.svelte"
 	import { setSession } from "$lib/auth/session-store"
-	import Json from "$lib/utils/json.svelte"
-	import Session from "$lib/auth/session.svelte"
+	import "@fontsource/inter"
+	import "@fontsource/space-mono"
 
 	export let data: LayoutData
 
