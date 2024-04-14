@@ -24,7 +24,7 @@
 			{/if}
 		</div>
 
-		<div class="flex flex-col">
+		<div class="flex flex-col items-start">
 			{#each blogs as blog}
 				<a href={`/` + blog.slug} class="text-xs font-medium text-zinc-700 hover:text-zinc-950"
 					>{blog.name}</a
