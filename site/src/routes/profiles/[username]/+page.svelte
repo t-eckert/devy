@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
-	import Main from "$lib/layout/main.svelte"
+	import Main from "$lib/layouts/main.svelte"
 	import CallingCard from "$lib/components/calling-card/calling-card.svelte"
 	export let data: PageData
 
