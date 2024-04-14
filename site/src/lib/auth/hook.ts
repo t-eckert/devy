@@ -23,7 +23,6 @@ const handle: Handle = async ({ event, resolve }) => {
 	} catch (e) {
 		console.error(e)
 	}
-	console.log(event)
 
 	return await resolve(event)
 }
