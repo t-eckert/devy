@@ -4,8 +4,8 @@ use axum::{
     routing::get,
     Json, Router,
 };
-use db::{blog, like, profile};
-use entities::{Blog, Like, Profile};
+use db::{blog, entry, like, profile};
+use entities::{Blog, Entry, Like, Profile};
 use store::Store;
 
 pub struct ProfilesRouter;
@@ -16,6 +16,7 @@ impl ProfilesRouter {
         Router::new()
             .route("/profiles/:username", get(get_profile_by_username))
             .route("/profiles/:username/blogs", get(get_blogs_by_username))
+            .route("/profiles/:username/entries", get(get_entries_by_username))
             .with_state(store)
     }
 }
@@ -38,4 +39,12 @@ async fn get_blogs_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Blog>>> {
     Ok(Json(blog::get_by_username(&store.db, username).await?))
+}
+
+/// `GET /profiles/:username/entries`
+async fn get_entries_by_username(
+    State(store): State<Store>,
+    Path(username): Path<String>,
+) -> Result<Json<Vec<Entry>>> {
+    Ok(Json(entry::get_by_username(&store.db, &username).await?))
 }

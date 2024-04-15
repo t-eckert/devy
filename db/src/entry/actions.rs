@@ -23,3 +23,11 @@ pub async fn get_by_blog_slug_and_post_slug(
     .fetch_one(db)
     .await?)
 }
+
+pub async fn get_by_username(db: &Database, username: &str) -> Result<Vec<Entry>> {
+    Ok(
+        sqlx::query_file_as!(Entry, "src/entry/queries/get_by_username.sql", username)
+            .fetch_all(db)
+            .await?,
+    )
+}
