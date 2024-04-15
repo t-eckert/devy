@@ -43,5 +43,11 @@ db-serve: db-build
 		-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
 		-p 5432:5432 -d devy-test-db:latest
 
+db-stop:
+	@docker stop devy-test-db
+
 db-access:
 	@docker exec -it devy-test-db psql -U postgres
+
+db-prepare:
+	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
