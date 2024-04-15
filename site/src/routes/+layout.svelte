@@ -7,6 +7,19 @@
 	import { setSession } from "$lib/auth/session-store"
 	import "@fontsource/inter"
 	import "@fontsource/space-mono"
+	import { browser } from "$app/environment"
+	import { page } from "$app/stores"
+	import * as Fathom from "fathom-client"
+	import { onMount } from "svelte"
+
+	onMount(async () => {
+		Fathom.load("SRGLORAK", {
+			url: "https://cdn.usefathom.com/script.js",
+			includedDomains: ["devy.page"]
+		})
+	})
+
+	$: $page.url.pathname, browser && Fathom.trackPageview()
 
 	export let data: LayoutData
 

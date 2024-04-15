@@ -44,6 +44,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-storybook": "^0.6.15",
 		"eslint-plugin-svelte": "^2.35.1",
+		"fathom-client": "^3.6.0",
 		"postcss": "^8.4.33",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
