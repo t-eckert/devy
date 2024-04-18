@@ -1,7 +1,7 @@
 <script context="module">
 	import Nav from "./nav.svelte"
 	export const meta = {
-		title: "Header/Nav",
+		title: "components/Nav",
 		component: Nav
 	}
 </script>

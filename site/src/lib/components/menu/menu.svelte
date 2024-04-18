@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { HamburgerMenu } from "radix-icons-svelte"
 	import { DropdownMenu } from "bits-ui"
+	import { fly } from "svelte/transition"
+
+	export let side: "top" | "right" | "bottom" | "left" = "bottom"
+	export let align: "start" | "center" | "end" = "end"
+	export let classes = ""
 </script>
 
 <DropdownMenu.Root>
@@ -11,5 +16,17 @@
 			<HamburgerMenu />
 		</slot>
 	</DropdownMenu.Trigger>
-	<slot />
+
+	<DropdownMenu.Content
+		class={[
+			"rounded-md w-40 bg-zinc-50/50 text-zinc-800 py-1.5 flex flex-col gap-1 border border-zinc-200 backdrop-blur-lg shadow-sm",
+			classes
+		].join(" ")}
+		{side}
+		{align}
+		sideOffset={4}
+		transition={fly}
+	>
+		<slot />
+	</DropdownMenu.Content>
 </DropdownMenu.Root>
