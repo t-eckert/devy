@@ -2,7 +2,6 @@
 	import Json from "$lib/utils/json.svelte"
 	import session from "$lib/auth/session-store"
 	import type { SessionStore } from "$lib/auth/session-store"
-	import type { Session } from "$lib/types"
 	import Window from "$lib/utils/window.svelte"
 
 	let data: SessionStore

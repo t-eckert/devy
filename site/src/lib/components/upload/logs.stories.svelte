@@ -2,7 +2,7 @@
 	import Logs from "./logs.svelte"
 
 	export const meta = {
-		title: "Upload/Logs",
+		title: "components/Logs",
 		component: Logs
 	}
 </script>
@@ -16,7 +16,7 @@
 </Template>
 
 <Story
-	name="Upload in progress"
+	name="Upload logs"
 	args={{
 		logs: [
 			"INFO: Upload received by uploader.",

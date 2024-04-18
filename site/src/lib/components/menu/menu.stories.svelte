@@ -1,10 +1,9 @@
 <script context="module">
 	import Menu from "./menu.svelte"
-	import Items from "./items.svelte"
 	import Link from "./link.svelte"
 
 	export const meta = {
-		title: "Menu",
+		title: "components/Menu",
 		component: Menu
 	}
 </script>
@@ -16,15 +15,14 @@
 
 <Template let:args>
 	<Menu {...args}>
-		<Items>
-			<Link href="https://www.google.com">Google</Link>
-			<Link href="https://www.facebook.com">Facebook</Link>
-			<Link href="https://www.twitter.com">Twitter</Link>
-			<Link href="https://www.instagram.com">Instagram</Link>
-			<Sep />
-			<Link href="https://www.linkedin.com">LinkedIn</Link>
-		</Items>
+		<Link href="https://www.google.com">Google</Link>
+		<Link href="https://www.facebook.com">Facebook</Link>
+		<Link href="https://www.twitter.com">Twitter</Link>
+		<Link href="https://www.instagram.com">Instagram</Link>
+		<Sep />
+		<Link href="https://www.linkedin.com">LinkedIn</Link>
 	</Menu>
 </Template>
 
 <Story name="Example"></Story>
+<Story name="Top-Start" args={{ side: "top", align: "start" }}></Story>

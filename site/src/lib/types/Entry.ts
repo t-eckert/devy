@@ -12,6 +12,9 @@ interface Entry {
 
 	createdAt: string
 	updatedAt: string
+
+	liked: boolean
+	bookmarked: boolean
 }
 
 export default Entry

@@ -1,7 +1,10 @@
 <script lang="ts">
 	export let count = 0
+	let display = count.toString()
 
-	let displayCount = count
+	if (count > 999) {
+		display = Math.floor(count / 1000) + "k"
+	}
 </script>
 
-{displayCount}
+{display}

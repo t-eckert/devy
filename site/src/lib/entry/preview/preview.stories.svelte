@@ -1,5 +1,5 @@
 <script context="module">
-	import Preview from "./preview.svelte"
+	import Preview from "./story.svelte"
 
 	export const meta = {
 		title: "Post/Preview",
@@ -16,11 +16,10 @@
 </Template>
 
 <Story
-	name="Example"
+	name="Preview Variants"
 	args={{
-		post: {
-			id: "4c9b32bb-5488-46c3-8cdf-87ca2617b945",
-			slug: "hello-world",
+		entry: {
+			postSlug: "hello-world",
 
 			blogSlug: "my-blog",
 			blogName: "My Blog",
@@ -32,7 +31,9 @@
 			tags: ["hello", "world"],
 			createdAt: "2021-08-01T12:00:00Z",
 			updatedAt: "2021-08-01T12:00:00Z",
-			likes: 20
+			likes: 20000,
+
+			liked: true
 		}
 	}}
 ></Story>
