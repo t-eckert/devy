@@ -5,7 +5,7 @@
 	import Header from "$lib/components/header/header.svelte"
 	import Footer from "$lib/components/footer/footer.svelte"
 	import { setSession } from "$lib/auth/session-store"
-	import "@fontsource/inter"
+	import "@fontsource-variable/inter"
 	import "@fontsource/space-mono"
 	import { browser } from "$app/environment"
 	import { page } from "$app/stores"
