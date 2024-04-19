@@ -12,17 +12,17 @@
 	import * as Fathom from "fathom-client"
 	import { onMount } from "svelte"
 
+	// Analytics
 	onMount(async () => {
 		Fathom.load("SRGLORAK", {
 			url: "https://cdn.usefathom.com/script.js",
 			includedDomains: ["devy.page"]
 		})
 	})
-
 	$: $page.url.pathname, browser && Fathom.trackPageview()
 
+	// Session
 	export let data: LayoutData
-
 	if (data?.session !== undefined) {
 		setSession(data.session)
 	}
