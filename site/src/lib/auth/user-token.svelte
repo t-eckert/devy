@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Session } from "$lib/types"
 	import session from "$lib/auth/session-store"
-
+	import { PUBLIC_API } from "$env/static/public"
 	let data: Session | undefined = undefined
 
 	session.subscribe((value) => {
@@ -25,7 +25,7 @@
 	</a>
 {:else}
 	<a
-		href="/api/auth/signin"
+		href={`${PUBLIC_API}/auth/login`}
 		class="text-sm flex items-center rounded-xl justify-center px-2 py-0.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
 	>
 		Sign in
