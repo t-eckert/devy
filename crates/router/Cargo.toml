@@ -1,6 +1,10 @@
 [package]
 name = "router"
+<<<<<<< HEAD
 version = "0.3.4"
+=======
+version = "0.5.0"
+>>>>>>> 42d2002 (router: add likes endpoints)
 edition = "2021"
 
 
