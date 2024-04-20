@@ -15,7 +15,7 @@
 
 <Main>
 	<div class="flex flex-col sm:flex-row gap-8">
-		<div class="mx-auto">
+		<div class="mx-auto sm:mx-0">
 			<CallingCard {blogs} {profile} {user} />
 		</div>
 

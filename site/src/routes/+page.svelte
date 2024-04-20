@@ -14,7 +14,7 @@
 		<div class="col-start-1 sm:col-span-3">
 			<Feeds {feeds} />
 		</div>
-		<div class="hidden sm:visible">
+		<div class="hidden sm:block">
 			<Sidebar />
 		</div>
 	</div>
