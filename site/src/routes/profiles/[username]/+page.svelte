@@ -15,7 +15,10 @@
 
 <Main>
 	<div class="flex flex-col sm:flex-row gap-8">
-		<CallingCard {blogs} {profile} {user} />
+		<div class="mx-auto">
+			<CallingCard {blogs} {profile} {user} />
+		</div>
+
 		<div class="flex flex-col gap-4">
 			<H2>Blog posts</H2>
 			<Column>

@@ -1,1 +1,1 @@
-<h2><slot /></h2>
+<h2 class="text-xl font-semibold"><slot /></h2>
