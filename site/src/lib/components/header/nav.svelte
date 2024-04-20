@@ -8,8 +8,8 @@
 <Menu>
 	<Link href="/">Home</Link>
 	<Sep />
-	<Link href="/feedback">Share feedback</Link>
-	<Link href="/new/blog">Create your blog</Link>
+	<Link href="/feedback">Feedback</Link>
+	<Link href="/docs">Documentation</Link>
 	<Sep />
 	<FormButton action="?/signOut" name="sign out">Sign out</FormButton>
 </Menu>
