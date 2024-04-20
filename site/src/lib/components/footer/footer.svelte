@@ -3,7 +3,7 @@
 </script>
 
 <footer class="w-full transition-all py-12">
-	<div class="mx-auto max-w-6xl flex flex-row items-start">
+	<div class="mx-auto max-w-xs sm:max-w-6xl flex flex-row items-start">
 		<Card>
 			<div class="p-2 pb-12">
 				<div class="flex flex-row gap-2 items-baseline mb-2">
