@@ -18,11 +18,13 @@ impl Router {
     pub fn new(store: Store, socket_addr: SocketAddr) -> Self {
         let v0_router = AxumRouter::new()
             .route("/ready", get(|| async { "OK" }))
+            // Routers in Alphabetical Order
+            .merge(routers::AuthRouter::create(store.clone()))
             .merge(routers::BlogsRouter::create(store.clone()))
             .merge(routers::FeedsRouter::create(store.clone()))
-            .merge(routers::AuthRouter::create(store.clone()))
-            .merge(routers::ProfilesRouter::create(store.clone()))
             .merge(routers::FormsRouter::create(store.clone()))
+            .merge(routers::LikesRouter::create(store.clone()))
+            .merge(routers::ProfilesRouter::create(store.clone()))
             .merge(routers::UploadsRouter::create(store.clone()))
             .merge(routers::UsersRouter::create(store.clone()))
             .layer(TraceLayer::new_for_http())
