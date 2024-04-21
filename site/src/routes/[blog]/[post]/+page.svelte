@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
-	import SvelteMarkdown from "svelte-markdown"
+	import Markdown from "$lib/markdown/markdown.svelte"
 	import Main from "$lib/layouts/main.svelte"
 	import H1 from "$lib/elements/h1.svelte"
 
@@ -19,6 +19,6 @@
 	</div>
 
 	<article class="mx-auto w-full max-w-3xl">
-		<SvelteMarkdown source={data.props.entry.body} />
+		<Markdown source={data.props.entry.body} />
 	</article>
 </Main>
