@@ -8,6 +8,7 @@
 <Menu>
 	<Link href="/">Home</Link>
 	<Sep />
+	<Link href="https://devy.canny.io/feature-requests">Feature Requests</Link>
 	<Link href="/feedback">Feedback</Link>
 	<Link href="/docs">Documentation</Link>
 	<Sep />

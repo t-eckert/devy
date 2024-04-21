@@ -20,20 +20,20 @@
 		<div>
 			<a href={`/profiles/` + user.username} class="text-sm font-medium">{displayName}</a>
 			{#if bio}
-				<p class="-mt-0.75 text-xs text-zinc-500">{bio}</p>
+				<p class="-mt-0.75 text-xs text-stone-500">{bio}</p>
 			{/if}
 		</div>
 
 		<div class="flex flex-col items-start">
 			{#each blogs as blog}
-				<a href={`/` + blog.slug} class="text-xs font-medium text-zinc-700 hover:text-zinc-950"
+				<a href={`/` + blog.slug} class="text-xs font-medium text-stone-700 hover:text-stone-950"
 					>{blog.name}</a
 				>
 			{/each}
 		</div>
 
 		<div class="w-full flex flex-row justify-end">
-			<div class="font-mono text-xs px-1 py-0.5 text-zinc-50 bg-zinc-900 rounded">
+			<div class="font-mono text-xs px-1 py-0.5 text-stone-50 bg-stone-900 rounded">
 				{joined}
 			</div>
 		</div>

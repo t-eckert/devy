@@ -9,11 +9,11 @@
 
 <Main>
 	<div class="py-4 mx-auto w-full max-w-3xl">
-		<a href={`/${data.props.entry.blogSlug}`} class="text-sm text-zinc-500"
+		<a href={`/${data.props.entry.blogSlug}`} class="text-sm text-stone-500"
 			>{data.props.entry.blogName}</a
 		>
 		<H1>{data.props.entry.title}</H1>
-		<a href={`/profiles/${data.props.entry.authorSlug}`} class="text-sm text-zinc-500"
+		<a href={`/profiles/${data.props.entry.authorSlug}`} class="text-sm text-stone-500"
 			>{data.props.entry.authorName}</a
 		>
 	</div>

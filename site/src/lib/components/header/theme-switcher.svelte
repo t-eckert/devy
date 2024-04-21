@@ -14,12 +14,12 @@
 					formaction="/?/setTheme&theme=light"
 					class="w-full flex flex-row gap-2 items-center"
 				>
-					<Sun class="text-zinc-700" /><span>Light</span>
+					<Sun class="text-stone-700" /><span>Light</span>
 				</button>
 			</Item>
 			<Item>
 				<button formaction="/?/setTheme&theme=dark" class="w-full flex flex-row gap-2 items-center">
-					<Moon class="text-zinc-700" /><span>Dark</span>
+					<Moon class="text-stone-700" /><span>Dark</span>
 				</button>
 			</Item>
 			<Item>
@@ -28,8 +28,8 @@
 					class="w-full flex flex-row gap-2 items-center"
 				>
 					<div class="grid">
-						<Desktop class="col-start-1 row-start-1 text-zinc-700 collapse sm:visible" />
-						<Mobile class="col-start-1 row-start-1 text-zinc-700 visible sm:collapse " />
+						<Desktop class="col-start-1 row-start-1 text-stone-700 collapse sm:visible" />
+						<Mobile class="col-start-1 row-start-1 text-stone-700 visible sm:collapse " />
 					</div>
 					<span>System</span>
 				</button>

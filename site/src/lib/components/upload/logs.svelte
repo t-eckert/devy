@@ -3,6 +3,6 @@
 </script>
 
 <pre
-	class="bg-zinc-50/50 px-2 py-1.5 w-96 rounded-md text-zinc-800 text-sm border border-zinc-200"><code
+	class="bg-stone-50/50 px-2 py-1.5 w-96 rounded-md text-stone-800 text-sm border border-stone-200"><code
 		>{#each logs as log}{log + "\n"}{/each}</code
 	></pre>

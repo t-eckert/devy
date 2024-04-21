@@ -1,3 +1,3 @@
-<div class="rounded-md border border-zinc backdrop-blur-lg shadow-sm">
+<div class="rounded-md border border-stone backdrop-blur-lg shadow-sm">
 	<slot />
 </div>

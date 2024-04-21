@@ -12,7 +12,7 @@
 {#if data}
 	<a
 		href={"/profiles/" + data.metadata.user.username}
-		class="text-sm flex items-center gap-1 rounded-xl justify-center px-2 py-0.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+		class="text-sm flex items-center gap-1 rounded-xl justify-center px-2 py-0.5 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
 	>
 		<img
 			src={data.metadata.profile.avatarUrl}
@@ -26,7 +26,7 @@
 {:else}
 	<a
 		href={`${PUBLIC_API}/auth/login`}
-		class="text-sm flex items-center rounded-xl justify-center px-2 py-0.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+		class="text-sm flex items-center rounded-xl justify-center px-2 py-0.5 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
 	>
 		Sign in
 	</a>
