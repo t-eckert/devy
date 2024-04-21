@@ -10,7 +10,7 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		class="p-1 hover:bg-zinc-100 rounded-md border border-transparent transition data-[state=open]:bg-zinc-50/50 data-[state=open]:border-zinc-200 data-[state=open]:shadow-sm"
+		class="p-1 hover:bg-stone-100 rounded-md border border-transparent transition data-[state=open]:bg-stone-50/50 data-[state=open]:border-stone-200 data-[state=open]:shadow-sm"
 	>
 		<slot name="icon">
 			<HamburgerMenu />
@@ -19,7 +19,7 @@
 
 	<DropdownMenu.Content
 		class={[
-			"rounded-md w-40 bg-zinc-50/50 text-zinc-800 py-1.5 flex flex-col gap-1 border border-zinc-200 backdrop-blur-lg shadow-sm",
+			"rounded-md w-40 bg-stone-50/50 text-stone-800 py-1.5 flex flex-col gap-1 border border-stone-200 backdrop-blur-lg shadow-sm",
 			classes
 		].join(" ")}
 		{side}

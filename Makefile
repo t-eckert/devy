@@ -2,6 +2,9 @@
 version:
 	@python3 ./tools/versioner.py
 
+changes:
+	@python3 ./tools/changes.py
+
 test-integration:
 	@cd integration && \
 		python3 -m pip install -r requirements.txt && \

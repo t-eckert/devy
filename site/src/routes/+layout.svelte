@@ -29,7 +29,7 @@
 </script>
 
 <ThemeProvider>
-	<div class="bg-zinc-50 text-zinc-800 dark:bg-zinc-950 dark:text-zinc-50">
+	<div class="bg-stone-50 text-stone-800 dark:bg-stone-950 dark:text-stone-50">
 		<div class="min-h-screen">
 			<Header />
 			<slot />

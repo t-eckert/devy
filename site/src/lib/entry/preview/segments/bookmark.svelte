@@ -7,6 +7,6 @@
 
 <button class="rounded group">
 	<Bookmark
-		class="w-4 aspect-square text-zinc-500 group-hover:-translate-y-1 group-hover:text-zinc-950 transition-all"
+		class="w-4 aspect-square text-stone-500 group-hover:-translate-y-1 group-hover:text-stone-950 transition-all"
 	/>
 </button>
