@@ -1,7 +1,11 @@
 <script lang="ts">
-	import SvelteMarkdown from "svelte-markdown"
+	import parser from "./parser"
+	import Json from "$lib/utils/json.svelte"
+	import Node from "./node.svelte"
 
-	export let source: string = ""
+	export let source: string
+
+	$: node = parser(source)
 </script>
 
-<SvelteMarkdown {source} />
+<Node {node} />

@@ -1,1 +1,5 @@
-<h1 class="text-4xl font-semibold"><slot /></h1>
+<script>
+	console.log("h1")
+</script>
+
+<h1 class="text-4xl font-medium"><slot /></h1>
