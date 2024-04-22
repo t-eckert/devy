@@ -113,6 +113,18 @@ impl Uploader {
         })
     }
 
+<<<<<<< HEAD
+=======
+    /// Clone the repository.
+    async fn clone_repo(&self, db: &Database, upload: Upload) -> Result<()> {
+        println!(">>>>>cloning");
+        self.git.clone_repo(&Self::dir(upload.id), &upload.repo)?;
+        upload::set_status(db, upload.id, "cloned").await?;
+        upload::append_log(db, upload.id, "INFO: Repository cloned").await?;
+        Ok(())
+    }
+
+>>>>>>> 301f6f9 (uploads: fix issue when receiving webhooks)
     /// Set the SHA for the upload.
     async fn set_sha(&self, db: &Database, upload: Upload) -> Result<Upload> {
         let sha = self.git.sha(&Self::dir(upload.id))?;

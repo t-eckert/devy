@@ -29,6 +29,7 @@ impl Router {
             .merge(routers::UsersRouter::create(store.clone()))
             .merge(routers::WebhooksRouter::create(store.clone()))
             .merge(routers::UsersRouter::create(store.clone()))
+            .merge(routers::WebhooksRouter::create(store.clone()))
             .layer(TraceLayer::new_for_http())
             .layer(CorsLayer::new().allow_origin(Any))
             .with_state(store);

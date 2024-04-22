@@ -1781,6 +1781,10 @@ dependencies = [
  "http 1.1.0",
  "jsonwebtoken",
  "serde",
+<<<<<<< HEAD
+=======
+ "serde_derive",
+>>>>>>> 0372919 (uploads: fix issue when receiving webhooks)
  "serde_json",
  "serde_with",
  "store",
