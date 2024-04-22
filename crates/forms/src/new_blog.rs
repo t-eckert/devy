@@ -12,7 +12,7 @@ pub struct NewBlog {
     pub username: String,
     /// The name of the blog.
     pub name: String,
-    /// The URL where metadata about the repo can be retrieved.
+    /// The URL where the repo can be cloned from.
     pub repo_url: String,
 }
 
@@ -65,7 +65,7 @@ impl NewBlog {
                 message: "Invalid URL".to_string(),
             });
         }
-        if url.host_str() != Some("api.github.com") {
+        if url.host_str() != Some("github.com") {
             return Err(Error::Malformed {
                 message: "Invalid URL".to_string(),
             });

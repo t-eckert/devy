@@ -19,6 +19,8 @@ impl Uploader {
 
     /// Upload posts based on the upload object.
     pub async fn upload(self, db: &Database, mut upload: Upload) -> Result<Upload> {
+        dbg!("uploading");
+
         upload::set_status(db, upload.id, "received").await?;
         upload::append_log(db, upload.id, "INFO: Upload received by uploader").await?;
 
@@ -51,10 +53,8 @@ impl Uploader {
 
     /// Clone the repository.
     async fn clone_repo(&self, db: &Database, upload: Upload) -> Result<()> {
-        let repo_metadata = Self::fetch_repo_metadata(&upload.repo).await?;
-
-        self.git
-            .clone_repo(&Self::dir(upload.id), &repo_metadata.clone_url)?;
+        println!(">>>>>cloning");
+        self.git.clone_repo(&Self::dir(upload.id), &upload.repo)?;
         upload::set_status(db, upload.id, "cloned").await?;
         upload::append_log(db, upload.id, "INFO: Repository cloned").await?;
         Ok(())

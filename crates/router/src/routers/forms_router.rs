@@ -25,5 +25,6 @@ async fn new_blog(
     State(store): State<Store>,
     ExtractJson(new_blog): ExtractJson<NewBlog>,
 ) -> Result<Json<NewBlogResponse>> {
+    dbg!(&new_blog);
     Ok(Json(new_blog.process(&store.db).await?))
 }

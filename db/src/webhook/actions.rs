@@ -1,14 +1,20 @@
-use crate::error::Result;
-use entities::{Webhook, WebhookType};
+use crate::{Database, Result};
+use entities::Webhook;
 use serde_json::Value;
 
-use crate::Database;
-
-pub async fn insert(db: &Database, webhook_type: WebhookType, payload: Value) -> Result<Webhook> {
-    Ok(sqlx::query_file_as!(
+pub async fn insert(db: &Database, webhook_type: &str, payload: Value) -> Result<Webhook> {
+    Ok(sqlx::query_as!(
         Webhook,
-        "src/webhook/queries/insert.sql",
-        webhook_type.as_str(),
+        r#"
+        INSERT INTO "webhook" (type, payload)
+        VALUES ($1, $2)
+        RETURNING
+            id::TEXT,
+            type::TEXT as webhook_type,
+            payload,
+            to_char(received_at, 'YYYY-MM-DDThh:mm:ss.ss') AS received_at;
+        "#,
+        webhook_type,
         payload
     )
     .fetch_one(db)
