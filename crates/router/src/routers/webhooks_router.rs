@@ -1,22 +1,30 @@
-use super::error::Result;
-use crate::entities::{upload, webhook, Webhook};
-use crate::store::Store;
+use crate::error::Result;
 use axum::Router;
 use axum::{extract::State, routing::post, Json};
+use db::{upload, webhook};
+use entities::{Webhook, WebhookType};
 use http::{HeaderMap, StatusCode};
-use serde_json::Value;
+use serde_json::{to_string, Value};
+use store::Store;
 
-pub fn make_router(store: Store) -> Router<Store> {
-    Router::new()
-        .route("/webhooks", post(insert))
-        .with_state(store)
+pub struct WebhooksRouter;
+
+impl WebhooksRouter {
+    pub fn create(store: Store) -> Router<Store> {
+        Router::new()
+            .route("/webhooks", post(receive))
+            .with_state(store)
+    }
 }
 
-async fn insert(
+async fn receive(
     State(store): State<Store>,
     headers: HeaderMap,
     Json(payload): Json<Value>,
 ) -> Result<StatusCode> {
+    dbg!(&headers);
+    dbg!(&payload);
+
     // This will only vibe with GitHub headers for now, but that's future problem.
     let event = format!(
         "webhook.github.{}",
@@ -26,18 +34,23 @@ async fn insert(
             .unwrap_or_default()
     );
 
-    let webhook = match Webhook::new(event, payload).insert(&store.pool).await {
+    let webhook = match webhook::insert(&store.db, &event, payload).await {
         Ok(webhook) => webhook,
         Err(e) => return Err(e.into()),
     };
 
     match webhook.webhook_type {
-        webhook::WebhookType::GitHubPushEvent => {
-            let upload =
-                upload::insert(&store.pool, upload::UploadForUpsert::try_from(webhook)?).await?;
-            let _ = store.uploader.upload(upload, &store.pool).await?;
+        WebhookType::GitHubPushEvent => {
+            let repo = webhook.payload["repository"]["clone_url"]
+                .as_str()
+                .unwrap_or_default()
+                .to_string();
+            store
+                .uploader
+                .upload(&store.db, upload::insert(&store.db, None, repo).await?)
+                .await?;
         }
-        webhook::WebhookType::Generic => {}
+        WebhookType::Generic => {}
     }
 
     Ok(StatusCode::OK)

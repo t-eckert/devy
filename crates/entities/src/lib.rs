@@ -29,4 +29,4 @@ pub use session::{Session, SessionMetadata};
 pub use upload::Upload;
 pub use user::User;
 pub use user_metadata::UserMetadata;
-pub use webhook::Webhook;
+pub use webhook::{Webhook, WebhookType};

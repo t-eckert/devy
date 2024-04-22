@@ -27,7 +27,7 @@
 			<label for="github-repo" class="font-medium">GitHub Repo</label>
 			<p class="text-sm mb-1">Select a repository to push posts to.</p>
 			<select name="repo-url" class="border rounded-md pl-2 py-1">
-				{#each data.props.githubRepos as { name, url }}
+				{#each data.props.githubRepos as { name, clone_url: url }}
 					<option value={url}>{name}</option>
 				{/each}
 			</select>
