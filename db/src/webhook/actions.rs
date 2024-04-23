@@ -20,3 +20,11 @@ pub async fn insert(db: &Database, webhook_type: &str, payload: Value) -> Result
     .fetch_one(db)
     .await?)
 }
+
+pub async fn count(db: &Database) -> Result<i64> {
+    Ok(sqlx::query!(r#"select COUNT(*) from "webhook";"#)
+        .fetch_one(db)
+        .await?
+        .count
+        .unwrap())
+}
