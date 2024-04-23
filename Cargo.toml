@@ -2,4 +2,4 @@
 
 resolver = "1"
 
-members = ["api", "db", "crates/*"]
+members = ["api", "db", "crates/*", "devyctl"]

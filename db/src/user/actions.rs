@@ -22,6 +22,14 @@ pub async fn upsert(
     .await?)
 }
 
+pub async fn count(db: &Database) -> Result<i64> {
+    Ok(sqlx::query_file!("src/user/queries/count.sql")
+        .fetch_one(db)
+        .await?
+        .count
+        .unwrap())
+}
+
 pub async fn get_by_username(pool: &Database, username: &str) -> Result<User> {
     Ok(
         sqlx::query_file_as!(User, "src/user/queries/get_by_username.sql", username)
