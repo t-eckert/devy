@@ -3,6 +3,7 @@ RUN mkdir /build
 WORKDIR /build
 COPY ./api ./api
 COPY ./db ./db
+COPY ./devyctl ./devyctl
 COPY Cargo.toml Cargo.lock ./
 COPY ./crates ./crates
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
