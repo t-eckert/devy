@@ -1,4 +1,5 @@
 SELECT
+    id,
 	slug as post_slug,
 	title,
 	body,

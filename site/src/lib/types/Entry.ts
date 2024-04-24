@@ -1,4 +1,5 @@
 interface Entry {
+	id: string
 	postSlug: string
 	title: string
 	body: string
