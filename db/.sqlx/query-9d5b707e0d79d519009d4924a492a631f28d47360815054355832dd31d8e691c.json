@@ -1,0 +1,80 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT\n    id,\n    slug as post_slug,\n\ttitle,\n\tbody,\n\tCOALESCE(likes.like_count, 0)::bigint AS likes,\n\tblog.blog_slug,\n\tblog.blog_name,\n\tblog.profile_slug as author_slug,\n\tblog.author_name,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nLEFT JOIN (\n\tSELECT post_id, COUNT(*) AS like_count\n\tFROM \"like\"\n\tGROUP BY post_id\n) AS likes ON post.id = likes.post_id\nORDER BY post.created_at DESC;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "post_slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "body",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "likes",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 5,
+        "name": "blog_slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "blog_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "author_slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "author_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      null,
+      false,
+      false,
+      false,
+      true,
+      null,
+      null
+    ]
+  },
+  "hash": "9d5b707e0d79d519009d4924a492a631f28d47360815054355832dd31d8e691c"
+}

@@ -1,8 +1,11 @@
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Entry {
+    pub id: Uuid,
+
     pub post_slug: String,
     pub title: String,
     pub body: String,
