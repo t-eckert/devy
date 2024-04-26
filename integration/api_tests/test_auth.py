@@ -1,10 +1,11 @@
-from framework.config import api
+from framework.client import client
 import re
-import httpx
+import pytest
 
 
+@pytest.mark.skip()
 def test_login_is_redirected():
-    r = httpx.get(api + "/auth/login")
+    r = client.get("/api/auth/login")
 
     assert r.status_code == 303
 

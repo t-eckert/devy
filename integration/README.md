@@ -1,6 +1,8 @@
 # Integration Tests
 
-These tests help ensure the frontend, backend, and database all integrate together correctly. They should test the happy path of the API when it is seeded with the data found at `/seed`
+These tests exercise the happy path of behaviors on the site, leveraging the UI
+and the API. They are run with Pytest. They are written to be run against a
+seeded database.
 
 To run them, you will need:
 
