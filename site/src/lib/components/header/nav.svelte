@@ -12,5 +12,5 @@
 	<Link href="/feedback">Feedback</Link>
 	<Link href="/docs">Documentation</Link>
 	<Sep />
-	<FormButton action="?/signOut" name="sign out">Sign out</FormButton>
+	<FormButton action="/?/signOut" name="sign out">Sign out</FormButton>
 </Menu>
