@@ -5,6 +5,6 @@
 </script>
 
 <a
-	href={`${blogSlug}/${postSlug}`}
+	href={`/${blogSlug}/${postSlug}`}
 	class="font-medium text-stone-700 hover:text-stone-950 transition-all">{title}</a
 >
