@@ -12,7 +12,7 @@
 	let id = "recent"
 </script>
 
-<section class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+<section class="flex flex-col sm:flex-row gap-8">
 	<button-group class="col-start-1 flex flex-row sm:flex-col items-start gap-2">
 		{#each feeds as feed}
 			<button
