@@ -27,8 +27,6 @@ export const load: PageServerLoad = async () => {
 	)
 
 	return {
-		props: {
-			feeds
-		}
+		feeds
 	}
 }

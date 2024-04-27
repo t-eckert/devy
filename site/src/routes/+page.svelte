@@ -6,15 +6,15 @@
 
 	export let data: PageData
 
-	let { feeds } = data.props
+	let { feeds } = data
 </script>
 
 <Main>
-	<div class="sm:py-4 grid grid-cols-1 sm:grid-cols-4 gap-8 items-start">
+	<div class="sm:py-4 grid grid-cols-1 sm:grid-cols-4 gap-4 items-start">
 		<div class="col-start-1 sm:col-span-3">
 			<Feeds {feeds} />
 		</div>
-		<div class="hidden sm:block">
+		<div class="hidden sm:block sm:col-span-1">
 			<Sidebar />
 		</div>
 	</div>
