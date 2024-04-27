@@ -1,5 +1,6 @@
 mod diff;
 mod fetch_repo_metadata;
+mod log;
 mod sync_posts;
 mod uploader;
 
