@@ -6,7 +6,7 @@
 
 {#if $page.error}
 	<div class="w-full mx-4" transition:fly>
-		<Card class="w-full border-none">
+		<Card styling="w-full border-none">
 			<div
 				class="px-2 py-0.5 bg-red-100 rounded-t-md font-medium text-sm border border-red-200 text-red-700"
 			>
