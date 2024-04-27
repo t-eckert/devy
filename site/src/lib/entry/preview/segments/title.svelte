@@ -6,5 +6,6 @@
 
 <a
 	href={`/${blogSlug}/${postSlug}`}
-	class="font-medium text-stone-700 hover:text-stone-950 transition-all">{title}</a
+	class="font-medium text-stone-700 hover:text-stone-950 dark:text-stone-200 transition-all"
+	>{title}</a
 >
