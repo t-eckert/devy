@@ -1,12 +1,12 @@
 <script lang="ts">
-	let className = ""
-	export { className as class }
+	export let styling = ""
 </script>
 
 <div
-	class={["rounded-md border border-stone-100 bg-zinc-50 backdrop-blur-lg shadow", className].join(
-		" "
-	)}
+	class={[
+		"rounded-md border backdrop-blur-lg shadow",
+		styling || "border-stone-100 bg-zinc-50"
+	].join(" ")}
 >
 	<slot />
 </div>
