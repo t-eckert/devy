@@ -61,6 +61,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fontsource-variable/inter": "^5.0.18",
 		"@markdoc/markdoc": "^0.4.0",
 		"@sentry/sveltekit": "^7.110.0",
 		"bits-ui": "^0.17.0",
