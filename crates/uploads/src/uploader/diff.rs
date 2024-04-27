@@ -6,6 +6,10 @@ pub enum Diff {
     Renamed(i32, String, String),
 }
 
+pub async fn diff(raw: String) -> Vec<Diff> {
+    Diff::from_raw(raw)
+}
+
 impl Diff {
     pub fn from_raw(raw: String) -> Vec<Diff> {
         let mut diffs = Vec::new();

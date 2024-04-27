@@ -6,11 +6,6 @@ export default {
 		fontFamily: {
 			sans: ["Inter", "sans-serif"],
 			mono: ["Space Mono", "monospace"]
-		},
-		extend: {
-			listStyleType: {
-				current: "url('/chevron.svg')"
-			}
 		}
 	},
 	plugins: []

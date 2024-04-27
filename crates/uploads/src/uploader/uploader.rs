@@ -1,4 +1,4 @@
-use super::sync_posts;
+use super::{sync_posts, Diff};
 use crate::{error::Result, Error, Git};
 use db::{upload, Database};
 use entities::{RepoMetadata, Upload};
@@ -24,7 +24,7 @@ impl Uploader {
         upload::set_status(db, upload.id, "received").await?;
         upload::append_log(db, upload.id, "INFO: Upload received by uploader").await?;
 
-        upload = Self::set_previous_upload(db, upload).await?;
+        upload = Self::set_previous_upload(db, &upload).await?;
 
         // TODO cleanup when there are errors.
         self.clone_repo(db, upload.clone()).await?;
@@ -38,14 +38,33 @@ impl Uploader {
         Ok(upload::get_by_id(db, upload.id).await?)
     }
 
-    /// Set the previous upload id for the upload if it exists.
-    async fn set_previous_upload(db: &Database, upload: Upload) -> Result<Upload> {
+    pub async fn upload_new(self, db: &Database, upload: Upload) -> Result<Upload> {
+        Self::receive(db, &upload).await?;
+        self.clone_repo(db, upload.clone()).await?;
+        let diff = self.diff(db, &upload).await?;
+        Self::parse().await;
+        Self::sync().await;
+        Self::cleanup(upload.id)?;
+
+        Ok(upload::get_by_id(db, upload.id).await?)
+    }
+
+    /// Receive sets the status of the upload to received, appends a log message,
+    /// and sets the previous upload if it exists.
+    async fn receive(db: &Database, upload: &Upload) -> Result<Upload> {
+        upload::set_status(db, upload.id, "received").await?;
+        upload::append_log(db, upload.id, "INFO: Upload received by uploader").await?;
+
+        // Set the previous upload if it exists.
         Ok(match upload::get_previous(db, &upload.repo).await? {
             Some(previous) => {
-                let id = upload.id;
                 upload::set_previous(db, upload.id, previous.id).await?;
-                upload::append_log(db, id, &format!("INFO: Previous upload {}", previous.id))
-                    .await?
+                upload::append_log(
+                    db,
+                    upload.id,
+                    &format!("INFO: Previous upload {}", previous.id),
+                )
+                .await?
             }
             None => upload::append_log(db, upload.id, "INFO: No previous upload found").await?,
         })
@@ -58,6 +77,40 @@ impl Uploader {
         upload::set_status(db, upload.id, "cloned").await?;
         upload::append_log(db, upload.id, "INFO: Repository cloned").await?;
         Ok(())
+    }
+
+    async fn diff(&self, db: &Database, upload: &Upload) -> Result<Vec<Diff>> {
+        Ok(vec![Diff::Added("".to_string())])
+    }
+
+    async fn parse() {}
+
+    async fn sync() {}
+
+    fn cleanup(id: Uuid) -> Result<()> {
+        fs::remove_dir_all(&Self::dir(id)).map_err(|e| {
+            Error::CleanupFailure(format!(
+                "Failed to remove directory {}: {}",
+                &Self::dir(id),
+                e.to_string()
+            ))
+        })?;
+        Ok(())
+    }
+
+    //--------------------------------------------------------------------------------
+
+    /// Set the previous upload id for the upload if it exists.
+    async fn set_previous_upload(db: &Database, upload: &Upload) -> Result<Upload> {
+        Ok(match upload::get_previous(db, &upload.repo).await? {
+            Some(previous) => {
+                let id = upload.id;
+                upload::set_previous(db, upload.id, previous.id).await?;
+                upload::append_log(db, id, &format!("INFO: Previous upload {}", previous.id))
+                    .await?
+            }
+            None => upload::append_log(db, upload.id, "INFO: No previous upload found").await?,
+        })
     }
 
     /// Set the SHA for the upload.
@@ -76,17 +129,6 @@ impl Uploader {
         let diffs = self.git.diff(&dir(upload.id), &upload.sha, &from)?;
         sync_posts(db, upload.id, &dir(upload.id), diffs).await?;
 
-        Ok(())
-    }
-
-    fn cleanup(id: Uuid) -> Result<()> {
-        fs::remove_dir_all(&Self::dir(id)).map_err(|e| {
-            Error::CleanupFailure(format!(
-                "Failed to remove directory {}: {}",
-                &Self::dir(id),
-                e.to_string()
-            ))
-        })?;
         Ok(())
     }
 
@@ -116,4 +158,12 @@ impl Uploader {
 /// The directory where an upload will be cloned based on its ID.
 fn dir(id: Uuid) -> String {
     format!("/tmp/{}/", id)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_receive() {}
 }
