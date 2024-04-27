@@ -4,8 +4,9 @@
 
 	const base =
 		"text-sm px-2 py-1 sm:w-52 flex flex-row items-start font-medium rounded-lg border hover:pl-4 transition-all"
-	const selected = "bg-zinc-50 text-stone-950"
-	const notSelected = "text-stone-700 border-transparent"
+	const selected =
+		"bg-zinc-50 text-stone-950 dark:bg-zinc-900 dark:text-stone-200 dark:border-stone-300"
+	const notSelected = "text-stone-700 border-transparent dark:text-stone-300"
 	const style = (id: string, selectedId: string): string => {
 		return base + (id === selectedId ? ` ${selected}` : ` ${notSelected}`)
 	}
