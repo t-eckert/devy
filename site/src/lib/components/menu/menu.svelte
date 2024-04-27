@@ -19,7 +19,7 @@
 
 	<DropdownMenu.Content
 		class={[
-			"rounded-md w-40 bg-stone-50/50 text-stone-800 py-1.5 flex flex-col gap-1 border border-stone-200 backdrop-blur-lg shadow-sm",
+			"rounded-md w-40 bg-zinc-50/80 text-stone-800 py-1.5 flex flex-col gap-1 border border-stone-200 backdrop-blur-lg shadow-sm",
 			classes
 		].join(" ")}
 		{side}
