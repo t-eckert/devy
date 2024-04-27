@@ -5,7 +5,7 @@
 </script>
 
 <section class="flex flex-col gap-4 text-sm">
-	<Card class="p-2">
+	<Card styling="p-2">
 		<h2 class="font-medium text-xl mb-1">Welcome to Devy!</h2>
 		<p class="mb-2">Devy is a blogging platform powered by GitHub and Markdown.</p>
 		<p>
@@ -19,7 +19,7 @@
 			/>
 		</a>
 	</Card>
-	<Card class="p-2 bg-orange-100 text-orange-900 border-orange-200 flex flex-col gap-2">
+	<Card styling="p-2 bg-orange-100 text-orange-900 border-orange-200 flex flex-col gap-2">
 		<p>
 			Devy is still in Preview. Thank you for checking it out while it's still in its early stages.
 		</p>
