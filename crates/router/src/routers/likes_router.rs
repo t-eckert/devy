@@ -11,6 +11,7 @@ use uuid::Uuid;
 
 pub struct LikesRouter;
 
+/// `/likes` routes
 impl LikesRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
@@ -21,6 +22,7 @@ impl LikesRouter {
     }
 }
 
+/// `GET /likes/:username`
 async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
@@ -28,6 +30,7 @@ async fn get_by_username(
     Ok(Json(like::get_by_username(&store.db, username).await?))
 }
 
+/// `POST /likes`
 async fn post_like(
     State(store): State<Store>,
     ExtractJson(like): ExtractJson<Like>,
@@ -37,6 +40,7 @@ async fn post_like(
     ))
 }
 
+/// `DELETE /likes/:profile_id/:post_id`
 async fn delete_like(
     State(store): State<Store>,
     Path((profile_id, post_id)): Path<(Uuid, Uuid)>,
