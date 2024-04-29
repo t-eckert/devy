@@ -2823,6 +2823,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
 
 [[package]]
+name = "uploader"
+version = "0.1.0"
+dependencies = [
+ "db",
+ "entities",
+ "glob",
+ "monitoring",
+ "regex",
+ "reqwest 0.11.27",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "slugify",
+ "sqlx",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
 name = "uploads"
 version = "0.3.0"
 dependencies = [
@@ -2835,6 +2854,7 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "slugify",
+ "tokio",
  "uuid",
 ]
 

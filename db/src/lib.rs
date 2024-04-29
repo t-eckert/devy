@@ -18,3 +18,12 @@ pub mod session;
 pub mod upload;
 pub mod user;
 pub mod webhook;
+
+pub async fn migrate(config: Config) -> Result<()> {
+    let db = connect(config).await?;
+    sqlx::migrate!("./migrations")
+        .run(&db)
+        .await
+        .map_err(|_| Error::configuration_error("Unable to run migrations"))?;
+    Ok(())
+}

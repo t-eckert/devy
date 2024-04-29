@@ -1,3 +1,4 @@
+pub use tracing;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
@@ -8,4 +9,3 @@ pub fn init() {
         .with(EnvFilter::from_default_env())
         .init();
 }
-
