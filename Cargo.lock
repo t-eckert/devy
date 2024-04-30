@@ -112,14 +112,9 @@ dependencies = [
 name = "api"
 version = "0.2.0"
 dependencies = [
- "auth",
- "db",
  "dotenvy",
- "monitoring",
- "router",
- "store",
+ "lib",
  "tokio",
- "uploads",
 ]
 
 [[package]]
@@ -140,20 +135,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f28d99ec8bfea296261ca1af174f24225171fea9664ba9003cbebee704810528"
 dependencies = [
  "num-traits",
-]
-
-[[package]]
-name = "auth"
-version = "0.3.1"
-dependencies = [
- "db",
- "entities",
- "oauth2",
- "rand",
- "reqwest 0.11.27",
- "serde",
- "tracing",
- "uuid",
 ]
 
 [[package]]
@@ -482,18 +463,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "db"
-version = "0.5.0"
-dependencies = [
- "entities",
- "serde",
- "serde_json",
- "serde_with",
- "sqlx",
- "uuid",
-]
-
-[[package]]
 name = "der"
 version = "0.7.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -519,8 +488,8 @@ name = "devyctl"
 version = "0.1.0"
 dependencies = [
  "clap",
- "db",
  "dotenvy",
+ "lib",
  "tokio",
 ]
 
@@ -558,17 +527,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7268b386296a025e474d5140678f75d6de9493ae55a5d709eeb9dd08149945e1"
 dependencies = [
  "cfg-if",
-]
-
-[[package]]
-name = "entities"
-version = "0.5.0"
-dependencies = [
- "jsonwebtoken",
- "serde",
- "serde_derive",
- "serde_json",
- "uuid",
 ]
 
 [[package]]
@@ -655,20 +613,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e13624c2627564efccf4934284bdd98cbaa14e79b0b5a141218e507b3a823456"
 dependencies = [
  "percent-encoding",
-]
-
-[[package]]
-name = "forms"
-version = "0.2.0"
-dependencies = [
- "db",
- "entities",
- "reqwest 0.12.2",
- "serde",
- "serde_with",
- "slugify",
- "url",
- "uuid",
 ]
 
 [[package]]
@@ -771,12 +715,6 @@ name = "gimli"
 version = "0.28.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4271d37baee1b8c7e4b708028c57d816cf9d2434acb33a549475f78c181f6253"
-
-[[package]]
-name = "glob"
-version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d2fabcfbdc87f4758337ca535fb41a6d701b65693ce38287d856d1674551ec9b"
 
 [[package]]
 name = "h2"
@@ -1024,19 +962,6 @@ dependencies = [
 
 [[package]]
 name = "hyper-tls"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d6183ddfa99b85da61a140bea0efc93fdf56ceaa041b37d553518030827f9905"
-dependencies = [
- "bytes",
- "hyper 0.14.28",
- "native-tls",
- "tokio",
- "tokio-native-tls",
-]
-
-[[package]]
-name = "hyper-tls"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "70206fc6890eaca9fde8a0bf71caa2ddfc9fe045ac9e5c70df101a7dbde866e0"
@@ -1187,6 +1112,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "lib"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "cookie",
+ "http 1.1.0",
+ "jsonwebtoken",
+ "oauth2",
+ "rand",
+ "reqwest 0.12.2",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "serde_with",
+ "slugify",
+ "sqlx",
+ "tokio",
+ "tower-http",
+ "tracing",
+ "tracing-subscriber",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.153"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1292,14 +1242,6 @@ dependencies = [
  "libc",
  "wasi",
  "windows-sys 0.48.0",
-]
-
-[[package]]
-name = "monitoring"
-version = "0.1.0"
-dependencies = [
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -1741,12 +1683,10 @@ dependencies = [
  "http-body 0.4.6",
  "hyper 0.14.28",
  "hyper-rustls",
- "hyper-tls 0.5.0",
  "ipnet",
  "js-sys",
  "log",
  "mime",
- "native-tls",
  "once_cell",
  "percent-encoding",
  "pin-project-lite",
@@ -1758,7 +1698,6 @@ dependencies = [
  "sync_wrapper 0.1.2",
  "system-configuration",
  "tokio",
- "tokio-native-tls",
  "tokio-rustls",
  "tower-service",
  "url",
@@ -1785,7 +1724,7 @@ dependencies = [
  "http-body 1.0.0",
  "http-body-util",
  "hyper 1.2.0",
- "hyper-tls 0.6.0",
+ "hyper-tls",
  "hyper-util",
  "ipnet",
  "js-sys",
@@ -1827,6 +1766,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "router"
 version = "0.5.0"
 dependencies = [
@@ -1853,6 +1793,8 @@ dependencies = [
 ]
 
 [[package]]
+=======
+>>>>>>> 379437c (lib:refactor into single crate)
 name = "rsa"
 version = "0.9.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2403,15 +2345,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "store"
-version = "0.1.0"
-dependencies = [
- "auth",
- "db",
- "uploads",
-]
-
-[[package]]
 name = "stringprep"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2821,42 +2754,6 @@ name = "untrusted"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1"
-
-[[package]]
-name = "uploader"
-version = "0.1.0"
-dependencies = [
- "db",
- "entities",
- "glob",
- "monitoring",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_derive",
- "serde_json",
- "slugify",
- "sqlx",
- "tokio",
- "uuid",
-]
-
-[[package]]
-name = "uploads"
-version = "0.3.0"
-dependencies = [
- "db",
- "entities",
- "glob",
- "regex",
- "reqwest 0.11.27",
- "serde",
- "serde_derive",
- "serde_json",
- "slugify",
- "tokio",
- "uuid",
-]
 
 [[package]]
 name = "url"

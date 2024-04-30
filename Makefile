@@ -38,7 +38,7 @@ api-package:
 
 # DB
 db-build:
-	@docker build . -f ./db/Dockerfile -t devy-test-db
+	@docker build . -f ./lib/Dockerfile -t devy-test-db
 
 db-serve: db-build
 	@docker run --rm\

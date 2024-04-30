@@ -1,8 +1,9 @@
-use auth::Client;
-use db::connect;
-use router::Router;
+use lib::auth::Client;
+use lib::db::connect;
+use lib::monitoring;
+use lib::router::Router;
+use lib::store::Store;
 use std::net::SocketAddr;
-use store::Store;
 
 /// Start the API server.
 #[tokio::main]
@@ -10,7 +11,7 @@ async fn main() {
     dotenvy::dotenv().ok();
     monitoring::init();
 
-    let auth_config = auth::Config::from_env().unwrap();
+    let auth_config = lib::auth::Config::from_env().unwrap();
     let auth_client = Client::new(
         auth_config.client_id,
         auth_config.client_secret,
@@ -18,12 +19,12 @@ async fn main() {
         auth_config.redirect_url,
     );
 
-    let db_config = db::Config::from_env().unwrap();
+    let db_config = lib::db::Config::from_env().unwrap();
     let db = connect(db_config).await.unwrap();
 
     let git_path = std::env::var("GIT_PATH").expect("GIT_PATH not set");
-    let git = uploads::Git::new(git_path).expect("Unable to create git client");
-    let uploader = uploads::Uploader::new(git);
+    let git = lib::uploader::Git::new(git_path).expect("Unable to create git client");
+    let uploader = lib::uploader::Uploader::new(git);
 
     let store = Store::new(db, auth_client, uploader);
 

@@ -17,12 +17,8 @@ jsonwebtoken = "9.2.0"
 http = "1.0.0"
 serde_with = "3.6.1"
 cookie = "0.18.0"
-<<<<<<< HEAD
-serde_json = "1.0.115"
-=======
 serde_json = "1.0.116"
 serde_derive = "1.0.198"
->>>>>>> 0372919 (uploads: fix issue when receiving webhooks)
 
 [dependencies.serde]
 version = "1.0"
