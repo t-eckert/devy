@@ -49,15 +49,15 @@ enum Subjects {
 }
 
 async fn count_users() {
-    let db_config = db::Config::from_env().unwrap();
-    let conn = db::connect(db_config).await.unwrap();
-    let user_count = db::user::count(&conn).await.unwrap();
+    let db_config = lib::db::Config::from_env().unwrap();
+    let conn = lib::db::connect(db_config).await.unwrap();
+    let user_count = lib::db::user::count(&conn).await.unwrap();
     println!("{}", user_count);
 }
 
 async fn count_webhooks() {
-    let db_config = db::Config::from_env().unwrap();
-    let conn = db::connect(db_config).await.unwrap();
-    let webhook_count = db::webhook::count(&conn).await.unwrap();
+    let db_config = lib::db::Config::from_env().unwrap();
+    let conn = lib::db::connect(db_config).await.unwrap();
+    let webhook_count = lib::db::webhook::count(&conn).await.unwrap();
     println!("{}", webhook_count);
 }

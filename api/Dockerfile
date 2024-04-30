@@ -2,7 +2,7 @@ FROM rust:1.76-slim-buster as builder
 RUN mkdir /build
 WORKDIR /build
 COPY ./api ./api
-COPY ./db ./db
+COPY ./lib ./lib
 COPY ./devyctl ./devyctl
 COPY Cargo.toml Cargo.lock ./
 COPY ./crates ./crates
