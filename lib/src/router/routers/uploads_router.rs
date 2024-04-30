@@ -29,6 +29,12 @@ struct NewUpload {
     pub repo: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct NewUpload {
+    pub repo: String,
+}
+
 /// POST /uploads
 ///
 /// Create a new upload.

@@ -17,7 +17,10 @@ serde_with = "3.6.1"
 cookie = "0.18.0"
 serde_json = "1.0.116"
 serde_derive = "1.0.198"
+<<<<<<< HEAD
 regex = "1.10.4"
+=======
+>>>>>>> 48ff75a (lib:refactor into single crate)
 
 [dependencies.uuid]
 version = "1.5.0"

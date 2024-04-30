@@ -75,3 +75,16 @@ pub async fn get_previous(db: &Database, repo: &str) -> Result<Option<Upload>> {
             .await?,
     )
 }
+<<<<<<< HEAD
+=======
+
+pub async fn get_by_username(pool: &Database, username: &str) -> Result<Vec<Upload>> {
+    Ok(sqlx::query_file_as!(
+        Upload,
+        "src/db/upload/queries/get_by_username.sql",
+        username
+    )
+    .fetch_all(pool)
+    .await?)
+}
+>>>>>>> 48ff75a (lib:refactor into single crate)

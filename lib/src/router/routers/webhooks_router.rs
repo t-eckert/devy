@@ -4,8 +4,27 @@ use crate::router::error::Result;
 use crate::store::Store;
 use axum::Router;
 use axum::{extract::State, routing::post, Json};
+<<<<<<< HEAD
 use http::{HeaderMap, StatusCode};
 use serde_json::{to_string, Value};
+=======
+<<<<<<< HEAD:crates/router/src/routers/webhooks_router.rs
+use db::{upload, webhook};
+<<<<<<< HEAD
+use entities::WebhookType;
+use http::{HeaderMap, StatusCode};
+use serde_json::Value;
+=======
+use entities::{Webhook, WebhookType};
+use http::{HeaderMap, StatusCode};
+use serde_json::{to_string, Value};
+>>>>>>> 0372919 (uploads: fix issue when receiving webhooks)
+use store::Store;
+=======
+use http::{HeaderMap, StatusCode};
+use serde_json::{to_string, Value};
+>>>>>>> 379437c (lib:refactor into single crate):lib/src/router/routers/webhooks_router.rs
+>>>>>>> 48ff75a (lib:refactor into single crate)
 
 pub struct WebhooksRouter;
 
@@ -33,6 +52,10 @@ async fn receive(
             .map(|header_value| header_value.to_str().unwrap_or_default())
             .unwrap_or_default()
     );
+<<<<<<< HEAD
+=======
+    dbg!(&event);
+>>>>>>> 48ff75a (lib:refactor into single crate)
 
     let webhook = match webhook::insert(&store.db, &event, payload).await {
         Ok(webhook) => webhook,
