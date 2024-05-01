@@ -18,7 +18,9 @@
 
 	<div class="rounded-b px-1 pt-2 pb-1 flex flex-col gap-4">
 		<div>
-			<a href={`/profiles/` + user.username} class="text-sm font-medium">{displayName}</a>
+			<a href={`/profiles/` + user.username} class="text-sm font-medium"
+				>{displayName || user.username}</a
+			>
 			{#if bio}
 				<p class="-mt-0.75 text-xs text-stone-500">{bio}</p>
 			{/if}
