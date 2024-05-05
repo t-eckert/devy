@@ -12,6 +12,10 @@ pub async fn diff(db: &Database, upload: &Upload, git: &Git) -> Result<Vec<Diff>
     let diffs = Diff::from_raw(raw);
     let filtered_diffs = filter(diffs?);
 
+    if filtered_diffs.is_empty() {
+        upload::append_log(db, upload.id, "INFO: No diffs found").await?;
+    }
+
     for diff in &filtered_diffs {
         tracing::debug!("Found diff {}", diff);
         upload::append_log(db, upload.id, &format!("INFO: Found diff {}", diff)).await?;
@@ -27,7 +31,7 @@ pub async fn get_shas(db: &Database, upload: &Upload, git: &Git) -> Result<(Stri
         .await?
         .map(|u| u.sha)
         .unwrap_or(git.first_sha(&format!("/tmp/{}", upload.id))?);
-    let to = git.sha(&format!("/tmp/{}", upload.id))?;
+    let to = upload::get_by_id(db, upload.id).await?.sha;
     Ok((from, to))
 }
 

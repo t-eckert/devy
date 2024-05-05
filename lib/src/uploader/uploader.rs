@@ -20,6 +20,8 @@ impl Uploader {
         clone(db, &mut upload, &self.git).await?;
         let diff = diff(db, &upload, &self.git).await?;
         sync(db, &mut upload, diff).await?;
+        upload::set_status(db, upload.id, "done").await?;
+
         cleanup(&mut upload)?;
 
         Ok(upload::get_by_id(db, upload.id).await?)

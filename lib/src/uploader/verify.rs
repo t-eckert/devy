@@ -29,7 +29,20 @@ async fn has_repo(db: &Database, upload: &Upload) -> Result<()> {
 }
 
 async fn set_previous_upload(db: &Database, upload: &Upload) -> Result<()> {
-    Ok(())
+    Ok(match upload::get_previous(db, &upload.repo).await? {
+        Some(previous) => {
+            upload::set_previous(db, upload.id, previous.id).await?;
+            upload::append_log(
+                db,
+                upload.id,
+                &format!("INFO: Previous upload {}", previous.id),
+            )
+            .await?;
+        }
+        None => {
+            upload::append_log(db, upload.id, "INFO: No previous upload found").await?;
+        }
+    })
 }
 
 #[cfg(test)]
