@@ -1,6 +1,4 @@
-use super::{
-    cleanup::cleanup, clone::clone, diff::diff, error::Result, sync::sync, verify::verify, Git,
-};
+use super::{cleanup::cleanup, clone::clone, error::Result, verify::verify, Git};
 use crate::db::Database;
 use crate::entities::Upload;
 
@@ -18,8 +16,8 @@ impl Uploader {
     pub async fn upload(self, db: &Database, mut upload: Upload) -> Result<Upload> {
         verify(db, &mut upload).await?;
         clone(db, &mut upload, &self.git).await?;
-        let diff = diff(db, &upload, &self.git).await?;
-        sync(db, &mut upload, diff).await;
+        // let diff = diff(db, &upload, &self.git).await?;
+        // sync(db, &mut upload, diff).await;
         cleanup(&mut upload);
 
         Ok(upload)
