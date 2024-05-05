@@ -1,63 +1,100 @@
+use std::fmt::Display;
+
 use crate::db::upload;
 use crate::db::Database;
 use crate::entities::Upload;
 use crate::uploader::{error::Result, Git};
+
+/// Get the Git diff between the current and previous uploads, filtering only for changes to files that represent blog posts.
+pub async fn diff(db: &Database, upload: &Upload, git: &Git) -> Result<Vec<Diff>> {
+    let (from, to) = get_shas(db, upload, git).await?;
+    let raw = git.diff(&format!("/tmp/{}", upload.id), &to, &from)?;
+    let diffs = Diff::from_raw(raw);
+    let filtered_diffs = filter(diffs?);
+
+    for diff in &filtered_diffs {
+        tracing::debug!("Found diff {}", diff);
+        upload::append_log(db, upload.id, &format!("INFO: Found diff {}", diff)).await?;
+    }
+
+    upload::set_status(db, upload.id, "diffed").await?;
+
+    Ok(filtered_diffs)
+}
+
+pub async fn get_shas(db: &Database, upload: &Upload, git: &Git) -> Result<(String, String)> {
+    let from = upload::get_previous(db, &upload.repo)
+        .await?
+        .map(|u| u.sha)
+        .unwrap_or(git.first_sha(&format!("/tmp/{}", upload.id))?);
+    let to = git.sha(&format!("/tmp/{}", upload.id))?;
+    Ok((from, to))
+}
 
 #[derive(Debug, PartialEq)]
 pub enum Diff {
     Added(String),
     Deleted(String),
     Modified(String),
-    Renamed(i32, String, String),
-}
-
-pub async fn diff(db: &Database, upload: &Upload, git: &Git) -> Result<Vec<Diff>> {
-    let from = upload::get_previous(db, &upload.repo)
-        .await?
-        .map(|u| u.sha)
-        .unwrap_or(git.first_sha(&format!("/tmp/{}", upload.id))?);
-    let raw = git.diff(&format!("/tmp/{}", upload.id), "HEAD", &from)?;
-    Ok(Diff::from_raw(raw))
+    Renamed(String, String),
 }
 
 impl Diff {
-    pub fn from_raw(raw: String) -> Vec<Diff> {
+    pub fn from_raw(raw: String) -> Result<Vec<Diff>> {
         let mut diffs = Vec::new();
+
         for line in raw.lines() {
-            let mut parts = line.split('\t');
-            let status = parts.next().unwrap();
-            let (from, to): (&str, &str) = match status {
-                "A" => {
-                    let to = parts.next().unwrap();
+            let parts: Vec<&str> = line.split('\t').collect();
+            match parts.first() {
+                // Added
+                Some(&"A") => {
+                    let to = parts.get(1).unwrap();
                     diffs.push(Diff::Added(to.to_string()));
-                    continue;
                 }
-                "D" => {
-                    let from = parts.next().unwrap();
+                // Deleted
+                Some(&"D") => {
+                    let from = parts.get(1).unwrap();
                     diffs.push(Diff::Deleted(from.to_string()));
-                    continue;
                 }
-                "M" => {
-                    let to = parts.next().unwrap();
+                // Modified
+                Some(&"M") => {
+                    let to = parts.get(1).unwrap();
                     diffs.push(Diff::Modified(to.to_string()));
-                    continue;
                 }
-                "R" => {
-                    let from = parts.next().unwrap();
-                    let to = parts.next().unwrap();
-                    let similarity = parts.next().unwrap();
-                    diffs.push(Diff::Renamed(
-                        similarity.parse().unwrap(),
-                        from.to_string(),
-                        to.to_string(),
-                    ));
-                    continue;
+                // Renamed
+                Some(&"R") => {
+                    let from = parts.get(1).unwrap();
+                    let to = parts.get(2).unwrap();
+                    diffs.push(Diff::Renamed(from.to_string(), to.to_string()));
                 }
                 _ => continue,
             };
         }
-        diffs
+
+        Ok(diffs)
     }
+}
+
+impl Display for Diff {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Diff::Added(file) => write!(f, "Added: {}", file),
+            Diff::Deleted(file) => write!(f, "Deleted: {}", file),
+            Diff::Modified(file) => write!(f, "Modified: {}", file),
+            Diff::Renamed(from, to) => write!(f, "Renamed: {} -> {}", from, to),
+        }
+    }
+}
+
+fn filter(diff: Vec<Diff>) -> Vec<Diff> {
+    diff.into_iter()
+        .filter(|d| match d {
+            Diff::Added(file) => file.ends_with(".md"),
+            Diff::Deleted(file) => file.ends_with(".md"),
+            Diff::Modified(file) => file.ends_with(".md"),
+            Diff::Renamed(_, to) => to.ends_with(".md"),
+        })
+        .collect()
 }
 
 #[cfg(test)]
@@ -96,7 +133,6 @@ mod tests {
             Diff::Deleted("crates/upload/src/uploader.rs".to_string()),
             Diff::Added("crates/uploads/Cargo.toml".to_string()),
             Diff::Renamed(
-                71,
                 "crates/upload/src/error.rs".to_string(),
                 "crates/uploads/src/error.rs".to_string(),
             ),
@@ -110,7 +146,7 @@ mod tests {
             Diff::Modified("site/src/routes/new/blog/+page.server.ts".to_string()),
         ];
 
-        let diff = Diff::from_raw(raw);
+        let diff = Diff::from_raw(raw).unwrap();
 
         for (i, d) in diff.iter().enumerate() {
             assert_eq!(d, &expected[i]);
