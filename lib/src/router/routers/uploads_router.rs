@@ -18,20 +18,9 @@ impl UploadsRouter {
     /// Create a new UploadsRouter.
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
-            .route("/uploads/:username", get(get_by_username))
             .route("/uploads", post(create_new_upload))
             .with_state(store)
     }
-}
-
-/// GET /uploads/:username
-///
-/// Get an upload given a user's username.
-async fn get_by_username(
-    State(store): State<Store>,
-    Path(username): Path<String>,
-) -> Result<Json<Vec<Upload>>> {
-    Ok(Json(upload::get_by_username(&store.db, &username).await?))
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
