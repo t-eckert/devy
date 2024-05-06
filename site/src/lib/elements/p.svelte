@@ -1,1 +1,1 @@
-<p class="mb-2"><slot /></p>
+<p class="mb-4 leading-snug"><slot /></p>
