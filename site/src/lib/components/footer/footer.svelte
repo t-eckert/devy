@@ -18,8 +18,8 @@
 				>
 					<section class="w-full sm:w-56 flex flex-col gap-4">
 						<p>
-							Devy is an open source platform for people to publish blog posts in markdown from
-							their GitHub repositories.{" "}
+							Devy is a platform for people to publish blog posts in markdown from their GitHub
+							repositories.{" "}
 						</p>
 						<p>Thank you for checking it out.</p>
 						<span class="self-end">
