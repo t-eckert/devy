@@ -3,8 +3,8 @@ use crate::entities::Upload;
 use crate::router::error::Result;
 use crate::store::Store;
 use axum::{
-    extract::{Json as ExtractJson, Path, State},
-    routing::{get, post},
+    extract::{Json as ExtractJson, State},
+    routing::post,
     Json,
 };
 use serde::{Deserialize, Serialize};
@@ -21,12 +21,6 @@ impl UploadsRouter {
             .route("/uploads", post(create_new_upload))
             .with_state(store)
     }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct NewUpload {
-    pub repo: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

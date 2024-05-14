@@ -18,6 +18,7 @@ impl FeedsRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
             .route("/feeds/recent", get(get_recent))
+            .route("/feeds/popular", get(get_popular))
             .with_state(store)
     }
 }
@@ -33,8 +34,8 @@ async fn get_recent(State(store): State<Store>) -> Result<Json<Feed>> {
 ///
 /// Get a feed of the most popular posts.
 async fn get_popular(
-    State(store): State<Store>,
-    Query(params): Query<HashMap<String, String>>,
+    State(_store): State<Store>,
+    Query(_params): Query<HashMap<String, String>>,
 ) -> Result<Json<Feed>> {
     Ok(Json(Feed {
         feed_config: FeedConfig::new("popular", "Popular"),
