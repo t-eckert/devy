@@ -1,5 +1,5 @@
-use crate::db::{blog, entry, like, profile};
-use crate::entities::{Blog, Entry, Like, Profile};
+use crate::db::{blog, entry, profile};
+use crate::entities::{Blog, Entry, Profile};
 use crate::router::error::Result;
 use crate::store::Store;
 use axum::{

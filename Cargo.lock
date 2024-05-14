@@ -1134,15 +1134,8 @@ dependencies = [
  "jsonwebtoken",
  "oauth2",
  "rand",
-<<<<<<< HEAD
  "regex",
-<<<<<<< HEAD
-=======
->>>>>>> 48ff75a (lib:refactor into single crate)
- "reqwest 0.12.2",
-=======
  "reqwest 0.12.4",
->>>>>>> 2ec3847 (git: fix rebase issues)
  "serde",
  "serde_derive",
  "serde_json",
@@ -1795,46 +1788,6 @@ dependencies = [
 ]
 
 [[package]]
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 48ff75a (lib:refactor into single crate)
-name = "router"
-version = "0.3.4"
-dependencies = [
- "auth",
- "axum",
- "cookie",
- "db",
- "entities",
- "forms",
- "http 1.1.0",
- "jsonwebtoken",
- "serde",
-<<<<<<< HEAD
-=======
- "serde_derive",
->>>>>>> 0372919 (uploads: fix issue when receiving webhooks)
- "serde_json",
- "serde_with",
- "store",
- "tokio",
- "tower-http",
- "uploads",
- "uuid",
-]
-
-[[package]]
-<<<<<<< HEAD
->>>>>>> 93e9627 (cargo: update deps)
-=======
-=======
->>>>>>> 379437c (lib:refactor into single crate)
->>>>>>> 48ff75a (lib:refactor into single crate)
-=======
->>>>>>> 2ec3847 (git: fix rebase issues)
 name = "rsa"
 version = "0.9.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"

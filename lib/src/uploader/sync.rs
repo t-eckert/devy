@@ -125,7 +125,6 @@ async fn delete_post(db: &Database, blog: &Blog, path: String) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
 
     #[tokio::test]
     async fn test_sync() {}

@@ -1,11 +1,7 @@
 use super::{
     cleanup::cleanup, clone::clone, diff::diff, error::Result, sync::sync, verify::verify, Git,
 };
-<<<<<<< HEAD
 use crate::db::{upload, Database};
-=======
-use crate::db::Database;
->>>>>>> 48ff75a (lib:refactor into single crate)
 use crate::entities::Upload;
 
 /// The Uploader struct is responsible for handling the upload process.
@@ -49,6 +45,6 @@ mod tests {
     async fn test_upload() {
         let git = setup();
 
-        let uploader = Uploader::new(git);
+        let _uploader = Uploader::new(git);
     }
 }

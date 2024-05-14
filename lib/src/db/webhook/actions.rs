@@ -9,7 +9,7 @@ pub async fn insert(db: &Database, webhook_type: &str, payload: Value) -> Result
         INSERT INTO "webhook" (type, payload)
         VALUES ($1, $2)
         RETURNING
-            id::TEXT,
+            id,
             type::TEXT as webhook_type,
             payload,
             to_char(received_at, 'YYYY-MM-DDThh:mm:ss.ss') AS received_at;
