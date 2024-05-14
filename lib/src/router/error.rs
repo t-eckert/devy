@@ -11,6 +11,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
     StatusCode(#[serde_as(as = "DisplayFromStr")] StatusCode),
     ServeFailure,
+    Generic(String),
 }
 
 impl From<StatusCode> for Error {
@@ -71,6 +72,7 @@ impl IntoResponse for Error {
         match self {
             Self::StatusCode(status) => status.into_response(),
             Self::ServeFailure => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+            _ => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
         }
     }
 }
