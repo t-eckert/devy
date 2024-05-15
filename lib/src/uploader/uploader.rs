@@ -45,6 +45,6 @@ mod tests {
     async fn test_upload() {
         let git = setup();
 
-        let uploader = Uploader::new(git);
+        let _uploader = Uploader::new(git);
     }
 }

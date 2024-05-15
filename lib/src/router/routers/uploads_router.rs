@@ -3,8 +3,8 @@ use crate::entities::Upload;
 use crate::router::error::Result;
 use crate::store::Store;
 use axum::{
-    extract::{Json as ExtractJson, Path, State},
-    routing::{get, post},
+    extract::{Json as ExtractJson, State},
+    routing::post,
     Json,
 };
 use serde::{Deserialize, Serialize};

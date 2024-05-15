@@ -19,38 +19,43 @@ impl From<StatusCode> for Error {
     }
 }
 
-impl From<entities::Error> for Error {
-    fn from(val: entities::Error) -> Self {
+impl From<crate::entities::Error> for Error {
+    fn from(val: crate::entities::Error) -> Self {
         match val {
-            entities::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
-            entities::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            crate::entities::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
+            crate::entities::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
             // EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
             _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
 
-impl From<uploads::Error> for Error {
-    fn from(_: uploads::Error) -> Self {
-        Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
-    }
-}
-
-impl From<db::Error> for Error {
-    fn from(err: db::Error) -> Self {
+impl From<crate::uploader::Error> for Error {
+    fn from(err: crate::uploader::Error) -> Self {
         match err {
-            db::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
-            db::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            db::Error::MissingField { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            crate::uploader::Error::RepositoryNotFound(_) => {
+                Self::StatusCode(StatusCode::NOT_FOUND)
+            }
             _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
 
-impl From<forms::Error> for Error {
-    fn from(val: forms::Error) -> Self {
+impl From<crate::db::Error> for Error {
+    fn from(err: crate::db::Error) -> Self {
+        match err {
+            crate::db::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
+            crate::db::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            crate::db::Error::MissingField { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
+    }
+}
+
+impl From<crate::forms::Error> for Error {
+    fn from(val: crate::forms::Error) -> Self {
         match val {
-            forms::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            crate::forms::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
         }
     }
 }

@@ -1,25 +1,11 @@
 use crate::db::{upload, webhook};
-use crate::entities::{Webhook, WebhookType};
+use crate::entities::WebhookType;
 use crate::router::error::Result;
 use crate::store::Store;
 use axum::Router;
 use axum::{extract::State, routing::post, Json};
-<<<<<<< HEAD:crates/router/src/routers/webhooks_router.rs
-use db::{upload, webhook};
-<<<<<<< HEAD
-use entities::WebhookType;
 use http::{HeaderMap, StatusCode};
 use serde_json::Value;
-=======
-use entities::{Webhook, WebhookType};
-use http::{HeaderMap, StatusCode};
-use serde_json::{to_string, Value};
->>>>>>> 0372919 (uploads: fix issue when receiving webhooks)
-use store::Store;
-=======
-use http::{HeaderMap, StatusCode};
-use serde_json::{to_string, Value};
->>>>>>> 379437c (lib:refactor into single crate):lib/src/router/routers/webhooks_router.rs
 
 pub struct WebhooksRouter;
 
@@ -65,7 +51,7 @@ async fn receive(
                 .upload(&store.db, upload::insert(&store.db, None, repo).await?)
                 .await?;
         }
-        WebhookType::Generic => {}
+        WebhookType::Uncategorized => {}
     }
 
     Ok(StatusCode::OK)

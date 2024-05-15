@@ -24,14 +24,6 @@ pub struct NewBlogResponse {
 }
 
 impl NewBlog {
-    pub fn new(username: String, name: String, repo_url: String) -> Self {
-        Self {
-            username,
-            name,
-            repo_url,
-        }
-    }
-
     // Process takes the form submission, validates it, then creates the necessary entities
     // defined in the form.
     // It will create a blog entity and a repo entity and return both as a Response.

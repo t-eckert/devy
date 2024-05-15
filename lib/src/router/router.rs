@@ -26,7 +26,6 @@ impl Router {
             .merge(routers::LikesRouter::create(store.clone()))
             .merge(routers::ProfilesRouter::create(store.clone()))
             .merge(routers::UploadsRouter::create(store.clone()))
-            .merge(routers::WebhooksRouter::create(store.clone()))
             .merge(routers::UsersRouter::create(store.clone()))
             .merge(routers::WebhooksRouter::create(store.clone()))
             .layer(TraceLayer::new_for_http())

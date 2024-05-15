@@ -57,6 +57,6 @@ async fn get_user_github_repos(Path(username): Path<String>) -> Result<Json<Valu
 /// `GET /users/:username/github/devy`
 ///
 /// Get a user's GitHub Devy metadata.
-async fn get_user_github_devy(Path(username): Path<String>) -> Result<Json<()>> {
+async fn get_user_github_devy(Path(_username): Path<String>) -> Result<Json<()>> {
     Ok(Json(()))
 }
