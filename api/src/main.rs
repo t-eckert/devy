@@ -17,6 +17,7 @@ async fn main() {
         auth_config.client_secret,
         auth_config.callback_url,
         auth_config.redirect_url,
+        auth_config.encoding_key,
     );
 
     let db_config = lib::db::Config::from_env().unwrap();
