@@ -19,6 +19,9 @@ pub enum Error {
 
     /// An error occurred when interacting with the database.
     DatabaseError(String),
+
+    /// An error occurred when encoding or decoding a JWT.
+    JWTError(String),
 }
 
 impl From<crate::db::Error> for Error {
@@ -36,6 +39,12 @@ impl From<crate::entities::Error> for Error {
 impl From<std::env::VarError> for Error {
     fn from(val: std::env::VarError) -> Self {
         Self::ConfigurationError(val.to_string())
+    }
+}
+
+impl From<jsonwebtoken::errors::Error> for Error {
+    fn from(val: jsonwebtoken::errors::Error) -> Self {
+        Self::JWTError(val.to_string())
     }
 }
 

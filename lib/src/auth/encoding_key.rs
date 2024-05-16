@@ -1,17 +1,14 @@
 use rand::{distributions::Alphanumeric, Rng};
 
-const KEY_SIZE: usize = 32;
+const KEY_SIZE: usize = 64;
 
-/// Generates a random encoding key of 32 bytes.
+/// Generates a random encoding key of 64 bytes.
 pub fn generate_encoding_key() -> String {
-    let rng = rand::thread_rng();
-    let key: String = rng
+    rand::thread_rng()
         .sample_iter(&Alphanumeric)
         .take(KEY_SIZE)
         .map(char::from)
-        .collect();
-
-    key
+        .collect()
 }
 
 #[cfg(test)]

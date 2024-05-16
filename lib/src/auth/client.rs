@@ -1,6 +1,8 @@
-use super::error::{Error, Result};
-use crate::db;
-use crate::db::{session, Database};
+use super::{
+    error::{Error, Result},
+    Session, JWT,
+};
+use crate::db::{self, Database};
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
@@ -12,9 +14,10 @@ const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
 
 #[derive(Clone)]
 pub struct Client {
+    pub redirect_url: String,
     callback_url: String,
     oauth_client: BasicClient,
-    pub redirect_url: String,
+    jwt: JWT,
 }
 
 impl Client {
@@ -24,16 +27,18 @@ impl Client {
         client_secret: String,
         callback_url: String,
         redirect_url: String,
+        encoding_key: String,
     ) -> Self {
         Self {
+            redirect_url,
+            callback_url,
             oauth_client: BasicClient::new(
                 ClientId::new(client_id),
                 Some(ClientSecret::new(client_secret)),
                 AuthUrl::new(AUTH_URL.to_string()).expect("Invalid auth URL"),
                 Some(TokenUrl::new(TOKEN_URL.to_string()).expect("Invalid token URL")),
             ),
-            callback_url,
-            redirect_url,
+            jwt: JWT::new(encoding_key),
         }
     }
 
@@ -90,18 +95,14 @@ impl Client {
         )
         .await?;
 
-        let encoding_key = crate::auth::generate_encoding_key();
+        let session = Session::new(user, profile);
+        dbg!(&session);
 
-        let session = session::insert(
-            db,
-            user.id,
-            crate::entities::SessionMetadata { user, profile },
-            "".to_string(),
-            encoding_key,
-        )
-        .await?;
+        let token = self
+            .jwt
+            .encode("session", serde_json::to_value(session).unwrap())?;
 
-        Ok(session.encode()?)
+        Ok(token)
     }
 
     pub fn redirect_url_with_token(self, token: &str) -> String {
@@ -112,8 +113,18 @@ impl Client {
         format!("{}?error={}", self.redirect_url, err)
     }
 
-    pub fn validate_session(self, _db: Database, _session: &str) -> Result<()> {
-        Ok(())
+    // Validates a token and returns the associated session.
+    pub async fn validate_token(self, token: &str) -> Result<Session> {
+        let (sub, value) = self.jwt.decode(token)?;
+
+        if sub != "session" {
+            return Err(Error::JWTError("Invalid subject".to_string()));
+        }
+
+        let session: Session =
+            serde_json::from_value(value).map_err(|err| Error::JWTError(err.to_string()))?;
+
+        Ok(session)
     }
 
     // Exchange the code for a token.

@@ -6,6 +6,7 @@ pub struct Config {
     pub client_secret: String,
     pub callback_url: String,
     pub redirect_url: String,
+    pub encoding_key: String,
 }
 
 impl Config {
@@ -14,12 +15,14 @@ impl Config {
         client_secret: String,
         callback_url: String,
         redirect_url: String,
+        encoding_key: String,
     ) -> Self {
         Self {
             client_id,
             client_secret,
             callback_url,
             redirect_url,
+            encoding_key,
         }
     }
 
@@ -29,6 +32,7 @@ impl Config {
             client_secret: env::var("CLIENT_SECRET")?,
             callback_url: env::var("CALLBACK_URL")?,
             redirect_url: env::var("REDIRECT_URL")?,
+            encoding_key: env::var("ENCODING_KEY")?,
         })
     }
 }
