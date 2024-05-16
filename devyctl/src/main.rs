@@ -18,6 +18,9 @@ async fn main() {
                 println!("No subject provided");
             }
         },
+        Some(Actions::Generate(_)) => {
+            println!("{}", lib::auth::generate_encoding_key());
+        }
         None => {
             println!("No command provided");
         }
@@ -34,6 +37,7 @@ struct Cli {
 #[derive(Subcommand)]
 enum Actions {
     Count(Count),
+    Generate(Generate),
 }
 
 #[derive(Args)]
@@ -46,6 +50,17 @@ struct Count {
 enum Subjects {
     Users,
     Webhooks,
+}
+
+#[derive(Args)]
+struct Generate {
+    #[command(subcommand)]
+    subject: Option<GenerateSubjects>,
+}
+
+#[derive(Subcommand)]
+enum GenerateSubjects {
+    EncodingKey,
 }
 
 async fn count_users() {
