@@ -1,1 +1,3 @@
-mod is_authenticated;
+mod auth;
+
+pub use auth::auth;
