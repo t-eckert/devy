@@ -21,6 +21,16 @@ Containerization plays a crucial role in designing distributed systems with Kube
 
 Service discovery is a critical aspect of distributed systems, as it enables different components to locate and communicate with each other. Kubernetes offers built-in service discovery through its DNS-based service discovery mechanism. Leveraging this feature can simplify the design and implementation of your distributed system.
 
+Here is some code that might be in the post:
+
+```go
+package main
+
+func main() {
+    fmt.Println("Hello, Kubernetes!")
+}
+```
+
 ### 3. High Availability and Fault Tolerance
 
 In distributed systems, ensuring high availability and fault tolerance is essential. Kubernetes offers a range of features to achieve this, such as replica sets, which ensure that a specified number of identical pods are running at all times. Additionally, Kubernetes provides mechanisms for automatic scaling and load balancing, further enhancing the fault tolerance of your system.
