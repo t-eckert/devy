@@ -9,7 +9,7 @@ use axum::{
 use cookie::{Cookie, SameSite};
 use std::collections::HashMap;
 
-/// /auth/*
+/// `/auth/*`
 ///
 /// Router for handling authentication requests.
 pub struct AuthRouter;
@@ -24,7 +24,7 @@ impl AuthRouter {
     }
 }
 
-/// GET /auth/login
+/// `GET /auth/login`
 ///
 /// Redirects the user to the login page.
 async fn login(State(store): State<Store>) -> Redirect {

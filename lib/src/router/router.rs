@@ -1,5 +1,7 @@
+use super::middleware::auth;
 use super::{error::Result, routers};
 use crate::store::Store;
+use axum::middleware;
 use axum::{routing::get, Router as AxumRouter};
 use std::net::SocketAddr;
 use tower_http::{
@@ -18,6 +20,10 @@ impl Router {
     pub fn new(store: Store, socket_addr: SocketAddr) -> Self {
         let v0_router = AxumRouter::new()
             .route("/ready", get(|| async { "OK" }))
+            .route(
+                "/protected",
+                get(|| async { "OK" }).layer(middleware::from_fn_with_state(store.clone(), auth)),
+            )
             // Routers in Alphabetical Order
             .merge(routers::AuthRouter::create(store.clone()))
             .merge(routers::BlogsRouter::create(store.clone()))
@@ -28,8 +34,10 @@ impl Router {
             .merge(routers::UploadsRouter::create(store.clone()))
             .merge(routers::UsersRouter::create(store.clone()))
             .merge(routers::WebhooksRouter::create(store.clone()))
+            // Global middleware
             .layer(TraceLayer::new_for_http())
             .layer(CorsLayer::new().allow_origin(Any))
+            // State
             .with_state(store);
 
         let router = AxumRouter::new()

@@ -96,7 +96,6 @@ impl Client {
         .await?;
 
         let session = Session::new(user, profile);
-        dbg!(&session);
 
         let token = self
             .jwt

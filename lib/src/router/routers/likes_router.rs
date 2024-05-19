@@ -1,9 +1,12 @@
-use crate::db::like;
-use crate::entities::Like;
-use crate::router::error::Result;
-use crate::store::Store;
+use crate::{
+    db::like,
+    entities::Like,
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
 use axum::{
     extract::{Json as ExtractJson, Path, State},
+    middleware,
     routing::{delete, get, post},
     Json,
 };
@@ -18,6 +21,7 @@ impl LikesRouter {
             .route("/likes", post(post_like))
             .route("/likes/:username", get(get_by_username))
             .route("/likes/:profile_id/:post_id", delete(delete_like))
+            .layer(middleware::from_fn_with_state(store.clone(), auth))
             .with_state(store)
     }
 }
