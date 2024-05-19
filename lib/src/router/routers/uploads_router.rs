@@ -1,9 +1,12 @@
-use crate::db::upload;
-use crate::entities::Upload;
-use crate::router::error::Result;
-use crate::store::Store;
+use crate::{
+    db::upload,
+    entities::Upload,
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
 use axum::{
     extract::{Json as ExtractJson, State},
+    middleware,
     routing::post,
     Json,
 };
@@ -19,6 +22,7 @@ impl UploadsRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
             .route("/uploads", post(create_new_upload))
+            .layer(middleware::from_fn_with_state(store.clone(), auth))
             .with_state(store)
     }
 }

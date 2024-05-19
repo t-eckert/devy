@@ -18,10 +18,15 @@ pub struct LikesRouter;
 impl LikesRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
-            .route("/likes", post(post_like))
             .route("/likes/:username", get(get_by_username))
-            .route("/likes/:profile_id/:post_id", delete(delete_like))
-            .layer(middleware::from_fn_with_state(store.clone(), auth))
+            .route(
+                "/likes",
+                post(post_like).layer(middleware::from_fn_with_state(store.clone(), auth)),
+            )
+            .route(
+                "/likes/:profile_id/:post_id",
+                delete(delete_like).layer(middleware::from_fn_with_state(store.clone(), auth)),
+            )
             .with_state(store)
     }
 }

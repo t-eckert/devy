@@ -1,10 +1,14 @@
-use crate::db::{blog, entry, post};
-use crate::entities::{Blog, Entry, Post};
-use crate::router::error::Result;
-use crate::store::Store;
+use crate::{
+    db::{blog, entry, post},
+    entities::{Blog, Entry, Post},
+    router::error::Result,
+    router::middleware::auth,
+    store::Store,
+};
 use axum::{
     extract::{Path, State},
     http::StatusCode,
+    middleware,
     routing::{delete, get},
     Json, Router,
 };
@@ -25,7 +29,11 @@ impl BlogsRouter {
                 "/blogs/:blog_slug/entries/:post_slug",
                 get(get_entry_by_blog_and_post_slug),
             )
-            .route("/blogs/:blog_slug", delete(delete_blog_by_blog_slug))
+            .route(
+                "/blogs/:blog_slug",
+                delete(delete_blog_by_blog_slug)
+                    .layer(middleware::from_fn_with_state(store.clone(), auth)),
+            )
             .with_state(store)
     }
 }

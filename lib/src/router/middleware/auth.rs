@@ -41,7 +41,7 @@ fn get_token(headers: &HeaderMap) -> Result<&str> {
         .and_then(|value| value.to_str().ok())
         .ok_or(Error::StatusCode(StatusCode::BAD_REQUEST))?;
 
-    match auth_header.split_once(" ") {
+    match auth_header.split_once(' ') {
         Some((BEARER_PREFIX, token)) => Ok(token),
         _ => Err(Error::StatusCode(StatusCode::BAD_REQUEST)),
     }

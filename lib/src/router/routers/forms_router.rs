@@ -1,8 +1,11 @@
-use crate::forms::new_blog::{NewBlog, NewBlogResponse};
-use crate::router::error::Result;
-use crate::store::Store;
+use crate::{
+    forms::new_blog::{NewBlog, NewBlogResponse},
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
 use axum::{
     extract::{Json as ExtractJson, State},
+    middleware,
     routing::post,
     Json,
 };
@@ -13,7 +16,10 @@ pub struct FormsRouter;
 impl FormsRouter {
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
-            .route("/forms/new-blog", post(new_blog))
+            .route(
+                "/forms/new-blog",
+                post(new_blog).layer(middleware::from_fn_with_state(store.clone(), auth)),
+            )
             .with_state(store)
     }
 }
@@ -25,6 +31,5 @@ async fn new_blog(
     State(store): State<Store>,
     ExtractJson(new_blog): ExtractJson<NewBlog>,
 ) -> Result<Json<NewBlogResponse>> {
-    dbg!(&new_blog);
     Ok(Json(new_blog.process(&store.db).await?))
 }
