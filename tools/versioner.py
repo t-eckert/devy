@@ -20,13 +20,9 @@ import os
 package_paths = [
     Path("./site/package.json"),
     Path("./api/Cargo.toml"),
+    Path("./lib/Cargo.toml"),
     Path("./db/Cargo.toml"),
-    Path("./crates/auth/Cargo.toml"),
-    Path("./crates/entities/Cargo.toml"),
-    Path("./crates/forms/Cargo.toml"),
-    Path("./crates/router/Cargo.toml"),
-    Path("./crates/store/Cargo.toml"),
-    Path("./crates/uploads/Cargo.toml"),
+    Path("./devyctl/Cargo.toml"),
 ]
 
 
@@ -123,10 +119,6 @@ def tag_version(version: str, message: str) -> None:
     os.execlp("git", "git", "tag", version, "-m", message)
 
 
-def open_changelog(filename: str) -> None:
-    os.execlp("nvim", "nvim", filename)
-
-
 def commit(version: str) -> None:
     os.execlp("git", "git", "commit", "-am", f"version: {version}")
 
@@ -156,5 +148,4 @@ if __name__ == "__main__":
         filename,
     )
     tag_version(version, name)
-    open_changelog(filename)
     commit(version)
