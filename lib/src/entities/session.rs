@@ -1,4 +1,4 @@
-use crate::entities::{error::Result, Profile, User};
+use crate::entities::{Profile, User};
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
 use uuid::Uuid;
@@ -27,16 +27,6 @@ pub struct Session {
 pub struct SessionMetadata {
     pub user: User,
     pub profile: Profile,
-}
-
-impl Session {
-    pub fn encode(self) -> Result<String> {
-        Ok(jsonwebtoken::encode(
-            &jsonwebtoken::Header::default(),
-            &self,
-            &jsonwebtoken::EncodingKey::from_secret(self.encoding_key.as_ref()),
-        )?)
-    }
 }
 
 impl From<JsonValue> for SessionMetadata {
