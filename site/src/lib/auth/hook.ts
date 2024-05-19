@@ -1,5 +1,6 @@
 import type { Handle } from "@sveltejs/kit"
 import { jwtDecode } from "jwt-decode"
+import type { TokenPayload } from "$lib/types"
 
 const handle: Handle = async ({ event, resolve }) => {
 	{
@@ -19,7 +20,8 @@ const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	try {
-		event.locals.session = jwtDecode(token)
+		const body = jwtDecode<TokenPayload>(token)
+		event.locals.session = body.value
 	} catch (e) {
 		console.error(e)
 	}

@@ -11,16 +11,12 @@
 
 {#if data}
 	<a
-		href={"/profiles/" + data.metadata.user.username}
+		href={"/profiles/" + data.user.username}
 		class="text-sm flex items-center gap-1 rounded-xl justify-center px-2 py-0.5 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
 	>
-		<img
-			src={data.metadata.profile.avatarUrl}
-			alt="profile"
-			class="w-4 aspect-square rounded-full"
-		/>
+		<img src={data.profile.avatarUrl} alt="profile" class="w-4 aspect-square rounded-full" />
 		<span>
-			{data.metadata.profile.displayName}
+			{data.profile.displayName}
 		</span>
 	</a>
 {:else}

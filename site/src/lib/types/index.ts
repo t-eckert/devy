@@ -8,6 +8,7 @@ import type Post from "./Post"
 import type Profile from "./Profile"
 import type Repo from "./Repo"
 import type Session from "./Session"
+import type TokenPayload from "./TokenPayload"
 import type Upload from "./Upload"
 import type User from "./User"
 
@@ -22,6 +23,7 @@ export type {
 	Profile,
 	Repo,
 	Session,
+	TokenPayload,
 	Upload,
 	User
 }
