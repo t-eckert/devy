@@ -11,6 +11,14 @@ import Image from "$lib/elements/image.svelte"
 import Ol from "$lib/elements/ol.svelte"
 import Ul from "$lib/elements/ul.svelte"
 import Li from "$lib/elements/li.svelte"
+import Pre from "$lib/elements/pre.svelte"
+import Link from "$lib/elements/link.svelte"
+import Blockquote from "$lib/elements/blockquote.svelte"
+import Strong from "$lib/elements/strong.svelte"
+import Strikethrough from "$lib/elements/strikethrough.svelte"
+import Em from "$lib/elements/em.svelte"
+import Code from "$lib/elements/code.svelte"
+import Table from "$lib/elements/table.svelte"
 
 import Article from "./article.svelte"
 
@@ -25,7 +33,15 @@ const renderers: Record<string, ComponentType> = {
 	article: Article,
 	ol: Ol,
 	ul: Ul,
-	li: Li
+	li: Li,
+	pre: Pre,
+	a: Link,
+	blockquote: Blockquote,
+	strong: Strong,
+	s: Strikethrough,
+	em: Em,
+	code: Code,
+	table: Table
 }
 
 export default function render(node: RenderableTreeNode): ComponentType | null {
