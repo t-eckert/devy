@@ -30,16 +30,17 @@ impl NewBlog {
     pub async fn process(self, db: &Database) -> Result<NewBlogResponse> {
         self.validate(db).await?;
 
-        let profile = profile::get_by_username(&db, self.username.clone()).await?;
-        let blog = blog::upsert(&db, profile.id, &self.name, &slug(&self.name), None).await?;
-        let repo = repo::upsert(&db, blog.id, self.repo_url).await?;
+        let profile = profile::get_by_username(db, self.username.clone()).await?;
+        let blog = blog::upsert(db, profile.id, &self.name, &slug(&self.name), None).await?;
+        let repo = repo::upsert(db, blog.id, self.repo_url).await?;
 
         Ok(NewBlogResponse { blog, repo })
     }
 
+    /// Validate the form.
     pub async fn validate(&self, db: &Database) -> Result<()> {
         self.validate_repo_url()?;
-        self.validate_user_exists(&db).await?;
+        self.validate_user_exists(db).await?;
         Ok(())
     }
 
@@ -74,4 +75,22 @@ impl NewBlog {
 
 fn slug(s: &str) -> String {
     slugify!(s)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[sqlx::test]
+    async fn test_validate_with_nonexistent_user(db: Database) {
+        let new_blog = NewBlog {
+            username: "nonexistennnntuser".to_string(),
+            name: "No thing...".to_string(),
+            repo_url: "https://github.com/t-eckert/devy".to_string(),
+        };
+
+        let actual = new_blog.validate(&db).await;
+
+        assert!(actual.is_err());
+    }
 }

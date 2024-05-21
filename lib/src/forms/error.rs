@@ -9,6 +9,9 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
     /// The input to a form is not properly formatted.
     Malformed { message: String },
+
+    /// A request the form submission depends on failed.
+    RequestFailed { message: String },
 }
 
 impl From<crate::db::Error> for Error {
@@ -20,7 +23,7 @@ impl From<crate::db::Error> for Error {
             crate::db::Error::Malformed { .. } => Self::Malformed {
                 message: "Malformed input".to_string(),
             },
-            _ => Self::Malformed {
+            _ => Self::RequestFailed {
                 message: "Internal server error".to_string(),
             },
         }
