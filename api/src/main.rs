@@ -1,31 +1,31 @@
-use lib::auth::Client;
-use lib::db::connect;
-use lib::monitoring;
-use lib::router::Router;
-use lib::store::Store;
+use lib::{
+    auth::Client, db::connect, github::GitHubClient, monitoring, router::Router, store::Store,
+};
 use std::net::SocketAddr;
+
+mod config;
 
 /// Start the API server.
 #[tokio::main]
 async fn main() {
-    dotenvy::dotenv().ok();
     monitoring::init();
 
-    let auth_config = lib::auth::Config::from_env().unwrap();
+    let cfg = config::Config::from_env().unwrap();
+
     let auth_client = Client::new(
-        auth_config.client_id,
-        auth_config.client_secret,
-        auth_config.callback_url,
-        auth_config.redirect_url,
-        auth_config.encoding_key,
+        cfg.github_app_client_id.clone(),
+        cfg.github_app_client_secret,
+        cfg.callback_url,
+        cfg.redirect_url,
+        cfg.encoding_key,
     );
 
-    let db_config = lib::db::Config::from_env().unwrap();
-    let db = connect(db_config).await.unwrap();
+    let db = connect(&cfg.database_url).await.unwrap();
 
-    let git_path = std::env::var("GIT_PATH").expect("GIT_PATH not set");
-    let git = lib::uploader::Git::new(git_path).expect("Unable to create git client");
+    let git = lib::uploader::Git::new(&cfg.git_path).expect("Unable to create git client");
     let uploader = lib::uploader::Uploader::new(git);
+
+    let github_client = GitHubClient::new(&cfg.github_app_client_id, &cfg.github_app_private_key);
 
     let store = Store::new(db, auth_client, uploader);
 
