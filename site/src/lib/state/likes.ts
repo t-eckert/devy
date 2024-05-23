@@ -1,5 +1,5 @@
 import { writable } from "svelte/store"
-import type { Like } from "./entry"
+import type { Like } from "$lib/types"
 
 export interface LikesStore {
 	// The id of entries liked by the user.
@@ -13,7 +13,7 @@ const likesStore = writable<LikesStore>({
 export const hydrate = async (username: string) => {
 	const resp = await fetch(`/api/likes/${username}`)
 	const userLikes: Like[] = await resp.json()
-	const likes = new Set(userLikes.map((like) => like.entryId))
+	const likes = new Set(userLikes.map((like) => like.postId))
 	likesStore.set({ likes })
 }
 

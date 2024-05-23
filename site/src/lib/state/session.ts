@@ -1,8 +1,27 @@
+import { writable } from "svelte/store"
 import type { Handle } from "@sveltejs/kit"
 import { jwtDecode } from "jwt-decode"
-import type { TokenPayload } from "$lib/types"
+import type { Session, TokenPayload } from "$lib/types"
 
-const handle: Handle = async ({ event, resolve }) => {
+export interface SessionStore {
+	loggedIn: boolean
+	session?: Session
+}
+
+export const sessionStore = writable<SessionStore>({
+	loggedIn: false,
+	session: undefined
+})
+
+export const setSession = (session: Session) => {
+	sessionStore.set({ loggedIn: true, session: session })
+}
+
+export const clearSession = () => {
+	sessionStore.set({ loggedIn: false, session: undefined })
+}
+
+export const handleSession: Handle = async ({ event, resolve }) => {
 	{
 		const token = event.url.searchParams.get("token")
 		if (token !== null) {
@@ -27,5 +46,3 @@ const handle: Handle = async ({ event, resolve }) => {
 
 	return await resolve(event)
 }
-
-export default handle
