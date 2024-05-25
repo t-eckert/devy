@@ -15,3 +15,22 @@ pub struct Upload {
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
 }
+
+impl Upload {
+    pub fn new(repo: &str, sha: &str) -> Self {
+        Self {
+            id: Uuid::new_v4(),
+            previous_upload_id: None,
+            status: "pending".to_string(),
+            repo: repo.to_string(),
+            sha: sha.to_string(),
+            logs: None,
+            created_at: None,
+            updated_at: None,
+        }
+    }
+
+    pub fn dir(&self) -> String {
+        format!("/tmp/{}", self.id)
+    }
+}

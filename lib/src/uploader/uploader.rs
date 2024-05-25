@@ -38,7 +38,7 @@ mod tests {
             .output()
             .unwrap();
         let path = String::from_utf8_lossy(&output.stdout).trim().to_string();
-        Git::new(path).unwrap()
+        Git::new(&path).unwrap()
     }
 
     #[tokio::test]

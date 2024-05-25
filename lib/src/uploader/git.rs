@@ -9,15 +9,13 @@ pub struct Git {
 
 impl Git {
     /// Create a new Git instance.
-    pub fn new(bin: String) -> Result<Self> {
-        if !fs::metadata(&bin).is_ok() {
-            return Err(Error::GitBinaryNotFound(format!(
-                "Git binary not found at {}",
-                bin
-            )));
-        }
+    pub fn new(bin: &str) -> Result<Self> {
+        fs::metadata(bin)
+            .map_err(|_| Error::GitBinaryNotFound(format!("Git binary not found at {}", bin)))?;
 
-        Ok(Self { bin })
+        Ok(Self {
+            bin: bin.to_string(),
+        })
     }
 
     /// Clone the repo at the url to the given directory.
@@ -90,7 +88,7 @@ mod tests {
     #[test]
     fn test_git_new() {
         let binary_path = setup();
-        let git = Git::new(binary_path);
+        let git = Git::new(&binary_path);
         assert!(git.is_ok());
     }
 
@@ -99,7 +97,7 @@ mod tests {
         let binary_path = setup();
         let dir = "/tmp/test";
 
-        let git = Git::new(binary_path).unwrap();
+        let git = Git::new(&binary_path).unwrap();
 
         // Clone
         let clone = git.clone_repo(&dir, &"https://github.com/t-eckert/devylog");
