@@ -27,7 +27,7 @@ async fn main() {
 
     let github_client = GitHubClient::new(&cfg.github_app_client_id, &cfg.github_app_private_key);
 
-    let store = Store::new(db, auth_client, uploader);
+    let store = Store::new(db, auth_client, uploader, github_client);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
 

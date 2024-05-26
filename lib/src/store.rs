@@ -1,5 +1,6 @@
 use crate::auth::Client;
 use crate::db::Database;
+use crate::github::GitHubClient;
 use crate::uploader::Uploader;
 
 /// Store is the shared state of the application.
@@ -9,14 +10,21 @@ pub struct Store {
     pub db: Database,
     pub auth_client: Client,
     pub uploader: Uploader,
+    pub github_client: GitHubClient,
 }
 
 impl Store {
-    pub fn new(db: Database, auth_client: Client, uploader: Uploader) -> Self {
+    pub fn new(
+        db: Database,
+        auth_client: Client,
+        uploader: Uploader,
+        github_client: GitHubClient,
+    ) -> Self {
         Self {
             db,
             auth_client,
             uploader,
+            github_client,
         }
     }
 }

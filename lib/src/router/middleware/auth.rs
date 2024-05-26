@@ -20,6 +20,7 @@ pub async fn auth(
     request: Request,
     next: Next,
 ) -> Result<Response> {
+    dbg!("Authenticating...");
     match get_token(&headers) {
         Ok(token) => {
             // Verify the token

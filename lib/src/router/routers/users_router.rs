@@ -67,6 +67,21 @@ async fn get_user_github_repos(Path(username): Path<String>) -> Result<Json<Valu
 /// `GET /users/:username/github/devy`
 ///
 /// Get a user's GitHub Devy metadata.
-async fn get_user_github_devy(Path(_username): Path<String>) -> Result<Json<()>> {
-    Ok(Json(()))
+async fn get_user_github_devy(
+    State(store): State<Store>,
+    Path(username): Path<String>,
+) -> Result<Json<Value>> {
+    let user_installations = store
+        .github_client
+        .fetch_user_installations()
+        .await
+        .map_err(|_| {
+            Error::Generic("Unable to fetch GitHub application installations".to_string())
+        })?;
+
+    let has_devy_installed = user_installations.contains(&username);
+
+    Ok(Json(
+        serde_json::json!({"has_devy_installed": has_devy_installed}),
+    ))
 }
