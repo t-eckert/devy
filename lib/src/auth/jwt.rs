@@ -8,29 +8,8 @@ const LIFETIME: u64 = 3600;
 /// JSON Web Token (JWT) encoder/decoder
 #[derive(Debug, Clone)]
 pub struct JWT {
-    encoding_key: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Claims {
-    sub: String,
-    value: Value,
-    exp: u64,
-    iat: u64,
-    nbf: u64,
-}
-
-impl Claims {
-    pub fn new(sub: &str, value: Value) -> Self {
-        Self {
-            sub: sub.to_string(),
-            value,
-            exp: jsonwebtoken::get_current_timestamp() + LIFETIME,
-            iat: jsonwebtoken::get_current_timestamp(),
-            nbf: jsonwebtoken::get_current_timestamp(),
-        }
-    }
+    private_key: String,
+    public_key: String,
 }
 
 impl JWT {
@@ -42,7 +21,7 @@ impl JWT {
     /// Encode a set of claims into a JWT.
     pub fn encode(&self, sub: &str, value: Value) -> Result<String> {
         Ok(jsonwebtoken::encode(
-            &jsonwebtoken::Header::default(),
+            &self.header(),
             &Claims::new(sub, value),
             &jsonwebtoken::EncodingKey::from_secret(self.encoding_key.as_ref()),
         )?)
@@ -56,7 +35,33 @@ impl JWT {
         )?
         .claims;
 
-        Ok((claims.sub, claims.value))
+        Ok((claims.sub, claims.body))
+    }
+
+    fn header(&self) -> jsonwebtoken::Header {
+        jsonwebtoken::Header::default()
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Claims {
+    sub: String,
+    body: Value,
+    exp: u64,
+    iat: u64,
+    nbf: u64,
+}
+
+impl Claims {
+    pub fn new(sub: &str, body: Value) -> Self {
+        Self {
+            sub: sub.to_string(),
+            body,
+            exp: jsonwebtoken::get_current_timestamp() + LIFETIME,
+            iat: jsonwebtoken::get_current_timestamp(),
+            nbf: jsonwebtoken::get_current_timestamp(),
+        }
     }
 }
 
