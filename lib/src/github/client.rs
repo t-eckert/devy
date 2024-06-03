@@ -1,4 +1,4 @@
-use crate::auth::JWT;
+use crate::jwt::{Subject, JWT};
 use reqwest::header::{ACCEPT, AUTHORIZATION};
 use reqwest::Client;
 use serde::Deserialize;
@@ -34,12 +34,9 @@ impl GitHubClient {
 
         let users = HashSet::new();
 
-        let jwt = JWT::new(self.private_key.clone());
+        let jwt = JWT::new(self.private_key.clone()).unwrap();
         let token = jwt
-            .encode(
-                "github.installations",
-                serde_json::json!({"iss": self.app_id}),
-            )
+            .encode(Subject::AuthToken, serde_json::json!({"iss": self.app_id}))
             .unwrap();
 
         println!("{token}");

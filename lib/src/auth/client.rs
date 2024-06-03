@@ -1,8 +1,9 @@
 use super::{
     error::{Error, Result},
-    Session, JWT,
+    Session,
 };
 use crate::db::{self, Database};
+use crate::jwt::{Subject, JWT};
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
@@ -27,7 +28,7 @@ impl Client {
         client_secret: String,
         callback_url: String,
         redirect_url: String,
-        encoding_key: String,
+        private_key: String,
     ) -> Self {
         Self {
             redirect_url,
@@ -38,7 +39,7 @@ impl Client {
                 AuthUrl::new(AUTH_URL.to_string()).expect("Invalid auth URL"),
                 Some(TokenUrl::new(TOKEN_URL.to_string()).expect("Invalid token URL")),
             ),
-            jwt: JWT::new(encoding_key),
+            jwt: JWT::new(private_key).unwrap(),
         }
     }
 
@@ -99,7 +100,7 @@ impl Client {
 
         let token = self
             .jwt
-            .encode("session", serde_json::to_value(session).unwrap())?;
+            .encode(Subject::AuthToken, serde_json::to_value(session).unwrap())?;
 
         Ok(token)
     }
@@ -116,12 +117,7 @@ impl Client {
     pub async fn validate_token(self, token: &str) -> Result<Session> {
         let (sub, value) = self.jwt.decode(token)?;
 
-        if sub != "session" {
-            return Err(Error::JWTError("Invalid subject".to_string()));
-        }
-
-        let session: Session =
-            serde_json::from_value(value).map_err(|err| Error::JWTError(err.to_string()))?;
+        let session: Session = serde_json::from_value(value).unwrap();
 
         Ok(session)
     }
@@ -153,7 +149,7 @@ impl Client {
                 .json()
                 .await
                 .map_err(|err| Error::UnableToDeserializeUser(err.to_string()))?),
-            Err(err) => Err(Error::TokenExchangeForUserFailed(err.to_string())),
+            Err(err) => Err(err.into()),
         }
     }
 }

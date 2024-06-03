@@ -1,9 +1,11 @@
+use derive_more::From;
 use serde::Serialize;
 
-pub type Result<T> = std::result::Result<T, Error>;
+/// A result type for authentication processes.
+pub type Result<T> = core::result::Result<T, Error>;
 
 /// Errors that can occur during authentication processes.
-#[derive(Debug, Serialize)]
+#[derive(Debug, From)]
 pub enum Error {
     /// The authentication configuration is invalid.
     ConfigurationError(String),
@@ -11,40 +13,33 @@ pub enum Error {
     /// GitHub returned an error when exchanging the code for a token.
     CodeExchangeForTokenFailed,
 
-    /// GitHub returned an error when exchanging the token for a user.
-    TokenExchangeForUserFailed(String),
-
     /// The GitHub user data could not be deserialized.
     UnableToDeserializeUser(String),
 
+    #[from]
+    EntitiesError(crate::entities::Error),
+
     /// An error occurred when interacting with the database.
-    DatabaseError(String),
+    #[from]
+    DatabaseError(crate::db::Error),
 
     /// An error occurred when encoding or decoding a JWT.
-    JWTError(String),
-}
+    #[from]
+    JWTError(crate::jwt::Error),
 
-impl From<crate::db::Error> for Error {
-    fn from(err: crate::db::Error) -> Self {
-        Error::DatabaseError(err.to_string())
-    }
-}
+    #[from]
+    SerdeJson(serde_json::Error),
 
-impl From<crate::entities::Error> for Error {
-    fn from(err: crate::entities::Error) -> Self {
-        Error::TokenExchangeForUserFailed(err.to_string())
-    }
+    #[from]
+    OpenSSLError(openssl::error::ErrorStack),
+
+    #[from]
+    ReqwestError(reqwest::Error),
 }
 
 impl From<std::env::VarError> for Error {
     fn from(val: std::env::VarError) -> Self {
         Self::ConfigurationError(val.to_string())
-    }
-}
-
-impl From<jsonwebtoken::errors::Error> for Error {
-    fn from(val: jsonwebtoken::errors::Error) -> Self {
-        Self::JWTError(val.to_string())
     }
 }
 
