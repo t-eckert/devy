@@ -69,6 +69,9 @@ pub enum Error {
 
     #[from]
     SerdeJson(serde_json::Error),
+
+    #[from]
+    JsonWebTokenError(jsonwebtoken::errors::Error),
 }
 
 impl core::fmt::Display for Error {
@@ -76,8 +79,6 @@ impl core::fmt::Display for Error {
         write!(fmt, "{self:?}")
     }
 }
-
-impl std::error::Error for Error {}
 
 /// The subject of a JWT.
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -112,6 +113,19 @@ impl Claims {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_new_jwt_has_proper_public_key() {
+        let key_pair = Rsa::generate(2084).unwrap();
+
+        let private_key = String::from_utf8(key_pair.private_key_to_pem().unwrap()).unwrap();
+
+        let expected_public_key = String::from_utf8(key_pair.public_key_to_pem().unwrap()).unwrap();
+
+        let jwt = JWT::new(private_key).unwrap();
+
+        assert_eq!(jwt.public_key, expected_public_key);
+    }
 
     #[test]
     fn test_jwt_with_valid_claim() {
