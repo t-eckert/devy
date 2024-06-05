@@ -35,7 +35,7 @@ impl JWT {
         Ok(jsonwebtoken::encode(
             &self.header(),
             &Claims::new(subject, value),
-            &jsonwebtoken::EncodingKey::from_secret(self.private_key.as_ref()),
+            &jsonwebtoken::EncodingKey::from_rsa_pem(self.private_key.as_bytes())?,
         )?)
     }
 
@@ -44,7 +44,7 @@ impl JWT {
         let claims = jsonwebtoken::decode::<Claims>(
             token,
             &jsonwebtoken::DecodingKey::from_secret(self.private_key.as_ref()),
-            &jsonwebtoken::Validation::default(),
+            &jsonwebtoken::Validation::new(jsonwebtoken::Algorithm::RS256),
         )?
         .claims;
 
@@ -52,7 +52,7 @@ impl JWT {
     }
 
     fn header(&self) -> jsonwebtoken::Header {
-        jsonwebtoken::Header::default()
+        jsonwebtoken::Header::new(jsonwebtoken::Algorithm::RS256)
     }
 }
 

@@ -1,6 +1,6 @@
 const CALLBACK_URL: &str = "CALLBACK_URL";
 const DATABASE_URL: &str = "DATABASE_URL";
-const ENCODING_KEY: &str = "ENCODING_KEY";
+const ENCODING_PRIVATE_KEY: &str = "ENCODING_PRIVATE_KEY";
 const GIT_PATH: &str = "GIT_PATH";
 const GITHUB_APP_CLIENT_ID: &str = "GITHUB_APP_CLIENT_ID";
 const GITHUB_APP_CLIENT_SECRET: &str = "GITHUB_APP_CLIENT_SECRET";
@@ -16,7 +16,7 @@ pub enum ConfigError {
 pub struct Config {
     pub callback_url: String,
     pub database_url: String,
-    pub encoding_key: String,
+    pub encoding_private_key: String,
     pub git_path: String,
     pub github_app_client_id: String,
     pub github_app_client_secret: String,
@@ -31,7 +31,7 @@ impl Config {
         Ok(Config {
             callback_url: env(CALLBACK_URL)?,
             database_url: env(DATABASE_URL)?,
-            encoding_key: env(ENCODING_KEY)?,
+            encoding_private_key: env(ENCODING_PRIVATE_KEY)?,
             git_path: env(GIT_PATH)?,
             github_app_client_id: env(GITHUB_APP_CLIENT_ID)?,
             github_app_client_secret: env(GITHUB_APP_CLIENT_SECRET)?,
