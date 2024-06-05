@@ -18,10 +18,19 @@ impl AuthRouter {
     /// Create a new AuthRouter.
     pub fn create(store: Store) -> axum::Router<Store> {
         axum::Router::new()
+            .route("/auth/public-key", get(public_key))
             .route("/auth/login", get(login))
             .route("/auth/callback", get(callback))
             .with_state(store)
     }
+}
+
+/// `GET /auth/public-key`
+///
+/// Returns the public key of the encoding JWT.
+async fn public_key(State(store): State<Store>) -> impl IntoResponse {
+    let public_key = store.auth_client.public_key();
+    (StatusCode::OK, public_key)
 }
 
 /// `GET /auth/login`

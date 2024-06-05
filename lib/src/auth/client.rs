@@ -113,6 +113,10 @@ impl Client {
         format!("{}?error={}", self.redirect_url, err)
     }
 
+    pub fn public_key(&self) -> String {
+        self.jwt.public_key.clone()
+    }
+
     // Validates a token and returns the associated session.
     pub async fn validate_token(self, token: &str) -> Result<Session> {
         let (sub, value) = self.jwt.decode(token)?;
