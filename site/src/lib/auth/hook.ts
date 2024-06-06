@@ -20,7 +20,7 @@ const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	try {
-		event.locals.session = jwtDecode<TokenPayload>(token).value
+		event.locals.session = jwtDecode<TokenPayload>(token).body
 	} catch (e) {
 		console.error(e)
 	}

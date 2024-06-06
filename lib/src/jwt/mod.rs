@@ -1,32 +1,45 @@
+mod decoder;
+mod encoder;
+mod errors;
+
+pub use decoder::Decoder;
+pub use encoder::Encoder;
+pub use errors::{Error, Result};
+
 use derive_more::From;
 use jsonwebtoken;
+use jsonwebtoken::{DecodingKey, EncodingKey};
 use openssl::rsa::Rsa;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 // How long the token is valid for in seconds.
-const LIFETIME: u64 = 3600;
+// TODO, walk this back and use refresh tokens
+const LIFETIME: u64 = 60 * 60 * 24 * 7 * 90;
 
 /// JSON Web Token (JWT) encoder/decoder
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct JWT {
     /// The public key used to validate JWTs.
     pub public_key: String,
 
-    private_key: String,
+    decoding_key: DecodingKey,
+    encoding_key: EncodingKey,
 }
 
 impl JWT {
     /// Create a new JWT encoder/decoder with the given encoding key.
-    pub fn new(private_key: String) -> Result<Self> {
-        let public_key = String::from_utf8(
-            Rsa::private_key_from_pem(private_key.as_bytes())?.public_key_to_pem()?,
-        )
-        .map_err(|err| Error::JWTError(err.to_string()))?;
+    // TODO have pem be bytes, not String
+    pub fn new(pem: String) -> Result<Self> {
+        let key_pair = Rsa::private_key_from_pem(pem.as_bytes())?;
+
+        let public_key = String::from_utf8(key_pair.public_key_to_pem()?)
+            .map_err(|err| Error::JWTError(err.to_string()))?;
 
         Ok(Self {
-            private_key,
             public_key,
+            decoding_key: jsonwebtoken::DecodingKey::from_rsa_pem(pem.as_bytes())?,
+            encoding_key: jsonwebtoken::EncodingKey::from_rsa_pem(pem.as_bytes())?,
         })
     }
 
@@ -35,7 +48,7 @@ impl JWT {
         Ok(jsonwebtoken::encode(
             &self.header(),
             &Claims::new(subject, value),
-            &jsonwebtoken::EncodingKey::from_rsa_pem(self.private_key.as_bytes())?,
+            &self.encoding_key,
         )?)
     }
 
@@ -43,7 +56,7 @@ impl JWT {
     pub fn decode(&self, token: &str) -> Result<(Subject, Value)> {
         let claims = jsonwebtoken::decode::<Claims>(
             token,
-            &jsonwebtoken::DecodingKey::from_secret(self.private_key.as_ref()),
+            &self.decoding_key,
             &jsonwebtoken::Validation::new(jsonwebtoken::Algorithm::RS256),
         )?
         .claims;
@@ -53,30 +66,6 @@ impl JWT {
 
     fn header(&self) -> jsonwebtoken::Header {
         jsonwebtoken::Header::new(jsonwebtoken::Algorithm::RS256)
-    }
-}
-
-/// A result type for JWT processes.
-pub type Result<T> = core::result::Result<T, Error>;
-
-/// Errors that can occur during JWT processes.
-#[derive(Debug, From)]
-pub enum Error {
-    JWTError(String),
-
-    #[from]
-    OpenSSLError(openssl::error::ErrorStack),
-
-    #[from]
-    SerdeJson(serde_json::Error),
-
-    #[from]
-    JsonWebTokenError(jsonwebtoken::errors::Error),
-}
-
-impl core::fmt::Display for Error {
-    fn fmt(&self, fmt: &mut core::fmt::Formatter) -> core::result::Result<(), core::fmt::Error> {
-        write!(fmt, "{self:?}")
     }
 }
 
@@ -116,8 +105,7 @@ mod tests {
 
     #[test]
     fn test_new_jwt_has_proper_public_key() {
-        let key_pair = Rsa::generate(2084).unwrap();
-
+        let key_pair = Rsa::generate(2048).unwrap();
         let private_key = String::from_utf8(key_pair.private_key_to_pem().unwrap()).unwrap();
 
         let expected_public_key = String::from_utf8(key_pair.public_key_to_pem().unwrap()).unwrap();
@@ -129,8 +117,8 @@ mod tests {
 
     #[test]
     fn test_jwt_with_valid_claim() {
-        let private_key =
-            String::from_utf8(Rsa::generate(2084).unwrap().private_key_to_pem().unwrap()).unwrap();
+        let key_pair = Rsa::generate(2048).unwrap();
+        let private_key = String::from_utf8(key_pair.private_key_to_pem().unwrap()).unwrap();
 
         let subject = Subject::AuthToken;
 
@@ -138,6 +126,7 @@ mod tests {
         let value = serde_json::json!({"test": "value"});
 
         let token = jwt.encode(Subject::AuthToken, value.clone()).unwrap();
+        dbg!(&token);
 
         let actual = jwt.decode(&token).unwrap();
 

@@ -11,6 +11,7 @@
 	import { page } from "$app/stores"
 	import * as Fathom from "fathom-client"
 	import { onMount } from "svelte"
+	import Session from "$lib/auth/session.svelte"
 
 	// Analytics
 	onMount(async () => {
@@ -28,6 +29,7 @@
 	}
 </script>
 
+<Session />
 <ThemeProvider>
 	<div class="bg-stone-50 text-stone-800 dark:bg-stone-950 dark:text-stone-50">
 		<div class="min-h-screen">
