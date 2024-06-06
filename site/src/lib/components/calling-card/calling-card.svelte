@@ -18,17 +18,11 @@
 
 	<div class="rounded-b px-1 pt-2 pb-1 flex flex-col gap-4">
 		<div>
-<<<<<<< HEAD
 			<a href={`/profiles/` + user.username} class="text-sm font-medium"
 				>{displayName || user.username}</a
 			>
 			{#if bio}
 				<p class="-mt-0.75 text-xs text-stone-500">{bio}</p>
-=======
-			<a href={`/profiles/` + user.username} class="text-sm font-medium">{displayName}</a>
-			{#if bio}
-				<p class="-mt-0.75 text-xs text-zinc-500">{bio}</p>
->>>>>>> d458d24 (site,router: link to profile on calling card)
 			{/if}
 		</div>
 

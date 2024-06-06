@@ -38,11 +38,7 @@ api-package:
 
 # DB
 db-build:
-<<<<<<< HEAD
 	@docker build . -f ./integration/db.Dockerfile -t devy-test-db
-=======
-	@docker build . -f ./lib/Dockerfile -t devy-test-db
->>>>>>> 48ff75a (lib:refactor into single crate)
 
 db-serve: db-build
 	@docker run --rm\
