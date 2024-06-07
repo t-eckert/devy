@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Main from "$lib/layouts/main.svelte"
 	import Card from "$lib/components/card/card.svelte"
-	import { ArrowUp, ArrowRight } from "radix-icons-svelte"
+	import { ArrowUp } from "radix-icons-svelte"
 	import type { PageData } from "./$types"
 	import { RadioGroup } from "bits-ui"
 	import Input from "$lib/components/input/input.svelte"
@@ -67,10 +67,7 @@
 			</div>
 			<div class="w-80">
 				<Card>
-					<div class="p-3 flex flex-row items-start gap-4">
-						<Input name="Name" placeholder="My blog" />
-						<Input name="Slug" placeholder="my-blog" />
-					</div>
+					<div class="p-3 flex flex-row items-start gap-4"></div>
 				</Card>
 			</div>
 		</div>

@@ -57,6 +57,8 @@ impl Git {
 
     /// Get the diff between two commits in the given directory.
     pub fn diff(&self, dir: &str, to: &str, from: &str) -> Result<String> {
+        tracing::info!("Diffing {dir} from:{from}::to:{to}");
+
         let output = std::process::Command::new(&self.bin)
             .arg("--no-pager")
             .arg("diff")
