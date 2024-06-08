@@ -51,20 +51,13 @@ features = ["full"]
 version = "0.5"
 features = ["cors", "trace"]
 
-tokio = { version = "1.37.0", features = ["full"] }
-serde_derive = "1.0.197"
-serde_json = "1.0.115"
-glob = "0.3.1"
-regex = "1.10.4"
-slugify = "0.1.0"
-
 [dependencies.sqlx]
 version = "^0.7.1"
 features = [
-  "postgres",
-  "macros",
-  "migrate",
-  "runtime-tokio-rustls",
-  "uuid",
-  "time",
+    "postgres",
+    "macros",
+    "migrate",
+    "runtime-tokio-rustls",
+    "uuid",
+    "time",
 ]

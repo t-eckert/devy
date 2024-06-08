@@ -6,6 +6,7 @@ pub mod jwt;
 pub mod monitoring;
 pub mod router;
 pub mod store;
+pub mod token;
 pub mod uploader;
 
 mod forms;
