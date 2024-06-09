@@ -36,7 +36,13 @@ mod tests {
         let encoder = Encoder::new(public_pem, private_pem).unwrap();
         let decoder = Decoder::new(public_pem).unwrap();
 
-        let session = Session::new();
+        let session = Session::new(
+            "username".to_string(),
+            "role".to_string(),
+            "active".to_string(),
+            Some("Display Name".to_string()),
+            Some("https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=5370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D".to_string()),
+        );
 
         let token = encoder.encode(session.clone()).unwrap();
         let decoded_session = decoder.decode(&token).unwrap();

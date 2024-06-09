@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Home from "./home.svelte"
-	import UserToken from "$lib/auth/user-token.svelte"
+	import UserToken from "./user-token.svelte"
 	import Nav from "./nav.svelte"
 </script>
 

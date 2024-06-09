@@ -1,7 +1,8 @@
-import type User from "./User"
-import type Profile from "./Profile"
-
 export default interface Session {
-	user: User
-	profile: Profile
+	username: string
+	role: string
+	status: string
+
+	displayName?: string
+	avatarUrl?: string
 }

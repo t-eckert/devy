@@ -17,7 +17,9 @@ async fn main() {
         cfg.github_app_client_secret,
         cfg.callback_url,
         cfg.redirect_url,
-        cfg.encoding_private_key,
+        cfg.encoding_private_key.clone(),
+        cfg.encoding_private_key.as_bytes(),
+        cfg.encoding_public_key.as_bytes(),
     );
 
     let db = connect(&cfg.database_url).await.unwrap();

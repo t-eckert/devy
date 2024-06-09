@@ -1,9 +1,8 @@
-use super::{
-    error::{Error, Result},
-    Session,
-};
+use super::error::{Error, Result};
 use crate::db::{self, Database};
 use crate::jwt::{Subject, JWT};
+use crate::token::Encoder;
+use crate::token::Session;
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
@@ -19,6 +18,7 @@ pub struct Client {
     callback_url: String,
     oauth_client: BasicClient,
     jwt: JWT,
+    encoder: Encoder,
 }
 
 impl Client {
@@ -29,6 +29,8 @@ impl Client {
         callback_url: String,
         redirect_url: String,
         private_key: String,
+        private_pem: &[u8],
+        public_pem: &[u8],
     ) -> Self {
         Self {
             redirect_url,
@@ -40,6 +42,7 @@ impl Client {
                 Some(TokenUrl::new(TOKEN_URL.to_string()).expect("Invalid token URL")),
             ),
             jwt: JWT::new(private_key).unwrap(),
+            encoder: Encoder::new(public_pem, private_pem).unwrap(),
         }
     }
 
@@ -96,11 +99,15 @@ impl Client {
         )
         .await?;
 
-        let session = Session::new(user, profile);
+        let session = Session::new(
+            user.username,
+            user.role,
+            user.status,
+            profile.display_name,
+            profile.avatar_url,
+        );
 
-        let token = self
-            .jwt
-            .encode(Subject::AuthToken, serde_json::to_value(session).unwrap())?;
+        let token = self.encoder.encode(session)?;
 
         Ok(token)
     }

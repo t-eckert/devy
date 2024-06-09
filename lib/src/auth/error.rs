@@ -28,6 +28,9 @@ pub enum Error {
     JWTError(crate::jwt::Error),
 
     #[from]
+    TokenError(crate::token::Error),
+
+    #[from]
     SerdeJson(serde_json::Error),
 
     #[from]
