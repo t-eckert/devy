@@ -126,11 +126,7 @@ impl Client {
 
     // Validates a token and returns the associated session.
     pub async fn validate_token(self, token: &str) -> Result<Session> {
-        let (sub, value) = self.jwt.decode(token)?;
-
-        let session: Session = serde_json::from_value(value).unwrap();
-
-        Ok(session)
+        Ok(self.encoder.decode(token)?)
     }
 
     // Exchange the code for a token.

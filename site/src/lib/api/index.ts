@@ -18,6 +18,24 @@ const get = async <T>(path: string): Promise<T> => {
 	return entity
 }
 
+const getWithAuth = async <T>(path: string, token: string): Promise<T> => {
+	const response = await fetch(config.api + path, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`
+		}
+	})
+
+	if (!response.ok && 400 <= response.status && response.status <= 599) {
+		error(response.status as NumericRange<400, 599>)
+	}
+
+	const entity: T = await response.json()
+
+	return entity
+}
+
 const set = async <T>(path: string, body: T): Promise<T> => {
 	const response = await fetch(config.api + path, {
 		method: "POST",
@@ -50,6 +68,7 @@ const post = async <T>(path: string, body: T): Promise<Response> => {
 
 const api = {
 	get,
+	getWithAuth,
 	set,
 	delete: del,
 	post

@@ -1,12 +1,11 @@
 import type { PageLoad } from "./$types"
+import type { Repo } from "$lib/types"
+import api from "$lib/api"
 
-export const load: PageLoad = async ({ fetch }) => {
-	const res = await fetch("/api/users/t-eckert/github/repos")
-	if (!res.ok) {
-		throw new Error("Failed to fetch repos")
-	}
+export const load: PageLoad = async (a) => {
+	console.log(a)
 
-	const repos = await res.json()
+	const repos = await api.get<Repo[]>("/users/t-eckert/github/repos")
 
 	return {
 		repos
