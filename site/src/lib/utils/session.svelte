@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Json from "$lib/utils/json.svelte"
-	import session from "$lib/auth/session-store"
-	import type { SessionStore } from "$lib/auth/session-store"
+	import session from "$lib/state/session-store"
+	import type { SessionStore } from "$lib/state/session-store"
 	import Window from "$lib/utils/window.svelte"
 
 	let data: SessionStore

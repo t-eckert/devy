@@ -4,14 +4,13 @@
 	import ThemeProvider from "$lib/theme-provider/theme-provider.svelte"
 	import Header from "$lib/components/header/header.svelte"
 	import Footer from "$lib/components/footer/footer.svelte"
-	import { setSession } from "$lib/auth/session-store"
+	import { setSession } from "$lib/state/session-store"
 	import "@fontsource-variable/inter"
 	import "@fontsource/space-mono"
 	import { browser } from "$app/environment"
 	import { page } from "$app/stores"
 	import * as Fathom from "fathom-client"
 	import { onMount } from "svelte"
-	import Session from "$lib/auth/session.svelte"
 
 	// Analytics
 	onMount(async () => {
@@ -29,7 +28,6 @@
 	}
 </script>
 
-<Session />
 <ThemeProvider>
 	<div class="bg-stone-50 text-stone-800 dark:bg-stone-950 dark:text-stone-50">
 		<div class="min-h-screen">

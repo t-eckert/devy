@@ -11,6 +11,8 @@ const sessionStore = writable<SessionStore>({
 	session: undefined
 })
 
+export default sessionStore
+
 export const setSession = (session: Session) => {
 	sessionStore.set({ loggedIn: true, session: session })
 }
@@ -18,5 +20,3 @@ export const setSession = (session: Session) => {
 export const clearSession = () => {
 	sessionStore.set({ loggedIn: false, session: undefined })
 }
-
-export default sessionStore

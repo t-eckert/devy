@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { ArrowRight } from "radix-icons-svelte"
 	import Card from "$lib/components/card/card.svelte"
-	import Json from "$lib/utils/json.svelte"
 	import OnboardingLink from "./onboarding-link.svelte"
-	import onboarding, { type OnboardingStore } from "$lib/state/onboarding"
+	import onboarding, { type OnboardingStore } from "$lib/state/onboarding-store"
 
 	let onboardingState: OnboardingStore
 

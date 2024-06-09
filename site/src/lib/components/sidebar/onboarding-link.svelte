@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ArrowRight, ArrowTopRight } from "radix-icons-svelte"
-	import { type OnboardingStore } from "$lib/state/onboarding"
+	import { type OnboardingStore } from "$lib/state/onboarding-store"
 	import { PUBLIC_API } from "$env/static/public"
 
 	export let onboardingState: OnboardingStore

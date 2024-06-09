@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Session } from "$lib/types"
-	import session from "$lib/auth/session-store"
+	import session from "$lib/state/session-store"
 	import { PUBLIC_API } from "$env/static/public"
 	let data: Session | undefined = undefined
 
