@@ -1,43 +1,26 @@
 <script lang="ts">
 	import type { Blog, Profile, User } from "$lib/types"
-	import Json from "$lib/utils/json.svelte"
 
 	export let profile: Profile
 	export let blogs: Blog[]
 	export let user: User
 
 	let { displayName, avatarUrl, createdAt, bio } = profile
-	let joined = (() => {
-		let created = new Date(createdAt)
-		return `${created.getFullYear()}.${created.getMonth()}.${created.getDate()}`
-	})()
 </script>
 
-<div class="rounded w-56 flex flex-col shadow">
-	<img src={avatarUrl} alt={displayName} class="rounded-t" />
+<div class="rounded-2xl w-56 h-64 flex flex-col shadow select-none">
+	<img src={avatarUrl} alt={displayName} class="rounded-2xl w-56 h-64 object-cover" />
 
-	<div class="rounded-b px-1 pt-2 pb-1 flex flex-col gap-4">
-		<div>
-			<a href={`/profiles/` + user.username} class="text-sm font-medium"
-				>{displayName || user.username}</a
-			>
-			{#if bio}
-				<p class="-mt-0.75 text-xs text-stone-500">{bio}</p>
-			{/if}
-		</div>
-
-		<div class="flex flex-col items-start">
-			{#each blogs as blog}
-				<a href={`/` + blog.slug} class="text-xs font-medium text-stone-700 hover:text-stone-950"
-					>{blog.name}</a
-				>
-			{/each}
-		</div>
-
-		<div class="w-full flex flex-row justify-end">
-			<div class="font-mono text-xs px-1 py-0.5 text-stone-50 bg-stone-900 rounded">
-				{joined}
+	<div class="z-10 absolute h-64 w-56 flex flex-col justify-end rounded-2xl">
+		<div
+			class="backdrop-blur-sm bg-gradient-to-t from-stone-900/80 to-transparent flex flex-col items-start rounded-b-2xl p-2"
+		>
+			<div class="text-stone-100 font-medium">
+				{displayName || user.username}
 			</div>
+			{#if bio}
+				<p class="-mt-0.75 text-xs text-stone-200">{bio}</p>
+			{/if}
 		</div>
 	</div>
 </div>

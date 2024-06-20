@@ -1,5 +1,5 @@
-<script>
-	import Card from "../card/card.svelte"
+<script lang="ts">
+	import Card from "$lib/components/card/card.svelte"
 </script>
 
 <footer class="w-full transition-all py-12">

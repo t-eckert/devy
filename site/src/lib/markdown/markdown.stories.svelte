@@ -2,7 +2,7 @@
 	import Markdown from "./markdown.svelte"
 
 	export const meta = {
-		title: "components/Markdown",
+		title: "markdown/Markdown",
 		component: Markdown
 	}
 </script>

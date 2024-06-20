@@ -1,14 +1,14 @@
 <script context="module">
-	import Json from './json.svelte';
+	import Json from "./json.svelte"
 
 	export const meta = {
-		title: 'Json',
+		title: "Utils/Json",
 		component: Json
-	};
+	}
 </script>
 
 <script>
-	import { Story, Template } from '@storybook/addon-svelte-csf';
+	import { Story, Template } from "@storybook/addon-svelte-csf"
 </script>
 
 <Template let:args>
@@ -17,4 +17,4 @@
 
 <Story name="Empty" />
 
-<Story name="Pizza Order" args={{ data: { pizza: 'pepperoni' } }} />
+<Story name="Pizza Order" args={{ data: { pizza: "pepperoni" } }} />

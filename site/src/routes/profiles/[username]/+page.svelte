@@ -1,28 +1,27 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
 	import Main from "$lib/layouts/main.svelte"
-	import CallingCard from "$lib/components/calling-card/calling-card.svelte"
+	import ProfilePreview from "$lib/components/profile-preview/profile-preview.svelte"
 	import Preview from "$lib/entry/preview/preview.svelte"
 	import Column from "$lib/layouts/column.svelte"
 	import Title from "$lib/entry/preview/segments/title.svelte"
 	import Date from "$lib/entry/preview/segments/date.svelte"
-	import H2 from "$lib/elements/h2.svelte"
 	import Blog from "$lib/entry/preview/segments/blog.svelte"
 	export let data: PageData
 
-	let { blogs, profile, user, entries } = data.props
+	let { profile, user, entries } = data.props
 </script>
 
 <Main>
 	<div class="flex flex-col sm:flex-row gap-8">
 		<div class="mx-auto sm:mx-0">
-			<CallingCard {blogs} {profile} {user} />
+			<ProfilePreview {profile} {user} />
 		</div>
 
 		<div class="flex flex-col gap-4">
-			<H2>Blog posts</H2>
+			<h2 class="text-2xl sm:text-4xl font-semibold leading-tight text-zinc-900">Blog Posts</h2>
 			<Column>
-				{#each entries as { title, blogName, blogSlug, postSlug, createdAt, authorName, authorSlug }}
+				{#each entries as { title, blogName, blogSlug, postSlug, createdAt }}
 					<Preview>
 						<Blog slot="blog" {blogName} {blogSlug} />
 						<Title slot="title" {title} {blogSlug} {postSlug} />

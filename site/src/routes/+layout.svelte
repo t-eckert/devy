@@ -1,7 +1,6 @@
 <script lang="ts">
 	import "../app.css"
 	import type { LayoutData } from "./$types"
-	import ThemeProvider from "$lib/theme-provider/theme-provider.svelte"
 	import Header from "$lib/components/header/header.svelte"
 	import Footer from "$lib/components/footer/footer.svelte"
 	import { setSession } from "$lib/state/session-store"
@@ -28,7 +27,7 @@
 	}
 </script>
 
-<ThemeProvider>
+<div class="">
 	<div class="bg-stone-50 text-stone-800 dark:bg-stone-950 dark:text-stone-50">
 		<div class="min-h-screen">
 			<Header />
@@ -36,4 +35,4 @@
 		</div>
 		<Footer />
 	</div>
-</ThemeProvider>
+</div>

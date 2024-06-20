@@ -1,15 +1,17 @@
 <script lang="ts">
-	import Card from "$lib/components/card/card.svelte"
+	import Panel from "$lib/components/panel/panel.svelte"
+	import PanelHeader from "$lib/components/panel/panel-header.svelte"
 </script>
 
-<Card
-	styling="p-2 bg-orange-100 text-orange-900 border-orange-200 dark:bg-orange-950 dark:text-orange-300 dark:border-orange-800 flex flex-col gap-2"
->
-	<p>
-		Devy is still in Preview. Thank you for checking it out while it's still in its early stages.
-	</p>
-	<p>
-		Sharing your <a href="/feedback" class="underline font-medium">feedback</a> is an amazing way you
-		can help make this site better.
-	</p>
-</Card>
+<Panel>
+	<PanelHeader slot="header">
+		<strong class="text-amber-600">Devy is still in preview</strong>
+	</PanelHeader>
+	<div class="flex flex-col gap-3">
+		<p>Thank you for checking it out while it's still in its early stages.</p>
+		<p>
+			Sharing your <a href="/feedback" class="underline font-medium">feedback</a> is an amazing way you
+			can help make this site better.
+		</p>
+	</div>
+</Panel>

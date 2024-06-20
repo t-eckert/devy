@@ -8,5 +8,6 @@ export default {
 			mono: ["Space Mono", "monospace"]
 		}
 	},
-	plugins: []
+	plugins: [],
+	safelist: ["dark", "w-screen", "h-screen", "border-stone-100", "h-64"]
 }

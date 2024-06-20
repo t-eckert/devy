@@ -11,7 +11,9 @@
 </script>
 
 <Template let:args>
-	<Input {...args} />
+	<div class="w-72">
+		<Input {...args} />
+	</div>
 </Template>
 
 <Story
@@ -47,5 +49,14 @@
 		name: "Name",
 		optional: true,
 		placeholder: "Thomas Eckert"
+	}}
+></Story>
+
+<Story
+	name="Optional Email Input"
+	args={{
+		name: "Email",
+		optional: true,
+		placeholder: "example@email.com"
 	}}
 ></Story>

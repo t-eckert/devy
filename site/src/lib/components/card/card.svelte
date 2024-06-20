@@ -1,12 +1,5 @@
-<script lang="ts">
-	export let styling = ""
-</script>
-
-<div
-	class={[
-		"rounded-md border backdrop-blur-lg shadow",
-		styling || "border-stone-100 bg-white dark:bg-zinc-900 dark:border-stone-200"
-	].join(" ")}
+<section
+	class="rounded-md border border-stone-200/70 backdrop-blur-3xl shadow bg-white/60 dark:bg-zinc-900 dark:border-stone-200 p-3"
 >
 	<slot />
-</div>
+</section>

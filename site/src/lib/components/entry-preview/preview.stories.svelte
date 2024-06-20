@@ -2,7 +2,7 @@
 	import Preview from "./story.svelte"
 
 	export const meta = {
-		title: "Post/Preview",
+		title: "Components/Entry Preview",
 		component: Preview
 	}
 </script>
