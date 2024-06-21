@@ -34,8 +34,8 @@
 				<AccordianItemHeader slot="item-header">Go</AccordianItemHeader>
 				<AccordianItemBody slot="item-body">
 					<p>
-						It's a statically typed, compiled language designed at Google by Robert Griesemer, Rob
-						Pike, and Ken Thompson.
+						A statically typed, compiled language designed at Google by Robert Griesemer, Rob Pike,
+						and Ken Thompson.
 					</p>
 				</AccordianItemBody>
 			</AccordianItem>
@@ -43,7 +43,7 @@
 				<AccordianItemHeader slot="item-header">Rust</AccordianItemHeader>
 				<AccordianItemBody slot="item-body">
 					<p>
-						It's a systems programming language that runs blazingly fast, prevents segfaults, and
+						A systems programming language that runs blazingly fast, prevents segfaults, and
 						guarantees thread safety.
 					</p>
 				</AccordianItemBody>
