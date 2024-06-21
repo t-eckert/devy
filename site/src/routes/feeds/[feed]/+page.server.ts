@@ -8,8 +8,6 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 		throw error(resp.status as NumericRange<400, 509>, resp.statusText)
 	}
 
-	console.log(resp.status)
-
 	const feed = (await resp.json()) as Feed
 
 	return {
