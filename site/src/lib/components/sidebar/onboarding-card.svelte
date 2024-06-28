@@ -2,12 +2,11 @@
 	import Panel from "$lib/components/panel/panel.svelte"
 	import PanelFooter from "$lib/components/panel/panel-footer.svelte"
 	import PanelHeader from "$lib/components/panel/panel-header.svelte"
-	import OnboardingLink from "./onboarding-link.svelte"
-	import onboarding, { type OnboardingStore } from "$lib/state/onboarding-store"
+	import { ArrowRight } from "radix-icons-svelte"
+	import { PUBLIC_API } from "$env/static/public"
+	import sessionStore from "$lib/state/session-store"
 
-	let onboardingState: OnboardingStore
-
-	onboarding.subscribe((value) => (onboardingState = value))
+	let isLoggedIn = $sessionStore.loggedIn
 </script>
 
 <Panel>
@@ -25,6 +24,18 @@
 	</div>
 
 	<PanelFooter slot="footer">
-		<OnboardingLink {onboardingState} />
+		{#if isLoggedIn}
+			<a href="/new/blog" class="flex flex-row gap-1 items-center group"
+				><span class="font-medium">Create your blog</span><ArrowRight
+					class="group-hover:translate-x-1 transition-all"
+				/>
+			</a>
+		{:else}
+			<a href={`${PUBLIC_API}/auth/login`} class="flex flex-row gap-1 items-center group"
+				><span class="font-medium">Sign in</span><ArrowRight
+					class="group-hover:translate-x-1 transition-all"
+				/></a
+			>
+		{/if}
 	</PanelFooter>
 </Panel>
