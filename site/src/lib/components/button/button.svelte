@@ -26,7 +26,7 @@
 </script>
 
 <button
-	class={`${style} select-none group flex flex-row rounded-md gap-1 items-center px-2 py-0.5 transition-all`}
+	class={`${style} select-none group flex flex-row rounded-md gap-1 items-center px-2 py-1 transition-all`}
 	on:click={onClick}
 >
 	<slot />
