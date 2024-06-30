@@ -3,7 +3,7 @@ use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header};
 use serde_json::{json, Value};
 
 // How long the token is valid for in seconds.
-const LIFETIME: u64 = 3600;
+const LIFETIME: u64 = 60 * 60 * 24 * 7;
 
 // The algorithm used to encode/decode the JWT.
 const ALGORITHM: Algorithm = Algorithm::RS256;
