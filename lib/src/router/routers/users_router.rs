@@ -17,11 +17,7 @@ impl UsersRouter {
     pub fn create(store: Store) -> Router<Store> {
         Router::new()
             .route("/users/:username", get(get_by_username))
-            .route(
-                "/users/:username/github/repos",
-                get(get_user_github_repos)
-                    .layer(middleware::from_fn_with_state(store.clone(), auth)),
-            )
+            .route("/users/:username/github/repos", get(get_user_github_repos))
             .route(
                 "/users/:username/github/devy",
                 get(get_user_github_devy)
