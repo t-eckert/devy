@@ -11,7 +11,7 @@
 	export let prefix: string = ""
 	export let keyboardShortcut: string = ""
 	export let errorMessage: string = ""
-	export let onUpdate: (value?: string) => void = () => {}
+	export let onUpdate: (value: string) => void = () => {}
 	// export let validator: Validator = (a) => [true, ""]
 
 	let valid = true
@@ -35,7 +35,9 @@
 			].join(" ")}
 		>
 			{#if prefix}
-				<span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">{prefix}</span>
+				<span class="flex select-none items-center pl-3 -mr-2 text-gray-500 sm:text-sm"
+					>{prefix}</span
+				>
 			{/if}
 
 			<input
@@ -45,7 +47,7 @@
 				class="block w-full rounded-md px-2 py-1.5 text-gray-900 placeholder:text-gray-400 bg-transparent focus:outline-none sm:text-sm sm:leading-6"
 				{placeholder}
 				{value}
-				on:change={(e) => onUpdate(e.target?.value)}
+				on:keypress={(e) => onUpdate(e.target?.value)}
 			/>
 
 			{#if !valid}
