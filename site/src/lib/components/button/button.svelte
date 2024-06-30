@@ -5,6 +5,7 @@
 	export let role: Role = "primary"
 	export let behavior: Behavior = "neutral"
 	export let onClick: () => void = () => {}
+	export let disabled: boolean = false
 
 	let style = {
 		primary: {
@@ -18,7 +19,8 @@
 			negative: "bg-red-200 text-red-800 hover:text-red-900 hover:bg-red-300"
 		},
 		tertiary: {
-			neutral: "bg-none text-stone-700 hover:bg-stone-100 hover:text-stone-900",
+			neutral:
+				"bg-none text-stone-700 hover:bg-stone-100 hover:text-stone-900 disabled:text-stone-300 hover:disabled:text-stone-300 hover:disabled:bg-none",
 			positive: "bg-none text-green-700 hover:bg-green-100 hover:text-green-900",
 			negative: "bg-none text-red-700 hover:bg-red-100 hover:text-red-900"
 		}
@@ -26,8 +28,9 @@
 </script>
 
 <button
-	class={`${style} select-none group flex flex-row rounded-md gap-1 items-center px-2 py-1 transition-all`}
+	class={`${style} select-none group flex flex-row rounded-md gap-1 items-center px-2 py-1 transition-all disabled:cursor-not-allowed`}
 	on:click={onClick}
+	{disabled}
 >
 	<slot />
 </button>
