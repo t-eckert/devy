@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.feed.feedConfig.name} Posts</title>
+	<title>{data.feed.feedConfig.name}</title>
 </svelte:head>
 
-<Feed feed={data.feed} next={"asdf"} prev={"asdf"} />
+<Feed feed={data.feed} />
