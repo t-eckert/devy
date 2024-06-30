@@ -7,6 +7,7 @@ export interface FormState {
 	blogName: string
 	blogSlug: string
 	repos: Repo[]
+	repoLoadState: "not-loaded" | "loading" | "loaded" | "error"
 	selectedRepository: string
 }
 
@@ -14,19 +15,20 @@ const formState: Writable<FormState> = writable({
 	blogName: "",
 	blogSlug: "",
 	repos: [],
+	repoLoadState: "not-loaded",
 	selectedRepository: ""
 })
 
-export const hydrate = async (token: string) => {
-	const resp = await fetch("/api/users/t-eckert/github/repos")
-	console.log(resp)
+export const hydrate = async (username: string) => {
+	formState.update((state) => ({ ...state, repoLoadState: "loading" }))
+	const resp = await fetch(`/api/users/${username}/github/repos`)
 
 	if (resp.status !== 200) {
-		throw new Error(`Failed to fetch repos for user: ${resp.statusText}`)
+		formState.update((state) => ({ ...state, repoLoadState: "error" }))
 	}
 
 	const repos = (await resp.json()) as Repo[]
-	formState.update((state) => ({ ...state, repos }))
+	formState.update((state) => ({ ...state, repos, repoLoadState: "loaded" }))
 }
 
 export const setBlogName = (blogName: string) => {
@@ -39,6 +41,10 @@ export const setBlogSlug = (blogSlug: string) => {
 
 export const setSelectedRepository = (selectedRepository: string) => {
 	formState.update((state) => ({ ...state, selectedRepository }))
+}
+
+export function isSubmitable() {
+	return false
 }
 
 export default formState

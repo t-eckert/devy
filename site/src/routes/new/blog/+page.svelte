@@ -1,40 +1,50 @@
 <script lang="ts">
-	import type { PageData } from "./$types"
-
+	import { onMount } from "svelte"
+	import Card from "$lib/components/card/card.svelte"
 	import Main from "$lib/layouts/main.svelte"
 	import FormNameInput from "./form-name-input.svelte"
 	import FormRepoSelect from "./form-repo-select.svelte"
+	import FormSlugInput from "./form-slug-input.svelte"
 	import FormSubmit from "./form-submit.svelte"
-
-	import formState, { type FormState, hydrate } from "./form-state"
 	import Json from "$lib/utils/json.svelte"
-	import { onMount } from "svelte"
 
-	let form: FormState
-
-	onMount(async () => {
-		await hydrate("")
+	import sessionState from "$lib/state/session-store"
+	let username: string
+	sessionState.subscribe((value) => {
+		if (value.session) username = value.session.username
 	})
 
+	import formState, { type FormState, hydrate } from "./form-state"
+	let form: FormState
 	formState.subscribe((value) => {
 		form = value
+	})
+
+	onMount(async () => {
+		await hydrate(username)
 	})
 </script>
 
 <Main>
-	<div class="mx-auto w-full max-w-2xl">
-		<div class="mb-8">
-			<h1 class="font-semibold text-xl text-stone-800 mb-1">Create your blog</h1>
-			<p class="text-sm max-w-80">
-				Get started with your new Devy blog by selecting a repository and naming your blog. You can
-				always change these settings later.
-			</p>
-		</div>
+	<div class="mx-auto w-full max-w-3xl">
+		<form class="flex flex-col gap-4">
+			<h1 class="font-semibold text-xl text-stone-800">Create your blog</h1>
 
-		<form class="flex flex-col gap-8">
-			<FormNameInput />
-			<FormRepoSelect />
+			<Card>
+				<div class="flex flex-row justify-between">
+					<FormRepoSelect />
+					<div class="flex flex-col gap-6">
+						<FormNameInput />
+						<FormSlugInput />
+					</div>
+				</div>
+			</Card>
+
 			<FormSubmit />
 		</form>
+
+		<div class="my-8">
+			<Json data={form} />
+		</div>
 	</div>
 </Main>

@@ -1,35 +1,59 @@
 <script lang="ts">
-	import Card from "$lib/components/card/card.svelte"
-	import { RadioGroup } from "bits-ui"
 	import type { Repo } from "$lib/types"
 	import formState from "./form-state"
 
+	let limit = true
+	let limitLength = 9
+
 	let repos: Repo[] = []
+	let repoLoadState: string
 	formState.subscribe((value) => {
-		repos = value.repos
+		repos = value.repos.slice(0, limitLength * (limit ? 1 : -1))
+		repoLoadState = value.repoLoadState
 	})
 </script>
 
-<div class="flex flex-col">
-	<h2 class="font-medium">Select a repository</h2>
-	<p class="text-sm mb-4">
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit itaque tenetur harum optio!
-		Perferendis fuga quisquam, rem eaque perspiciatis enim rerum deserunt in dignissimos error. Quod
-		eos odio dolore ea!
-	</p>
-	<Card>
-		<div class="flex flex-col gap-3">
-			<RadioGroup.Root class="grid grid-cols-3 gap-4">
-				{#each repos.slice(0, 9) as repo}
-					<button class="flex flex-col rounded-md border border-zinc-100 p-2">
-						<span class="font-medium text-zinc-700">{repo.name}</span>
-					</button>
+<span>{limit}</span>
+<div class="flex flex-col gap-1 items-center">
+	<fieldset>
+		<legend class="ml-1 mb-2 text-sm font-medium text-gray-900"
+			>Select one of your public repositories</legend
+		>
+		<div class="rounded-md -space-y-px">
+			{#if repoLoadState === "loading" || repoLoadState === "idle"}
+				{#each Array(limitLength + 1) as _}
+					<div
+						class="h-8 border border-stone-200 font-medium px-3 py-1 flex flex-row justify-between first:rounded-t-md last:rounded-b-md cursor-none bg-stone-50 animate-pulse"
+					></div>
 				{/each}
-			</RadioGroup.Root>
-			<button
-				class="w-full rounded-b-md flex items-center justify-center py-2 text-sm font-medium border-t border-t-200"
-				>Load more</button
-			>
+			{:else if repoLoadState === "error"}
+				<div
+					class="h-80 border border-red-200 font-medium px-3 py-1 flex flex-row justify-center items-center first:rounded-t-md last:rounded-b-md cursor-none bg-red-50"
+				>
+					<div class="text-red-500">Failed to load repositories</div>
+				</div>
+			{:else if repoLoadState === "loaded"}
+				{#each repos as repo}
+					<label
+						for={repo.name}
+						class="border font-medium px-3 py-1 flex flex-row justify-between first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+					>
+						<input type="radio" name="repo" class="sr-only" id={repo.name} value={repo.name} />
+						<span>
+							{repo.name}
+						</span>
+					</label>
+				{/each}
+				<button
+					on:click={(e) => {
+						e.preventDefault()
+						limit = !limit
+					}}
+					disabled={repoLoadState !== "loaded"}
+					class="w-full border font-medium px-3 py-1 flex flex-row items-center justify-center first:rounded-t-md last:rounded-b-md cursor-pointer hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+					><div class="font-medium text-sm it">Show all</div></button
+				>
+			{/if}
 		</div>
-	</Card>
+	</fieldset>
 </div>
