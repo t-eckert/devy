@@ -1,3 +1,5 @@
+import plugin from "tailwindcss"
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: "class",
@@ -8,6 +10,6 @@ export default {
 			mono: ["Space Mono", "monospace"]
 		}
 	},
-	plugins: [],
+	plugins: [plugin("@tailwindcss/forms")],
 	safelist: ["dark", "w-screen", "h-screen", "border-stone-100", "h-64"]
 }
