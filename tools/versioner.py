@@ -21,7 +21,6 @@ package_paths = [
     Path("./site/package.json"),
     Path("./api/Cargo.toml"),
     Path("./lib/Cargo.toml"),
-    Path("./db/Cargo.toml"),
     Path("./devyctl/Cargo.toml"),
 ]
 
