@@ -1,1 +1,3 @@
-export default interface Repo {}
+export default interface Repo {
+	name: string
+}
