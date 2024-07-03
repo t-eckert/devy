@@ -11,17 +11,17 @@ test-integration:
 		python3 run.py
 
 # Site
-site-build:
-	@cd site && npm run build
+frontend-build:
+	@cd frontend && npm run build
 
-site-serve:
-	@cd site && npm run dev
+frontend-serve:
+	@cd frontend && npm run dev
 
-site-package:
-	@docker build . -f images/Dockerfile.site -t devy-site
+frontend-package:
+	@docker frontend . -f images/Dockerfile.site -t devy-site
 
 storybook-serve:
-	@cd site && npm run storybook
+	@cd frontend && npm run storybook
 
 # API
 api-build:
