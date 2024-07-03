@@ -1,30 +1,18 @@
-use crate::{
-    db::upload,
-    entities::Upload,
-    router::{error::Result, middleware::auth},
-    store::Store,
-};
+use crate::router::{error::Result, middleware::auth};
 use axum::{
     extract::{Json as ExtractJson, State},
     middleware,
     routing::post,
     Json,
 };
+use lib::{db::upload, entities::Upload, store::Store};
 use serde::{Deserialize, Serialize};
 
-/// /uploads/*
-///
-///  Router for handling upload requests.
-pub struct UploadsRouter;
-
-impl UploadsRouter {
-    /// Create a new UploadsRouter.
-    pub fn create(store: Store) -> axum::Router<Store> {
-        axum::Router::new()
-            .route("/uploads", post(create_new_upload))
-            .layer(middleware::from_fn_with_state(store.clone(), auth))
-            .with_state(store)
-    }
+pub fn router(store: Store) -> axum::Router<Store> {
+    axum::Router::new()
+        .route("/uploads", post(create_new_upload))
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
+        .with_state(store)
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

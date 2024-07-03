@@ -1,34 +1,21 @@
-use crate::{
-    db::like,
-    entities::Like,
-    router::{error::Result, middleware::auth},
-    store::Store,
-};
+use crate::router::{error::Result, middleware::auth};
 use axum::{
     extract::{Json as ExtractJson, Path, State},
     middleware,
     routing::{delete, get, post},
-    Json,
+    Json, Router,
 };
+use lib::{db::like, entities::Like, store::Store};
 use uuid::Uuid;
 
-pub struct LikesRouter;
-
-/// `/likes` routes
-impl LikesRouter {
-    pub fn create(store: Store) -> axum::Router<Store> {
-        axum::Router::new()
-            .route("/likes/:username", get(get_by_username))
-            .route(
-                "/likes",
-                post(post_like).layer(middleware::from_fn_with_state(store.clone(), auth)),
-            )
-            .route(
-                "/likes/:profile_id/:post_id",
-                delete(delete_like).layer(middleware::from_fn_with_state(store.clone(), auth)),
-            )
-            .with_state(store)
-    }
+/// Create a new router for the likes endpoints.
+pub fn router(store: Store) -> Router<Store> {
+    Router::new()
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
+        .route("/likes", post(post_like))
+        .route("/likes/:username", get(get_by_username))
+        .route("/likes/:profile_id/:post_id", delete(delete_like))
+        .with_state(store)
 }
 
 /// `GET /likes/:username`

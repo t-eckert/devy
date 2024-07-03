@@ -1,7 +1,7 @@
+mod endpoints;
 mod error;
-mod middleware;
 mod router;
-mod routers;
 
 pub use error::Error;
+pub mod middleware;
 pub use router::Router;

@@ -1,4 +1,3 @@
-use crate::store::Store;
 use axum::{
     extract::{Query, State},
     http::header::{HeaderMap, LOCATION, SET_COOKIE},
@@ -7,42 +6,23 @@ use axum::{
     routing::get,
 };
 use cookie::{Cookie, SameSite};
+use lib::store::Store;
 use std::collections::HashMap;
 
-/// `/auth/*`
-///
-/// Router for handling authentication requests.
-pub struct AuthRouter;
-
-impl AuthRouter {
-    /// Create a new AuthRouter.
-    pub fn create(store: Store) -> axum::Router<Store> {
-        axum::Router::new()
-            .route("/auth/public-key", get(public_key))
-            .route("/auth/login", get(login))
-            .route("/auth/callback", get(callback))
-            .with_state(store)
-    }
+/// Create a new router for Auth.
+pub fn router(store: Store) -> axum::Router<Store> {
+    axum::Router::new()
+        .route("/auth/login", get(login))
+        .route("/auth/callback", get(callback))
+        .with_state(store)
 }
 
-/// `GET /auth/public-key`
-///
-/// Returns the public key of the encoding JWT.
-async fn public_key(State(store): State<Store>) -> impl IntoResponse {
-    let public_key = store.auth_client.public_key();
-    (StatusCode::OK, public_key)
-}
-
-/// `GET /auth/login`
-///
-/// Redirects the user to the login page.
+// GET /auth/login
 async fn login(State(store): State<Store>) -> Redirect {
     Redirect::to(&store.auth_client.login())
 }
 
-/// GET /auth/callback
-///
-/// Handles the callback of the auth provider and redirect the user to the correct page.
+// GET /auth/callback
 async fn callback(
     State(store): State<Store>,
     Query(params): Query<HashMap<String, String>>,

@@ -1,20 +1,19 @@
-use crate::db::{upload, webhook};
-use crate::entities::WebhookType;
 use crate::router::error::Result;
-use crate::store::Store;
 use axum::Router;
 use axum::{extract::State, routing::post, Json};
 use http::{HeaderMap, StatusCode};
+
+use lib::store::Store;
+use lib::{
+    db::{upload, webhook},
+    entities::WebhookType,
+};
 use serde_json::Value;
 
-pub struct WebhooksRouter;
-
-impl WebhooksRouter {
-    pub fn create(store: Store) -> Router<Store> {
-        Router::new()
-            .route("/webhooks", post(receive))
-            .with_state(store)
-    }
+pub fn router(store: Store) -> Router<Store> {
+    Router::new()
+        .route("/webhooks", post(receive))
+        .with_state(store)
 }
 
 async fn receive(

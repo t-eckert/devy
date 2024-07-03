@@ -1,21 +1,16 @@
-use crate::{db, entities, forms, uploader};
 use axum::response::{IntoResponse, Response};
 use http::StatusCode;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
 
-/// Result type for `routers`.
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum Error {
     StatusCode(#[serde_as(as = "DisplayFromStr")] StatusCode),
-
     ServeFailure,
-
-    Generic(String),
 }
 
 impl From<StatusCode> for Error {
@@ -24,44 +19,44 @@ impl From<StatusCode> for Error {
     }
 }
 
-impl From<entities::Error> for Error {
-    fn from(val: entities::Error) -> Self {
+impl From<lib::entities::Error> for Error {
+    fn from(val: lib::entities::Error) -> Self {
         match val {
-            entities::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
-            entities::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            lib::entities::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
+            lib::entities::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
             // EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
             _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
 
-impl From<uploader::Error> for Error {
-    fn from(err: uploader::Error) -> Self {
+impl From<crate::uploader::Error> for Error {
+    fn from(err: crate::uploader::Error) -> Self {
         match err {
-            uploader::Error::RepositoryNotFound(_) => Self::StatusCode(StatusCode::NOT_FOUND),
-            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
-        }
-    }
-}
-
-impl From<db::Error> for Error {
-    fn from(err: db::Error) -> Self {
-        match err {
-            db::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
-            db::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            db::Error::MissingField { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
-        }
-    }
-}
-
-impl From<forms::Error> for Error {
-    fn from(val: forms::Error) -> Self {
-        match val {
-            forms::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            forms::Error::RequestFailed { .. } => {
-                Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+            crate::uploader::Error::RepositoryNotFound(_) => {
+                Self::StatusCode(StatusCode::NOT_FOUND)
             }
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
+    }
+}
+
+impl From<crate::db::Error> for Error {
+    fn from(err: crate::db::Error) -> Self {
+        match err {
+            crate::db::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
+            crate::db::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            crate::db::Error::MissingField { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
+        }
+    }
+}
+
+impl From<lib::forms::Error> for Error {
+    fn from(val: lib::forms::Error) -> Self {
+        match val {
+            lib::forms::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
+            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 }
@@ -77,7 +72,6 @@ impl IntoResponse for Error {
         match self {
             Self::StatusCode(status) => status.into_response(),
             Self::ServeFailure => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
-            _ => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
         }
     }
 }

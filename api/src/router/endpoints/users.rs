@@ -1,30 +1,23 @@
-use crate::entities::User;
-use crate::router::error::Result;
+use crate::router::error::{Error, Result};
 use crate::router::middleware::auth;
-use crate::store::Store;
-use crate::{db::user, router::Error};
 use axum::{
     extract::{Path, State},
     middleware,
     routing::get,
     Json, Router,
 };
+use lib::{db::user, entities::User, store::Store};
 use serde_json::Value;
 
-pub struct UsersRouter;
-
-impl UsersRouter {
-    pub fn create(store: Store) -> Router<Store> {
-        Router::new()
-            .route("/users/:username", get(get_by_username))
-            .route("/users/:username/github/repos", get(get_user_github_repos))
-            .route(
-                "/users/:username/github/devy",
-                get(get_user_github_devy)
-                    .layer(middleware::from_fn_with_state(store.clone(), auth)),
-            )
-            .with_state(store)
-    }
+pub fn router(store: Store) -> Router<Store> {
+    Router::new()
+        .route("/users/:username", get(get_by_username))
+        .route("/users/:username/github/repos", get(get_user_github_repos))
+        .route(
+            "/users/:username/github/devy",
+            get(get_user_github_devy).layer(middleware::from_fn_with_state(store.clone(), auth)),
+        )
+        .with_state(store)
 }
 
 /// `GET /users/:username`
