@@ -1,9 +1,8 @@
-use lib::{
-    auth::Client, db::connect, github::GitHubClient, monitoring, router::Router, store::Store,
-};
-use std::net::SocketAddr;
-
 mod config;
+mod router;
+
+use lib::{auth, db, github, monitoring, store, uploader};
+use std::net::SocketAddr;
 
 /// Start the API server.
 #[tokio::main]
@@ -12,7 +11,7 @@ async fn main() {
 
     let cfg = config::Config::from_env().unwrap();
 
-    let auth_client = Client::new(
+    let auth_client = auth::Client::new(
         cfg.github_app_client_id.clone(),
         cfg.github_app_client_secret,
         cfg.callback_url,
@@ -22,17 +21,16 @@ async fn main() {
         cfg.encoding_public_key.as_bytes(),
     );
 
-    let db = connect(&cfg.database_url).await.unwrap();
+    let db = db::connect(&cfg.database_url).await.unwrap();
 
-    let git = lib::uploader::Git::new(&cfg.git_path).expect("Unable to create git client");
-    let uploader = lib::uploader::Uploader::new(git);
+    let git = uploader::Git::new(&cfg.git_path).expect("Unable to create git client");
+    let uploader = uploader::Uploader::new(git);
+    let github_client = github::Client::new(&cfg.github_app_client_id, &cfg.github_app_private_key);
 
-    let github_client = GitHubClient::new(&cfg.github_app_client_id, &cfg.github_app_private_key);
-
-    let store = Store::new(db, auth_client, uploader, github_client);
+    let store = store::Store::new(db, auth_client, uploader, github_client);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
 
-    let router = Router::new(store, addr);
+    let router = router::Router::new(store, addr);
     router.serve().await.unwrap();
 }
