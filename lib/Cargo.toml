@@ -33,11 +33,9 @@ features = ["v4", "fast-rng", "macro-diagnostics", "serde"]
 features = ["derive"]
 version = "1.0"
 
-
 [dependencies.reqwest]
 version = "0.12.1"
 features = ["json"]
-
 
 [dependencies.tracing-subscriber]
 version = "0.3.17"
