@@ -1,8 +1,9 @@
 use super::error::{Error, Result};
-use crate::db::{self, Database};
-use crate::jwt::{Subject, JWT};
-use crate::token::Encoder;
-use crate::token::Session;
+use crate::{
+    db::{self, Database},
+    token::Encoder,
+    token::Session,
+};
 use oauth2::{
     basic::BasicClient, reqwest::async_http_client, AccessToken, AuthUrl, AuthorizationCode,
     ClientId, ClientSecret, CsrfToken, Scope, TokenResponse, TokenUrl,
@@ -17,7 +18,6 @@ pub struct Client {
     pub redirect_url: String,
     callback_url: String,
     oauth_client: BasicClient,
-    jwt: JWT,
     encoder: Encoder,
 }
 
@@ -41,7 +41,6 @@ impl Client {
                 AuthUrl::new(AUTH_URL.to_string()).expect("Invalid auth URL"),
                 Some(TokenUrl::new(TOKEN_URL.to_string()).expect("Invalid token URL")),
             ),
-            jwt: JWT::new(private_key).unwrap(),
             encoder: Encoder::new(public_pem, private_pem).unwrap(),
         }
     }
@@ -118,10 +117,6 @@ impl Client {
 
     pub fn redirect_url_with_err(self, err: &str) -> String {
         format!("{}?error={}", self.redirect_url, err)
-    }
-
-    pub fn public_key(&self) -> String {
-        self.jwt.public_key.clone()
     }
 
     // Validates a token and returns the associated session.

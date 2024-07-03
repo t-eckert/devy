@@ -23,10 +23,6 @@ pub enum Error {
     #[from]
     DatabaseError(crate::db::Error),
 
-    /// An error occurred when encoding or decoding a JWT.
-    #[from]
-    JWTError(crate::jwt::Error),
-
     #[from]
     TokenError(crate::token::Error),
 

@@ -42,12 +42,11 @@ impl Claims {
 mod tests {
     use super::*;
 
-    /*
     #[test]
     fn test_jwt_is_not_expired_with_long_lifetime() {
+        let sub = "test".to_string();
         let value = serde_json::json!({"test": "value"});
-        let claims = Claims::new(value, 3600000000);
+        let claims = Claims::new(sub, value, 3600000000);
         assert!(!claims.is_expired());
     }
-    */
 }
