@@ -1,11 +1,12 @@
-use crate::jwt::{Subject, JWT};
+use super::error::Error;
+use jsonwebtoken::encode;
 use reqwest::header::{ACCEPT, AUTHORIZATION};
-use reqwest::Client;
+use reqwest::Client as ReqwestClient;
 use serde::Deserialize;
 use std::collections::HashSet;
 
 #[derive(Debug, Clone)]
-pub struct GitHubClient {
+pub struct Client {
     app_id: String,
     private_key: String,
 }
@@ -21,7 +22,7 @@ struct Account {
     login: String,
 }
 
-impl GitHubClient {
+impl Client {
     pub fn new(app_id: &str, private_key: &str) -> Self {
         Self {
             app_id: app_id.to_string(),
@@ -29,19 +30,22 @@ impl GitHubClient {
         }
     }
 
-    pub async fn fetch_user_installations(&self) -> Result<HashSet<String>, reqwest::Error> {
+    pub async fn fetch_user_installations(&self) -> Result<HashSet<String>, Error> {
         dbg!("Fetching user installations");
 
         let users = HashSet::new();
 
-        let jwt = JWT::new(self.private_key.clone()).unwrap();
-        let token = jwt
-            .encode(Subject::AuthToken, serde_json::json!({"iss": self.app_id}))
-            .unwrap();
+        let token = jsonwebtoken::encode(
+            &jsonwebtoken::Header::default(),
+            &serde_json::json!({
+                "iss": self.app_id,
+            }),
+            &jsonwebtoken::EncodingKey::from_rsa_pem(self.private_key.as_bytes()).unwrap(),
+        )?;
 
         println!("{token}");
 
-        let client = Client::new();
+        let client = ReqwestClient::new();
         let response = client
             .get("https://api.github.com/app/installations")
             .header(AUTHORIZATION, format!("Bearer {}", token))

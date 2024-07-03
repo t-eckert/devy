@@ -1,3 +1,5 @@
 mod client;
+mod error;
 
-pub use client::GitHubClient;
+pub use client::Client;
+pub use error::{Error, Result};
