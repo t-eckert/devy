@@ -1,4 +1,3 @@
-import config from "$lib/config"
 import type { RequestHandler } from "./$types"
 
 const forwardingHeaders = new Set([
@@ -26,7 +25,7 @@ export const fallback: RequestHandler = async ({ url, request }) => {
 		if (forwardingHeaders.has(key)) headers.set(key, value)
 	})
 
-	return await fetch(config.api + apiPath, {
+	return await fetch("http://localhost:8000" + apiPath, {
 		method,
 		headers
 	})
