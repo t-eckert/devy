@@ -12,13 +12,13 @@ use std::collections::HashMap;
 /// Create a new router for Auth.
 pub fn router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
-        .route("/auth/login", get(login))
+        .route("/auth/sign-in", get(sign_in))
         .route("/auth/callback", get(callback))
         .with_state(store)
 }
 
-// GET /auth/login
-async fn login(State(store): State<Store>) -> Redirect {
+// GET /auth/sign-in
+async fn sign_in(State(store): State<Store>) -> Redirect {
     Redirect::to(&store.auth_client.login())
 }
 
