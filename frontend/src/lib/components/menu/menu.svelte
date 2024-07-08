@@ -1,32 +1,26 @@
 <script lang="ts">
-	import { HamburgerMenu } from "radix-icons-svelte"
-	import { DropdownMenu } from "bits-ui"
-	import { fly } from "svelte/transition"
+	import HamburgerMenu from "$lib/icons/hamburger-menu.svelte"
+	import Card from "$lib/components/card.svelte"
 
-	export let side: "top" | "right" | "bottom" | "left" = "bottom"
-	export let align: "start" | "center" | "end" = "end"
-	export let classes = ""
+	let isOpen = $state(true)
+	let { children } = $props()
 </script>
 
-<DropdownMenu.Root>
-	<DropdownMenu.Trigger
-		class="p-1 hover:bg-stone-100 rounded-md border border-transparent transition data-[state=open]:bg-white/50 data-[state=open]:border-stone-200 data-[state=open]:shadow-sm"
+<div>
+	<button
+		onclick={() => {
+			isOpen = !isOpen
+		}}
+		class={`p-1 rounded-md hover:bg-stone-100 transition-colors text-stone-600 hover:text-stone-950 ${isOpen ? "bg-white" : ""} transition-all`}
 	>
-		<slot name="icon">
-			<HamburgerMenu />
-		</slot>
-	</DropdownMenu.Trigger>
+		<HamburgerMenu />
+	</button>
 
-	<DropdownMenu.Content
-		class={[
-			"rounded-md w-40 bg-white/80 text-stone-800 py-1.5 flex flex-col gap-1 border border-stone-200 backdrop-blur-lg shadow-sm",
-			classes
-		].join(" ")}
-		{side}
-		{align}
-		sideOffset={4}
-		transition={fly}
-	>
-		<slot />
-	</DropdownMenu.Content>
-</DropdownMenu.Root>
+	{#if isOpen}
+		<section class="absolute right-16 top-9">
+			<Card>
+				{@render children()}
+			</Card>
+		</section>
+	{/if}
+</div>

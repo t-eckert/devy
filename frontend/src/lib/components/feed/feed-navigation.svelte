@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from "$lib/components/button/button.svelte"
-	import { ArrowLeft, ArrowRight } from "radix-icons-svelte"
+	import ArrowLeft from "$lib/icons/arrow-left.svelte"
+	import ArrowRight from "$lib/icons/arrow-right.svelte"
 
 	export let next: () => void = () => {
 		console.log("Next")
@@ -11,12 +12,16 @@
 <div class="flex flex-row items-center">
 	{#if prev}
 		<Button role="tertiary" onClick={prev}>
-			<ArrowLeft class="group-hover:-translate-x-1 transition" />
+			<div class="group-hover:-translate-x-1 transition">
+				<ArrowLeft />
+			</div>
 			<span class="text-sm font-medium">Prev</span>
 		</Button>
 	{/if}
 	<Button role="tertiary" onClick={next}>
 		<span class="text-sm font-medium">Next</span>
-		<ArrowRight class="group-hover:translate-x-1 transition" />
+		<div class="group-hover:translate-x-1 transition">
+			<ArrowRight />
+		</div>
 	</Button>
 </div>
