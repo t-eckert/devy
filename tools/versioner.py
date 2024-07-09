@@ -139,7 +139,7 @@ if __name__ == "__main__":
     write_version(version)
 
     name = get_name(version)
-    filename = f"changelog/{version}.md"
+    filename = f"./frontend/static/changelog/{version}.md"
     write_changelog(
         format_changelog(
             version, name, changes(prev_version), get_packages(package_paths)
