@@ -5,7 +5,6 @@ COPY ./api ./api
 COPY ./lib ./lib
 COPY ./devyctl ./devyctl
 COPY Cargo.toml Cargo.lock ./
-COPY ./crates ./crates
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
 RUN SQLX_OFFLINE=true cargo build --bin api --release
 
