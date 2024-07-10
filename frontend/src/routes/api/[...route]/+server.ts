@@ -1,5 +1,5 @@
 import type { RequestHandler } from "./$types"
-import { env } from "$env/dynamic/public"
+import { env } from "$env/dynamic/private"
 
 const forwardingHeaders = new Set([
 	"accept",
@@ -26,7 +26,7 @@ export const fallback: RequestHandler = async ({ url, request }) => {
 		if (forwardingHeaders.has(key)) headers.set(key, value)
 	})
 
-	return await fetch(env.PUBLIC_API + apiPath, {
+	return await fetch(env.API + apiPath, {
 		method,
 		headers
 	})
