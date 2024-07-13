@@ -1,13 +1,16 @@
-FROM node:lts AS builder
+FROM node:18-alpine AS builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
-COPY . .
+COPY ./frontend/package*.json .
+RUN npm ci
+COPY ./frontend/ .
 RUN npm run build
+RUN npm prune --production
 
-FROM node:lts-slim AS runner
+FROM node:18-alpine
 WORKDIR /app
-COPY --from=builder /app/build /app/build
-RUN npm install -g sirv-cli
-EXPOSE 5000
-CMD ["sirv", "build"]
+COPY --from=builder /app/build build/
+COPY --from=builder /app/node_modules node_modules/
+COPY --from=builder /app/package.json .
+EXPOSE 3000
+ENV NODE_ENV=production
+CMD [ "node", "build" ]
