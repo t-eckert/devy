@@ -18,10 +18,7 @@ frontend-serve:
 	@cd frontend && npm run dev
 
 frontend-package:
-	@docker frontend . -f images/Dockerfile.site -t devy-site
-
-storybook-serve:
-	@cd frontend && npm run storybook
+	@docker frontend . -f frontend/Dockerfile -t devy-frontend
 
 # API
 api-build:
@@ -34,11 +31,11 @@ api-prepare-queries:
 	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
 
 api-package:
-	@docker build . -f ./images/Dockerfile.api -t devy-api
+	@docker build . -f ./api/Dockerfile -t devy-api
 
 # DB
 db-build:
-	@docker build . -f ./integration/db.Dockerfile -t devy-test-db
+	@docker build . -f ./database/Dockerfile -t devy-test-db
 
 db-serve: db-build
 	@docker run --rm\
@@ -54,3 +51,11 @@ db-access:
 
 db-prepare:
 	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
+
+# Changelog
+changelog-build:
+	@docker build . -f ./changelog/Dockerfile -t devy-changelog
+
+changelog-serve: changelog-build
+	@docker run --rm \
+	   --name devy-changelog -p 9000:5000 devy-changelog:latest

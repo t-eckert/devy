@@ -1,3 +1,3 @@
-<h1 class="text-3xl sm:text-5xl font-semibold break-normal text-stone-800 leading-tight mt-4 mb-2">
+<h1 class="text-xl sm:text-3xl font-semibold break-normal text-stone-800 leading-tight mt-2 mb-4">
 	<slot />
 </h1>

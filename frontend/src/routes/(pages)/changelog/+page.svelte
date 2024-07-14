@@ -11,11 +11,10 @@
 	<title>Changelog</title>
 </svelte:head>
 
-<div class="mb-4">
-	<H1>Changelog</H1>
-</div>
-
 <div class="flex flex-col gap-4 w-full max-w-3xl mx-auto">
+	<div class="mb-4 mt-8">
+		<H1>Changelog</H1>
+	</div>
 	{#each data.props.changelogs as changelog}
 		<Card>
 			<Markdown source={changelog.markdown} />

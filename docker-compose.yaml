@@ -2,20 +2,22 @@
 version: "3"
 
 services:
-  backend:
+  frontend:
+    image: devy-frontend:latest
+    ports:
+      - "3000:3000"
+    build:
+      dockerfile: ./images/Dockerfile.frontend
+
+  api:
     image: devy-api:latest
     environment:
       DATABASE_URL: "postgres://postgres:postgres@database:5432"
-      CLIENT_ID: ""
-      CLIENT_SECRET: ""
-      POST_AUTH_URI: "http://localhost:3000/"
-      CALLBACK_URL: "http://localhost:8000/v1/auth/callback"
       RUST_BACKTRACE: 1
     ports:
       - "8000:8000"
     build:
-      context: ..
-      dockerfile: ./images/Dockerfile.api
+      dockerfile: ./api/Dockerfile
 
   database:
     image: devy-test-db:latest
@@ -25,5 +27,4 @@ services:
     ports:
       - "5432:5432"
     build:
-      context: ..
-      dockerfile: ./images/Dockerfile.db.test
+      dockerfile: ./database/Dockerfile

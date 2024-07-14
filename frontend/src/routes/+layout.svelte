@@ -1,8 +1,10 @@
 <script lang="ts">
-	import '../app.css';
+	import "../app.css"
+	import "@fontsource-variable/inter"
+	import "@fontsource/space-mono"
 
-	let theme = $state('light');
-	let { children } = $props();
+	let theme = $state("light")
+	let { children } = $props()
 </script>
 
 <div class={theme}>
