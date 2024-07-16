@@ -7,9 +7,11 @@
 		.join("")
 </script>
 
-<div class="w-full h-full grid grid-cols-1 grid-rows-1 bg-stone-100">
+<div class="w-full h-full grid grid-cols-1 grid-rows-1 bg-stone-100 items-center justify-center">
 	{#if src != undefined}
 		<img {src} alt={displayName} class="z-10 col-start-1 col-span-1" />
 	{/if}
-	<div class="font-medium text-stone-800 col-start-1 col-span-1">{initials}</div>
+	<div class="font-medium text-stone-800 col-start-1 col-span-1 text-center">
+		{initials}
+	</div>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Profile, User } from "$lib/types"
+	import Avatar from "./avatar.svelte"
 
 	export let profile: Profile
 	export let user: User
@@ -8,7 +9,9 @@
 </script>
 
 <div class="rounded-2xl w-56 h-64 flex flex-col shadow select-none">
-	<img src={avatarUrl} alt={displayName} class="rounded-2xl w-56 h-64 object-cover" />
+	<div class="w-56 h-64 rounded-2xl">
+		<Avatar src={avatarUrl} {displayName} />
+	</div>
 
 	<div class="z-10 absolute h-64 w-56 flex flex-col justify-end rounded-2xl">
 		<div
