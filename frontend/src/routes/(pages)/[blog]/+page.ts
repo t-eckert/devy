@@ -1,5 +1,5 @@
 import type { PageLoad } from "./$types"
-import { error, NumericRange } from "@sveltejs/kit"
+import { error, type NumericRange } from "@sveltejs/kit"
 
 export const load: PageLoad = async ({ params, fetch }) => {
 	const blogResp = await fetch(`/api/blogs/${params.blog}`)
