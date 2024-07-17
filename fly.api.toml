@@ -1,4 +1,4 @@
-pp = 'devy-api'
+app = 'devy-api'
 primary_region = 'iad'
 
 [build]
