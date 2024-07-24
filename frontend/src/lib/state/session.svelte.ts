@@ -1,11 +1,17 @@
 import { setContext, getContext } from "svelte"
-import type { Session } from "$lib/types"
+import type { Session, TokenPayload } from "$lib/types"
+import { jwtDecode } from "jwt-decode"
 
 class SessionState {
 	loggedIn = $state(false)
 	session = $state<Session | null>(null)
 
 	constructor() {}
+
+	loadToken(token: string) {
+		this.session = jwtDecode<TokenPayload<Session>>(token).body
+		this.loggedIn = true
+	}
 }
 
 const SESSION_KEY = Symbol("session")

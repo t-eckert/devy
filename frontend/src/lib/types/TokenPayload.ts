@@ -1,8 +1,6 @@
-import Session from "./Session"
-
-export default interface TokenPayload {
+export default interface TokenPayload<T> {
 	sub: string
-	body: Session
+	body: T
 	iss: string
 	iat: number
 	exp: number
