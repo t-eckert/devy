@@ -1,1 +1,1 @@
-<strong class="font-bold text-zinc-950"><slot /></strong>
+<strong class="font-medium text-zinc-900"><slot /></strong>
