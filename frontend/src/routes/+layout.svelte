@@ -2,9 +2,17 @@
 	import "../app.css"
 	import "@fontsource-variable/inter"
 	import "@fontsource/space-mono"
+	import Json from "$lib/utils/json.svelte"
+	import { setSessionState } from "$lib/state/session.svelte"
+	import Session from "$lib/utils/session.svelte"
 
 	let theme = $state("light")
-	let { children } = $props()
+	let { data } = $props()
+
+	const sessionState = setSessionState()
+	if (data.token) {
+		sessionState.loadToken(data.token)
+	}
 </script>
 
 <div class={theme}>
