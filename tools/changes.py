@@ -1,4 +1,12 @@
+from rich import print
+
 import subprocess
+
+
+def main():
+    previous = read_version()
+    print(f"Changes since {previous}:")
+    print(changes(previous))
 
 
 def read_version() -> str:
@@ -18,6 +26,4 @@ def changes(previous: str) -> str:
 
 
 if __name__ == "__main__":
-    previous = read_version()
-    print(f"Changes since {previous}:")
-    print(changes(previous))
+    main()
