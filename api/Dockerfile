@@ -13,10 +13,16 @@ FROM debian:buster-slim
 RUN apt-get update && apt-get install -y pkg-config libssl-dev git
 WORKDIR /app
 COPY --from=builder /build/target/release/api .
+
+ENV CALLBACK_URL=
 ENV DATABASE_URL=
-ENV CLIENT_ID=
-ENV CLIENT_SECRET=
-ENV POST_AUTH_URI=
+ENV ENCODING_PRIVATE_KEY=
+ENV ENCODING_PUBLIC_KEY=
 ENV GIT_PATH=/usr/bin/git
+ENV GITHUB_APP_CLIENT_ID=
+ENV GITHUB_APP_CLIENT_SECRET=
+ENV GITHUB_APP_PRIVATE_KEY=
+ENV REDIRECT_URL=
+
 EXPOSE 8000
 CMD ["./api"]
