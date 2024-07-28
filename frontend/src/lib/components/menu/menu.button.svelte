@@ -1,10 +1,13 @@
 <script lang="ts">
-	let { children } = $props()
+	import MenuItem from "./menu.item.svelte"
+
+	let { children, onclick } = $props()
 </script>
 
-<button
-	>Button
-	{#if children}
-		{@render children()}
-	{/if}
-</button>
+<MenuItem>
+	<button class="w-full flex flex-row justify-start" {onclick}>
+		{#if children}
+			{@render children()}
+		{/if}
+	</button>
+</MenuItem>

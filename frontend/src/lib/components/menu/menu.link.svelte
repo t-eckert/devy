@@ -1,9 +1,13 @@
 <script lang="ts">
-	const { href }: { href: string } = $props()
+	import MenuItem from "./menu.item.svelte"
+
+	let { children, href } = $props()
 </script>
 
-<div
-	class="text-sm mx-1 px-2 py-0.5 group flex flex-row rounded items-center pointer-cursor justify-between hover:bg-stone-100"
->
-	<a {href} class="w-full"><slot /></a>
-</div>
+<MenuItem>
+	<a {href} class="w-full cursor-pointer">
+		{#if children}
+			{@render children()}
+		{/if}
+	</a>
+</MenuItem>
