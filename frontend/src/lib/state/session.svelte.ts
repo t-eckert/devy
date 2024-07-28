@@ -3,14 +3,26 @@ import type { Session, TokenPayload } from "$lib/types"
 import { jwtDecode } from "jwt-decode"
 
 class SessionState {
-	loggedIn = $state(false)
+	signedIn = $state(false)
 	session = $state<Session | null>(null)
 
 	constructor() {}
 
 	loadToken(token: string) {
-		this.session = jwtDecode<TokenPayload<Session>>(token).body
-		this.loggedIn = true
+		let session
+		try {
+			session = jwtDecode<TokenPayload<Session>>(token).body
+			this.session = session
+			this.signedIn = true
+		} catch (e) {
+			console.log("error", e)
+		}
+	}
+
+	signOut() {
+		document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+		this.session = null
+		this.signedIn = false
 	}
 }
 
