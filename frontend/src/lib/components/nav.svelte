@@ -15,6 +15,7 @@
 		/>
 	{:else}
 		<a
+			data-sveltekit-preload-data="off"
 			href="/auth/sign-in"
 			class="px-2 py-0.5 text-sm font-medium text-stone-600 hover:text-stone-950 hover:bg-stone-100 rounded-full transition"
 			>Sign in</a
@@ -28,7 +29,7 @@
 
 			{#if sessionState.session}
 				<Menu.Sep />
-				<Menu.Button onclick={sessionState.signOut()}>Sign out</Menu.Button>
+				<Menu.FormButton action="/auth/sign-out" name="sign-out">Sign out</Menu.FormButton>
 			{/if}
 		</Menu>
 	</div>

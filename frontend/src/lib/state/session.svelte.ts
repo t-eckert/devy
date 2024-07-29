@@ -20,7 +20,7 @@ class SessionState {
 	}
 
 	signOut() {
-		document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+		console.log("signing out")
 		this.session = null
 		this.signedIn = false
 	}
