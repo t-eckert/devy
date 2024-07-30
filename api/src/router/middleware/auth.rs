@@ -15,10 +15,9 @@ const BEARER_PREFIX: &str = "Bearer";
 pub async fn auth(
     headers: HeaderMap,
     State(store): State<Store>,
-    request: Request,
+    mut request: Request,
     next: Next,
 ) -> Result<Response> {
-    dbg!("Authenticating...");
     match get_token(&headers) {
         Ok(token) => {
             // Verify the token
@@ -26,8 +25,8 @@ pub async fn auth(
                 .auth_client
                 .validate_token(token)
                 .await
-                .map_err(|_| Error::Generic("Invalid token".to_string()))?;
-            dbg!(&session);
+                .map_err(|_| StatusCode::BAD_REQUEST)?;
+            request.extensions_mut().insert(session);
             Ok(next.run(request).await)
         }
         Err(e) => Err(e),
@@ -38,11 +37,11 @@ fn get_token(headers: &HeaderMap) -> Result<&str> {
     let auth_header = headers
         .get(AUTHORIZATION_HEADER)
         .and_then(|value| value.to_str().ok())
-        .ok_or(Error::StatusCode(StatusCode::BAD_REQUEST))?;
+        .ok_or(Error::StatusCode(StatusCode::UNAUTHORIZED))?;
 
     match auth_header.split_once(' ') {
         Some((BEARER_PREFIX, token)) => Ok(token),
-        _ => Err(Error::StatusCode(StatusCode::BAD_REQUEST)),
+        _ => Err(Error::StatusCode(StatusCode::UNAUTHORIZED)),
     }
 }
 

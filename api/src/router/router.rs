@@ -1,7 +1,9 @@
 use super::middleware::auth;
 use super::{endpoints, error::Result};
+use axum::Extension;
 use axum::{middleware, routing::get, Router as AxumRouter};
 use lib::store::Store;
+use lib::token::Session;
 use std::net::SocketAddr;
 use tower_http::{
     cors::{Any, CorsLayer},
@@ -21,7 +23,7 @@ impl Router {
             .route("/ready", get(|| async { "OK" }))
             .route(
                 "/protected",
-                get(|| async { "OK" }).layer(middleware::from_fn_with_state(store.clone(), auth)),
+                get(|Extension(session): Extension<Session>| async { axum::Json(session) }).layer(middleware::from_fn_with_state(store.clone(), auth)),
             )
             // Routers in Alphabetical Order
             .merge(endpoints::auth::router(store.clone()))
