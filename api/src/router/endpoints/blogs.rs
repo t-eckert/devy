@@ -1,15 +1,11 @@
 use crate::router::{error::Result, middleware::auth};
 use axum::{
-    extract::{Path, State},
-    http::StatusCode,
-    middleware,
-    routing::{delete, get},
-    Json, Router,
+    extract::{Path, State}, http::StatusCode, middleware, routing::{delete, get}, Extension, Json, Router
 };
 use lib::{
     db::{blog, entry, post},
     entities::{Blog, Entry, Post},
-    store::Store,
+    store::Store, token::Session,
 };
 
 /// Create a new router for the blogs endpoints.
@@ -32,8 +28,8 @@ pub fn router(store: Store) -> Router<Store> {
         .with_state(store.clone());
 
     let protected = Router::new()
-        .layer(middleware::from_fn_with_state(store.clone(), auth))
         .route("/blogs/:blog_slug", delete(delete_blog_by_blog_slug))
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
         .with_state(store);
 
     Router::new().merge(open).merge(protected)
@@ -85,9 +81,14 @@ async fn get_blog_entry_by_blog_slug_and_post_slug(
 
 // DELETE /blogs/:blog_slug
 async fn delete_blog_by_blog_slug(
+    Extension(session): Extension<Session>,
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<StatusCode> {
+    if session.user_id != blog::get_by_slug(&store.db, blog_slug.clone()).await?.user_id {
+        return Ok(StatusCode::FORBIDDEN);
+    }
+
     blog::delete_by_slug(&store.db, blog_slug).await?;
 
     Ok(StatusCode::OK)

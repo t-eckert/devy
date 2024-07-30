@@ -4,7 +4,8 @@
 	import H1 from "$lib/elements/h1.svelte"
 	import Column from "$lib/layouts/column.svelte"
 	import EntryPreview from "$lib/components/entry-preview"
-	import Json from "$lib/utils/json.svelte"
+	import Button from "$lib/components/button.svelte"
+	import { getSessionState } from "$lib/state/session.svelte"
 
 	export let data: PageData
 
@@ -17,13 +18,26 @@
 	const { authorName, authorSlug } = firstEntry
 </script>
 
+<svelte:head>
+	<title>{data.props.blog.name}</title>
+</svelte:head>
+
 <Main>
 	<div class="mx-auto w-full max-w-2xl">
 		<section class="mt-8 mb-4 flex flex-col gap-2">
 			<H1>{data.props.blog.name}</H1>
-			{#if authorKnown}
-				<p>By <a href={`/profiles/${authorSlug}`}>{authorName}</a></p>
-			{/if}
+			<div class="flex flex-row items-baseline justify-between mt-2">
+				{#if authorKnown}
+					<p class="text-sm">By <a href={`/profiles/${authorSlug}`}>{authorName}</a></p>
+				{/if}
+				{#if getSessionState().isCurrentUser(data.props.blog.userId)}
+					<form method="POST" action="?/delete">
+						<Button role="tertiary" behavior="negative"
+							><span class="text-sm">Delete blog</span></Button
+						>
+					</form>
+				{/if}
+			</div>
 		</section>
 		<Column>
 			{#each data.props.entries as { title, blogSlug, postSlug, createdAt, authorName, authorSlug }}

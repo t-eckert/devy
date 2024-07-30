@@ -1,11 +1,13 @@
 use crate::entities::{Profile, User};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Session {
-    username: String,
+    pub user_id: Uuid,
+    pub username: String,
     role: String,
     status: String,
 
@@ -15,6 +17,7 @@ pub struct Session {
 
 impl Session {
     pub fn new(
+        user_id: Uuid,
         username: String,
         role: String,
         status: String,
@@ -22,6 +25,7 @@ impl Session {
         avatar_url: Option<String>,
     ) -> Self {
         Self {
+            user_id,
             username,
             role,
             status,
@@ -34,6 +38,7 @@ impl Session {
 impl From<Value> for Session {
     fn from(value: Value) -> Self {
         Self {
+            user_id: Uuid::parse_str(value["user_id"].as_str().unwrap()).unwrap(),
             username: value["username"].as_str().unwrap().to_string(),
             role: value["role"].as_str().unwrap().to_string(),
             status: value["status"].as_str().unwrap().to_string(),

@@ -1,6 +1,6 @@
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
-use std::fmt::Debug;
+use std::{convert::Infallible, fmt::Debug};
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -53,6 +53,12 @@ impl From<sqlx::Error> for Error {
             sqlx::Error::RowNotFound => Self::EntityNotFound,
             _ => Self::Sqlx(val),
         }
+    }
+}
+
+impl From<Infallible> for Error {
+    fn from(_: Infallible) -> Self {
+        Self::EntityNotFound
     }
 }
 

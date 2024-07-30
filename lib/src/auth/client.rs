@@ -99,6 +99,7 @@ impl Client {
         .await?;
 
         let session = Session::new(
+            user.id,
             user.username,
             user.role,
             user.status,

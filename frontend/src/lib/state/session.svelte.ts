@@ -24,6 +24,10 @@ class SessionState {
 		this.session = null
 		this.signedIn = false
 	}
+
+	isCurrentUser(userId: string): boolean {
+		return this.signedIn && this.session?.userId === userId
+	}
 }
 
 const SESSION_KEY = Symbol("session")

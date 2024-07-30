@@ -5,8 +5,8 @@
 	interface Props {
 		role: Role
 		behavior: Behavior
-		onclick: () => void
-		disabled: boolean
+		onclick?: () => void
+		disabled?: boolean
 	}
 
 	const {

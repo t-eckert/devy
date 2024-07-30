@@ -6,6 +6,7 @@ use uuid::Uuid;
 pub struct Blog {
     pub id: Uuid,
     pub profile_id: Uuid,
+    pub user_id: Uuid,
 
     pub name: String,
     pub slug: String,

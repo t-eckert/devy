@@ -1,2 +1,2 @@
 DELETE FROM "blog"
-WHERE "slug" = $1
+WHERE "slug" = $1;
