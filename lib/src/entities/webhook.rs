@@ -14,7 +14,7 @@ pub struct Webhook {
     pub received_at: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub enum WebhookType {
     GitHubPushEvent,
     Uncategorized,

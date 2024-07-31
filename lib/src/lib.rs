@@ -6,4 +6,5 @@ pub mod github;
 pub mod monitoring;
 pub mod store;
 pub mod token;
+pub mod webhooks;
 pub mod uploader;

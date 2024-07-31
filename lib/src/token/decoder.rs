@@ -37,11 +37,12 @@ mod tests {
         let decoder = Decoder::new(public_pem).unwrap();
 
         let session = Session::new(
+            uuid::Uuid::new_v4(),
             "username".to_string(),
             "role".to_string(),
-            "active".to_string(),
-            Some("Display Name".to_string()),
-            Some("https://images.unsplash.com/photo-1619895862022-09114b41f16f?q=80&w=5370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D".to_string()),
+            "status".to_string(),
+            Some("display_name".to_string()),
+            Some("avatar_url".to_string()),
         );
 
         let token = encoder.encode(session.clone()).unwrap();

@@ -7,6 +7,7 @@ use lib::store::Store;
 use lib::{
     db::{upload, webhook},
     entities::WebhookType,
+    webhooks,
 };
 use serde_json::Value;
 
@@ -24,17 +25,8 @@ async fn receive(
     dbg!(&headers);
     dbg!(&payload);
 
-    // This will only vibe with GitHub headers for now, but that's future problem.
-    let event = format!(
-        "webhook.github.{}",
-        headers
-            .get("x-github-event")
-            .map(|header_value| header_value.to_str().unwrap_or_default())
-            .unwrap_or_default()
-    );
-    dbg!(&event);
-
-    let webhook = match webhook::insert(&store.db, &event, payload).await {
+    let webhook_type = webhooks::determine_type(headers, &payload);
+    let webhook = match webhook::insert(&store.db, webhook_type, payload).await {
         Ok(webhook) => webhook,
         Err(e) => return Err(e.into()),
     };
@@ -45,13 +37,13 @@ async fn receive(
                 .as_str()
                 .unwrap_or_default()
                 .to_string();
-            store
+            let _ = store
                 .uploader
                 .upload(&store.db, upload::insert(&store.db, None, repo).await?)
-                .await?;
+                .await;
         }
         WebhookType::Uncategorized => {}
     }
 
-    Ok(StatusCode::OK)
+    Ok(StatusCode::ACCEPTED)
 }

@@ -46,7 +46,14 @@ mod tests {
 
         let encoder = Encoder::new(public_pem, private_pem).unwrap();
 
-        let session = Session::new();
+        let session = Session::new(
+            uuid::Uuid::new_v4(),
+            "username".to_string(),
+            "role".to_string(),
+            "status".to_string(),
+            Some("display_name".to_string()),
+            Some("avatar_url".to_string()),
+        );
 
         let token = encoder.encode(session.clone()).unwrap();
         let decoded_session = encoder.decode(&token).unwrap();
