@@ -1,6 +1,6 @@
 import { setContext, getContext } from "svelte"
-import type { Session, TokenPayload } from "$lib/types"
-import { jwtDecode } from "jwt-decode"
+import type { Session } from "$lib/types"
+import { parseSessionToken } from "$lib/auth"
 
 class SessionState {
 	signedIn = $state(false)
@@ -11,7 +11,7 @@ class SessionState {
 	loadToken(token: string) {
 		let session
 		try {
-			session = jwtDecode<TokenPayload<Session>>(token).body
+			session = parseSessionToken(token).body
 			this.session = session
 			this.signedIn = true
 		} catch (e) {

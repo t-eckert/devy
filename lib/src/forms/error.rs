@@ -12,6 +12,9 @@ pub enum Error {
 
     /// A request the form submission depends on failed.
     RequestFailed { message: String },
+
+    /// There was a conflict with the current state of the system.
+    Conflict { message: String },
 }
 
 impl From<crate::db::Error> for Error {

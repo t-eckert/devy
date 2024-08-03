@@ -31,7 +31,7 @@ pub async fn get_by_id(db: &Database, id: Uuid) -> Result<Blog> {
     )
 }
 
-pub async fn get_by_slug(db: &Database, slug: String) -> Result<Blog> {
+pub async fn get_by_slug(db: &Database, slug: &String) -> Result<Blog> {
     Ok(
         sqlx::query_file_as!(Blog, "src/db/blog/queries/get_by_slug.sql", slug)
             .fetch_one(db)

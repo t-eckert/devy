@@ -61,7 +61,8 @@ impl From<forms::Error> for Error {
             forms::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
             forms::Error::RequestFailed { .. } => {
                 Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
-            }
+            },
+            forms::Error::Conflict { .. } => Self::StatusCode(StatusCode::BAD_REQUEST)
         }
     }
 }

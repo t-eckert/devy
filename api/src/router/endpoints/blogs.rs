@@ -40,7 +40,7 @@ async fn get_blog_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Blog>> {
-    Ok(Json(blog::get_by_slug(&store.db, blog_slug).await?))
+    Ok(Json(blog::get_by_slug(&store.db, &blog_slug).await?))
 }
 
 // GET /blogs/:blog_slug/posts
@@ -85,8 +85,8 @@ async fn delete_blog_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<StatusCode> {
-    if session.user_id != blog::get_by_slug(&store.db, blog_slug.clone()).await?.user_id {
-        return Ok(StatusCode::FORBIDDEN);
+    if session.user_id != blog::get_by_slug(&store.db, &blog_slug.clone()).await?.user_id {
+        return Err(StatusCode::FORBIDDEN.into());
     }
 
     blog::delete_by_slug(&store.db, blog_slug).await?;

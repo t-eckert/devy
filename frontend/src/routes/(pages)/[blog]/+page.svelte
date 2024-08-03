@@ -8,14 +8,6 @@
 	import { getSessionState } from "$lib/state/session.svelte"
 
 	export let data: PageData
-
-	// TODO Add author information to a blog so that I don't have to grab it from the first entry
-	let authorKnown = false
-	const firstEntry = data.props.entries[0]
-	if (firstEntry) {
-		authorKnown = true
-	}
-	const { authorName, authorSlug } = firstEntry
 </script>
 
 <svelte:head>
@@ -27,9 +19,6 @@
 		<section class="mt-8 mb-4 flex flex-col gap-2">
 			<H1>{data.props.blog.name}</H1>
 			<div class="flex flex-row items-baseline justify-between mt-2">
-				{#if authorKnown}
-					<p class="text-sm">By <a href={`/profiles/${authorSlug}`}>{authorName}</a></p>
-				{/if}
 				{#if getSessionState().isCurrentUser(data.props.blog.userId)}
 					<form method="POST" action="?/delete">
 						<Button role="tertiary" behavior="negative"
