@@ -56,16 +56,29 @@
 						</fieldset>
 					</div>
 
-					<div class="w-1/2">
+					<div class="w-1/2 flex flex-col justify-between">
 						<div>
-							<h2 class="text-lg font-semibold text-stone-950">Name</h2>
-							<p class="mb-3 text-sm text-stone-600">
-								Choose a name for your blog and a slug to access it.
-							</p>
+							<div>
+								<h2 class="text-lg font-semibold text-stone-950">Name</h2>
+								<p class="mb-3 text-sm text-stone-600">
+									Choose a name for your blog and a slug to access it.
+								</p>
+							</div>
+							<div class="flex flex-col gap-6">
+								<Input name="Name" placeholder="Numerous Thoughts" />
+								<Input name="Slug" placeholder="numerous-thoughts" prefix="https://devy.page/" />
+							</div>
 						</div>
-						<div class="flex flex-col gap-6">
-							<Input name="Name" placeholder="Numerous Thoughts" />
-							<Input name="Slug" placeholder="numerous-thoughts" prefix="https://devy.page/" />
+
+						<div class="p-3 bg-amber-100 rounded">
+							<h2 class="font-medium text-amber-950 mb-1">Head's up!</h2>
+							<p>
+								For Devy to receive webhooks to update your blog, you'll need to <a
+									href="https://github.com/apps/devy-github"
+									class="underline text-amber-900 hover:text-amber-800"
+									>install the app and give it access to your GitHub repositories</a
+								>.
+							</p>
 						</div>
 					</div>
 				</div>
