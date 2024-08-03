@@ -11,7 +11,7 @@
 <footer class="h-96 bg-stone-100 mt-12">
 	<Main>
 		<div class="h-full pt-12 pb-3 gap-3 flex flex-col items-center">
-			<div class="flex-1 grid grid-cols-3 w-full">
+			<div class="flex-1 grid sm:grid-cols-3 w-full">
 				<div>
 					<div class="mb-3">
 						<Home />
