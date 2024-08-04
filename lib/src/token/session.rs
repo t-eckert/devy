@@ -7,6 +7,7 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 pub struct Session {
     pub user_id: Uuid,
+    pub profile_id: Uuid,
     pub username: String,
     role: String,
     status: String,
@@ -18,6 +19,7 @@ pub struct Session {
 impl Session {
     pub fn new(
         user_id: Uuid,
+        profile_id: Uuid,
         username: String,
         role: String,
         status: String,
@@ -26,6 +28,7 @@ impl Session {
     ) -> Self {
         Self {
             user_id,
+            profile_id,
             username,
             role,
             status,
@@ -39,6 +42,7 @@ impl From<Value> for Session {
     fn from(value: Value) -> Self {
         Self {
             user_id: Uuid::parse_str(value["user_id"].as_str().unwrap()).unwrap(),
+            profile_id: Uuid::parse_str(value["profile_id"].as_str().unwrap()).unwrap(),
             username: value["username"].as_str().unwrap().to_string(),
             role: value["role"].as_str().unwrap().to_string(),
             status: value["status"].as_str().unwrap().to_string(),

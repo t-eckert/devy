@@ -100,6 +100,7 @@ impl Client {
 
         let session = Session::new(
             user.id,
+            profile.id,
             user.username,
             user.role,
             user.status,
