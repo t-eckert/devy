@@ -37,7 +37,12 @@ impl Router {
             .merge(endpoints::webhooks::router(store.clone()))
             // Global middleware
             .layer(TraceLayer::new_for_http())
-            .layer(CorsLayer::new().allow_origin(Any))
+            .layer(
+                CorsLayer::new()
+                    .allow_origin(Any)
+                    .allow_headers(vec![http::header::AUTHORIZATION, http::header::CONTENT_TYPE])
+                    .allow_methods(vec![http::Method::GET, http::Method::POST, http::Method::PUT, http::Method::OPTIONS, http::Method::DELETE])
+            )
             // State
             .with_state(store);
 
