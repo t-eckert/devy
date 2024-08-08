@@ -9,33 +9,33 @@ api-prepare-queries:
 	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
 
 api-package:
-	@docker build . -f ./api/Dockerfile -t devy-api
+	@podman build . -f ./api/Dockerfile -t devy-api
 
 
 # Changelog
 changelog-build:
-	@docker build . -f ./changelog/Dockerfile -t devy-changelog
+	@podman build . -f ./changelog/Dockerfile -t devy-changelog
 
 changelog-serve: changelog-build
-	@docker run --rm \
+	@podman run --rm \
 	   --name devy-changelog -p 9000:5000 devy-changelog:latest
 
 
 # DB
 db-build:
-	@docker build . -f ./database/Dockerfile -t devy-test-db
+	@podman build . -f ./database/Dockerfile -t devy-test-db
 
 db-serve: db-build
-	@docker run --rm\
+	@podman run --rm\
 		--name devy-test-db \
 		-e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
 		-p 5432:5432 -d devy-test-db:latest
 
 db-stop:
-	@docker stop devy-test-db
+	@podman stop devy-test-db
 
 db-access:
-	@docker exec -it devy-test-db psql -U postgres
+	@podman exec -it devy-test-db psql -U postgres
 
 db-prepare:
 	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
@@ -54,7 +54,7 @@ frontend-serve:
 	@cd frontend && npm run dev
 
 frontend-package:
-	@docker frontend . -f frontend/Dockerfile -t devy-frontend
+	@podman frontend . -f frontend/Dockerfile -t devy-frontend
 
 
 # Tools
@@ -76,4 +76,3 @@ req:
 
 test-integration: venv
 	@python3 ./tools/test_integration.py
-
