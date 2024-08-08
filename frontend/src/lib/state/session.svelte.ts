@@ -6,9 +6,7 @@ class SessionState {
 	signedIn = $state(false)
 	session = $state<Session | null>(null)
 
-	constructor() {}
-
-	loadToken(token: string) {
+	setToken(token: string) {
 		let session
 		try {
 			session = parseSessionToken(token).body
@@ -27,6 +25,14 @@ class SessionState {
 
 	isCurrentUser(userId: string): boolean {
 		return this.signedIn && this.session?.userId === userId
+	}
+
+	// Returns the state of the current session.
+	__debug() {
+		return {
+			signedIn: this.signedIn,
+			session: this.session
+		}
 	}
 }
 

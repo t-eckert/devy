@@ -1,7 +1,11 @@
 <script lang="ts">
-	export let title: string
-	export let blogSlug: string
-	export let postSlug: string
+	interface Props {
+		title: string
+		blogSlug: string
+		postSlug: string
+	}
+
+	const { title, blogSlug, postSlug }: Props = $props()
 </script>
 
 <a
