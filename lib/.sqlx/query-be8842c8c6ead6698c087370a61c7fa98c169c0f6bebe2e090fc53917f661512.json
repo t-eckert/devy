@@ -1,0 +1,67 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- $1: profile_id\n-- $2: name\n-- $3: slug\n-- $4: description\n\nWITH inserted_blog AS (\n    INSERT INTO \"blog\" (profile_id, name, slug, description)\n    VALUES (\n        $1, $2, $3, $4\n    )\n    ON CONFLICT (slug) DO UPDATE SET\n        profile_id = $1,\n        name = $2,\n        description = $4,\n        updated_at = NOW()\n    RETURNING\n        id,\n        profile_id,\n        name,\n        slug,\n        description,\n        created_at,\n        updated_at\n)\nSELECT\n    ib.id,\n    ib.profile_id,\n    p.user_id,\n    ib.name,\n    ib.slug,\n    ib.description,\n    to_char(ib.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n    to_char(ib.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at\nFROM\n    inserted_blog ib\n    LEFT JOIN \"profile\" p ON ib.profile_id = p.id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "created_at",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "updated_at",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      null,
+      null
+    ]
+  },
+  "hash": "be8842c8c6ead6698c087370a61c7fa98c169c0f6bebe2e090fc53917f661512"
+}

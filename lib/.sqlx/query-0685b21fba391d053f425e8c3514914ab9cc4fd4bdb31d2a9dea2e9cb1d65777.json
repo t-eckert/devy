@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "DELETE FROM \"blog\"\nWHERE \"slug\" = $1\n",
+  "query": "DELETE FROM \"blog\"\nWHERE \"slug\" = $1;\n",
   "describe": {
     "columns": [],
     "parameters": {
@@ -10,5 +10,5 @@
     },
     "nullable": []
   },
-  "hash": "2937e080f73edac10e72e0a9dbd19aa8ba323e0e45ed88a103f082e98ed91728"
+  "hash": "0685b21fba391d053f425e8c3514914ab9cc4fd4bdb31d2a9dea2e9cb1d65777"
 }
