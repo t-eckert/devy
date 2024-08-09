@@ -1,8 +1,8 @@
 import type { RequestHandler } from "./$types"
-import { env } from "$env/dynamic/private"
+import { CHANGELOG } from "$env/static/private"
 
-export const GET: RequestHandler = async ({ url, request }) => {
+export const GET: RequestHandler = async ({ url, fetch }) => {
 	const version = url.pathname.replace("/changelog/", "")
 
-	return await fetch(`${env.CHANGELOG}/${version}`)
+	return await fetch(`${CHANGELOG}/${version}`)
 }
