@@ -8,14 +8,14 @@
 	let { displayName, avatarUrl, bio } = profile
 </script>
 
-<div class="rounded-2xl w-56 h-64 flex flex-col shadow select-none">
-	<div class="w-56 h-64 rounded-2xl">
+<div class="w-full max-w-56 rounded-xl aspect-square flex flex-col shadow select-none relative">
+	<div class="aspect-square rounded-xl">
 		<Avatar src={avatarUrl} {displayName} />
 	</div>
 
-	<div class="z-10 absolute h-64 w-56 flex flex-col justify-end rounded-2xl">
+	<div class="z-10 absolute bottom-0 w-full aspect-square flex flex-col justify-end rounded-xl">
 		<div
-			class="backdrop-blur-sm bg-gradient-to-t from-stone-900/80 to-transparent flex flex-col items-start rounded-b-2xl p-2"
+			class="backdrop-blur-lg bg-gradient-to-t from-stone-900/80 to-transparent flex flex-col items-start rounded-b-xl px-2 pb-2 pt-0.5"
 		>
 			<div class="text-stone-100 font-medium">
 				{displayName || user.username}

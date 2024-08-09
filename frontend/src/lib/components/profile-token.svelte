@@ -17,7 +17,7 @@
 	<div class="h-5 w-5 rounded-full">
 		<Avatar src={avatarUrl} displayName={displayName || username} rounded={true} />
 	</div>
-	<div class="text-sm font-medium text-stone-600 hover:text-stone-950">
+	<div class="text-sm font-medium text-stone-600 hover:text-stone-950 sr-only sm:not-sr-only">
 		{displayName || "ahahaha"}
 	</div>
 </a>
