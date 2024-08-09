@@ -1,8 +1,9 @@
 <script lang="ts">
-	import Header from "./header.svelte"
-	import Footer from "./footer.svelte"
 	import Analytics from "$lib/utils/analytics.svelte"
 	import Main from "$lib/layouts/main.svelte"
+
+	import Header from "./header.svelte"
+	import Footer from "./footer.svelte"
 </script>
 
 <Analytics />

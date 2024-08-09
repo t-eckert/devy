@@ -4,11 +4,6 @@ primary_region = 'iad'
 [build]
 dockerfile = './frontend/Dockerfile'
 
-[env]
-API = 'devy-api.internal'
-PUBLIC_API = "https://api.devy.page"
-CHANGELOG = "https://raw.githubusercontent.com/t-eckert/devy/main/changelog"
-
 [http_service]
 internal_port = 3000
 force_https = true
