@@ -27,6 +27,9 @@
 			<Menu.Link href="/feedback">Feedback</Menu.Link>
 			<Menu.Link href="/changelog">Changelog</Menu.Link>
 			<Menu.Link href="/about">About</Menu.Link>
+			{#if sessionState.isAdmin()}
+				<Menu.Link href="/admin">Admin</Menu.Link>
+			{/if}
 
 			{#if sessionState.session}
 				<Menu.Sep />
