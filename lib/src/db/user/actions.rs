@@ -6,7 +6,6 @@ pub async fn upsert(
     username: String,
     email: Option<String>,
     github_username: Option<String>,
-    role: Option<String>,
     status: Option<String>,
 ) -> Result<User> {
     Ok(sqlx::query_file_as!(
@@ -15,11 +14,17 @@ pub async fn upsert(
         username,
         email,
         github_username,
-        role,
         status
     )
     .fetch_one(pool)
     .await?)
+}
+
+pub async fn set_role_by_username(pool: &Database, username: &str, role: &str) -> Result<()> {
+    sqlx::query_file_as!(User, "src/db/user/queries/set_role_by_username.sql", username, role)
+        .fetch_one(pool)
+        .await?;
+    Ok(())
 }
 
 pub async fn count(db: &Database) -> Result<i64> {

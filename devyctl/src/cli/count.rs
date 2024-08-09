@@ -1,4 +1,4 @@
-use clap::{Args, Parser, Subcommand};
+use clap::{Args,  Subcommand};
 use lib::db::Database;
 
 #[derive(Args)]

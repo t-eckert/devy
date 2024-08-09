@@ -1,13 +1,12 @@
-INSERT INTO "user" (username, email, github_username, role, status) 
-VALUES ($1, $2, $3, COALESCE($4, 'user'), COALESCE($5, 'active'))
+INSERT INTO "user" (username, email, github_username, status)
+VALUES ($1, $2, $3, COALESCE($4, 'active'))
 ON CONFLICT (username) DO UPDATE SET
 	email = $2,
 	github_username = $3,
-	role = COALESCE($4, 'user'),
-	status = COALESCE($5, 'active'),
+	status = COALESCE($4, 'active'),
 	updated_at = NOW()
-RETURNING 
-	id, 
+RETURNING
+	id,
 	username,
 	email,
 	github_username,
