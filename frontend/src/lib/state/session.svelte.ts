@@ -27,6 +27,10 @@ class SessionState {
 		return this.signedIn && this.session?.userId === userId
 	}
 
+	isAdmin(): boolean {
+		return this.signedIn && this.session?.role === "admin"
+	}
+
 	// Returns the state of the current session.
 	__debug() {
 		return {
