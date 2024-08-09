@@ -85,7 +85,6 @@ impl Client {
             github_user.login.clone().unwrap_or(random_username()),
             github_user.email.clone(),
             github_user.login.clone(),
-            Some("user".to_string()),
             Some("active".to_string()),
         )
         .await?;
