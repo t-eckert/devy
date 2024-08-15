@@ -1,0 +1,37 @@
+<script lang="ts">
+	import GithubLogo from "$lib/icons/github-logo.svelte"
+	import ProfileToken from "$lib/components/profile-token.svelte"
+	import Menu from "$lib/components/menu"
+	import { getSessionState } from "$lib/state/session.svelte"
+
+	const sessionState = getSessionState()
+</script>
+
+<nav class="flex flex-row items-center gap-1">
+	{#if sessionState.session}
+		<ProfileToken
+			username={sessionState.session.username}
+			displayName={sessionState.session.displayName}
+			avatarUrl={sessionState.session.avatarUrl}
+		/>
+	{:else}
+		<a
+			data-sveltekit-preload-data="off"
+			href="/auth/sign-in"
+			class="px-2 py-0.5 flex flex-row items-center gap-2 text-sm font-medium text-stone-600 hover:text-stone-950 hover:bg-stone-100 rounded-full transition"
+		>
+			<span><GithubLogo /></span>
+			<span> Sign in </span>
+		</a>
+	{/if}
+
+	<Menu>
+		<Menu.Link href="/dashboard">Dashboard</Menu.Link>
+		<Menu.Link href="/notifications">Notifications</Menu.Link>
+
+		{#if sessionState.session}
+			<Menu.Sep />
+			<Menu.FormButton action="/auth/sign-out" name="sign-out">Sign out</Menu.FormButton>
+		{/if}
+	</Menu>
+</nav>
