@@ -1,1 +1,0 @@
-<div>Entry Token</div>
