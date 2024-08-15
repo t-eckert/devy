@@ -1,3 +1,7 @@
-<div class="w-full h-96 flex items-center justify-center">
-	<h1 class="text-6xl font-semibold">Dashboard</h1>
+<script lang="ts">
+	import Placeholder from "$lib/components/placeholder.svelte"
+</script>
+
+<div class="w-full h-[60vh] flex items-center justify-center">
+	<Placeholder>Dashboard</Placeholder>
 </div>
