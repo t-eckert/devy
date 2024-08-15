@@ -1,0 +1,11 @@
+<script lang="ts">
+	import Placeholder from "$lib/components/placeholder.svelte"
+</script>
+
+<svelte:head>
+	<title>Devy: Bookmarked</title>
+</svelte:head>
+
+<div class="w-full h-40 flex items-center justify-center">
+	<Placeholder>Bookmarked</Placeholder>
+</div>

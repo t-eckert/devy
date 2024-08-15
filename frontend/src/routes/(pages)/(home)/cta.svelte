@@ -4,13 +4,13 @@
 
 <section>
 	<h1 class="font-semibold mb-1">Welcome to Devy!</h1>
+	<p class="mb-1 text-sm">Devy is a blogging platform based on Markdown and Git.</p>
 	<p class="mb-2 text-sm">
-		Devy is a blogging platform based on Markdown and Git. Connect a GitHub repository and every <code
-			>push</code
+		Connect a GitHub repository, add Markdown files, and every <code class="bg-stone-200">push</code
 		> updates your blog.
 	</p>
 	<a href="/new/blog" class="flex flex-row gap-1 items-center group">
-		<span class="font-medium text-sm">Create your blog</span>
+		<span class="font-medium text-sm">Deploy your blog</span>
 		<div class="group-hover:translate-x-1 transition-all">
 			<ArrowRight />
 		</div>
