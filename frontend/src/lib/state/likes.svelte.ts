@@ -1,7 +1,7 @@
 import type { Session } from "$lib/types"
 import { setContext, getContext } from "svelte"
 import { parseSessionToken } from "$lib/auth"
-import { env } from "$env/dynamic/public"
+import { PUBLIC_API } from "$env/static/public"
 
 // This contains the set of all likes by the current user.
 // It exposes methods to add and remove likes that optimistically update the state
@@ -31,7 +31,7 @@ class LikesState {
 			return Promise.resolve()
 		}
 
-		const response = await fetch(`${env.PUBLIC_API}/likes/${this.session?.username}`, {
+		const response = await fetch(`${PUBLIC_API}/likes/${this.session?.username}`, {
 			headers: {
 				Authorization: `Bearer ${this.token}`,
 				"Content-Type": "application/json"
@@ -69,7 +69,7 @@ class LikesState {
 			return like
 		})
 
-		const response = await fetch(`${env.PUBLIC_API}/likes`, {
+		const response = await fetch(`${PUBLIC_API}/likes`, {
 			headers: {
 				Authorization: `Bearer ${this.token}`,
 				"Content-Type": "application/json"
@@ -99,7 +99,7 @@ class LikesState {
 			return like
 		})
 
-		const response = await fetch(`${env.PUBLIC_API}/likes/${this.session?.profileId}/${postId}`, {
+		const response = await fetch(`${PUBLIC_API}/likes/${this.session?.profileId}/${postId}`, {
 			headers: {
 				Authorization: `Bearer ${this.token}`,
 				"Content-Type": "application/json"
