@@ -3,8 +3,8 @@
 	type Behavior = "neutral" | "positive" | "negative"
 
 	interface Props {
-		role: Role
-		behavior: Behavior
+		role?: Role
+		behavior?: Behavior
 		onclick?: () => void
 		disabled?: boolean
 	}
