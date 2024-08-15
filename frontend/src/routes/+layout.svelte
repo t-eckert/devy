@@ -29,7 +29,9 @@
 <div class={theme}>
 	<!-- t-eckert: I don't know how to render the children for a layout -->
 	<!-- svelte-ignore slot_element_deprecated -->
-	<div class="bg-stone-50 text-stone-950 dark:text-white dark:bg-stone-900 min-h-screen">
+	<div
+		class="bg-stone-50 text-stone-950 dark:text-white dark:bg-stone-900 min-h-screen scroll-smooth"
+	>
 		{#if dev}
 			<Debug />
 		{/if}
