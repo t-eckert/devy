@@ -8,8 +8,8 @@
 
 <Analytics />
 <div class="min-h-screen">
+	<Header />
 	<Main>
-		<Header />
 		<slot />
 	</Main>
 </div>
