@@ -24,9 +24,11 @@
 
 	<div>
 		<Menu>
-			<Menu.Link href="/feedback">Feedback</Menu.Link>
-			<Menu.Link href="/changelog">Changelog</Menu.Link>
-			<Menu.Link href="/about">About</Menu.Link>
+			<Menu.Link href="/dashboard">Dashboard</Menu.Link>
+			<Menu.Link href="/notifications">Notifications</Menu.Link>
+
+			<Menu.Sep />
+
 			{#if sessionState.isAdmin()}
 				<Menu.Link href="/admin">Admin</Menu.Link>
 			{/if}
