@@ -25,7 +25,7 @@
 		</div>
 	{:else}
 		<div
-			class="w-4 aspect-square text-stone-500 group-hover:-translate-y-1 transition-all group-hover:rotate-12 group-hover:scale-110"
+			class="w-4 aspect-square text-stone-500 group-hover:-translate-y-1.5 transition-all group-hover:text-red-500 group-hover:rotate-12 group-hover:scale-110"
 		>
 			<Heart />
 		</div>
