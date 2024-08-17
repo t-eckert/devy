@@ -78,7 +78,6 @@
 						<div class="text-xs text-stone-800 dark:text-stone-300">
 							<RelativeDate date={createdAt} />
 						</div>
-						<Bookmark />
 					</div>
 				</div>
 			</div>
