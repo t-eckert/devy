@@ -11,8 +11,6 @@
 	}
 
 	const { blog, isUserFollowing }: Props = $props()
-
-	const allowBlogDeletion = false
 </script>
 
 <section class="my-3 flex flex-col gap-2">
@@ -33,7 +31,7 @@
 				</Button>
 			{/if}
 		</form>
-		{#if allowBlogDeletion}
+		{#if getSessionState().session?.profileId === blog.profileId}
 			<form method="POST" action="?/delete">
 				<Button role="tertiary" behavior="negative" name="action" value="unfollow">
 					<span class="text-sm font-medium">Delete blog</span>
