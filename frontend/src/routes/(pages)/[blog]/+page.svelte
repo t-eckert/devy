@@ -13,5 +13,7 @@
 
 <div class="mx-auto max-w-2xl">
 	<Header {blog} {isUserFollowing} />
-	<Entries {entries} />
+	<div class="flex flex-col items-center">
+		<Entries {entries} />
+	</div>
 </div>
