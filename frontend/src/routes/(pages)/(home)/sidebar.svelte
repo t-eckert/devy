@@ -4,6 +4,7 @@
 	import Person from "$lib/icons/person.svelte"
 	import Bookmark from "$lib/icons/bookmark.svelte"
 	import Heart from "$lib/icons/heart.svelte"
+	import { getSessionState } from "$lib/state/session.svelte"
 
 	import { page } from "$app/stores"
 
@@ -17,6 +18,8 @@
 				? "text-stone-950 border-stone-200 bg-white shadow"
 				: "text-stone-600 border-transparent hover:text-stone-950"
 		].join(" ")
+
+	let signedIn = $derived(getSessionState().signedIn)
 </script>
 
 <div
@@ -32,12 +35,14 @@
 				>
 				<span>Popular</span>
 			</a>
-			<a href="/feeds/following" class={style("following")}>
-				<span class="group-hover:rotate-12 group-hover:text-yellow-600 transition-all"
-					><Person /></span
-				>
-				<span>Following</span>
-			</a>
+			{#if signedIn}
+				<a href="/feeds/following" class={style("following")}>
+					<span class="group-hover:rotate-12 group-hover:text-yellow-600 transition-all"
+						><Person /></span
+					>
+					<span>Following</span>
+				</a>
+			{/if}
 			<a href="/feeds/recent" class={style("recent")}>
 				<span class="group-hover:rotate-12 group-hover:text-green-600 transition-all"
 					><Clock /></span
@@ -47,20 +52,24 @@
 		</div>
 	</div>
 
-	<div class="flex flex-col gap-1">
-		<h1 class="font-semibold text-stone-700 text-sm sr-only sm:not-sr-only">Collections</h1>
+	{#if signedIn}
+		<div class="flex flex-col gap-1">
+			<h1 class="font-semibold text-stone-700 text-sm sr-only sm:not-sr-only">Collections</h1>
 
-		<div class="flex flex-row sm:flex-col gap-1">
-			<a href="/collections/bookmarked" class={style("bookmarked")}>
-				<span class="group-hover:rotate-12 group-hover:text-purple-600 transition-all"
-					><Bookmark /></span
-				>
-				<span>Bookmarked</span>
-			</a>
-			<a href="/collections/liked" class={style("liked")}>
-				<span class="group-hover:rotate-12 group-hover:text-red-600 transition-all"><Heart /></span>
-				<span>Liked</span>
-			</a>
+			<div class="flex flex-row sm:flex-col gap-1">
+				<a href="/collections/bookmarked" class={style("bookmarked")}>
+					<span class="group-hover:rotate-12 group-hover:text-purple-600 transition-all"
+						><Bookmark /></span
+					>
+					<span>Bookmarked</span>
+				</a>
+				<a href="/collections/liked" class={style("liked")}>
+					<span class="group-hover:rotate-12 group-hover:text-red-600 transition-all"
+						><Heart /></span
+					>
+					<span>Liked</span>
+				</a>
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
