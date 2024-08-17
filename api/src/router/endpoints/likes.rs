@@ -9,10 +9,9 @@ use axum::{
 use lib::{db::like, entities::Like, store::Store, token::Session};
 use uuid::Uuid;
 
-/// Create a new router for the likes endpoints.
+/// /likes Endpoints
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
-        .layer(middleware::from_fn_with_state(store.clone(), auth))
         .route("/likes/:username", get(get_by_username))
         .with_state(store.clone());
 
@@ -25,7 +24,8 @@ pub fn router(store: Store) -> Router<Store> {
     Router::new().merge(open).merge(protected)
 }
 
-/// `GET /likes/:username`
+/// GET /likes/:username
+// TODO in the next version of the API, have this query by profile_id. It'll be faster.
 async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
@@ -33,7 +33,7 @@ async fn get_by_username(
     Ok(Json(like::get_by_username(&store.db, username).await?))
 }
 
-/// `POST /likes`
+/// POST /likes
 async fn post_like(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
@@ -48,7 +48,7 @@ async fn post_like(
     ))
 }
 
-/// `DELETE /likes/:profile_id/:post_id`
+/// DELETE /likes/:profile_id/:post_id
 async fn delete_like(
     Extension(session): Extension<Session>,
     State(store): State<Store>,

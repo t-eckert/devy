@@ -7,13 +7,17 @@
 		behavior?: Behavior
 		onclick?: () => void
 		disabled?: boolean
+		name?: string
+		value?: string | number | string[] | null | undefined
 	}
 
 	const {
 		role = "primary",
 		behavior = "neutral",
 		onclick = () => {},
-		disabled = false
+		disabled = false,
+		name,
+		value
 	}: Props = $props()
 
 	let style = {
@@ -40,6 +44,8 @@
 	class={`${style} select-none group flex flex-row rounded-md gap-1 items-center px-2 py-1 transition-all disabled:cursor-not-allowed`}
 	{onclick}
 	{disabled}
+	{name}
+	{value}
 >
 	<slot />
 </button>

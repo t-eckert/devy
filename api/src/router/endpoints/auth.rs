@@ -1,6 +1,5 @@
 use axum::{
     extract::{Query, State},
-    http::header::{HeaderMap, LOCATION, SET_COOKIE},
     http::StatusCode,
     response::{IntoResponse, Redirect},
     routing::get,

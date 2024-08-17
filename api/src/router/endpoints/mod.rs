@@ -1,6 +1,7 @@
 pub mod auth;
 pub mod blogs;
 pub mod feeds;
+pub mod follows;
 pub mod forms;
 pub mod likes;
 pub mod profiles;

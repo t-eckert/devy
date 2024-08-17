@@ -11,12 +11,13 @@ use lib::{
     store::Store,
 };
 
-/// `/profiles`
+/// `/profiles` endpoints
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
         .route("/profiles/:username", get(get_profile_by_username))
         .route("/profiles/:username/blogs", get(get_blogs_by_username))
         .route("/profiles/:username/entries", get(get_entries_by_username))
+        .route("/profiles/:username/following", get(get_following_by_username))
         .with_state(store.clone());
 
     let protected = Router::new()
@@ -54,4 +55,12 @@ async fn get_entries_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Entry>>> {
     Ok(Json(entry::get_by_username(&store.db, &username).await?))
+}
+
+// GET /profiles/:username/following
+async fn get_following_by_username(
+    State(store): State<Store>,
+    Path(username): Path<String>,
+) -> Result<Json<Vec<Blog>>> {
+    Ok(Json(vec![]))
 }

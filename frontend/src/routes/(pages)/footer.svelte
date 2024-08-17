@@ -8,7 +8,7 @@
 	import P from "$lib/elements/p.svelte"
 </script>
 
-<footer class="bg-stone-100 mt-12">
+<footer class="bg-stone-100 dark:bg-stone-950 mt-12">
 	<Main>
 		<div class="pt-12 pb-3 max-w-sm">
 			<div class="mb-3">

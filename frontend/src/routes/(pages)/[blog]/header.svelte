@@ -6,19 +6,27 @@
 
 	interface Props {
 		blog: Blog
+		isUserFollowing: boolean
 	}
 
-	const { blog }: Props = $props()
+	const { blog, isUserFollowing }: Props = $props()
 </script>
 
 <section class="my-3 flex flex-col gap-2">
-	<h1 class="text-3xl sm:text-5xl font-bold break-normal text-zinc-900 sm:leading-tight">
+	<h1 class="text-3xl sm:text-5xl font-semibold break-normal text-zinc-900 sm:leading-tight">
 		{blog.name}
 	</h1>
-	<div class="flex flex-row items-baseline justify-between mt-1">
-		<Button role="secondary">
-			<span><Plus /></span>
-			<span class="text-sm font-medium">Follow</span>
-		</Button>
-	</div>
+	<form class="flex flex-row items-baseline justify-between mt-1" method="POST" action="?/follow">
+		<input name="blogId" value={blog.id} class="hidden" />
+		{#if isUserFollowing}
+			<Button role="tertiary" name="action" value="unfollow">
+				<span class="text-sm font-medium">Unfollow</span>
+			</Button>
+		{:else}
+			<Button role="secondary" name="action" value="follow">
+				<span><Plus /></span>
+				<span class="text-sm font-medium">Follow</span>
+			</Button>
+		{/if}
+	</form>
 </section>
