@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        DELETE FROM \"follow\"\n        WHERE profile_id = $1 AND blog_id = $2;\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "12495b91e4b32db657222aac6438b16239ccf463839bf17d9fe35b82f95bd31f"
+}
