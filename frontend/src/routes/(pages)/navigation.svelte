@@ -26,11 +26,7 @@
 	{/if}
 
 	<Menu>
-		<Menu.Link href="/dashboard">Dashboard</Menu.Link>
-		<Menu.Link href="/notifications">Notifications</Menu.Link>
-
 		{#if sessionState.session}
-			<Menu.Sep />
 			<Menu.FormButton action="/auth/sign-out" name="sign-out">Sign out</Menu.FormButton>
 		{/if}
 	</Menu>
