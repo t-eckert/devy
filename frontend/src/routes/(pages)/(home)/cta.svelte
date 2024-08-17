@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ArrowRight from "$lib/icons/arrow-right.svelte"
-	import Card from "$lib/components/card.svelte"
 </script>
 
 <div class="flex flex-col items-start gap-6">
