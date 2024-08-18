@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { dev } from "$app/environment"
 
-	let version = "v2024.07.16"
+	let version = "v2024.08.17"
 
 	import Home from "$lib/components/home.svelte"
 	import Main from "$lib/layouts/main.svelte"

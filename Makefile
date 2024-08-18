@@ -65,7 +65,7 @@ venv:
 	@cd tools && .venv/bin/activate
 
 .PHONY: version
-version: venv
+version:
 	@python3 ./tools/versioner.py
 
 changes: venv
