@@ -2,6 +2,7 @@ use super::{jwt, session::Session, Error, Result};
 use jsonwebtoken::{DecodingKey, EncodingKey};
 use openssl::rsa::Rsa;
 
+/// An encoder for JWT tokens. Also capable of decoding tokens.
 #[derive(Clone)]
 pub struct Encoder {
     encoding_key: EncodingKey,
@@ -47,6 +48,7 @@ mod tests {
         let encoder = Encoder::new(public_pem, private_pem).unwrap();
 
         let session = Session::new(
+            uuid::Uuid::new_v4(),
             uuid::Uuid::new_v4(),
             "username".to_string(),
             "role".to_string(),

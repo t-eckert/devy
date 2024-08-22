@@ -1,4 +1,4 @@
-use crate::db::{blog, profile, repo, user, Database};
+use crate::db::{blog, profile, repo, user, DBConn};
 use crate::entities::{Blog, Repo};
 use crate::forms::error::{Error, Result};
 use serde::{Deserialize, Serialize};
@@ -32,7 +32,7 @@ impl NewBlog {
     // Process takes the form submission, validates it, then creates the necessary entities
     // defined in the form.
     // It will create a blog entity and a repo entity and return both as a Response.
-    pub async fn process(self, db: &Database) -> Result<NewBlogResponse> {
+    pub async fn process(self, db: &DBConn) -> Result<NewBlogResponse> {
         self.validate(db).await?;
 
         let profile = profile::get_by_username(db, self.username.clone()).await?;
@@ -43,7 +43,7 @@ impl NewBlog {
     }
 
     /// Validate the form.
-    pub async fn validate(&self, db: &Database) -> Result<()> {
+    pub async fn validate(&self, db: &DBConn) -> Result<()> {
         self.validate_repo_url()?;
         self.validate_user_exists(db).await?;
         self.validate_slug_not_taken(db).await?;
@@ -73,12 +73,12 @@ impl NewBlog {
         Ok(())
     }
 
-    async fn validate_user_exists(&self, db: &Database) -> Result<()> {
+    async fn validate_user_exists(&self, db: &DBConn) -> Result<()> {
         user::get_by_username(db, &self.username).await?;
         Ok(())
     }
 
-    async fn validate_slug_not_taken(&self, db: &Database) -> Result<()> {
+    async fn validate_slug_not_taken(&self, db: &DBConn) -> Result<()> {
         match blog::get_by_slug(db, &self.slug).await {
             Ok(blog) => {Err(Error::Conflict {
                 message: "Slug already taken".to_string(),
@@ -104,14 +104,13 @@ mod tests {
     use super::*;
 
     #[sqlx::test]
-    async fn test_validate_with_nonexistent_user(db: Database) {
+    async fn test_validate_with_nonexistent_user(db: DBConn) {
         let new_blog = NewBlog {
             user_id: Uuid::new_v4(),
             username: "nonexistennnntuser".to_string(),
             name: "No thing...".to_string(),
             repo_url: "https://github.com/t-eckert/devy".to_string(),
             slug: "no-thing".to_string(),
-            description: None,
         };
 
         let actual = new_blog.validate(&db).await;

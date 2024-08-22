@@ -3,8 +3,11 @@ use sqlx::postgres::PgPoolOptions;
 use std::time::Duration;
 
 pub type Database = sqlx::PgPool;
+pub type DBConn = sqlx::PgPool;
 
-pub async fn connect(database_url: &str) -> Result<Database> {
+/// Connect to the database and run migrations.
+/// Returns a connection to the database.
+pub async fn connect(database_url: &str) -> Result<DBConn> {
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .acquire_timeout(Duration::from_secs(30))

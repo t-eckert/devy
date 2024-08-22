@@ -23,6 +23,7 @@ struct Account {
 }
 
 impl Client {
+    /// Create a new GitHub client.
     pub fn new(app_id: &str, private_key: &str) -> Self {
         Self {
             app_id: app_id.to_string(),
@@ -30,6 +31,7 @@ impl Client {
         }
     }
 
+    /// Fetch the installations for the user.
     pub async fn fetch_user_installations(&self) -> Result<HashSet<String>, Error> {
         dbg!("Fetching user installations");
 

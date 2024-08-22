@@ -1,5 +1,5 @@
 use crate::auth::Client as AuthClient;
-use crate::db::Database;
+use crate::db::DBConn;
 use crate::github::Client as GitHubClient;
 use crate::uploader::Uploader;
 
@@ -7,21 +7,22 @@ use crate::uploader::Uploader;
 /// It contains a database pool, an authentication client, and an uploader.
 #[derive(Clone)]
 pub struct Store {
-    pub db: Database,
+    pub db_conn: DBConn,
     pub auth_client: AuthClient,
     pub uploader: Uploader,
     pub github_client: GitHubClient,
 }
 
 impl Store {
+    /// Create a new Store.
     pub fn new(
-        db: Database,
+        db_conn: DBConn,
         auth_client: AuthClient,
         uploader: Uploader,
         github_client: GitHubClient,
     ) -> Self {
         Self {
-            db,
+            db_conn,
             auth_client,
             uploader,
             github_client,

@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use uuid::Uuid;
 
+/// Represents a session a user has with the application.
 #[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Session {
@@ -17,6 +18,7 @@ pub struct Session {
 }
 
 impl Session {
+    /// Create a new session.
     pub fn new(
         user_id: Uuid,
         profile_id: Uuid,
@@ -39,6 +41,7 @@ impl Session {
 }
 
 impl From<Value> for Session {
+    /// Convert a Value into a Session.
     fn from(value: Value) -> Self {
         Self {
             user_id: Uuid::parse_str(value["user_id"].as_str().unwrap()).unwrap(),

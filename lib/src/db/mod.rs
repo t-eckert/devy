@@ -1,7 +1,7 @@
 mod database;
 mod error;
 
-pub use database::{connect, Database};
+pub use database::{connect, DBConn, Database};
 pub use error::{Error, Result};
 
 pub mod blog;

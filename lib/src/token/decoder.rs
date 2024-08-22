@@ -1,6 +1,7 @@
 use super::{jwt, Result, Session};
 use jsonwebtoken::DecodingKey;
 
+/// A decoder for JWT tokens.
 #[derive(Clone)]
 pub struct Decoder {
     decoding_key: DecodingKey,
@@ -37,6 +38,7 @@ mod tests {
         let decoder = Decoder::new(public_pem).unwrap();
 
         let session = Session::new(
+            uuid::Uuid::new_v4(),
             uuid::Uuid::new_v4(),
             "username".to_string(),
             "role".to_string(),

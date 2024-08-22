@@ -34,7 +34,7 @@ impl Claims {
 
     /// Check if the claims are expired.
     pub fn is_expired(&self) -> bool {
-        self.exp < jsonwebtoken::get_current_timestamp()
+        self.exp <= jsonwebtoken::get_current_timestamp()
     }
 }
 
@@ -48,5 +48,13 @@ mod tests {
         let value = serde_json::json!({"test": "value"});
         let claims = Claims::new(sub, value, 3600000000);
         assert!(!claims.is_expired());
+    }
+
+    #[test]
+    fn test_jwt_is_expired_with_short_lifetime() {
+        let sub = "test".to_string();
+        let value = serde_json::json!({"test": "value"});
+        let claims = Claims::new(sub, value, 0);
+        assert!(claims.is_expired());
     }
 }
