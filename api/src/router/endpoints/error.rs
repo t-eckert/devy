@@ -3,14 +3,19 @@ use http::StatusCode;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
+use derive_more::From;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[serde_as]
-#[derive(Debug, Serialize)]
+#[derive(Debug, From, Serialize)]
 pub enum Error {
     StatusCode(#[serde_as(as = "DisplayFromStr")] StatusCode),
+
     ServeFailure,
+
+    #[from]
+    ControllerError(lib::controllers::Error),
 }
 
 impl From<StatusCode> for Error {
@@ -61,6 +66,7 @@ impl From<lib::forms::Error> for Error {
     }
 }
 
+
 impl From<tokio::io::Error> for Error {
     fn from(_: tokio::io::Error) -> Self {
         Self::ServeFailure
@@ -72,6 +78,7 @@ impl IntoResponse for Error {
         match self {
             Self::StatusCode(status) => status.into_response(),
             Self::ServeFailure => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+            _ => StatusCode::INTERNAL_SERVER_ERROR.into_response(),
         }
     }
 }

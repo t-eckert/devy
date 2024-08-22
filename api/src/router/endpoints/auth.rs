@@ -29,7 +29,7 @@ async fn callback(
     match store
         .auth_client
         .clone()
-        .handle_callback(&store.db, params)
+        .handle_callback(&store.db_conn, params)
         .await
     {
         Ok(token) => {

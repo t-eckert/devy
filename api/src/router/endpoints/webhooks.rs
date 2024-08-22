@@ -26,7 +26,7 @@ async fn receive(
     dbg!(&payload);
 
     let webhook_type = webhooks::determine_type(headers, &payload);
-    let webhook = match webhook::insert(&store.db, webhook_type, payload).await {
+    let webhook = match webhook::insert(&store.db_conn, webhook_type, payload).await {
         Ok(webhook) => webhook,
         Err(e) => return Err(e.into()),
     };
@@ -39,7 +39,7 @@ async fn receive(
                 .to_string();
             let _ = store
                 .uploader
-                .upload(&store.db, upload::insert(&store.db, None, repo).await?)
+                .upload(&store.db_conn, upload::insert(&store.db_conn, None, repo).await?)
                 .await;
         }
         WebhookType::Uncategorized => {}

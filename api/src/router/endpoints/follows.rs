@@ -27,7 +27,7 @@ async fn following(
     State(store): State<Store>,
     Path(profile_id): Path<Uuid>,
 ) -> Result<Json<Vec<follow::Follow>>> {
-    Ok(Json(follow::get_by_profile_id(&store.db, profile_id).await?))
+    Ok(Json(follow::get_by_profile_id(&store.db_conn, profile_id).await?))
 }
 
 async fn follow_blog(
@@ -39,7 +39,7 @@ async fn follow_blog(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(follow::insert(&store.db, follow).await?)
+    Ok(follow::insert(&store.db_conn, follow).await?)
 }
 
 async fn unfollow_blog(
@@ -51,5 +51,5 @@ async fn unfollow_blog(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(follow::delete(&store.db, follow::Follow{profile_id, blog_id}).await?)
+    Ok(follow::delete(&store.db_conn, follow::Follow{profile_id, blog_id}).await?)
 }

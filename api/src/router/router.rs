@@ -1,7 +1,6 @@
 use super::middleware::auth;
 use super::{endpoints, error::Result};
-use axum::Extension;
-use axum::{middleware, routing::get, Router as AxumRouter};
+use axum::{Extension,middleware, routing::get, Router as AxumRouter};
 use lib::store::Store;
 use lib::token::Session;
 use std::net::SocketAddr;

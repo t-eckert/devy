@@ -4,18 +4,22 @@ use lib::{db, entities, forms, uploader};
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
+use derive_more::From;
 
 /// Result type for `routers`.
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[serde_as]
-#[derive(Debug, Serialize)]
+#[derive(Debug, From, Serialize)]
 pub enum Error {
     StatusCode(#[serde_as(as = "DisplayFromStr")] StatusCode),
 
     ServeFailure,
 
     Generic(String),
+
+    #[from]
+    ControllerError(lib::controllers::Error),
 }
 
 impl From<StatusCode> for Error {

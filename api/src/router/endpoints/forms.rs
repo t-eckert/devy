@@ -33,5 +33,5 @@ async fn new_blog(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(Json(new_blog.process(&store.db).await?))
+    Ok(Json(new_blog.process(&store.db_conn).await?))
 }

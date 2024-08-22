@@ -32,8 +32,8 @@ async fn create_new_upload(
         store
             .uploader
             .upload(
-                &store.db,
-                upload::insert(&store.db, None, new_upload.repo).await?,
+                &store.db_conn,
+                upload::insert(&store.db_conn, None, new_upload.repo).await?,
             )
             .await?,
     ))

@@ -20,14 +20,12 @@ async fn main() {
         cfg.encoding_private_key.as_bytes(),
         cfg.encoding_public_key.as_bytes(),
     );
-
-    let db = db::connect(&cfg.database_url).await.unwrap();
-
+    let db_conn = db::connect(&cfg.database_url).await.unwrap();
     let git = uploader::Git::new(&cfg.git_path).expect("Unable to create git client");
     let uploader = uploader::Uploader::new(git);
     let github_client = github::Client::new(&cfg.github_app_client_id, &cfg.github_app_private_key);
 
-    let store = store::Store::new(db, auth_client, uploader, github_client);
+    let store = store::Store::new(db_conn, auth_client, uploader, github_client);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
 

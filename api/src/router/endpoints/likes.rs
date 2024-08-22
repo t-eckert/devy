@@ -30,7 +30,7 @@ async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Like>>> {
-    Ok(Json(like::get_by_username(&store.db, username).await?))
+    Ok(Json(like::get_by_username(&store.db_conn, username).await?))
 }
 
 /// POST /likes
@@ -44,7 +44,7 @@ async fn post_like(
     }
 
     Ok(Json(
-        like::upsert(&store.db, like.profile_id, like.post_id).await?,
+        like::upsert(&store.db_conn, like.profile_id, like.post_id).await?,
     ))
 }
 
@@ -58,5 +58,5 @@ async fn delete_like(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(like::delete(&store.db, profile_id, post_id).await?)
+    Ok(like::delete(&store.db_conn, profile_id, post_id).await?)
 }

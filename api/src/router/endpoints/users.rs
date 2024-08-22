@@ -27,7 +27,7 @@ async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<User>> {
-    Ok(Json(user::get_by_username(&store.db, &username).await?))
+    Ok(Json(user::get_by_username(&store.db_conn, &username).await?))
 }
 
 /// `GET /users/:username/github/repos`
