@@ -11,13 +11,15 @@
 </script>
 
 <a
-	class="pl-0.5 pr-2 py-0.5 flex flex-row gap-1 items-center group hover:bg-stone-100 rounded-full transition"
+	class="pl-0.5 pr-2 py-0.5 flex flex-row gap-1 items-center group hover:bg-stone-100 dark:hover:bg-zinc-800 rounded-full transition"
 	href={`/profiles/${username}`}
 >
 	<div class="h-5 w-5 rounded-full">
 		<Avatar src={avatarUrl} displayName={displayName || username} rounded={true} />
 	</div>
-	<div class="text-sm font-medium text-stone-600 hover:text-stone-950 sr-only sm:not-sr-only">
-		{displayName || "ahahaha"}
+	<div
+		class="text-sm font-medium text-stone-600 hover:text-stone-950 dark:text-zinc-200 dark:hover:text-zinc-100 sr-only sm:not-sr-only"
+	>
+		{displayName || username}
 	</div>
 </a>

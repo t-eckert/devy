@@ -8,8 +8,9 @@
 
 	import Likes from "./likes.svelte"
 	import Session from "./session.svelte"
+	import Theme from "./theme.svelte"
 
-	let isOpen = $state(false)
+	let isOpen = $state(true)
 </script>
 
 {#if isOpen}
@@ -21,8 +22,10 @@
 						isOpen = false
 					}}><Cross /></Button
 				>
-				<Likes />
-				<Session />
+				<div class="mt-3 flex flex-row gap-3 items-start">
+					<Session />
+					<Theme />
+				</div>
 			</Card>
 		</div>
 	</Dialog>

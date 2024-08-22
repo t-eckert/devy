@@ -1,1 +1,1 @@
-<strong><slog /></strong>
+<strong><slot /></strong>

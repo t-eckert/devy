@@ -3,13 +3,16 @@
 	import "@fontsource-variable/inter"
 	import "@fontsource/space-mono"
 	import { onMount } from "svelte"
-	import { setSessionState } from "$lib/state/session.svelte"
-	import { setLikesState } from "$lib/state/likes.svelte"
 	import Debug from "$lib/debug/debug.svelte"
 	import { dev } from "$app/environment"
 
-	let theme = $state("light")
-	let { data } = $props()
+	import { setSessionState } from "$lib/state/session.svelte"
+	import { setLikesState } from "$lib/state/likes.svelte"
+	import { setThemeState } from "$lib/state/theme.svelte"
+
+	const { data } = $props()
+
+	const themeState = setThemeState("light")
 
 	const sessionState = setSessionState()
 	if (data.token) {
@@ -26,11 +29,11 @@
 	})
 </script>
 
-<div class={theme}>
+<div class={themeState.theme}>
 	<!-- t-eckert: I don't know how to render the children for a layout -->
 	<!-- svelte-ignore slot_element_deprecated -->
 	<div
-		class="bg-stone-50 text-stone-950 dark:text-white dark:bg-stone-900 min-h-screen scroll-smooth"
+		class="bg-stone-50 text-stone-950 dark:text-white dark:bg-zinc-900 min-h-screen scroll-smooth"
 	>
 		{#if dev}
 			<Debug />

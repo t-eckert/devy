@@ -3,12 +3,12 @@
 </script>
 
 <div class="flex flex-col items-start gap-6">
-	<section>
+	<section class="dark:text-zinc-100">
 		<h1 class="font-semibold mb-1">Welcome to Devy!</h1>
 		<p class="mb-1 text-sm">Devy is a blogging platform based on Markdown and Git.</p>
 		<p class="mb-2 text-sm">
-			Connect a GitHub repository, add Markdown files, and every <code class="bg-stone-200"
-				>push</code
+			Connect a GitHub repository, add Markdown files, and every <code
+				class="bg-stone-200 dark:bg-zinc-800">push</code
 			> updates your blog.
 		</p>
 		<a href="/new/blog" class="flex flex-row gap-1 items-center group">
@@ -19,12 +19,15 @@
 		</a>
 	</section>
 
-	<section class="p-3 bg-amber-100 rounded-md shadow-md border border-amber-200">
+	<section
+		class="p-3 bg-amber-100 rounded-md shadow-md border border-amber-200 dark:shadow-none dark:bg-amber-900 dark:border-amber-950"
+	>
 		<p class="text-sm">
 			Devy is still in the early stages of development. If you encounter a problem, please
 			<a
 				href="https://github.com/t-eckert/devy/issues/new/choose"
-				class="text-sm font-medium text-stone-600 hover:text-stone-950 underline">open an issue</a
+				class="text-sm font-medium text-stone-600 hover:text-stone-950 underline dark:text-stone-50"
+				>open an issue</a
 			> on the GitHub repo.
 		</p>
 	</section>

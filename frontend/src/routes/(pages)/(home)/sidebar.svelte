@@ -15,8 +15,8 @@
 			"font-medium px-2 py-1 text-sm border rounded-md flex flex-row items-center gap-2 sm:gap-3",
 			"group transition-all",
 			id === feed
-				? "text-stone-950 border-stone-200 bg-white shadow"
-				: "text-stone-600 border-transparent hover:text-stone-950"
+				? "text-stone-950 border-stone-200 bg-white shadow dark:shadow-none dark:bg-zinc-800 dark:text-white dark:border-zinc-700"
+				: "text-stone-600 border-transparent hover:text-stone-950 dark:text-zinc-500"
 		].join(" ")
 
 	let signedIn = $derived(getSessionState().signedIn)
@@ -28,7 +28,9 @@
 	class="flex flex-row sm:flex-col gap-1 sm:gap-4 sticky top-4 pb-2 overflow-scroll sm:overflow-auto"
 >
 	<div class="flex flex-col gap-1">
-		<h1 class="font-semibold text-stone-700 text-sm sr-only sm:not-sr-only">Feeds</h1>
+		<h1 class="font-semibold text-stone-700 text-sm sr-only sm:not-sr-only dark:text-zinc-200">
+			Feeds
+		</h1>
 
 		<div class="flex flex-row sm:flex-col gap-1">
 			<a href="/feeds/popular" class={style("popular")}>
