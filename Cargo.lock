@@ -115,6 +115,7 @@ version = "0.2.0"
 dependencies = [
  "axum",
  "cookie",
+ "derive_more",
  "dotenvy",
  "http 1.1.0",
  "lib",
