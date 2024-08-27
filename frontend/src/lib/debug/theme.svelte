@@ -8,7 +8,7 @@
 </script>
 
 <Wrapper title="Theme State">
-	<div class="w-40 flex flex-row justify-between items-center dark:text-white">
+	<div class="w-full flex flex-row justify-between items-center dark:text-white">
 		<span class="capitalize text-sm">
 			{themeState.theme}
 		</span>
