@@ -1,4 +1,5 @@
 use crate::router::{error::Result, middleware::auth};
+use crate::store::Store;
 use axum::{
     extract::{Path, State},
     middleware,
@@ -8,7 +9,6 @@ use axum::{
 use lib::{
     db::{blog, entry, profile},
     entities::{Blog, Entry, Profile},
-    store::Store,
 };
 
 /// `/profiles` endpoints
@@ -17,7 +17,10 @@ pub fn router(store: Store) -> Router<Store> {
         .route("/profiles/:username", get(get_profile_by_username))
         .route("/profiles/:username/blogs", get(get_blogs_by_username))
         .route("/profiles/:username/entries", get(get_entries_by_username))
-        .route("/profiles/:username/following", get(get_following_by_username))
+        .route(
+            "/profiles/:username/following",
+            get(get_following_by_username),
+        )
         .with_state(store.clone());
 
     let protected = Router::new()
@@ -38,7 +41,9 @@ async fn get_profile_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Profile>> {
-    Ok(Json(profile::get_by_username(&store.db_conn, username).await?))
+    Ok(Json(
+        profile::get_by_username(&store.db_conn, username).await?,
+    ))
 }
 
 // GET /profiles/:username/blogs
@@ -54,7 +59,9 @@ async fn get_entries_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Entry>>> {
-    Ok(Json(entry::get_by_username(&store.db_conn, &username).await?))
+    Ok(Json(
+        entry::get_by_username(&store.db_conn, &username).await?,
+    ))
 }
 
 // GET /profiles/:username/following

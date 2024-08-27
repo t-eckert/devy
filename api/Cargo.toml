@@ -31,3 +31,14 @@ features = ["cors", "trace"]
 [dependencies.reqwest]
 version = "0.12.1"
 features = ["json"]
+
+[dependencies.sqlx]
+version = "^0.7.1"
+features = [
+    "postgres",
+    "macros",
+    "migrate",
+    "runtime-tokio-rustls",
+    "uuid",
+    "time",
+]

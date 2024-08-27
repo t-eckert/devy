@@ -44,7 +44,7 @@ pub async fn get(db: &Database, id: Uuid) -> Result<Post> {
 }
 
 /// Returns all posts for a given blog, identified by its slug.
-pub async fn get_by_blog_slug(db: &Database, blog_slug: String) -> Result<Vec<Post>> {
+pub async fn get_by_blog_slug(db: &Database, blog_slug: &String) -> Result<Vec<Post>> {
     Ok(
         sqlx::query_file_as!(Post, "src/db/post/queries/get_by_blog_slug.sql", blog_slug)
             .fetch_all(db)

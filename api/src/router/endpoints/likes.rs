@@ -6,8 +6,9 @@ use axum::{
     Json, Router,
     Extension, http::StatusCode
 };
-use lib::{db::like, entities::Like, store::Store, token::Session};
+use lib::{db::like, entities::Like, token::Session};
 use uuid::Uuid;
+use crate::store::Store;
 
 /// /likes Endpoints
 pub fn router(store: Store) -> Router<Store> {

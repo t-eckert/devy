@@ -16,7 +16,7 @@ use lib::{
     token::Session,
 };
 
-/// Create a new router for the blogs endpoints.
+/// Create a new router for Blogs.
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
         .route("/blogs/:blog_slug", get(get_blog_by_blog_slug))

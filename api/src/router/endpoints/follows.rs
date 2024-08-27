@@ -1,14 +1,19 @@
-use crate::router::{error::Result, middleware::auth};
+use crate::{
+    controllers::FollowsController,
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
 use axum::{
     extract::{Json as ExtractJson, Path, State},
+    http::StatusCode,
     middleware,
     routing::{delete, get, post},
-    Json, Router,
-    Extension, http::StatusCode
+    Extension, Json, Router,
 };
-use lib::{db::follow, store::Store, token::Session};
+use lib::{blogs::Follow, token::Session};
 use uuid::Uuid;
 
+/// Create a new router for Follows.
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
         .route("/follows/:profile_id", get(following))
@@ -26,20 +31,22 @@ pub fn router(store: Store) -> Router<Store> {
 async fn following(
     State(store): State<Store>,
     Path(profile_id): Path<Uuid>,
-) -> Result<Json<Vec<follow::Follow>>> {
-    Ok(Json(follow::get_by_profile_id(&store.db_conn, profile_id).await?))
+) -> Result<Json<Vec<Follow>>> {
+    Ok(Json(
+        FollowsController::get_by_profile_id(&store, profile_id).await?,
+    ))
 }
 
 async fn follow_blog(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
-    ExtractJson(follow): ExtractJson<follow::Follow>
+    ExtractJson(follow): ExtractJson<Follow>,
 ) -> Result<()> {
     if session.profile_id != follow.profile_id {
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(follow::insert(&store.db_conn, follow).await?)
+    Ok(FollowsController::insert(&store, follow).await?)
 }
 
 async fn unfollow_blog(
@@ -51,5 +58,12 @@ async fn unfollow_blog(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(follow::delete(&store.db_conn, follow::Follow{profile_id, blog_id}).await?)
+    Ok(FollowsController::delete(
+        &store,
+        Follow {
+            profile_id,
+            blog_id,
+        },
+    )
+    .await?)
 }

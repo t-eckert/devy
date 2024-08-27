@@ -6,8 +6,9 @@ use axum::{
     routing::get,
     Json, Router,
 };
-use lib::{db::user, entities::User, store::Store};
+use lib::{db::user, entities::User};
 use serde_json::Value;
+use crate::store::Store;
 
 pub fn router(store: Store) -> Router<Store> {
     Router::new()

@@ -1,6 +1,7 @@
-use crate::{store::Store, entities::Profile};
 use super::Result;
 use crate::db::profile;
+use crate::store::Store;
+use lib::entities::Profile;
 use uuid::Uuid;
 
 pub struct ProfilesController;
@@ -13,7 +14,13 @@ pub struct NewProfile {
 
 impl ProfilesController {
     pub async fn insert(store: &Store, new_profile: NewProfile) -> Result<Profile> {
-        Ok(profile::upsert(&store.db_conn, new_profile.user_id, new_profile.display_name, new_profile.avatar_url).await?)
+        Ok(profile::upsert(
+            &store.db_conn,
+            new_profile.user_id,
+            new_profile.display_name,
+            new_profile.avatar_url,
+        )
+        .await?)
     }
 
     pub async fn get_by_id(store: &Store, id: Uuid) -> Result<Profile> {

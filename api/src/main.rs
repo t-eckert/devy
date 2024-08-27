@@ -1,7 +1,10 @@
 mod config;
 mod router;
+mod controllers;
+mod store;
+mod test;
 
-use lib::{auth, db, github, monitoring, store, uploader};
+use lib::{auth, db, github, monitoring, uploader};
 use std::net::SocketAddr;
 
 /// Start the API server.

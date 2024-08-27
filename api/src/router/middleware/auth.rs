@@ -1,4 +1,4 @@
-use crate::router::error::{Error, Result};
+use crate::{router::error::{Error, Result}, store::Store};
 use axum::{
     extract::{Request, State},
     http::HeaderMap,
@@ -6,7 +6,6 @@ use axum::{
     response::Response,
 };
 use http::StatusCode;
-use lib::store::Store;
 
 const AUTHORIZATION_HEADER: &str = "Authorization";
 const BEARER_PREFIX: &str = "Bearer";

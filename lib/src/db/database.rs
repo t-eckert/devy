@@ -2,6 +2,8 @@ use crate::db::Result;
 use sqlx::postgres::PgPoolOptions;
 use std::time::Duration;
 
+pub static MIGRATOR: sqlx::migrate::Migrator = sqlx::migrate!();
+
 pub type Database = sqlx::PgPool;
 pub type DBConn = sqlx::PgPool;
 
@@ -13,7 +15,7 @@ pub async fn connect(database_url: &str) -> Result<DBConn> {
         .acquire_timeout(Duration::from_secs(30))
         .connect(database_url)
         .await?;
-    sqlx::migrate!().run(&pool).await.unwrap();
+    MIGRATOR.run(&pool).await.unwrap();
 
     Ok(pool)
 }

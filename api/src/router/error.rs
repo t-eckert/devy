@@ -1,10 +1,10 @@
 use axum::response::{IntoResponse, Response};
+use derive_more::From;
 use http::StatusCode;
 use lib::{db, entities, forms, uploader};
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
-use derive_more::From;
 
 /// Result type for `routers`.
 pub type Result<T> = std::result::Result<T, Error>;
@@ -19,7 +19,7 @@ pub enum Error {
     Generic(String),
 
     #[from]
-    ControllerError(lib::controllers::Error),
+    ControllerError(crate::controllers::Error),
 }
 
 impl From<StatusCode> for Error {
@@ -65,8 +65,8 @@ impl From<forms::Error> for Error {
             forms::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
             forms::Error::RequestFailed { .. } => {
                 Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR)
-            },
-            forms::Error::Conflict { .. } => Self::StatusCode(StatusCode::BAD_REQUEST)
+            }
+            forms::Error::Conflict { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
         }
     }
 }

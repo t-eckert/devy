@@ -5,8 +5,9 @@ use axum::{
     routing::post,
     Json,
 };
-use lib::{db::upload, entities::Upload, store::Store};
+use lib::{db::upload, entities::Upload };
 use serde::{Deserialize, Serialize};
+use crate::store::Store;
 
 pub fn router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
@@ -21,9 +22,7 @@ struct NewUpload {
     pub repo: String,
 }
 
-/// POST /uploads
-///
-/// Create a new upload.
+// POST /uploads
 async fn create_new_upload(
     State(store): State<Store>,
     ExtractJson(new_upload): ExtractJson<NewUpload>,

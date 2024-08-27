@@ -5,8 +5,7 @@ pub mod follows;
 pub mod forms;
 pub mod likes;
 pub mod profiles;
+pub mod search;
 pub mod uploads;
 pub mod users;
 pub mod webhooks;
-
-mod error;
