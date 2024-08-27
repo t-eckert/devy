@@ -1,18 +1,21 @@
-use crate::router::{error::Result, middleware::auth};
-use axum::{extract::State, routing::get,middleware, Extension,  Json};
-use lib::{entities::Feed, store::Store, token::Session, controllers::FeedsController};
+use crate::{
+    controllers::FeedsController,
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
+use axum::{extract::State, middleware, routing::get, Extension, Json};
+use lib::{entities::Feed, token::Session};
 
 pub fn router(store: Store) -> axum::Router<Store> {
-    let open =
-        axum::Router::new()
-            .route("/feeds/recent", get(get_recent))
-            .route("/feeds/popular", get(get_popular))
-            .with_state(store.clone());
+    let open = axum::Router::new()
+        .route("/feeds/recent", get(get_recent))
+        .route("/feeds/popular", get(get_popular))
+        .with_state(store.clone());
 
-    let protected =        axum::Router::new()
-            .route("/feeds/following", get(get_following))
-            .layer(middleware::from_fn_with_state(store.clone(), auth))
-            .with_state(store);
+    let protected = axum::Router::new()
+        .route("/feeds/following", get(get_following))
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
+        .with_state(store);
 
     axum::Router::new().merge(open).merge(protected)
 }
@@ -30,6 +33,9 @@ async fn get_popular(State(store): State<Store>) -> Result<Json<Feed>> {
 // Get /feeds/following
 async fn get_following(
     Extension(session): Extension<Session>,
-    State(store): State<Store>) -> Result<Json<Feed>> {
-    Ok(Json(FeedsController::get_following(&store, session.profile_id).await?))
+    State(store): State<Store>,
+) -> Result<Json<Feed>> {
+    Ok(Json(
+        FeedsController::get_following(&store, session.profile_id).await?,
+    ))
 }
