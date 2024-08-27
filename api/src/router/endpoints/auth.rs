@@ -1,11 +1,9 @@
 use axum::{
     extract::{Query, State},
-    http::StatusCode,
-    response::{IntoResponse, Redirect},
+    response::Redirect,
     routing::get,
 };
-use cookie::{Cookie, SameSite};
-use lib::store::Store;
+use crate::store::Store;
 use std::collections::HashMap;
 
 /// Create a new router for Auth.
