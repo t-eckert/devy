@@ -20,6 +20,7 @@ impl Router {
             // Routers in Alphabetical Order
             .merge(endpoints::auth::router(store.clone()))
             .merge(endpoints::blogs::router(store.clone()))
+            .merge(endpoints::collections::router(store.clone()))
             .merge(endpoints::feeds::router(store.clone()))
             .merge(endpoints::follows::router(store.clone()))
             .merge(endpoints::forms::router(store.clone()))

@@ -9,7 +9,7 @@ pub struct Entry {
     pub post_slug: String,
     pub title: String,
     pub body: String,
-    pub likes: Option<i64>,
+    pub likes: Option<i32>,
 
     pub blog_slug: Option<String>,
     pub blog_name: Option<String>,

@@ -1,5 +1,6 @@
 pub mod auth;
 pub mod blogs;
+pub mod collection;
 pub mod db;
 pub mod entities;
 pub mod forms;
@@ -13,5 +14,5 @@ pub mod webhooks;
 
 mod email;
 mod markdown;
-mod posts;
+pub mod posts;
 mod test;

@@ -6,6 +6,7 @@ use crate::{
 use axum::{extract::State, middleware, routing::get, Extension, Json};
 use lib::{entities::Feed, token::Session};
 
+/// Create a new router for Feeds.
 pub fn router(store: Store) -> axum::Router<Store> {
     let open = axum::Router::new()
         .route("/feeds/recent", get(get_recent))
@@ -30,7 +31,7 @@ async fn get_popular(State(store): State<Store>) -> Result<Json<Feed>> {
     Ok(Json(FeedsController::get_popular(&store).await?))
 }
 
-// Get /feeds/following
+// GET /feeds/following
 async fn get_following(
     Extension(session): Extension<Session>,
     State(store): State<Store>,

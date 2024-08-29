@@ -1,6 +1,5 @@
 use super::Entry;
 use super::FeedConfig;
-use serde::{Deserialize, Serialize};
 
 use serde::{Deserialize, Serialize};
 

@@ -3,7 +3,7 @@ SELECT
     slug AS post_slug,
     title,
     body,
-    COALESCE(likes.like_count, 0)::bigint AS likes,
+    post.like_count AS likes,
     blog.blog_slug,
     blog.blog_name,
     blog.profile_slug AS author_slug,
@@ -28,11 +28,4 @@ FROM "post" LEFT JOIN (
     ) "profile"
         ON profile_id = profile.id
 ) AS "blog" ON post.blog_id = blog.blog_id
-LEFT JOIN (
-    SELECT
-        post_id,
-        COUNT(*) AS like_count
-    FROM "like"
-    GROUP BY post_id
-) AS likes ON post.id = likes.post_id
 ORDER BY likes DESC;

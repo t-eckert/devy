@@ -1,0 +1,1 @@
+ALTER TABLE post ADD COLUMN IF NOT EXISTS like_count integer DEFAULT 0;

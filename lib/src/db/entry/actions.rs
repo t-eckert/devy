@@ -4,7 +4,7 @@ use crate::entities::Entry;
 pub async fn get_by_blog_slug(db: &Database, blog_slug: &str) -> Result<Vec<Entry>> {
     Ok(sqlx::query_file_as!(
         Entry,
-        "src/db/entry/queries/get_by_blog_slug.sql",
+        "queries/get_entries_for_blog_by_blog_slug.sql",
         blog_slug
     )
     .fetch_all(db)

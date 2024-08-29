@@ -21,7 +21,7 @@
 
 	let signedIn = $derived(getSessionState().signedIn)
 
-	let showCollections = false
+	let showCollections = true
 </script>
 
 <div

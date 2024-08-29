@@ -16,3 +16,5 @@ pub mod repo;
 pub mod upload;
 pub mod user;
 pub mod webhook;
+
+pub mod maintenance;

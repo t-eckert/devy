@@ -1,3 +1,4 @@
+use super::maintenance::update_all_posts_with_like_count;
 use crate::db::Result;
 use sqlx::postgres::PgPoolOptions;
 use std::time::Duration;
@@ -16,6 +17,7 @@ pub async fn connect(database_url: &str) -> Result<DBConn> {
         .connect(database_url)
         .await?;
     MIGRATOR.run(&pool).await.unwrap();
+    update_all_posts_with_like_count(&pool).await.unwrap();
 
     Ok(pool)
 }

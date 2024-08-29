@@ -13,7 +13,7 @@ pub async fn upsert(pool: &PgPool, profile_id: Uuid, post_id: Uuid) -> Result<Li
 
 pub async fn get_by_username(pool: &PgPool, username: String) -> Result<Vec<Like>> {
     Ok(
-        sqlx::query_file_as!(Like, "src/db/like/queries/get_by_username.sql", username)
+        sqlx::query_file_as!(Like, "queries/get_likes_by_user_username.sql", username)
             .fetch_all(pool)
             .await?,
     )
