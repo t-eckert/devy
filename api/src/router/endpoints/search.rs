@@ -18,6 +18,6 @@ struct SearchQuery {
     query: String,
 }
 
-async fn search(State(store): State<Store>, searchQuery: Query<SearchQuery>) -> Result<String> {
-    Ok(searchQuery.query.clone())
+async fn search(State(store): State<Store>, search_query: Query<SearchQuery>) -> Result<String> {
+    Ok(search_query.query.clone())
 }

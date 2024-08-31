@@ -11,7 +11,7 @@ use axum::{
     Extension, Json, Router,
 };
 use lib::{
-    db::{blog, entry, post},
+    db::{blog, entry},
     entities::{Blog, Entry, Post},
     token::Session,
 };
@@ -57,7 +57,7 @@ async fn get_blog_by_blog_slug(
 async fn get_blog_posts_by_blog_slug(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
-) -> Result<Json<Vec<Post>>> {
+) -> Result<Json<Vec<lib::posts::Post>>> {
     Ok(Json(
         PostsController::get_by_blog_slug(&store, &blog_slug).await?,
     ))
@@ -77,9 +77,9 @@ async fn get_blog_entries_by_blog_slug(
 async fn get_blog_post_by_blog_slug_and_post_slug(
     State(store): State<Store>,
     Path((blog_slug, post_slug)): Path<(String, String)>,
-) -> Result<Json<Post>> {
+) -> Result<Json<lib::posts::Post>> {
     Ok(Json(
-        post::get_by_blog_slug_and_post_slug(&store.db_conn, &blog_slug, &post_slug).await?,
+        PostsController::get_by_blog_slug_and_post_slug(&store, &blog_slug, &post_slug).await?,
     ))
 }
 

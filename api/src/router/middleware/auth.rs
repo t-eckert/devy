@@ -1,4 +1,7 @@
-use crate::{router::error::{Error, Result}, store::Store};
+use crate::{
+    router::error::{Error, Result},
+    store::Store,
+};
 use axum::{
     extract::{Request, State},
     http::HeaderMap,
