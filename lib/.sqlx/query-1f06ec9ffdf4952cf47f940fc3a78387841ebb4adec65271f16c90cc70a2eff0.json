@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT profile_id, post_id\nFROM \"like\" LEFT JOIN (\n\tSELECT \n\t\tprofile.id, username\n\tFROM \"profile\" LEFT JOIN \"user\"\n\tON user_id=\"user\".id\n) AS \"profile\" ON profile_id=\"profile\".id\nWHERE username = $1;\n",
+  "query": "SELECT profile_id, post_id FROM \"like\"\nLEFT JOIN \"profile\" ON \"like\".profile_id = \"profile\".id\nLEFT JOIN \"user\" ON \"profile\".user_id = \"user\".id\nWHERE \"user\".username = $1;\n",
   "describe": {
     "columns": [
       {
@@ -24,5 +24,5 @@
       false
     ]
   },
-  "hash": "d299bf3458aae084cb24c7ea21bcc406565dd34f4607f1e95521461e34c4a536"
+  "hash": "1f06ec9ffdf4952cf47f940fc3a78387841ebb4adec65271f16c90cc70a2eff0"
 }

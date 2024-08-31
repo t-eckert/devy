@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT\n    id,\n    slug AS post_slug,\n    title,\n    body,\n    COALESCE(likes.like_count, 0)::bigint AS likes,\n    blog.blog_slug,\n    blog.blog_name,\n    blog.profile_slug AS author_slug,\n    blog.author_name,\n    TO_CHAR(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n    TO_CHAR(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"post\" LEFT JOIN (\n    SELECT\n        blog.id AS blog_id,\n        blog.slug AS blog_slug,\n        blog.name AS blog_name,\n        profile.id AS profile_id,\n        profile.display_name AS author_name,\n        profile_slug\n    FROM \"blog\" LEFT JOIN (\n        SELECT\n            profile.id,\n            profile.display_name,\n            \"user\".username AS profile_slug\n        FROM \"profile\" LEFT JOIN \"user\"\n            ON user_id = \"user\".id\n    ) \"profile\"\n        ON profile_id = profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nLEFT JOIN (\n    SELECT\n        post_id,\n        COUNT(*) AS like_count\n    FROM \"like\"\n    GROUP BY post_id\n) AS likes ON post.id = likes.post_id\nORDER BY likes DESC;\n",
+  "query": "SELECT\n\tpost.id as id,\n\tpost.slug as post_slug,\n\ttitle,\n\tbody,\n\tpost.like_count AS likes,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"follow\"\n\tJOIN \"post\" ON follow.blog_id = post.blog_id\n \tJOIN \"blog\" ON post.blog_id = blog.id\n \tJOIN \"profile\" ON blog.profile_id = profile.id\n \tJOIN \"user\" ON profile.user_id = \"user\".id\nORDER BY post.created_at DESC;\n",
   "describe": {
     "columns": [
       {
@@ -26,7 +26,7 @@
       {
         "ordinal": 4,
         "name": "likes",
-        "type_info": "Int8"
+        "type_info": "Int4"
       },
       {
         "ordinal": 5,
@@ -67,7 +67,7 @@
       false,
       false,
       false,
-      null,
+      true,
       false,
       false,
       false,
@@ -76,5 +76,5 @@
       null
     ]
   },
-  "hash": "93fb42f612decf8294c9820007682cd46490a94b768bb81967edc62edd7b8cf5"
+  "hash": "2587e5ef8557e68837afd7b18787fbc623f545172c47249ab41071875eb0699c"
 }

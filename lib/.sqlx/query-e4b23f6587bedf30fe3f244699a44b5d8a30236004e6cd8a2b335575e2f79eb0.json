@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE post\nSET like_count = (\n    SELECT COUNT(*)\n    FROM \"like\"\n    WHERE \"like\".post_id = post.id\n);\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "e4b23f6587bedf30fe3f244699a44b5d8a30236004e6cd8a2b335575e2f79eb0"
+}
