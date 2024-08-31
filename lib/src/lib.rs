@@ -12,6 +12,7 @@ pub mod token;
 pub mod uploader;
 pub mod webhooks;
 
+mod date;
 mod email;
 mod markdown;
 pub mod posts;
