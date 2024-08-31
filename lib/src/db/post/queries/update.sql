@@ -23,7 +23,8 @@ SELECT
     p.body,
     to_char(p.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
     to_char(p.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
-    COALESCE(l.like_count, 0) AS likes
+    COALESCE(l.like_count, 0) AS likes,
+    is_draft
 FROM post p
 LEFT JOIN (
     SELECT post_id, COUNT(*) AS like_count

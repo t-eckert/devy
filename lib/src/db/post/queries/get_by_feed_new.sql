@@ -6,7 +6,8 @@ SELECT
 	body,
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
 	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
-	COALESCE(likes.like_count, 0) AS likes
+	COALESCE(likes.like_count, 0) AS likes,
+	is_draft
 FROM "post" LEFT JOIN (
 	SELECT
 		blog.id AS blog_id,

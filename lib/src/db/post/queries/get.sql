@@ -6,7 +6,8 @@ SELECT
 	body,
 	COALESCE(likes.like_count, 0)::bigint AS likes,
 	to_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
-	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at
+	to_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+	is_draft
 FROM post
 LEFT JOIN (
 	SELECT post_id, COUNT(*) AS like_count
