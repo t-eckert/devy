@@ -1,9 +1,9 @@
+use crate::store::Store;
 use axum::{
     extract::{Query, State},
     response::Redirect,
     routing::get,
 };
-use crate::store::Store;
 use std::collections::HashMap;
 
 /// Create a new router for Auth.
@@ -30,15 +30,7 @@ async fn callback(
         .handle_callback(&store.db_conn, params)
         .await
     {
-        Ok(token) => {
-            Redirect::to(&store
-                .auth_client
-                .redirect_url_with_token(&token))
-        },
-        Err(err) => {
-            Redirect::to(&store
-                .auth_client
-                .redirect_url_with_err(&err.to_string()))
-        }
+        Ok(token) => Redirect::to(&store.auth_client.redirect_url_with_token(&token)),
+        Err(err) => Redirect::to(&store.auth_client.redirect_url_with_err(&err.to_string())),
     }
 }

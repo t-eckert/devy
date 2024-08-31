@@ -1,14 +1,11 @@
+use crate::controllers::WebhooksController;
 use crate::router::error::Result;
+use crate::store::Store;
 use axum::Router;
 use axum::{extract::State, routing::post, Json};
 use http::{HeaderMap, StatusCode};
-use lib::{
-    db::{upload, webhook},
-    entities::WebhookType,
-    webhooks,
-};
 use serde_json::Value;
-use crate::store::Store;
+use std::collections::HashMap;
 
 pub fn router(store: Store) -> Router<Store> {
     Router::new()
@@ -21,28 +18,17 @@ async fn receive(
     headers: HeaderMap,
     Json(payload): Json<Value>,
 ) -> Result<StatusCode> {
-    dbg!(&headers);
-    dbg!(&payload);
+    let header_hashmap: HashMap<String, String> = headers
+        .iter()
+        .map(|(key, value)| {
+            (
+                key.to_string(),
+                value.to_str().unwrap_or_default().to_string(),
+            )
+        })
+        .collect();
 
-    let webhook_type = webhooks::determine_type(headers, &payload);
-    let webhook = match webhook::insert(&store.db_conn, webhook_type, payload).await {
-        Ok(webhook) => webhook,
-        Err(e) => return Err(e.into()),
-    };
-
-    match webhook.webhook_type {
-        WebhookType::GitHubPushEvent => {
-            let repo = webhook.payload["repository"]["clone_url"]
-                .as_str()
-                .unwrap_or_default()
-                .to_string();
-            let _ = store
-                .uploader
-                .upload(&store.db_conn, upload::insert(&store.db_conn, None, repo).await?)
-                .await;
-        }
-        WebhookType::Uncategorized => {}
-    }
+    let _ = WebhooksController::handle(store, header_hashmap, payload).await?;
 
     Ok(StatusCode::ACCEPTED)
 }
