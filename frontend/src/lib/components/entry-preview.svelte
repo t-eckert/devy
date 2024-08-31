@@ -12,24 +12,15 @@
 	const Blog = "blog"
 	const ReadingTime = "reading-time"
 
-	const Component = {
-		Date,
-		Author,
-		Blog,
-		ReadingTime
-	} as const
-
-	type ComponentKey = (typeof Component)[keyof typeof Component]
-
 	interface Props {
 		entry: Entry
-		omit?: ComponentKey[]
+		omit?: string[]
 	}
 
 	const { entry, omit }: Props = $props()
 
-	const defaults = new Set<ComponentKey>([Date, Author, Blog, ReadingTime])
-	const components = defaults.difference(new Set(omit))
+	const defaults = [Date, Author, Blog, ReadingTime]
+	const components = new Set(defaults.filter((component) => !omit?.includes(component)))
 
 	const {
 		id: postId,
