@@ -1,10 +1,12 @@
 use derive_more::From;
 use serde::Serialize;
+use serde_with::{serde_as, DisplayFromStr};
 
-/// A result type for Controller processes.
+/// A result type for posts actions.
 pub type Result<T> = core::result::Result<T, Error>;
 
 /// Errors that can occur during Controller processes.
+#[serde_as]
 #[derive(Debug, From, Serialize)]
 pub enum Error {
     Generic(String),
@@ -12,8 +14,16 @@ pub enum Error {
     #[from]
     DatabaseError(crate::db::Error),
 
-    #[from]
-    PostError(lib::posts::Error),
+    /// An error occurred while interacting with the database.
+    Sqlx(#[serde_as(as = "DisplayFromStr")] sqlx::Error),
+}
+
+impl From<sqlx::Error> for Error {
+    fn from(val: sqlx::Error) -> Self {
+        match val {
+            _ => Self::Sqlx(val),
+        }
+    }
 }
 
 impl core::fmt::Display for Error {

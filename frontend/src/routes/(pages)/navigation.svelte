@@ -27,6 +27,7 @@
 
 	<Menu>
 		{#if sessionState.session}
+			<Menu.Link href="/dashboard">Dashboard</Menu.Link>
 			<Menu.FormButton action="/auth/sign-out" name="sign-out">Sign out</Menu.FormButton>
 		{/if}
 	</Menu>

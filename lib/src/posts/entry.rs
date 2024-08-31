@@ -1,3 +1,6 @@
+use super::Result;
+use crate::date::Date;
+use crate::db::DBConn;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -22,14 +25,31 @@ pub struct Entry {
     pub author_name: Option<String>,
 
     // The date the post was created.
-    pub created_at: Option<String>,
+    pub created_at: Date,
     // The date the post was last updated.
-    pub updated_at: Option<String>,
+    pub updated_at: Date,
 
     /// The title of the post.
     pub title: String,
     /// The number of likes the post has.
-    pub likes: Option<i64>,
+    pub like_count: Option<i32>,
     /// Whether the post is a draft.
     pub is_draft: bool,
+}
+
+pub struct EntryRepository;
+
+impl EntryRepository {
+    pub async fn get_drafts_by_profile_id(
+        db_conn: &DBConn,
+        profile_id: Uuid,
+    ) -> Result<Vec<Entry>> {
+        Ok(sqlx::query_file_as!(
+            Entry,
+            "queries/get_entries_where_is_draft_by_profile_id.sql",
+            profile_id
+        )
+        .fetch_all(db_conn)
+        .await?)
+    }
 }

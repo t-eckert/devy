@@ -11,7 +11,7 @@ use lib::{
     entities::{Blog, Entry, Profile},
 };
 
-/// `/profiles` endpoints
+/// Create a new router for Profiles.
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
         .route("/profiles/:username", get(get_profile_by_username))
@@ -24,8 +24,8 @@ pub fn router(store: Store) -> Router<Store> {
         .with_state(store.clone());
 
     let protected = Router::new()
-        .layer(middleware::from_fn_with_state(store.clone(), auth))
         .route("/profiles", get(get_profiles))
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
         .with_state(store);
 
     Router::new().merge(open).merge(protected)

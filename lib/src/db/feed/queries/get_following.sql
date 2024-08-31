@@ -15,4 +15,5 @@ FROM "follow"
  	JOIN "blog" ON post.blog_id = blog.id
  	JOIN "profile" ON blog.profile_id = profile.id
  	JOIN "user" ON profile.user_id = "user".id
+WHERE is_draft = false
 ORDER BY post.created_at DESC;

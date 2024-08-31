@@ -31,7 +31,8 @@
 		authorName,
 		authorSlug,
 		createdAt,
-		likes
+		likes,
+		likeCount
 	} = entry
 </script>
 
@@ -49,7 +50,7 @@
 
 			<div class="flex flex-row gap-2 items-start">
 				<div class="ml-2 w-16 mt-[0.12rem]">
-					<Likes {postId} {likes} />
+					<Likes {postId} likes={likeCount || likes} />
 				</div>
 				<div class="flex flex-col gap-1">
 					<a

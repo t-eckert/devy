@@ -28,4 +28,4 @@ FROM "post" LEFT JOIN (
 	) "profile"
 	ON profile_id=profile.id
 ) AS "blog" ON post.blog_id = blog.blog_id
-WHERE blog_slug = $1;
+WHERE is_draft = false and blog_slug = $1;

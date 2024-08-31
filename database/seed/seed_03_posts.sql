@@ -58,7 +58,7 @@ While designing distributed systems with Kubernetes, it is important to follow s
 Designing distributed systems with Kubernetes requires careful consideration of containerization, service discovery, fault tolerance, state management, and observability. By following best practices and leveraging the capabilities of Kubernetes, you can design and manage distributed systems that are scalable, reliable, and resilient.');
 
 
-INSERT INTO "post" (id, blog_id, title, slug, body)
+INSERT INTO "post" (id, blog_id, title, slug, body, is_draft)
 VALUES
     ('22fe666f-c170-40c2-a453-d64d846c88ea', '3c55b723-dc5d-4f9b-aac6-60d63b7e7733', 'Machine Learning, Automation, and Factories: A Promising Combination',
 'machine-learning,-automation,-and-factories:-a-promising-combination', '![Machine Learning Automation](https://images.unsplash.com/photo-1574087631700-abf928509b80)
@@ -124,7 +124,8 @@ practices must guide the implementation of these technologies.
 Ultimately, machine learning and automation in factories offer an exciting future. They drive efficiency, reduce costs, and streamline processes. By embracing these technologies
 responsibly, we can create smarter, interconnected factories that benefit businesses, employees, and consumers alike.
 
-Lets empower factories with the combined potential of machine learning and automation, revolutionizing industries while charting a sustainable and technologically advanced path forward.');
+Lets empower factories with the combined potential of machine learning and automation, revolutionizing industries while charting a sustainable and technologically advanced path forward.',
+true);
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
     ('eb1627b7-5b6c-4525-84cf-f954a878ab06', '3c55b723-dc5d-4f9b-aac6-60d63b7e7733', 'Machine Learning: Unleashing the Power of Intelligent Machines', 'machine-learning:-unleashing-the-power-of-intelligent-machines', '

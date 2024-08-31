@@ -28,4 +28,5 @@ FROM "post" LEFT JOIN (
     ) "profile"
         ON profile_id = profile.id
 ) AS "blog" ON post.blog_id = blog.blog_id
+WHERE is_draft = false
 ORDER BY likes DESC;

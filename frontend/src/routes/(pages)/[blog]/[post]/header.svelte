@@ -21,10 +21,23 @@
 	</div>
 	<div class="flex flex-row">
 		<Likes postId={post.id} likes={post.like_count} />
-		{#if post.isDraft}
-			<div>
-				<span class="text-xs bg-yellow-500 px-1 py-0.5 rounded">DRAFT</span>
-			</div>
-		{/if}
 	</div>
+
+	{#if post.isDraft}
+		<div class="flex flex-col gap-1 items-start">
+			<span class="text-xs bg-yellow-500 px-1 py-0.5 rounded font-medium text-white">DRAFT</span>
+			<div class="text-sm flex flex-col gap-1">
+				<p>
+					This post is a draft. Draft posts will not be listed in feeds, blogs, or on your profile.
+					They are publicly visible to anyone with the URL.
+				</p>
+				<p>
+					You can control whether or not your post is in draft my using the <code
+						class="bg-stone-200 text-[0.9em]">draft: true</code
+					>
+					frontmatter in your markdown.
+				</p>
+			</div>
+		</div>
+	{/if}
 </div>
