@@ -12,6 +12,7 @@ pub struct Post {
     pub body: String,
 
     pub likes: Option<i64>,
+    pub is_draft: bool,
 
     pub created_at: Option<String>,
     pub updated_at: Option<String>,
