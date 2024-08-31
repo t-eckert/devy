@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT\n    id,\n    slug AS post_slug,\n    title,\n    body,\n    post.like_count AS likes,\n    blog.blog_slug,\n    blog.blog_name,\n    blog.profile_slug AS author_slug,\n    blog.author_name,\n    TO_CHAR(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n    TO_CHAR(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"post\" LEFT JOIN (\n    SELECT\n        blog.id AS blog_id,\n        blog.slug AS blog_slug,\n        blog.name AS blog_name,\n        profile.id AS profile_id,\n        profile.display_name AS author_name,\n        profile_slug\n    FROM \"blog\" LEFT JOIN (\n        SELECT\n            profile.id,\n            profile.display_name,\n            \"user\".username AS profile_slug\n        FROM \"profile\" LEFT JOIN \"user\"\n            ON user_id = \"user\".id\n    ) \"profile\"\n        ON profile_id = profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nORDER BY likes DESC;\n",
+  "query": "SELECT\n    id,\n    slug AS post_slug,\n    title,\n    body,\n    post.like_count AS likes,\n    blog.blog_slug,\n    blog.blog_name,\n    blog.profile_slug AS author_slug,\n    blog.author_name,\n    TO_CHAR(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n    TO_CHAR(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"post\" LEFT JOIN (\n    SELECT\n        blog.id AS blog_id,\n        blog.slug AS blog_slug,\n        blog.name AS blog_name,\n        profile.id AS profile_id,\n        profile.display_name AS author_name,\n        profile_slug\n    FROM \"blog\" LEFT JOIN (\n        SELECT\n            profile.id,\n            profile.display_name,\n            \"user\".username AS profile_slug\n        FROM \"profile\" LEFT JOIN \"user\"\n            ON user_id = \"user\".id\n    ) \"profile\"\n        ON profile_id = profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nWHERE is_draft = false\nORDER BY likes DESC;\n",
   "describe": {
     "columns": [
       {
@@ -76,5 +76,5 @@
       null
     ]
   },
-  "hash": "aab25dae2215929547e6e0d1174ccd58e77c9323a66008b7625689ef35b91918"
+  "hash": "3e14eace12559133e00a5cba560060b6e56f285ed02d9072c8d5a6906c2d210a"
 }

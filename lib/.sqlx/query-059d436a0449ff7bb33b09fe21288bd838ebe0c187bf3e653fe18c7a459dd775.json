@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT\n\tpost.id as id,\n\tpost.slug as post_slug,\n\ttitle,\n\tbody,\n\tpost.like_count AS likes,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"follow\"\n\tJOIN \"post\" ON follow.blog_id = post.blog_id\n \tJOIN \"blog\" ON post.blog_id = blog.id\n \tJOIN \"profile\" ON blog.profile_id = profile.id\n \tJOIN \"user\" ON profile.user_id = \"user\".id\nORDER BY post.created_at DESC;\n",
+  "query": "SELECT\n    id,\n\tslug as post_slug,\n\ttitle,\n\tbody,\n\tpost.like_count AS likes,\n\tblog.blog_slug,\n\tblog.blog_name,\n\tblog.profile_slug as author_slug,\n\tblog.author_name,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss\"Z\"') AS updated_at\nFROM \"post\" LEFT JOIN (\n\tSELECT\n\t\tblog.id AS blog_id,\n\t\tblog.slug AS blog_slug,\n\t\tblog.name AS blog_name,\n\t\tprofile.id AS profile_id,\n\t\tprofile.display_name AS author_name,\n\t\tprofile_slug\n\tFROM \"blog\" LEFT JOIN (\n\t\tSELECT\n\t\t\tprofile.id,\n\t\t\tprofile.display_name,\n\t\t\t\"user\".username as profile_slug\n\t\tFROM \"profile\" LEFT JOIN \"user\"\n\t\tON user_id = \"user\".id\n\t) \"profile\"\n\tON profile_id=profile.id\n) AS \"blog\" ON post.blog_id = blog.blog_id\nWHERE is_draft = false and profile_slug = $1;\n",
   "describe": {
     "columns": [
       {
@@ -60,7 +60,9 @@
       }
     ],
     "parameters": {
-      "Left": []
+      "Left": [
+        "Text"
+      ]
     },
     "nullable": [
       false,
@@ -76,5 +78,5 @@
       null
     ]
   },
-  "hash": "2587e5ef8557e68837afd7b18787fbc623f545172c47249ab41071875eb0699c"
+  "hash": "059d436a0449ff7bb33b09fe21288bd838ebe0c187bf3e653fe18c7a459dd775"
 }
