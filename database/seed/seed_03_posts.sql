@@ -178,7 +178,7 @@ So, let''s embrace this technology and explore the endless opportunities it pres
 
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('546eb9e1-a1ea-43dd-a205-c85a62b9395b', '2d0be777-545f-4dbe-95c9-768670e6caba', 'DevOops: Embracing Mistakes as a Developer', 'devoops:-embracing-mistakes-as-a-developer', '
+    ('546eb9e1-a1ea-43dd-a205-c85a62b9395b', '2d0be777-545f-4dbe-95c9-768670e6caba', 'DevOops: Embracing Mistakes as a Developer', 'devoops-embracing-mistakes-as-a-developer', '
 ![DevOops](https://example.com/devoops.jpg "DevOops")
 
 As developers, we strive for perfection in our code and work tirelessly to avoid any mistakes. However, no matter how skilled or experienced we are, errors are inevitable. Rather than getting discouraged by our mistakes, it''s time to embrace them and adopt a new mindset – that of DevOops.
@@ -220,7 +220,7 @@ DevOops promotes collaboration and knowledge sharing within development teams. E
 In the world of software development, mistakes are bound to happen. Embracing DevOops allows us to turn these mistakes into stepping stones towards growth and improvement. By creating a safe environment, encouraging accountability, and practicing continuous improvement, we can foster a culture that values learning from failures. So, let''s adopt the DevOops mindset and celebrate the lessons learned from our mistakes as we continue to evolve as developers.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('51f7dae2-a5eb-4094-a8ae-3e97aeab1e17', '2d0be777-545f-4dbe-95c9-768670e6caba', 'DevOops: Mistakes Turned Lessons in Software Development', 'devoops:-mistakes-turned-lessons-in-software-development', '
+    ('51f7dae2-a5eb-4094-a8ae-3e97aeab1e17', '2d0be777-545f-4dbe-95c9-768670e6caba', 'DevOops: Mistakes Turned Lessons in Software Development', 'devoops-mistakes-turned-lessons-in-software-development', '
 ![DevOops](https://example.com/images/devoops.jpg)
 
 As software developers, we strive to write clean, flawless code that sails smoothly through every scenario. But let''s face it, mistakes happen. And sometimes, they can cause catastrophic failures. Enter DevOops, a term coined to describe these humorous, yet enlightening, moments of blunders in software development.
@@ -346,7 +346,7 @@ To harness the power of data-driven insights, organizations must foster a cultur
 In a world driven by data, organizations that embrace a data-driven culture and harness the power of insights will gain a significant competitive advantage. By leveraging data analytics, businesses can improve decision-making, enhance operational efficiency, and deliver exceptional customer experiences. So, start embracing a data-driven approach today and unlock the true potential of your organization!');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('c146abb6-a3ba-487e-a7f5-c18a482b0d7f', '08caeab5-d01e-4849-b070-83928a6ab9f7', 'CloudChasers: Exploring the Fascinating World of Cloud Computing', 'cloudchasers:-exploring-the-fascinating-world-of-cloud-computing', '
+    ('c146abb6-a3ba-487e-a7f5-c18a482b0d7f', '08caeab5-d01e-4849-b070-83928a6ab9f7', 'CloudChasers: Exploring the Fascinating World of Cloud Computing', 'cloudchasers-exploring-the-fascinating-world-of-cloud-computing', '
 ![CloudChasers Banner](https://example.com/cloudchasers-banner.jpg)
 
 Are you ready to embark on an exciting journey into the realm of cloud computing? If you find yourself captivated by the idea of effortlessly accessing vast resources, advanced technologies, and endless possibilities, then join us as we become CloudChasers!
@@ -422,7 +422,7 @@ While the fusion of AI and exploration holds tremendous potential, it also raise
 AI and exploration are not mutually exclusive but rather collaborative entities. By embracing AI, explorers can delve deeper into the unknown, expand our understanding of the world, and solve intricate problems faced during their expeditions. However, it is crucial to maintain a balance, ensuring AI serves as a complement to human expertise, while preserving the values of exploration that have guided us through centuries. With careful and responsible integration, AI has the potential to revolutionize the future of exploration.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('139c168f-7589-4572-a14d-eb3c5a9cc5e8', 'f5b673ed-8ec5-4b34-8db4-63171433cc82', 'WebWizardry: Unlocking the Magic of the Web', 'webwizardry:-unlocking-the-magic-of-the-web', '
+    ('139c168f-7589-4572-a14d-eb3c5a9cc5e8', 'f5b673ed-8ec5-4b34-8db4-63171433cc82', 'WebWizardry: Unlocking the Magic of the Web', 'webwizardry-unlocking-the-magic-of-the-web', '
 *Image Source: [Unsplash](https://unsplash.com/photos/abcdef)*
 
 Do you ever wonder how your favorite websites come to life? How does one create an interactive, visually appealing, and functional webpage? Well, my friend, welcome to the world of WebWizardry!
@@ -618,7 +618,7 @@ The fascinating world of quantum and quest intertwines two dynamic and exciting 
 As we embark on this quantum quest, the possibilities are limitless. The fusion of quantum and quest propels us towards a future where monumental advancements become a reality. Stay curious, embrace the quantum revolution, and join in the quest for knowledge that shapes our ever-evolving world!');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('12e176e3-6d27-40aa-abc4-1b4790cccd09', 'bfef62e2-8825-4776-95c9-b8fd28069912', 'Blockchain and Buzz', '#blockchain-and-buzz', '
+    ('12e176e3-6d27-40aa-abc4-1b4790cccd09', 'bfef62e2-8825-4776-95c9-b8fd28069912', 'Blockchain and Buzz', 'blockchain-and-buzz', '
 ## Introduction
 
 In recent years, blockchain technology has gained a lot of buzz and attention across various industries. Its potential to revolutionize traditional systems and increase efficiency has sparked interest from entrepreneurs, investors, and tech enthusiasts worldwide. In this blog post, we will explore the concept of blockchain and discuss why it has become such a hot topic.
@@ -648,7 +648,7 @@ Blockchain is disrupting traditional industries and opening up new possibilities
 The buzz surrounding blockchain technology is justified by its transformative potential. Its transparency, security, efficiency, and smart contract capabilities make it an appealing choice for businesses seeking to revolutionize their operations. While challenges remain, the future looks promising for blockchain and its ability to reshape industries. Stay tuned for more exciting developments in this game-changing technology.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('f54439c6-a38d-4e26-ac59-0240adaebf7b', '802da36d-0f27-4e7f-8e96-1a7ac987c478', 'Gaming and Gurus: The Rise of Online Gaming Influencers', 'gaming-and-gurus:-the-rise-of-online-gaming-influencers', '
+    ('f54439c6-a38d-4e26-ac59-0240adaebf7b', '802da36d-0f27-4e7f-8e96-1a7ac987c478', 'Gaming and Gurus: The Rise of Online Gaming Influencers', 'gaming-and-gurus-the-rise-of-online-gaming-influencers', '
 In recent years, the world of gaming has undergone a remarkable transformation. What was once a niche hobby played in the confines of bedrooms has exploded into a global phenomenon, captivating millions of players worldwide. As gaming has gained mainstream recognition and popularity, a new breed of influencers known as gaming gurus has emerged, wielding immense power over the industry and its dedicated followers.
 
 ## The Power of Gaming Gurus
@@ -788,7 +788,7 @@ As VR continues to evolve, there is no doubt that visionaries will continue to d
 So, let us celebrate the visionaries shaping the future of VR, and may their imagination continue to bloom as they unravel the full potential of this remarkable technology.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('2edae31c-3f36-463d-bcee-739d4e65e58c', 'a96fd944-e014-4485-82f4-d77ec1bed091', 'The RoboRevolution: Embracing the Future', 'the-roborevolution:-embracing-the-future', '
+    ('2edae31c-3f36-463d-bcee-739d4e65e58c', 'a96fd944-e014-4485-82f4-d77ec1bed091', 'The RoboRevolution: Embracing the Future', 'the-roborevolution-embracing-the-future', '
 ![RoboRevolution](https://images.unsplash.com/photo-1567190058-02544522fa1c)
 
 *Image source: [Unsplash](https://unsplash.com/photos/NfM_HMz1ls0)*
@@ -948,7 +948,7 @@ Similarly, as the complexity of software applications increases, the need for we
 In conclusion, code and crunchers are inseparable in the world of computing. They form a symbiotic relationship where code provides instructions, and crunchers execute them, resulting in the many extraordinary technologies we rely on today. As both code and crunchers continue to evolve, we can expect even greater innovation and possibilities in the future.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('10b9aa44-492d-4cdd-a699-db25e06d68d7', '7183b82f-067b-4af6-9c7d-97557024dec1', 'Cloud, Computing, and Chronicles', 'cloud,-computing,-and-chronicles', '
+    ('10b9aa44-492d-4cdd-a699-db25e06d68d7', '7183b82f-067b-4af6-9c7d-97557024dec1', 'Cloud, Computing, and Chronicles', 'cloud-computing-and-chronicles', '
 In today''s digital era, the terms "cloud" and "computing" have become ubiquitous in our daily lives. But have you ever wondered how these concepts have evolved over time? Welcome to a journey through the chronicles of cloud computing!
 
 ## What is Cloud Computing?
@@ -984,7 +984,7 @@ So, next time you save a file to the cloud or spin up a virtual machine, take a 
 *References: [1] [2] [3]*');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('eae84782-9c63-45d1-8af0-7e0175390017', 'de2bab2b-ae49-4db9-8f4a-4d0bd017f419', 'AI, Insights, and Daily', 'ai,-insights,-and-daily', '
+    ('eae84782-9c63-45d1-8af0-7e0175390017', 'de2bab2b-ae49-4db9-8f4a-4d0bd017f419', 'AI, Insights, and Daily', 'ai-insights-and-daily', '
 Nowadays, Artificial Intelligence (AI) is transforming our lives in more ways than we can imagine. From autonomous vehicles to smart home devices, AI has become an integral part of our daily routines. This blog post aims to explore the intersection between AI, insights, and our daily lives.
 
 ## AI for Daily Tasks
@@ -1081,7 +1081,7 @@ To reinforce cybersecurity in central systems, several measures should be implem
 As central systems play an increasingly critical role in our lives, securing them from cyber threats becomes imperative. Cybersecurity measures, such as regular audits, employee training, multi-factor authentication, encryption, and real-time monitoring, are essential for safeguarding these systems and the valuable information they hold. By prioritizing cybersecurity, we can ensure that central systems remain secure and that the trust and privacy of users are protected.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('f8c69e44-9fd6-4203-af7d-4c191223c409', '822846be-c921-4f88-bdd0-18d17b4cd636', 'Data, Science, and Dispatch', 'data,-science,-and-dispatch', '
+    ('f8c69e44-9fd6-4203-af7d-4c191223c409', '822846be-c921-4f88-bdd0-18d17b4cd636', 'Data, Science, and Dispatch', 'data-science-and-dispatch', '
 In today''s data-driven world, the field of data science is revolutionizing how we analyze and extract insights from vast amounts of information. One area where data science is making a significant impact is in the field of dispatch, where the efficient management of resources is crucial for timely and effective decision-making. In this blog post, we will explore the ways in which data and science are transforming dispatch operations for the better.
 
 ## The Power of Data in Dispatch
@@ -1175,7 +1175,7 @@ The potential applications of IoT and insights are vast and ever-expanding. As m
 In conclusion, IoT and insights go hand in hand, enabling businesses and individuals to make data-driven decisions. The power of IoT lies not merely in collecting data but in the analysis of that data to gain valuable insights. As the IoT ecosystem evolves, we can anticipate more sophisticated technologies and greater opportunities for a smarter and more connected world.');
 INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
-    ('77fba017-9bb7-41b1-ab7a-4d2b6b4ab021', '8315da65-c555-4612-8262-3a86dda4659b', 'Quantum and Quorum: An Introduction to the Future of Computing', 'quantum-and-quorum:-an-introduction-to-the-future-of-computing', '
+    ('77fba017-9bb7-41b1-ab7a-4d2b6b4ab021', '8315da65-c555-4612-8262-3a86dda4659b', 'Quantum and Quorum: An Introduction to the Future of Computing', 'quantum-and-quorum-an-introduction-to-the-future-of-computing', '
 ![Quantum and Quorum](https://www.example.com/quantum-and-quorum.jpg)
 
 Quantum computing and consensus algorithms, particularly Quorum, are two fascinating topics at the forefront of technological advancements. In this blog post, we delve into the world of quantum and quorum, exploring their significance, applications, and how they are shaping the future of computing.
