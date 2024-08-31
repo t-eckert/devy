@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO \"post\" (blog_id, title, slug, body) \nVALUES ($1, $2, $3, $4)\nRETURNING\n  id,\n  blog_id,\n  title,\n  slug,\n  body,\n  to_char(\"post\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n  to_char(\"post\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n  0::bigint AS likes;\n",
+  "query": "SELECT\n\tid,\n    blog_id,\n\ttitle,\n\tslug,\n\tbody,\n\tCOALESCE(likes.like_count, 0)::bigint AS likes,\n\tto_char(post.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(post.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n\tis_draft\nFROM post\nLEFT JOIN (\n\tSELECT post_id, COUNT(*) AS like_count\n\tFROM \"like\"\n\tGROUP BY post_id\n) AS likes ON post.id = likes.post_id\nWHERE id = $1;\n",
   "describe": {
     "columns": [
       {
@@ -30,26 +30,28 @@
       },
       {
         "ordinal": 5,
+        "name": "likes",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 6,
         "name": "created_at",
         "type_info": "Text"
       },
       {
-        "ordinal": 6,
+        "ordinal": 7,
         "name": "updated_at",
         "type_info": "Text"
       },
       {
-        "ordinal": 7,
-        "name": "likes",
-        "type_info": "Int8"
+        "ordinal": 8,
+        "name": "is_draft",
+        "type_info": "Bool"
       }
     ],
     "parameters": {
       "Left": [
-        "Uuid",
-        "Text",
-        "Text",
-        "Text"
+        "Uuid"
       ]
     },
     "nullable": [
@@ -60,8 +62,9 @@
       false,
       null,
       null,
-      null
+      null,
+      false
     ]
   },
-  "hash": "caecd82ef105ea34d06f7b87fa02c242f5da29d679c8d30953d3473ccb3b9df4"
+  "hash": "b692a46167a2935db501a48d7420a99c4d17582d6582e99a5ba647fc2b8f75dc"
 }
