@@ -7,8 +7,9 @@
 
 	import Session from "./session.svelte"
 	import Theme from "./theme.svelte"
+	import User from "./user.svelte"
 
-	let isOpen = $state(false)
+	let isOpen = $state(true)
 </script>
 
 {#if isOpen}
@@ -25,9 +26,10 @@
 					}}><Cross /></button
 				>
 			</div>
-			<div class="m-2 flex flex-row gap-3 items-start">
+			<div class="m-2 grid grid-cols-2 gap-3 items-start">
 				<Session />
 				<Theme />
+				<User />
 			</div>
 		</section>
 	</Dialog>

@@ -9,8 +9,11 @@
 	import { setSessionState } from "$lib/state/session.svelte"
 	import { setLikesState } from "$lib/state/likes.svelte"
 	import { setThemeState } from "$lib/state/theme.svelte"
+	import { setUser } from "$lib/state/user.svelte"
 
 	const { data } = $props()
+
+	setUser(data.token)
 
 	const themeState = setThemeState("light")
 
