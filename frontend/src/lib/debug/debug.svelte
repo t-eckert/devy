@@ -9,7 +9,7 @@
 	import Theme from "./theme.svelte"
 	import User from "./user.svelte"
 
-	let isOpen = $state(true)
+	let isOpen = $state(false)
 </script>
 
 {#if isOpen}

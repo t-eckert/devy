@@ -1,12 +1,20 @@
 export default interface Post {
-	id: string
-	blog_id: string
+  id: string
+  postSlug: string
+  title: string
+  body: string
+  like_count: number
+  isDraft: boolean
 
-	slug: string
-	title: string
-	body: string
-	likes: number
+  blogSlug: string
+  blogName: string
 
-	createdAt: string
-	updatedAt: string
+  authorSlug: string
+  authorName: string
+
+  createdAt: string
+  updatedAt: string
+
+  liked: boolean
+  bookmarked: boolean
 }

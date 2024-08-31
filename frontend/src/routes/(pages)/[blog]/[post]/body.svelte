@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Entry } from "$lib/types"
+	import type { Post } from "$lib/types"
 	import Markdown from "$lib/markdown/markdown.svelte"
 
-	let { entry }: { entry: Entry } = $props()
+	let { post }: { post: Post } = $props()
 </script>
 
 <div class="mx-auto w-full max-w-3xl">
-	<Markdown source={entry.body} />
+	<Markdown source={post.body} />
 </div>
