@@ -3,18 +3,18 @@ use std::collections::HashMap;
 
 #[derive(Debug)]
 pub struct Markdown {
-    title: String,
-    raw: String,
-    frontmatter: Option<Frontmatter>,
-    body: String,
-    headers: Vec<Header>,
+    pub title: String,
+    pub raw: String,
+    pub frontmatter: Option<Frontmatter>,
+    pub body: String,
+    pub headers: Vec<Header>,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Header {
-    level: u8,
-    text: String,
-    id: String,
+    pub level: u8,
+    pub text: String,
+    pub id: String,
 }
 
 pub fn parse_markdown(raw: &str) -> Markdown {
@@ -22,6 +22,15 @@ pub fn parse_markdown(raw: &str) -> Markdown {
 }
 
 impl Markdown {
+    pub fn is_draft(&self) -> bool {
+        if self.frontmatter.is_some() {
+            if self.frontmatter.clone().unwrap().is_draft.is_some() {
+                return self.frontmatter.clone().unwrap().is_draft.unwrap();
+            }
+        }
+        return false;
+    }
+
     fn from_str(str: &str) -> Markdown {
         let mut headers = Vec::new();
         let mut body = String::from("");

@@ -8,6 +8,7 @@ pub async fn insert(
     title: String,
     slug: String,
     body: String,
+    is_draft: bool,
 ) -> Result<Post> {
     Ok(sqlx::query_file_as!(
         Post,
@@ -15,7 +16,8 @@ pub async fn insert(
         blog_id,
         title,
         slug,
-        body
+        body,
+        is_draft
     )
     .fetch_one(db)
     .await?)

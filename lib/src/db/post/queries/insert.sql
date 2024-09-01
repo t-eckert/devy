@@ -1,5 +1,5 @@
-INSERT INTO "post" (blog_id, title, slug, body)
-VALUES ($1, $2, $3, $4)
+INSERT INTO "post" (blog_id, title, slug, body, is_draft)
+VALUES ($1, $2, $3, $4, $5)
 RETURNING
   id,
   blog_id,

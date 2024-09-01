@@ -2,6 +2,7 @@ use crate::db;
 use crate::db::Database;
 use crate::db::{blog, post, repo};
 use crate::entities::{Blog, Upload};
+use crate::markdown::parse_markdown;
 use crate::uploader::{diff::Diff, error::Result, Error};
 use regex::Regex;
 use slugify::slugify;
@@ -39,40 +40,22 @@ pub async fn sync(db: &Database, upload: &mut Upload, diffs: Vec<Diff>) -> Resul
     Ok(())
 }
 
-pub struct Markdown {
-    pub title: String,
-    pub body: String,
-}
-
-impl Markdown {
-    pub fn from_file(path: String) -> Result<Self> {
-        let (title, body) = Self::title(
-            std::fs::read_to_string(&path).map_err(|e| Error::FileParseError(e.to_string()))?,
-        );
-
-        Ok(Self { title, body })
-    }
-
-    fn title(body: String) -> (String, String) {
-        let re = Regex::new(r"^# (.*)").unwrap();
-        match re.captures(&body) {
-            Some(caps) => {
-                let title = caps.get(1).unwrap().as_str().to_owned();
-                let body = re.replace(&body, "").to_string();
-
-                (title, body)
-            }
-            None => ("Untitled".to_owned(), body),
-        }
-    }
-}
-
 async fn add_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
     let slug = slugify!(&path.replace(".md", ""));
 
-    let markdown = Markdown::from_file(format!("{}/{}", dir, path))?;
+    let raw = std::fs::read_to_string(format!("{}/{}", dir, path))
+        .map_err(|e| Error::FileParseError(e.to_string()))?;
+    let markdown = parse_markdown(&raw);
 
-    post::insert(db, blog.id, markdown.title, slug, markdown.body).await?;
+    post::insert(
+        db,
+        blog.id,
+        markdown.title.clone(),
+        slug,
+        markdown.body.clone(),
+        markdown.is_draft(),
+    )
+    .await?;
 
     Ok(())
 }
@@ -80,9 +63,13 @@ async fn add_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result
 async fn modify_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
     let slug = slugify!(&path.replace(".md", ""));
     let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await?;
-    let markdown = Markdown::from_file(format!("{}/{}", dir, path))?;
 
-    post.title = markdown.title;
+    let raw = std::fs::read_to_string(format!("{}/{}", dir, path))
+        .map_err(|e| Error::FileParseError(e.to_string()))?;
+    let markdown = parse_markdown(&raw);
+
+    post.title = markdown.title.clone();
+    post.is_draft = markdown.is_draft();
     post.slug = slug;
     post.body = markdown.body;
 
@@ -102,9 +89,12 @@ async fn rename_post(
     let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &from_slug).await?;
 
     let slug = slugify!(&to.replace(".md", ""));
-    let markdown = Markdown::from_file(format!("{}/{}", dir, to))?;
+    let raw = std::fs::read_to_string(format!("{}/{}", dir, to))
+        .map_err(|e| Error::FileParseError(e.to_string()))?;
+    let markdown = parse_markdown(&raw);
 
-    post.title = markdown.title;
+    post.title = markdown.title.clone();
+    post.is_draft = markdown.is_draft();
     post.slug = slug;
     post.body = markdown.body;
 

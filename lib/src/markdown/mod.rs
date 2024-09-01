@@ -1,4 +1,4 @@
 mod frontmatter;
 mod markdown;
 
-pub use markdown::Markdown;
+pub use markdown::{parse_markdown, Markdown};
