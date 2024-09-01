@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO \"post\" (blog_id, title, slug, body)\nVALUES ($1, $2, $3, $4)\nRETURNING\n  id,\n  blog_id,\n  title,\n  slug,\n  body,\n  to_char(\"post\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n  to_char(\"post\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n  0::bigint AS likes,\n  is_draft;\n",
+  "query": "INSERT INTO \"post\" (blog_id, title, slug, body, is_draft)\nVALUES ($1, $2, $3, $4, $5)\nRETURNING\n  id,\n  blog_id,\n  title,\n  slug,\n  body,\n  to_char(\"post\".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n  to_char(\"post\".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,\n  0::bigint AS likes,\n  is_draft;\n",
   "describe": {
     "columns": [
       {
@@ -54,7 +54,8 @@
         "Uuid",
         "Text",
         "Text",
-        "Text"
+        "Text",
+        "Bool"
       ]
     },
     "nullable": [
@@ -69,5 +70,5 @@
       false
     ]
   },
-  "hash": "9d9bed6a895beaaaa3bd8f7123ac113057b38c7526f2a81bb35a4fa0304575a9"
+  "hash": "96362a1d46136328ddac64cf5d4cac5bf4583f280a338f6cd8f6705b7d58a232"
 }
