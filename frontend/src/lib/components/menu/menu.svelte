@@ -29,8 +29,8 @@
 <div class="relative">
 	<button
 		onclick={toggleMenu}
-		class={`p-1 rounded-md text-stone-600 dark:text-zinc-300 hover:text-stone-950 dark:hover:text-zinc-100 transition-all border ` +
-			`${isOpen ? "bg-white border-stone-200/70 shadow dark:shadow-none dark:bg-zinc-800 dark:border-zinc-600/70" : "bg-none border-transparent hover:bg-stone-100 dark:hover:bg-zinc-800"}`}
+		class={`p-1 rounded text-stone-600 dark:text-zinc-300 hover:text-stone-950 dark:hover:text-zinc-100 transition-all border ` +
+			`${isOpen ? "bg-white border-stone-200/70 shadow dark:shadow-none dark:bg-zinc-800 dark:border-zinc-600/70" : "bg-white border-stone-100 dark:hover:bg-zinc-800"}`}
 	>
 		<HamburgerMenu />
 	</button>
