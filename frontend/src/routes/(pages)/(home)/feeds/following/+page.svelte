@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Devy: Following</title>
+	<title>Devy / Following</title>
 </svelte:head>
 
 <Feed {feed} />

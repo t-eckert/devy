@@ -7,7 +7,9 @@
 </script>
 
 <svelte:head>
-	<title>Devy: Bookmarked</title>
+	<title>Devy / Bookmarked</title>
 </svelte:head>
 
-<Json {data} />
+<div class="w-full h-40 flex items-center justify-center">
+	<Placeholder>Bookmarks</Placeholder>
+</div>

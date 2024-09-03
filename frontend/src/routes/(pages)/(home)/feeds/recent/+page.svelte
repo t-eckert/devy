@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Devy: Recent</title>
+	<title>Devy / Recent</title>
 </svelte:head>
 
 <Feed {feed} />

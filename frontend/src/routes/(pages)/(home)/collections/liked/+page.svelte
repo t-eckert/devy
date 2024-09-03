@@ -6,11 +6,9 @@
 </script>
 
 <svelte:head>
-	<title>Devy: Liked</title>
+	<title>Devy / Liked</title>
 </svelte:head>
 
 <div class="w-full h-40 flex items-center justify-center">
 	<Placeholder>Liked</Placeholder>
 </div>
-
-<Json {data} />
