@@ -1,15 +1,12 @@
 # API
 api-build:
-	@SQLX_OFFLINE=true cargo build --bin api --release
+	@SQLX_OFFLINE=true cargo build --bin ./backend/api --release
 
 api-serve:
-	@cd api && RUST_LOG=DEBUG cargo watch -- cargo run
-
-api-prepare-queries:
-	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
+	@cd ./backend/api && RUST_LOG=DEBUG cargo watch -- cargo run
 
 api-package:
-	@podman build . -f ./api/Dockerfile -t devy-api
+	@podman build . -f ./backend/api/Dockerfile -t devy-api
 
 
 # Changelog
@@ -23,7 +20,7 @@ changelog-serve: changelog-build
 
 # DB
 db-build:
-	@podman build . -f ./database/Dockerfile -t devy-test-db
+	@podman build . -f ./backend/database/Dockerfile -t devy-test-db
 
 db-serve: db-build
 	@podman run --rm\
@@ -36,9 +33,6 @@ db-stop:
 
 db-access:
 	@podman exec -it devy-test-db psql -U postgres
-
-db-prepare:
-	@cd db && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
 
 
 # Devyctl
