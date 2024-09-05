@@ -2,6 +2,7 @@
 	import GithubLogo from "$lib/icons/github-logo.svelte"
 	import ProfileToken from "$lib/components/profile-token.svelte"
 	import Menu from "$lib/components/menu"
+	import NavigationMenu from "$lib/components/navigation-menu.svelte"
 	import { getSessionState } from "$lib/state/session.svelte"
 
 	const sessionState = getSessionState()
@@ -25,10 +26,5 @@
 		</a>
 	{/if}
 
-	<Menu>
-		{#if sessionState.session}
-			<Menu.Link href="/dashboard">Dashboard</Menu.Link>
-			<Menu.FormButton action="/auth/sign-out" name="sign-out">Sign out</Menu.FormButton>
-		{/if}
-	</Menu>
+	<NavigationMenu />
 </nav>
