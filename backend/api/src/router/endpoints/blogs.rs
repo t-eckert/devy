@@ -1,5 +1,5 @@
 use crate::{
-    controllers::{BlogsController, PostsController},
+    controllers::{BlogsController, EntriesController, PostsController},
     router::{error::Result, middleware::auth},
     store::Store,
 };
@@ -69,7 +69,7 @@ async fn get_blog_entries_by_blog_slug(
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Vec<Entry>>> {
     Ok(Json(
-        entry::get_by_blog_slug(&store.db_conn, &blog_slug).await?,
+        EntriesController::get_by_blog_slug(&store, &blog_slug).await?,
     ))
 }
 
@@ -89,7 +89,7 @@ async fn get_blog_entry_by_blog_slug_and_post_slug(
     Path((blog_slug, post_slug)): Path<(String, String)>,
 ) -> Result<Json<Entry>> {
     Ok(Json(
-        entry::get_by_blog_slug_and_post_slug(&store.db_conn, &blog_slug, &post_slug).await?,
+      EntriesController::get_by_blog_slug_and_post_slug(&store, &blog_slug, &post_slug).await?,
     ))
 }
 
