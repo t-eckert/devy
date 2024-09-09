@@ -37,10 +37,12 @@
 </script>
 
 <div class="max-w-xl">
-	<Card>
+	<section
+		class="h-full w-full rounded-md border border-stone-200/70 backdrop-blur-3xl shadow bg-white/60 dark:bg-zinc-800/60 dark:border-zinc-800 dark:shadow-none px-2 py-1.5"
+	>
 		<div class="flex flex-col">
 			{#if components.has(Blog)}
-				<div class="ml-20">
+				<div class="ml-[4.75rem]">
 					<a
 						href={`/${blogSlug}`}
 						class="text-xs text-stone-500 hover:text-stone-600 dark:text-stone-400">{blogName}</a
@@ -48,7 +50,7 @@
 				</div>
 			{/if}
 
-			<div class="flex flex-row gap-2 items-start">
+			<div class="flex flex-row gap-1 items-start">
 				<div class="ml-2 w-16 mt-[0.12rem]">
 					<Likes {postId} likes={likeCount || likes} />
 				</div>
@@ -74,5 +76,5 @@
 				</div>
 			</div>
 		</div>
-	</Card>
+	</section>
 </div>
