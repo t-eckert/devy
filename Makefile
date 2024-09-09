@@ -6,7 +6,7 @@ api-serve:
 	@cd ./backend/api && RUST_LOG=DEBUG cargo watch -- cargo run
 
 api-package:
-	@podman build . -f ./backend/api/Dockerfile -t devy-api
+	@md ./backend/ && podman build . -f ./api/Dockerfile -t devy-api
 
 
 # Changelog
