@@ -28,6 +28,7 @@ pub fn router(store: Store) -> Router<Store> {
     Router::new().merge(open).merge(protected)
 }
 
+// GET /follows/:profile_id
 async fn following(
     State(store): State<Store>,
     Path(profile_id): Path<Uuid>,
@@ -37,6 +38,7 @@ async fn following(
     ))
 }
 
+// POST /follows
 async fn follow_blog(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
@@ -49,6 +51,7 @@ async fn follow_blog(
     Ok(FollowsController::insert(&store, follow).await?)
 }
 
+// DELETE /follows/:profile_id/:blog_id
 async fn unfollow_blog(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
@@ -58,12 +61,10 @@ async fn unfollow_blog(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(FollowsController::delete(
-        &store,
-        Follow {
-            profile_id,
-            blog_id,
-        },
-    )
-    .await?)
+    let follow = Follow {
+        profile_id,
+        blog_id,
+    };
+
+    Ok(FollowsController::delete(&store, follow).await?)
 }

@@ -12,6 +12,7 @@ pub fn router(store: Store) -> Router<Store> {
         .with_state(store)
 }
 
+// GET /drafts
 async fn get_drafts(
     Extension(session): Extension<Session>,
     State(store): State<Store>,

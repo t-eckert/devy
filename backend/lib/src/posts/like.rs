@@ -7,3 +7,9 @@ pub struct Like {
     pub profile_id: Uuid,
     pub post_id: Uuid,
 }
+
+pub struct LikeRepository;
+
+impl LikeRepository {
+
+}

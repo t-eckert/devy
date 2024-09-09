@@ -1,3 +1,4 @@
+use crate::date::Date;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -12,6 +13,10 @@ pub struct Blog {
     pub slug: String,
     pub description: Option<String>,
 
-    pub created_at: Option<String>,
-    pub updated_at: Option<String>,
+    pub created_at: Date,
+    pub updated_at: Date,
 }
+
+pub struct BlogRepository;
+
+impl BlogRepository {}

@@ -6,14 +6,16 @@ pub mod entities;
 pub mod forms;
 pub mod github;
 pub mod monitoring;
-pub mod notifications;
 pub mod store;
 pub mod token;
 pub mod uploader;
 pub mod webhooks;
+pub mod feed;
+pub mod notification;
+pub mod posts;
 
 mod date;
 mod email;
 mod markdown;
-pub mod posts;
 mod test;
+mod repositories;

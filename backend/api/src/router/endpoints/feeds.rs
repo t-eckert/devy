@@ -6,7 +6,7 @@ use crate::{
 use axum::{extract::State, middleware, routing::get, Extension, Json};
 use lib::{entities::Feed, token::Session};
 
-/// Create a new router for Feeds.
+/// Create a new router for feeds.
 pub fn router(store: Store) -> axum::Router<Store> {
     let open = axum::Router::new()
         .route("/feeds/recent", get(get_recent))

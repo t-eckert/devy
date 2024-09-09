@@ -5,7 +5,7 @@ use time::macros::format_description;
 use time::{format_description::well_known::Rfc3339, Month, OffsetDateTime};
 
 /// Date is datetime in UTC.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Date {
     pub year: i32,
     pub month: Month,

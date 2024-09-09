@@ -23,6 +23,10 @@ impl ProfilesController {
         .await?)
     }
 
+    pub async fn get_all(store: &Store) -> Result<Vec<Profile>> {
+        Ok(vec![])
+    }
+
     pub async fn get_by_id(store: &Store, id: Uuid) -> Result<Profile> {
         Ok(profile::get_by_id(&store.db_conn, id).await?)
     }

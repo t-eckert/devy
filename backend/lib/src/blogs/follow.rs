@@ -7,3 +7,7 @@ pub struct Follow {
     pub profile_id: Uuid,
     pub blog_id: Uuid,
 }
+
+pub struct FollowRepository;
+
+impl FollowRepository {}

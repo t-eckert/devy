@@ -6,7 +6,7 @@ use axum::{
 };
 use std::collections::HashMap;
 
-/// Create a new router for Auth.
+/// Create a new router for auth.
 pub fn router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
         .route("/auth/sign-in", get(sign_in))

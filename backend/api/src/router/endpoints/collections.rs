@@ -6,7 +6,7 @@ use crate::{
 use axum::{extract::State, middleware, routing::get, Extension, Json};
 use lib::{collection::Collection, token::Session};
 
-/// Create a new router for Collections.
+/// Create a new router for collections.
 pub fn router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
         .route("/collections/likes", get(get_likes))

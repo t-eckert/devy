@@ -1,16 +1,16 @@
 use crate::router::{error::Result, middleware::auth};
+use crate::store::Store;
 use axum::{
     extract::{Json as ExtractJson, Path, State},
+    http::StatusCode,
     middleware,
     routing::{delete, get, post},
-    Json, Router,
-    Extension, http::StatusCode
+    Extension, Json, Router,
 };
 use lib::{db::like, entities::Like, token::Session};
 use uuid::Uuid;
-use crate::store::Store;
 
-/// /likes Endpoints
+/// Create a new router for likes.
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
         .route("/likes/:username", get(get_by_username))
@@ -25,8 +25,7 @@ pub fn router(store: Store) -> Router<Store> {
     Router::new().merge(open).merge(protected)
 }
 
-/// GET /likes/:username
-// TODO in the next version of the API, have this query by profile_id. It'll be faster.
+// GET /likes/:username
 async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
@@ -34,7 +33,7 @@ async fn get_by_username(
     Ok(Json(like::get_by_username(&store.db_conn, username).await?))
 }
 
-/// POST /likes
+// POST /likes
 async fn post_like(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
@@ -49,7 +48,7 @@ async fn post_like(
     ))
 }
 
-/// DELETE /likes/:profile_id/:post_id
+// DELETE /likes/:profile_id/:post_id
 async fn delete_like(
     Extension(session): Extension<Session>,
     State(store): State<Store>,

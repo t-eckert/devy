@@ -1,8 +1,7 @@
 mod email;
-mod send;
-mod queries;
 mod error;
+mod send;
 
 pub use email::Email;
+pub use error::{Error, Result};
 pub use send::send;
-pub use error::{Error,Result};

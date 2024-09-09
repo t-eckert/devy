@@ -12,11 +12,11 @@ use axum::{
 };
 use lib::{
     db::{blog, entry},
-    entities::{Blog, Entry, Post},
+    entities::{Blog, Entry},
     token::Session,
 };
 
-/// Create a new router for Blogs.
+/// Create a new router for blogs.
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
         .route("/blogs/:blog_slug", get(get_blog_by_blog_slug))

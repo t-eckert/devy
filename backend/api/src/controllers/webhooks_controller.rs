@@ -1,7 +1,6 @@
 use super::Result;
 use crate::store::Store;
 use lib::db::upload;
-use lib::entities::WebhookType;
 use lib::webhooks;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -23,7 +22,7 @@ impl WebhooksController {
             .map_err(|_| super::Error::Generic("failed to get".to_string()))?;
 
         match webhook.webhook_type {
-            WebhookType::GitHubPushEvent => {
+            webhooks::WebhookType::GitHubPushEvent => {
                 let repo = webhook.payload["repository"]["clone_url"]
                     .as_str()
                     .unwrap_or_default()
@@ -36,7 +35,7 @@ impl WebhooksController {
                     )
                     .await;
             }
-            WebhookType::Uncategorized => {}
+            webhooks::WebhookType::Uncategorized => {}
         }
 
         Ok(())

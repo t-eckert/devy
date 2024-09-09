@@ -1,5 +1,6 @@
 use crate::router::{error::Result, middleware::auth};
 use crate::store::Store;
+use crate::controllers::ProfilesController;
 use axum::{
     extract::{Path, State},
     middleware,
@@ -42,6 +43,7 @@ async fn get_profile_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Profile>> {
     Ok(Json(
+
         profile::get_by_username(&store.db_conn, username).await?,
     ))
 }

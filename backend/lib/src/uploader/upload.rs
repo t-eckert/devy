@@ -1,3 +1,4 @@
+use crate::db::{DBConn, Result as DBResult};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -32,5 +33,17 @@ impl Upload {
 
     pub fn dir(&self) -> String {
         format!("/tmp/{}", self.id)
+    }
+}
+
+pub struct UploadRepository;
+
+impl UploadRepository {
+    pub async fn insert(
+        db_conn: &DBConn,
+        previous_upload_id: Option<Uuid>,
+        repo: &str,
+    ) -> DBResult<Uuid> {
+        return Ok(Uuid::new_v4());
     }
 }
