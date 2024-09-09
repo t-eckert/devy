@@ -38,7 +38,7 @@
 
 <div class="max-w-xl">
 	<section
-		class="h-full w-full rounded-md border border-stone-200/70 backdrop-blur-3xl shadow bg-white/60 dark:bg-zinc-800/60 dark:border-zinc-800 dark:shadow-none px-2 py-1.5"
+		class="h-full w-full rounded border border-stone-200/70 backdrop-blur-3xl shadow bg-white/60 dark:bg-zinc-800/60 dark:border-zinc-800 dark:shadow-none px-2 py-1.5"
 	>
 		<div class="flex flex-col">
 			{#if components.has(Blog)}
