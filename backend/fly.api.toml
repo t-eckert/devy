@@ -2,7 +2,7 @@ app = 'devy-api'
 primary_region = 'iad'
 
 [build]
-dockerfile = './backend/api/Dockerfile'
+dockerfile = './api/Dockerfile'
 
 [env]
 RUST_LOG = 'debug'
