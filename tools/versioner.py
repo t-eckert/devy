@@ -16,6 +16,10 @@ import tomllib
 import subprocess
 import json
 import os
+import glob
+
+
+CHANGELOG_DIR = "./frontend/static/changelog"
 
 
 def main():
@@ -23,7 +27,7 @@ def main():
 
     version = gen_version()
     write_version(version)
-    filename = f"./changelog/{version}.md"
+    filename = f"{CHANGELOG_DIR}/{version}.md"
 
     name = get_name(version)
 
@@ -31,6 +35,7 @@ def main():
         format_changelog(version, name, get_git_changes(prev_version)),
         filename,
     )
+    update_index()
 
     tag_version(version, name)
     commit(version)
@@ -73,11 +78,9 @@ def write_version(version: str) -> None:
 def format_changelog(version: str, name: str, changes: str) -> str:
     # Formats the changelog for a given version.
 
-    return f"""`v{version}`
+    return f"""## {name}
 
-# {name}
-
-## Changes
+### Changes
 
 {changes}
 """
@@ -116,6 +119,13 @@ def format_changes(changes: str) -> str:
 
 def format_change(change: str) -> str:
     return "- " + change.split("|")[-1].strip().split("{{")[0].strip()
+
+
+def update_index():
+    files = glob.glob(f"{CHANGELOG_DIR}/*.md")
+    index = [x[len(CHANGELOG_DIR)+1:-3] for x in files]
+    with open(f"{CHANGELOG_DIR}/index.json", "w") as w:
+        w.write(json.dumps(sorted(index)[::-1]))
 
 
 if __name__ == "__main__":
