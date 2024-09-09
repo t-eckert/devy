@@ -14,10 +14,7 @@
 			<div class="mb-3">
 				<Home />
 			</div>
-			<P
-				>An open source blogging platform where you can write in Markdown and push to GitHub to
-				publish.</P
-			>
+			<P>A blogging platform where you can write in Markdown and push to GitHub to publish.</P>
 		</div>
 		<div class="h-full pb-3 gap-3 flex flex-col items-center">
 			<div class="flex-1 grid sm:grid-cols-3 w-full">
@@ -29,20 +26,8 @@
 						>Changelog</a
 					>
 					<a
-						href="https://github.com/t-eckert/devy"
-						class="text-sm font-medium text-stone-600 hover:text-stone-950">GitHub</a
-					>
-					<a
-						href="https://github.com/t-eckert/devy/issues/new/choose"
-						class="text-sm font-medium text-stone-600 hover:text-stone-950">Open an issue</a
-					>
-					<a
 						href="https://polar.sh/t-eckert/devy"
 						class="text-sm font-medium text-stone-600 hover:text-stone-950">Support on Polar.sh</a
-					>
-					<a
-						href="https://discord.gg/qUJ54EEC5g"
-						class="text-sm font-medium text-stone-600 hover:text-stone-950">Discord</a
 					>
 					<a
 						href="https://thomaseckert.dev"

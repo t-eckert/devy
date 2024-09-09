@@ -47,5 +47,6 @@
 	class="w-40 rounded-md border border-stone-200/70 dark:border-zinc-700/70 backdrop-blur-3xl py-1 flex flex-col gap-1 shadow-lg bg-white/80 dark:bg-zinc-900 dark:border-stone-200"
 >
 	<a use:melt={$item} class={itemStyle} href="/">Home</a>
+	<a use:melt={$item} class={itemStyle} href="/changelog">Changelog</a>
 	<a use:melt={$item} class={itemStyle} href="/dashboard">Dashboard</a>
 </div>

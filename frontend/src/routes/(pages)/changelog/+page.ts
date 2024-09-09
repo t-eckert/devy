@@ -1,47 +1,50 @@
 import type { PageLoad } from "./$types"
 import { error, type NumericRange } from "@sveltejs/kit"
 
-export const load: PageLoad = async ({ fetch }) => {
-	const resp = await fetch("/changelog/index.json", { headers: { accept: "application/json" } })
-	if (!resp.ok) {
-		throw error(resp.status as NumericRange<400, 599>, {
-			message: resp.statusText
-		})
-	}
+export const load: PageLoad = async ({ url, fetch }) => {
+  async function fetchIndex() {
+    const resp = await fetch(`${url.origin}/changelog/index.json`, { headers: { accept: "application/json" } })
+    if (!resp.ok) {
+      throw error(resp.status as NumericRange<400, 599>, {
+        message: resp.statusText
+      })
+    }
 
-	let index
-	try {
-		index = await resp.json()
-	} catch (e) {
-		throw error(500, {
-			message: e.message
-		})
-	}
+    let index: string[]
+    try {
+      index = await resp.json()
+    } catch (e) {
+      throw error(500, {
+        message: e.message
+      })
+    }
 
-	// t-eckert: this can be made faster with promise all settled
-	const changelogs = []
-	for (const version of index) {
-		const url = `/changelog/${version}.md`
-		const resp = await fetch(url, { headers: { accept: "text/markdown" } })
-		if (!resp.ok) {
-			throw error(resp.status as NumericRange<400, 599>, {
-				message: resp.statusText
-			})
-		}
+    return index
+  }
 
-		let markdown
-		try {
-			markdown = await resp.text()
-		} catch (e) {
-			throw error(500, {
-				message: e.message
-			})
-		}
+  async function fetchChangelog(version: string) {
+    const resp = await fetch(`${url.origin}/changelog/${version}.md`, { headers: { accept: "text/markdown" } })
+    if (!resp.ok) {
+      throw error(resp.status as NumericRange<400, 599>, {
+        message: resp.statusText
+      })
+    }
 
-		changelogs.push({ version, markdown })
-	}
+    let markdown: string
+    try {
+      markdown = await resp.text()
+    } catch (e) {
+      console.log(e.message)
+      markdown = ""
+    }
+    return markdown
+  }
 
-	return {
-		props: { changelogs }
-	}
+  const index = await fetchIndex()
+  return {
+    changelogs: await Promise.all(index.map(async (version) => {
+      const body = await fetchChangelog(version)
+      return { version, body }
+    }))
+  }
 }
