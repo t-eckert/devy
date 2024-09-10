@@ -12,8 +12,9 @@ use axum::{
 };
 use lib::{
     db::{blog, entry},
-    entities::{Blog, Entry},
+    entities::{Blog },
     token::Session,
+    posts::Entry
 };
 
 /// Create a new router for blogs.

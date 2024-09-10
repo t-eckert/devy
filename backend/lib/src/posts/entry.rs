@@ -52,4 +52,27 @@ impl EntryRepository {
         .fetch_all(db_conn)
         .await?)
     }
+
+    pub async fn get_by_blog_slug_and_post_slug(
+        db_conn: &DBConn,
+        blog_slug: &str,
+        post_slug: &str,
+    ) -> Result<Entry> {
+        Ok(sqlx::query_file_as!(
+            Entry,
+            "queries/get_entry_by_blog_slug_and_post_slug.sql",
+            blog_slug,
+            post_slug
+        )
+        .fetch_one(db_conn)
+        .await?)
+    }
+
+    pub async fn get_by_blog_slug(db_conn: &DBConn, blog_slug: &str) -> Result<Vec<Entry>> {
+        Ok(
+            sqlx::query_file_as!(Entry, "queries/get_entries_by_blog_slug.sql", blog_slug)
+                .fetch_all(db_conn)
+                .await?,
+        )
+    }
 }
