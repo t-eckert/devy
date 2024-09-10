@@ -16,6 +16,7 @@ uuid = "1.9.1"
 serde_with = "3.8.1"
 derive_more = "0.99.17"
 anyhow = "1.0.86"
+clerk-rs = { version = "0.3.1", features = ["axum"] }
 
 [dependencies.serde]
 features = ["derive"]
