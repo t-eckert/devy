@@ -6,12 +6,17 @@
 	import Debug from "$lib/debug/debug.svelte"
 	import { dev } from "$app/environment"
 
+	import type { Snippet } from "svelte"
+	import type { LayoutData } from "./$types"
+	import { ClerkProvider, SignIn } from "svelte-clerk"
+	import { PUBLIC_CLERK_PUBLISHABLE_KEY } from "$env/static/public"
+
 	import { setSessionState } from "$lib/state/session.svelte"
 	import { setLikesState } from "$lib/state/likes.svelte"
 	import { setThemeState } from "$lib/state/theme.svelte"
 	import { setUser } from "$lib/state/user.svelte"
 
-	const { data } = $props()
+	const { children, data } = $props()
 
 	setUser(data.token)
 
@@ -33,14 +38,15 @@
 </script>
 
 <div class={themeState.theme}>
-	<!-- t-eckert: I don't know how to render the children for a layout -->
-	<!-- svelte-ignore slot_element_deprecated -->
-	<div
-		class="bg-stone-50 text-stone-950 dark:text-white dark:bg-zinc-900 min-h-screen scroll-smooth"
-	>
-		{#if dev}
-			<Debug />
-		{/if}
-		<slot />
-	</div>
+	<ClerkProvider {...data} publishableKey={PUBLIC_CLERK_PUBLISHABLE_KEY}>
+		<SignIn />
+		<div
+			class="bg-stone-50 text-stone-950 dark:text-white dark:bg-zinc-900 min-h-screen scroll-smooth"
+		>
+			{#if dev}
+				<Debug />
+			{/if}
+			{@render children()}
+		</div>
+	</ClerkProvider>
 </div>

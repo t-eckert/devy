@@ -1,16 +1,19 @@
 import type { Handle } from "@sveltejs/kit"
+import { sequence } from "@sveltejs/kit/hooks";
+import { withClerkHandler } from "svelte-clerk/server"
 
-export const handle: Handle = async ({ event, resolve }) => {
-	{
-		let token = event.url.searchParams.get("token")
-		if (token) {
-			event.cookies.set("token", token, { path: "/", maxAge: 60 * 60 * 24 * 365 })
-			event.url.searchParams.delete("token")
-		}
-	}
+export const handle: Handle = sequence(
+  withClerkHandler(),
+  ({ event, resolve }) => {
 
-	const token = event.cookies.get("token")
-	event.locals.token = token
+    // Forgive me JS gods.
+    // @ts-expect-error to bypass serializability issues
+    delete event.locals.auth.getToken
+    // @ts-expect-error to bypass serializability issues
+    delete event.locals.auth.has
+    // @ts-expect-error to bypass serializability issues
+    delete event.locals.auth.debug
 
-	return await resolve(event)
-}
+    return resolve(event);
+  }
+);

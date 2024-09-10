@@ -8,6 +8,7 @@
 	import Session from "./session.svelte"
 	import Theme from "./theme.svelte"
 	import User from "./user.svelte"
+	import Auth from "./auth.svelte"
 
 	let isOpen = $state(false)
 </script>
@@ -30,6 +31,7 @@
 				<Session />
 				<Theme />
 				<User />
+				<Auth />
 			</div>
 		</section>
 	</Dialog>
