@@ -1,5 +1,6 @@
 use super::{endpoints, error::Result};
 use axum::{routing::get, Router as AxumRouter};
+use clerk_rs::{validators::axum::ClerkLayer, ClerkConfiguration};
 use std::net::SocketAddr;
 use tower_http::{
     cors::{Any, CorsLayer},
@@ -15,6 +16,17 @@ pub struct Router {
 impl Router {
     /// Create a new Router.
     pub fn new(store: crate::store::Store, socket_addr: SocketAddr) -> Self {
+        let config = ClerkConfiguration::new(
+            None,
+            None,
+            Some("sk_test_8ZhljN4iPIkj7hgmD2bIRw4Y3ntzcjuRbcsbcWFEku".to_string()),
+            None,
+        );
+
+        let protected_router = axum::Router::new()
+            .route("/protected", get(|| async { "Protected" }))
+            .layer(ClerkLayer::new(config, None, true));
+
         let router = axum::Router::new()
             .route("/ready", get(|| async { "OK" }))
             // Routers in Alphabetical Order
@@ -31,6 +43,7 @@ impl Router {
             .merge(endpoints::uploads::router(store.clone()))
             .merge(endpoints::users::router(store.clone()))
             .merge(endpoints::webhooks::router(store.clone()))
+            .merge(protected_router)
             // Global middleware
             .layer(TraceLayer::new_for_http())
             .layer(
