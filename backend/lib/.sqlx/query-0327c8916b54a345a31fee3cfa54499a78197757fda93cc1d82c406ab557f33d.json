@@ -1,0 +1,83 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select\n\tpost.id as id,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\tpost.slug as post_slug,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tpost.created_at,\n\tpost.updated_at,\n\ttitle,\n\tlike_count,\n\tis_draft\nfrom \"post\"\nleft join \"blog\" on \"post\".blog_id = \"blog\".id\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere is_draft = false and blog.slug = $1 and post.slug = $2;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "blog_slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "blog_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "post_slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "author_slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "author_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 8,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "like_count",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 10,
+        "name": "is_draft",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "0327c8916b54a345a31fee3cfa54499a78197757fda93cc1d82c406ab557f33d"
+}
