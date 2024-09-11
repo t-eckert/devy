@@ -1,6 +1,7 @@
 use crate::router::{error::Result, middleware::auth};
 use crate::store::Store;
-use crate::controllers::ProfilesController;
+use crate::controllers::BlogsController;
+use lib::blogs::Blog;
 use axum::{
     extract::{Path, State},
     middleware,
@@ -8,8 +9,8 @@ use axum::{
     Json, Router,
 };
 use lib::{
-    db::{blog, entry, profile},
-    entities::{Blog, Entry, Profile},
+    db::{entry, profile},
+    entities::{Entry, Profile},
 };
 
 /// Create a new router for Profiles.
@@ -53,7 +54,7 @@ async fn get_blogs_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Blog>>> {
-    Ok(Json(blog::get_by_username(&store.db_conn, username).await?))
+    Ok(Json(BlogsController::get_by_username(&store, &username).await?))
 }
 
 // GET /profiles/:username/entries

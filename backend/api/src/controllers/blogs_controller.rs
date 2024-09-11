@@ -1,6 +1,6 @@
 use super::Result;
-use crate::{db::blog, store::Store};
-use lib::entities::Blog;
+use crate::store::Store;
+use lib::blogs::{Blog, BlogRepository};
 use uuid::Uuid;
 
 pub struct BlogsController;
@@ -16,29 +16,38 @@ pub struct NewBlog {
 impl BlogsController {
     /// Insert a new blog into the database.
     pub async fn insert(store: &Store, new_blog: NewBlog) -> Result<Blog> {
-        Ok(blog::upsert(
+        let id = BlogRepository::insert(
             &store.db_conn,
             new_blog.profile_id,
             &new_blog.name,
             &new_blog.slug,
-            new_blog.description,
+            new_blog.description.as_ref(),
         )
-        .await?)
+        .await?.id;
+
+        let blog = BlogRepository::get(&store.db_conn, id).await?;
+
+        Ok(blog)
     }
 
     /// Get a blog by its ID.
     pub async fn get_by_id(store: &Store, id: Uuid) -> Result<Blog> {
-        Ok(blog::get_by_id(&store.db_conn, id).await?)
+        Ok(BlogRepository::get(&store.db_conn, id).await?)
     }
 
     /// Get a blog by its slug.
     pub async fn get_by_slug(store: &Store, slug: &String) -> Result<Blog> {
-        Ok(blog::get_by_slug(&store.db_conn, slug).await?)
+        Ok(BlogRepository::get_by_slug(&store.db_conn, slug).await?)
+    }
+
+    /// Get blogs by a username.
+    pub async fn get_by_username(store: &Store, username: &String) -> Result<Vec<Blog>> {
+        Ok(BlogRepository::get_by_username(&store.db_conn, username).await?)
     }
 
     /// Delete a blog by its slug.
     pub async fn delete_by_slug(store: &Store, slug: &String) -> Result<()> {
-        Ok(blog::delete_by_slug(&store.db_conn, slug.to_string()).await?)
+        Ok(BlogRepository::delete_by_slug(&store.db_conn, slug).await?)
     }
 }
 

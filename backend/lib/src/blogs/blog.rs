@@ -48,6 +48,12 @@ impl BlogRepository {
             .await?)
     }
 
+    pub async fn get_by_username(db_conn: &db::Conn, username: &String) -> db::Result<Vec<Blog>> {
+        Ok(sqlx::query_file_as!(Blog, "queries/get_blogs_by_username.sql", username)
+            .fetch_all(db_conn)
+            .await?)
+    }
+
     pub async fn delete_by_slug(db_conn: &db::Conn, slug: &String) -> db::Result<()> {
         let _ = sqlx::query_file!("queries/delete_blog_by_slug.sql", slug)
             .execute(db_conn)

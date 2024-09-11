@@ -1,5 +1,5 @@
 mod blog;
 mod follow;
 
-pub use blog::Blog;
-pub use follow::Follow;
+pub use blog::{Blog, BlogRepository};
+pub use follow::{Follow, FollowRepository};

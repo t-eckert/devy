@@ -10,34 +10,20 @@ use axum::{
     routing::{delete, get},
     Extension, Json, Router,
 };
-use lib::{
-    db::{blog, entry},
-    entities::{Blog },
-    token::Session,
-    posts::Entry
-};
+use lib::{blogs::Blog, db::blog, posts::Entry, token::Session};
 
 /// Create a new router for blogs.
 pub fn router(store: Store) -> Router<Store> {
     let open = Router::new()
-        .route("/blogs/:blog_slug", get(get_blog_by_blog_slug))
-        .route("/blogs/:blog_slug/posts", get(get_blog_posts_by_blog_slug))
-        .route(
-            "/blogs/:blog_slug/entries",
-            get(get_blog_entries_by_blog_slug),
-        )
-        .route(
-            "/blogs/:blog_slug/posts/:post_slug",
-            get(get_blog_post_by_blog_slug_and_post_slug),
-        )
-        .route(
-            "/blogs/:blog_slug/entries/:post_slug",
-            get(get_blog_entry_by_blog_slug_and_post_slug),
-        )
+        .route("/blogs/:blog_slug", get(get_blog))
+        .route("/blogs/:blog_slug/posts", get(get_blog_posts))
+        .route("/blogs/:blog_slug/entries", get(get_blog_entries))
+        .route("/blogs/:blog_slug/posts/:post_slug", get(get_blog_post))
+        .route("/blogs/:blog_slug/entries/:post_slug", get(get_blog_entry))
         .with_state(store.clone());
 
     let protected = Router::new()
-        .route("/blogs/:blog_slug", delete(delete_blog_by_blog_slug))
+        .route("/blogs/:blog_slug", delete(delete_blog))
         .layer(middleware::from_fn_with_state(store.clone(), auth))
         .with_state(store);
 
@@ -45,17 +31,14 @@ pub fn router(store: Store) -> Router<Store> {
 }
 
 // GET /blogs/:blog_slug
-async fn get_blog_by_blog_slug(
-    State(store): State<Store>,
-    Path(blog_slug): Path<String>,
-) -> Result<Json<Blog>> {
+async fn get_blog(State(store): State<Store>, Path(blog_slug): Path<String>) -> Result<Json<Blog>> {
     Ok(Json(
         BlogsController::get_by_slug(&store, &blog_slug).await?,
     ))
 }
 
 // GET /blogs/:blog_slug/posts
-async fn get_blog_posts_by_blog_slug(
+async fn get_blog_posts(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Vec<lib::posts::Post>>> {
@@ -65,7 +48,7 @@ async fn get_blog_posts_by_blog_slug(
 }
 
 // GET /blogs/:blog_slug/entries
-async fn get_blog_entries_by_blog_slug(
+async fn get_blog_entries(
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
 ) -> Result<Json<Vec<Entry>>> {
@@ -75,7 +58,7 @@ async fn get_blog_entries_by_blog_slug(
 }
 
 // GET /blogs/:blog_slug/posts/:post_slug
-async fn get_blog_post_by_blog_slug_and_post_slug(
+async fn get_blog_post(
     State(store): State<Store>,
     Path((blog_slug, post_slug)): Path<(String, String)>,
 ) -> Result<Json<lib::posts::Post>> {
@@ -85,17 +68,17 @@ async fn get_blog_post_by_blog_slug_and_post_slug(
 }
 
 // GET /blogs/:blog_slug/entries/:post_slug
-async fn get_blog_entry_by_blog_slug_and_post_slug(
+async fn get_blog_entry(
     State(store): State<Store>,
     Path((blog_slug, post_slug)): Path<(String, String)>,
 ) -> Result<Json<Entry>> {
     Ok(Json(
-      EntriesController::get_by_blog_slug_and_post_slug(&store, &blog_slug, &post_slug).await?,
+        EntriesController::get_by_blog_slug_and_post_slug(&store, &blog_slug, &post_slug).await?,
     ))
 }
 
 // DELETE /blogs/:blog_slug
-async fn delete_blog_by_blog_slug(
+async fn delete_blog(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
     Path(blog_slug): Path<String>,
