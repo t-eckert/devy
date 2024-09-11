@@ -1,7 +1,7 @@
 FROM node:22-alpine AS builder
 WORKDIR /app
 COPY ./frontend/package*.json .
-RUN npm ci
+RUN npm ci -f
 COPY ./frontend/ .
 RUN npm run build
 RUN npm prune --production

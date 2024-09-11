@@ -5,6 +5,7 @@
 	import { onMount } from "svelte"
 	import Debug from "$lib/debug/debug.svelte"
 	import { dev } from "$app/environment"
+	import { Toaster } from "svelte-french-toast"
 
 	import { setSessionState } from "$lib/state/session.svelte"
 	import { setLikesState } from "$lib/state/likes.svelte"
@@ -43,4 +44,5 @@
 		{/if}
 		<slot />
 	</div>
+	<Toaster />
 </div>
