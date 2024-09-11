@@ -1,7 +1,7 @@
 mod database;
 mod error;
 
-pub use database::{connect, DBConn, Database, MIGRATOR};
+pub use database::{connect, Conn, DBConn, Database, MIGRATOR};
 pub use error::{Error, Result};
 
 pub mod blog;
@@ -18,3 +18,7 @@ pub mod user;
 pub mod webhook;
 
 pub mod maintenance;
+
+pub struct Id {
+    pub id: uuid::Uuid,
+}

@@ -7,6 +7,7 @@ pub static MIGRATOR: sqlx::migrate::Migrator = sqlx::migrate!();
 
 pub type Database = sqlx::PgPool;
 pub type DBConn = sqlx::PgPool;
+pub type Conn = sqlx::PgPool;
 
 /// Connect to the database and run migrations.
 /// Returns a connection to the database.

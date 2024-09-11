@@ -38,19 +38,3 @@ pub async fn get_by_slug(db_conn: &DBConn, slug: &String) -> Result<Blog> {
             .await?,
     )
 }
-
-pub async fn get_by_username(db_conn: &DBConn, username: String) -> Result<Vec<Blog>> {
-    Ok(
-        sqlx::query_file_as!(Blog, "src/db/blog/queries/get_by_username.sql", username)
-            .fetch_all(db_conn)
-            .await?,
-    )
-}
-
-pub async fn delete_by_slug(db_conn: &DBConn, slug: String) -> Result<()> {
-    sqlx::query_file!("src/db/blog/queries/delete_by_slug.sql", slug)
-        .execute(db_conn)
-        .await?;
-
-    Ok(())
-}
