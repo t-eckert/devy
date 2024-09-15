@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n   \"blog\".id,\n   \"profile\".id as profile_id,\n   \"user\".id as user_id,\n\n   \"user\".username as author_username,\n   \"profile\".display_name as author_display_name,\n\n   \"blog\".name as name,\n   \"blog\".slug as slug,\n   \"blog\".description as description,\n\n   \"blog\".created_at,\n   \"blog\".updated_at\nfrom \"blog\"\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".id = \"user\".id\nwhere \"blog\".id = $1;\n",
+  "query": "select\n   \"blog\".id,\n   \"profile\".id as profile_id,\n   \"user\".id as user_id,\n\n   \"user\".username as author_username,\n   \"profile\".display_name as author_display_name,\n\n   \"blog\".name as name,\n   \"blog\".slug as slug,\n   \"blog\".description as description,\n\n   \"blog\".created_at,\n   \"blog\".updated_at\nfrom \"blog\"\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"user\".username = $1;\n",
   "describe": {
     "columns": [
       {
@@ -56,7 +56,7 @@
     ],
     "parameters": {
       "Left": [
-        "Uuid"
+        "Text"
       ]
     },
     "nullable": [
@@ -72,5 +72,5 @@
       false
     ]
   },
-  "hash": "97568eaa161d23899693e82d17fddce8cfcf82f35118bd012b3b35813d2fa44e"
+  "hash": "232a2194ef22a50dc8cd6a6f0a4283dd2c4bd3400e3e07bd2ae201375b41aaeb"
 }

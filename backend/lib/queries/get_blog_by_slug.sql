@@ -14,5 +14,5 @@ select
    "blog".updated_at
 from "blog"
 left join "profile" on "blog".profile_id = "profile".id
-left join "user" on "profile".id = "user".id
+left join "user" on "profile".user_id = "user".id
 where "blog".slug = $1;
