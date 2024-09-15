@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- $1: profile_id\n-- $2: name\n-- $3: slug\n-- $4: description\n\ninsert into \"blog\" (profile_id, name, slug, description)\nvalues (\n    $1, $2, $3, $4\n) returning id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "41ee4ce36eda7a4afec6121b9144a7ee8857632fda76d70d15a344872d05d5ea"
+}

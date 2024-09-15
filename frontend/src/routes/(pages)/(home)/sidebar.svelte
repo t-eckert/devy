@@ -20,8 +20,6 @@
 		].join(" ")
 
 	let signedIn = $derived(getSessionState().signedIn)
-
-	let showCollections = true
 </script>
 
 <div
@@ -56,7 +54,7 @@
 		</div>
 	</div>
 
-	{#if signedIn && showCollections}
+	{#if signedIn}
 		<div class="flex flex-col gap-1">
 			<h1 class="font-semibold text-stone-700 text-sm sr-only sm:not-sr-only">Collections</h1>
 

@@ -3,14 +3,21 @@ import type { PageServerLoad } from "./$types"
 import type { Feed } from "$lib/types"
 import { type NumericRange, error } from "@sveltejs/kit"
 
-export const load: PageServerLoad = async ({ fetch, locals }) => {
-  async function fetchFollowing() {
-    const resp = await fetch(`${API}/feeds/following`, {
+export const load: PageServerLoad = async ({ fetch, locals, params, depends }) => {
+  console.log("load")
+  const { feed, page } = params
+  console.log(feed, page)
+  depends("all")
+
+  async function fetchFeed() {
+    console.log("fetchFeed")
+    const resp = await fetch(`${API}/feeds/${feed}/${page || 1}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${locals.token}`
       }
     })
+    console.log(resp)
     if (!resp.ok) {
       throw error(resp.status as NumericRange<400, 509>, resp.statusText)
     }
@@ -18,8 +25,9 @@ export const load: PageServerLoad = async ({ fetch, locals }) => {
     return (await resp.json()) as Feed
   }
 
+  const feedData = await fetchFeed()
 
   return {
-    feed: await fetchFollowing()
+    feed: feedData
   }
 }

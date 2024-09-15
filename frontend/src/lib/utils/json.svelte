@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let data: any = {}
+	export let data: object = {}
 </script>
 
 <pre

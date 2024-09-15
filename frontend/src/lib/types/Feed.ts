@@ -1,9 +1,9 @@
 import type Entry from "./Entry"
-import FeedConfig from "./FeedConfig"
+import type FeedConfig from "./FeedConfig"
 
-interface Feed {
-	feedConfig: FeedConfig
-	entries: Entry[]
+export default interface Feed {
+  config: FeedConfig
+  page: number
+  count: number
+  entries: Entry[]
 }
-
-export default Feed

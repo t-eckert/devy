@@ -3,7 +3,6 @@ pub use error::Error;
 
 mod blog;
 mod entry;
-mod feed;
 mod feed_config;
 mod like;
 mod post;
@@ -17,7 +16,6 @@ mod webhook;
 
 pub use blog::Blog;
 pub use entry::Entry;
-pub use feed::Feed;
 pub use feed_config::FeedConfig;
 pub use like::Like;
 pub use post::Post;

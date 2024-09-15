@@ -6,8 +6,6 @@ pub use error::{Error, Result};
 
 pub mod blog;
 pub mod entry;
-pub mod feed;
-pub mod feed_config;
 pub mod follow;
 pub mod like;
 pub mod post;
