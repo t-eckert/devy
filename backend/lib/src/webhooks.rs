@@ -92,6 +92,14 @@ impl WebhookRepository {
                 .await?,
         )
     }
+
+    pub async fn count(db_conn: &DBConn) -> Result<i64, anyhow::Error> {
+        Ok(sqlx::query!("SELECT COUNT(*) FROM webhook")
+            .fetch_one(db_conn)
+            .await?
+            .count
+            .unwrap())
+    }
 }
 
 #[cfg(test)]
