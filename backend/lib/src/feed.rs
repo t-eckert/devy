@@ -10,6 +10,7 @@ const PAGE_SIZE: i64 = 500;
 pub struct Feed {
     pub config: FeedConfig,
     pub page: u32,
+    pub page_size: i64,
     pub count: usize,
     pub entries: Vec<Entry>,
 }
@@ -49,6 +50,7 @@ impl FeedRepository {
         Ok(Feed {
             config: FeedConfig::new("recent", "Recent"),
             page,
+            page_size: PAGE_SIZE,
             count: entries.len(),
             entries,
         })
@@ -70,6 +72,7 @@ impl FeedRepository {
         Ok(Feed {
             config: FeedConfig::new("popular", "Popular"),
             page,
+            page_size: PAGE_SIZE,
             count: entries.len(),
             entries,
         })
@@ -96,6 +99,7 @@ impl FeedRepository {
         Ok(Feed {
             config: FeedConfig::new("following", "Following"),
             page,
+            page_size: PAGE_SIZE,
             count: entries.len(),
             entries,
         })

@@ -3,7 +3,7 @@ export default interface Entry {
   postSlug: string
   title: string
   body: string
-  likes: number
+  likeCount: number
 
   blogSlug: string
   blogName: string

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Json from "$lib/utils/json.svelte"
 	import Feed from "$lib/components/feed.svelte"
 
 	const { data } = $props()
