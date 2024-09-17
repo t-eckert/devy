@@ -4,7 +4,6 @@ COPY ./frontend/package*.json .
 RUN npm ci -f
 COPY ./frontend/ .
 RUN npm run build
-RUN npm prune --production
 
 FROM node:22-alpine
 WORKDIR /app
