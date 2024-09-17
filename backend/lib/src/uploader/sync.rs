@@ -1,9 +1,12 @@
 use crate::db;
 use crate::db::Database;
-use crate::db::{blog, post, repo};
-use crate::entities::{Blog, Upload};
+use crate::db::{post, repo};
+use crate::entities::Upload;
 use crate::markdown::parse_markdown;
 use crate::uploader::{diff::Diff, error::Result, Error};
+
+use crate::blogs::{Blog, BlogRepository};
+
 use regex::Regex;
 use slugify::slugify;
 
@@ -17,7 +20,7 @@ pub async fn sync(db: &Database, upload: &mut Upload, diffs: Vec<Diff>) -> Resul
         })?;
 
     dbg!("------------------------\nGetting blog...");
-    let blog = blog::get_by_id(db, repo.blog_id).await?;
+    let blog = BlogRepository::get(db, repo.blog_id).await?;
     let dir = format!("/tmp/{}", upload.id);
     dbg!(&blog);
 

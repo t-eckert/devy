@@ -46,4 +46,8 @@ impl UploadRepository {
     ) -> DBResult<Uuid> {
         return Ok(Uuid::new_v4());
     }
+
+    pub async fn get(db_conn: &DBConn, id: Uuid) -> DBResult<Upload> {
+        return Ok(Upload::new("repo", "sha"));
+    }
 }

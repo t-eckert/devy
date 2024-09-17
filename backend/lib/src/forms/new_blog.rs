@@ -1,9 +1,11 @@
-use crate::db::{blog, profile, repo, user, DBConn};
-use crate::entities::{Blog, Repo};
+use crate::db::{profile, repo, user, DBConn};
+use crate::entities::Repo;
 use crate::forms::error::{Error, Result};
 use serde::{Deserialize, Serialize};
 use slugify::slugify;
 use uuid::Uuid;
+
+use crate::blogs::{Blog, BlogRepository};
 
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -36,7 +38,9 @@ impl NewBlog {
         self.validate(db).await?;
 
         let profile = profile::get_by_username(db, self.username.clone()).await?;
-        let blog = blog::upsert(db, profile.id, &self.name, &self.slug, None).await?;
+        let blog_id = BlogRepository::insert(db, profile.id, &self.name, &self.slug, None).await?;
+        let blog = BlogRepository::get(db, blog_id.id).await?;
+
         let repo = repo::upsert(db, blog.id, self.repo_url).await?;
 
         Ok(NewBlogResponse { blog, repo })
@@ -79,11 +83,10 @@ impl NewBlog {
     }
 
     async fn validate_slug_not_taken(&self, db: &DBConn) -> Result<()> {
-        match blog::get_by_slug(db, &self.slug).await {
-            Ok(blog) => {Err(Error::Conflict {
+        match BlogRepository::get_by_slug(db, &self.slug).await {
+            Ok(blog) => Err(Error::Conflict {
                 message: "Slug already taken".to_string(),
-            })
-            },
+            }),
             Err(err) => {
                 if let crate::db::Error::EntityNotFound = err {
                     return Ok(());

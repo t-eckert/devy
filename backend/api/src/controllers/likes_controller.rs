@@ -1,5 +1,5 @@
 use super::Result;
-use crate::{db::blog, store::Store};
+use crate::store::Store;
 use lib::posts::Like;
 
 pub struct LikesController;

@@ -10,7 +10,11 @@ use axum::{
     routing::{delete, get},
     Extension, Json, Router,
 };
-use lib::{blogs::Blog, db::blog, posts::Entry, token::Session};
+use lib::{
+    blogs::{Blog, BlogRepository},
+    posts::Entry,
+    token::Session,
+};
 
 /// Create a new router for blogs.
 pub fn router(store: Store) -> Router<Store> {
@@ -84,7 +88,7 @@ async fn delete_blog(
     Path(blog_slug): Path<String>,
 ) -> Result<StatusCode> {
     if session.user_id
-        != blog::get_by_slug(&store.db_conn, &blog_slug.clone())
+        != BlogRepository::get_by_slug(&store.db_conn, &blog_slug.clone())
             .await?
             .user_id
     {
