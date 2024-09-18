@@ -1,8 +1,9 @@
 use crate::db;
+use crate::db::repo;
 use crate::db::Database;
-use crate::db::{post, repo};
 use crate::entities::Upload;
 use crate::markdown::parse_markdown;
+use crate::posts::PostRepository;
 use crate::uploader::{diff::Diff, error::Result, Error};
 
 use crate::blogs::{Blog, BlogRepository};
@@ -50,12 +51,12 @@ async fn add_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result
         .map_err(|e| Error::FileParseError(e.to_string()))?;
     let markdown = parse_markdown(&raw);
 
-    post::insert(
+    PostRepository::insert(
         db,
         blog.id,
-        markdown.title.clone(),
-        slug,
-        markdown.body.clone(),
+        &markdown.title,
+        &slug,
+        &markdown.body,
         markdown.is_draft(),
     )
     .await?;
@@ -65,7 +66,7 @@ async fn add_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result
 
 async fn modify_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Result<()> {
     let slug = slugify!(&path.replace(".md", ""));
-    let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await?;
+    let mut post = PostRepository::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await?;
 
     let raw = std::fs::read_to_string(format!("{}/{}", dir, path))
         .map_err(|e| Error::FileParseError(e.to_string()))?;
@@ -76,7 +77,7 @@ async fn modify_post(db: &Database, blog: &Blog, dir: &str, path: String) -> Res
     post.slug = slug;
     post.body = markdown.body;
 
-    post::update(db, post).await?;
+    PostRepository::update(db, &post).await?;
 
     Ok(())
 }
@@ -89,7 +90,8 @@ async fn rename_post(
     to: String,
 ) -> Result<()> {
     let from_slug = slugify!(&from.replace(".md", ""));
-    let mut post = post::get_by_blog_slug_and_post_slug(db, &blog.slug, &from_slug).await?;
+    let mut post =
+        PostRepository::get_by_blog_slug_and_post_slug(db, &blog.slug, &from_slug).await?;
 
     let slug = slugify!(&to.replace(".md", ""));
     let raw = std::fs::read_to_string(format!("{}/{}", dir, to))
@@ -101,18 +103,18 @@ async fn rename_post(
     post.slug = slug;
     post.body = markdown.body;
 
-    post::update(db, post).await?;
+    PostRepository::update(db, &post).await?;
 
     Ok(())
 }
 
 async fn delete_post(db: &Database, blog: &Blog, path: String) -> Result<()> {
     let slug = slugify!(&path.replace(".md", ""));
-    let post = match post::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await {
+    let post = match PostRepository::get_by_blog_slug_and_post_slug(db, &blog.slug, &slug).await {
         Ok(post) => post,
         Err(_) => return Ok(()),
     };
-    post::delete(db, post.id).await?;
+    PostRepository::delete(db, post.id).await?;
     Ok(())
 }
 

@@ -10,14 +10,13 @@ use uuid::Uuid;
 pub struct Entry {
     /// The unique identifier for the post.
     pub id: Uuid,
+    /// The slug of the post.
+    pub slug: String,
 
     /// The slug of the blog that the post belongs to.
     pub blog_slug: String,
     /// The name of the blog that the post belongs to.
     pub blog_name: Option<String>,
-
-    /// The slug of the post.
-    pub post_slug: String,
 
     /// The slug of the profile of the author of the post.
     pub author_slug: Option<String>,
@@ -71,6 +70,14 @@ impl EntryRepository {
     pub async fn get_by_blog_slug(db_conn: &DBConn, blog_slug: &str) -> Result<Vec<Entry>> {
         Ok(
             sqlx::query_file_as!(Entry, "queries/get_entries_by_blog_slug.sql", blog_slug)
+                .fetch_all(db_conn)
+                .await?,
+        )
+    }
+
+    pub async fn get_by_username(db_conn: &DBConn, username: &str) -> Result<Vec<Entry>> {
+        Ok(
+            sqlx::query_file_as!(Entry, "queries/get_entries_by_username.sql", username)
                 .fetch_all(db_conn)
                 .await?,
         )

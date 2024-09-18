@@ -24,4 +24,8 @@ impl EntriesController {
     pub async fn get_by_blog_slug(store: &Store, blog_slug: &str) -> Result<Vec<Entry>> {
         Ok(EntryRepository::get_by_blog_slug(&store.db_conn, blog_slug).await?)
     }
+
+    pub async fn get_by_username(store: &Store, username: &str) -> Result<Vec<Entry>> {
+        Ok(EntryRepository::get_by_username(&store.db_conn, username).await?)
+    }
 }

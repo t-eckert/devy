@@ -2,7 +2,7 @@ select
 	post.id as id,
 	blog.slug as blog_slug,
 	blog.name as blog_name,
-	post.slug as post_slug,
+	post.slug as slug,
 	"user".username as author_slug,
 	profile.display_name as author_name,
 	post.created_at,

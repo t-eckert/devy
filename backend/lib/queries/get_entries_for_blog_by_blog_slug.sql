@@ -1,6 +1,6 @@
 SELECT
     id,
-	slug as post_slug,
+	slug,
 	title,
 	body,
 	blog.blog_slug,

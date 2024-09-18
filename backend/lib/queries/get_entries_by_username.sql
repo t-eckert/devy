@@ -14,4 +14,4 @@ from "post"
 left join "blog" on "post".blog_id = "blog".id
 left join "profile" on "blog".profile_id = "profile".id
 left join "user" on "profile".user_id = "user".id
-where is_draft = false and blog.slug = $1 and post.slug = $2;
+where is_draft = false and "user".username = $1;

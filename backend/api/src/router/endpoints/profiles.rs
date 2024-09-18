@@ -1,17 +1,14 @@
-use crate::router::{error::Result, middleware::auth};
+use crate::controllers::{BlogsController, EntriesController, ProfilesController};
+use crate::router::error::Result;
 use crate::store::Store;
-use crate::controllers::BlogsController;
-use lib::blogs::Blog;
 use axum::{
     extract::{Path, State},
-    middleware,
     routing::get,
     Json, Router,
 };
-use lib::{
-    db::{entry, profile},
-    entities::{Entry, Profile},
-};
+use lib::blogs::Blog;
+use lib::entities::Profile;
+use lib::posts::Entry;
 
 /// Create a new router for Profiles.
 pub fn router(store: Store) -> Router<Store> {
@@ -19,23 +16,9 @@ pub fn router(store: Store) -> Router<Store> {
         .route("/profiles/:username", get(get_profile_by_username))
         .route("/profiles/:username/blogs", get(get_blogs_by_username))
         .route("/profiles/:username/entries", get(get_entries_by_username))
-        .route(
-            "/profiles/:username/following",
-            get(get_following_by_username),
-        )
         .with_state(store.clone());
 
-    let protected = Router::new()
-        .route("/profiles", get(get_profiles))
-        .layer(middleware::from_fn_with_state(store.clone(), auth))
-        .with_state(store);
-
-    Router::new().merge(open).merge(protected)
-}
-
-// GET /profiles
-async fn get_profiles() -> Result<Json<Vec<Profile>>> {
-    Ok(Json(vec![]))
+    Router::new().merge(open)
 }
 
 // GET /profiles/:username
@@ -44,8 +27,7 @@ async fn get_profile_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Profile>> {
     Ok(Json(
-
-        profile::get_by_username(&store.db_conn, username).await?,
+        ProfilesController::get_by_username(&store, username).await?,
     ))
 }
 
@@ -54,7 +36,9 @@ async fn get_blogs_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Blog>>> {
-    Ok(Json(BlogsController::get_by_username(&store, &username).await?))
+    Ok(Json(
+        BlogsController::get_by_username(&store, &username).await?,
+    ))
 }
 
 // GET /profiles/:username/entries
@@ -63,14 +47,6 @@ async fn get_entries_by_username(
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Entry>>> {
     Ok(Json(
-        entry::get_by_username(&store.db_conn, &username).await?,
+        EntriesController::get_by_username(&store, &username).await?,
     ))
-}
-
-// GET /profiles/:username/following
-async fn get_following_by_username(
-    State(store): State<Store>,
-    Path(username): Path<String>,
-) -> Result<Json<Vec<Blog>>> {
-    Ok(Json(vec![]))
 }
