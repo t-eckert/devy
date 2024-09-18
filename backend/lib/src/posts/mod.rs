@@ -9,5 +9,5 @@ use error::Result;
 pub use error::Error;
 
 pub use entry::{Entry, EntryRepository};
-pub use like::Like;
+pub use like::{Like, LikeRepository};
 pub use post::{Post, PostRepository};

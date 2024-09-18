@@ -1,3 +1,4 @@
+use crate::controllers::{LikesController, NewLike};
 use crate::router::{error::Result, middleware::auth};
 use crate::store::Store;
 use axum::{
@@ -7,7 +8,8 @@ use axum::{
     routing::{delete, get, post},
     Extension, Json, Router,
 };
-use lib::{db::like, entities::Like, token::Session};
+use lib::posts::Like;
+use lib::token::Session;
 use uuid::Uuid;
 
 /// Create a new router for likes.
@@ -30,22 +32,22 @@ async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<Vec<Like>>> {
-    Ok(Json(like::get_by_username(&store.db_conn, username).await?))
+    Ok(Json(
+        LikesController::get_by_username(&store, &username).await?,
+    ))
 }
 
 // POST /likes
 async fn post_like(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
-    ExtractJson(like): ExtractJson<Like>,
+    ExtractJson(like): ExtractJson<NewLike>,
 ) -> Result<Json<Like>> {
     if session.profile_id != like.profile_id {
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(Json(
-        like::upsert(&store.db_conn, like.profile_id, like.post_id).await?,
-    ))
+    Ok(Json(LikesController::insert(&store, like).await?))
 }
 
 // DELETE /likes/:profile_id/:post_id
@@ -58,5 +60,5 @@ async fn delete_like(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(like::delete(&store.db_conn, profile_id, post_id).await?)
+    Ok(LikesController::delete(&store, profile_id, post_id).await?)
 }

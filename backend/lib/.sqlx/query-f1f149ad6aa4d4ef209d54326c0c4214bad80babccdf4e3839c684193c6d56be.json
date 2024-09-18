@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "insert into \"like\" (profile_id, post_id)\nvalues ($1, $2)\n    on conflict (profile_id, post_id)\n    do nothing;\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "f1f149ad6aa4d4ef209d54326c0c4214bad80babccdf4e3839c684193c6d56be"
+}

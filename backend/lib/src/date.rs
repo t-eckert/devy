@@ -16,6 +16,18 @@ pub struct Date {
 }
 
 impl Date {
+    pub fn now() -> Self {
+        let offset_datetime = OffsetDateTime::now_utc();
+        Self {
+            year: offset_datetime.year(),
+            month: offset_datetime.month(),
+            day: offset_datetime.day(),
+            hour: offset_datetime.hour(),
+            minute: offset_datetime.minute(),
+            second: offset_datetime.second(),
+        }
+    }
+
     fn to_rfc3339(&self) -> String {
         let offset_datetime = OffsetDateTime::from_unix_timestamp(0)
             .unwrap()
