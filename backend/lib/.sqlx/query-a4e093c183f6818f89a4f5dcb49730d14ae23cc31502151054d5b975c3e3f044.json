@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- $1 id\n-- $2 slug\n-- $3 title\n-- $4 is_draft\n-- $5 body\n\nupdate post\nset\n    slug = $2,\n    title = $3,\n    is_draft = $4,\n    body = $5\nwhere id = $1;\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Bool",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "a4e093c183f6818f89a4f5dcb49730d14ae23cc31502151054d5b975c3e3f044"
+}

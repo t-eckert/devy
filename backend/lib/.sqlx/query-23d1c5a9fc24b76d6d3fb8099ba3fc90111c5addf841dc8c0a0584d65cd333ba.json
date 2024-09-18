@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n\tpost.id as id,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\tpost.slug as post_slug,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tpost.created_at,\n\tpost.updated_at,\n\ttitle,\n\tlike_count,\n\tis_draft\nfrom \"post\"\nleft join \"blog\" on \"post\".blog_id = \"blog\".id\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere is_draft = false\norder by like_count desc\nlimit $1 offset $2;\n",
+  "query": "select\n\tpost.id as id,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\tpost.slug as slug,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tpost.created_at,\n\tpost.updated_at,\n\ttitle,\n\tlike_count,\n\tis_draft\nfrom \"post\"\nleft join \"blog\" on \"post\".blog_id = \"blog\".id\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere is_draft = false and blog.slug = $1;\n",
   "describe": {
     "columns": [
       {
@@ -20,7 +20,7 @@
       },
       {
         "ordinal": 3,
-        "name": "post_slug",
+        "name": "slug",
         "type_info": "Text"
       },
       {
@@ -61,8 +61,7 @@
     ],
     "parameters": {
       "Left": [
-        "Int8",
-        "Int8"
+        "Text"
       ]
     },
     "nullable": [
@@ -79,5 +78,5 @@
       false
     ]
   },
-  "hash": "1d25be775f050fb3345f737d43f686bb5ac476ffe64d2d2c493b05d3aea2bea2"
+  "hash": "23d1c5a9fc24b76d6d3fb8099ba3fc90111c5addf841dc8c0a0584d65cd333ba"
 }

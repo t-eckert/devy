@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "insert into \"post\" (blog_id, title, slug, body, is_draft)\nvalues ($1, $2, $3, $4, $5)\nreturning id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "22a589282b3727af16499258139a7a5c9e7e17051e543b8051df70d1f90e3cb2"
+}
