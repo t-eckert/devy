@@ -1,1 +1,1 @@
-<div>Admin</div>
+<div>Default view</div>

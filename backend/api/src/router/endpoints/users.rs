@@ -1,24 +1,45 @@
 use crate::router::error::{Error, Result};
 use crate::router::middleware::auth;
+use crate::store::Store;
 use axum::{
     extract::{Path, State},
     middleware,
     routing::get,
-    Json, Router,
+    Extension, Json, Router,
 };
-use lib::{db::user, entities::User};
+use http::StatusCode;
+use lib::{db::user, entities::User, token::Session};
 use serde_json::Value;
-use crate::store::Store;
 
 pub fn router(store: Store) -> Router<Store> {
-    Router::new()
+    let open = Router::new()
         .route("/users/:username", get(get_by_username))
         .route("/users/:username/github/repos", get(get_user_github_repos))
         .route(
             "/users/:username/github/devy",
             get(get_user_github_devy).layer(middleware::from_fn_with_state(store.clone(), auth)),
         )
-        .with_state(store)
+        .with_state(store.clone());
+
+    let protected = Router::new()
+        .route("/users", get(get_all))
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
+        .with_state(store);
+
+    Router::new().merge(open).merge(protected)
+}
+
+async fn get_all(
+    Extension(session): Extension<Session>,
+    State(store): State<Store>,
+) -> Result<Json<Vec<User>>> {
+    dbg!(&session);
+
+    if !(session.role == "admin") {
+        return Err(Error::StatusCode(StatusCode::UNAUTHORIZED));
+    }
+
+    Ok(Json(user::get_all(&store.db_conn).await?))
 }
 
 /// `GET /users/:username`
@@ -28,7 +49,9 @@ async fn get_by_username(
     State(store): State<Store>,
     Path(username): Path<String>,
 ) -> Result<Json<User>> {
-    Ok(Json(user::get_by_username(&store.db_conn, &username).await?))
+    Ok(Json(
+        user::get_by_username(&store.db_conn, &username).await?,
+    ))
 }
 
 /// `GET /users/:username/github/repos`

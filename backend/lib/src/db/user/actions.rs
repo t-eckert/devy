@@ -1,6 +1,22 @@
 use crate::db::{error::Result, DBConn};
 use crate::entities::User;
 
+pub async fn get_all(db_conn: &DBConn) -> Result<Vec<User>> {
+    Ok(sqlx::query_as!(
+        User,
+        r#"
+        SELECT
+	id,
+	to_char("user".created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,
+	to_char("user".updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at,
+	username, email, github_username, role, status
+        FROM "user";
+        "#
+    )
+    .fetch_all(db_conn)
+    .await?)
+}
+
 pub async fn upsert(
     db_conn: &DBConn,
     username: String,
@@ -22,9 +38,14 @@ pub async fn upsert(
 
 pub async fn set_role_by_username(db_conn: &DBConn, username: &str, role: &str) -> Result<()> {
     // TODO: I can get rid of this and just use "upsert" from the controller.
-    sqlx::query_file_as!(User, "src/db/user/queries/set_role_by_username.sql", username, role)
-        .fetch_one(db_conn)
-        .await?;
+    sqlx::query_file_as!(
+        User,
+        "src/db/user/queries/set_role_by_username.sql",
+        username,
+        role
+    )
+    .fetch_one(db_conn)
+    .await?;
     Ok(())
 }
 

@@ -10,7 +10,7 @@ pub struct Session {
     pub user_id: Uuid,
     pub profile_id: Uuid,
     pub username: String,
-    role: String,
+    pub role: String,
     status: String,
 
     display_name: Option<String>,
