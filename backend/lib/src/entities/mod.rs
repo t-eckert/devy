@@ -7,7 +7,6 @@ mod repo;
 mod repo_metadata;
 mod upload;
 mod user;
-mod user_metadata;
 
 pub use like::Like;
 pub use profile::Profile;
