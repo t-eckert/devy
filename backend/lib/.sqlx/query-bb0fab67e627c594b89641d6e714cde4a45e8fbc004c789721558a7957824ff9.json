@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT profile_id, blog_id FROM \"follow\"\n        WHERE profile_id = $1;\n        ",
+  "query": "\n            SELECT profile_id, blog_id FROM \"follow\"\n            WHERE profile_id = $1;\n            ",
   "describe": {
     "columns": [
       {
@@ -24,5 +24,5 @@
       false
     ]
   },
-  "hash": "cf1159ead0f3bb13c6e2ab4e29b92dbd918c8272534600c47fd823e1d8bf9409"
+  "hash": "bb0fab67e627c594b89641d6e714cde4a45e8fbc004c789721558a7957824ff9"
 }
