@@ -42,7 +42,7 @@
 				</div>
 				<div class="flex flex-col gap-1">
 					<a
-						href={`/${entry.blogSlug}/${entry.postSlug}`}
+						href={`/${entry.blogSlug}/${entry.slug}`}
 						class="font-medium text-stone-700 hover:text-stone-950 dark:text-stone-200 transition-all"
 						>{entry.title}</a
 					>

@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="flex flex-row">
-		<Likes postId={post.id} likes={post.like_count} />
+		<Likes postId={post.id} likes={post.likeCount} />
 	</div>
 
 	{#if post.isDraft}

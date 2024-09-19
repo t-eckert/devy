@@ -1,6 +1,7 @@
 export default interface Entry {
   id: string
-  postSlug: string
+  slug: string
+
   title: string
   body: string
   likeCount: number

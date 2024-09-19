@@ -3,7 +3,7 @@ export default interface Post {
   postSlug: string
   title: string
   body: string
-  like_count: number
+  likeCount: number
   isDraft: boolean
 
   blogSlug: string
