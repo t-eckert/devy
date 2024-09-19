@@ -2,7 +2,7 @@
 	<div>
 		<slot name="sidebar" />
 	</div>
-	<div class="sm:col-start-2 sm:col-span-2">
+	<div class="sm:col-start-2 sm:col-span-3">
 		<slot />
 	</div>
 </div>
