@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Entry } from "$lib/types"
-	import readingTime from "$lib/readingTime"
 
 	import RelativeDate from "$lib/utils/relative-date.svelte"
 	import Likes from "$lib/components/likes.svelte"

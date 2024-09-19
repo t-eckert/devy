@@ -3,6 +3,10 @@
 	const { users } = data
 </script>
 
+<svelte:head>
+	<title>Admin / Users</title>
+</svelte:head>
+
 <div class="flex flex-col">
 	{#each users as user}
 		<div>
