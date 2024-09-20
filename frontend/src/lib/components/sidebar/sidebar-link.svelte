@@ -1,13 +1,18 @@
 <script lang="ts">
+	import { page } from "$app/stores"
 	import type { Snippet } from "svelte"
 
 	interface Props {
 		href: string
-		isActive: boolean
 		children: Snippet
+		matchExact?: boolean
 	}
 
-	const { href, isActive, children }: Props = $props()
+	const { href, children, matchExact = false }: Props = $props()
+
+	let path = $derived($page.url.pathname)
+	let matchSample = $derived(matchExact ? path : path.slice(0, href.length))
+	let isActive = $derived(href === matchSample)
 </script>
 
 <a
