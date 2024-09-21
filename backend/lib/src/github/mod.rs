@@ -1,3 +1,4 @@
+mod auth_provider;
 mod client;
 mod error;
 
