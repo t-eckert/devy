@@ -1,3 +1,4 @@
+use crate::date::Date;
 use crate::db::{DBConn, Result as DBResult};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -13,8 +14,8 @@ pub struct Upload {
     pub sha: String,
     pub logs: Option<Vec<String>>,
 
-    pub created_at: Option<String>,
-    pub updated_at: Option<String>,
+    pub created_at: Date,
+    pub updated_at: Date,
 }
 
 impl Upload {
@@ -26,8 +27,8 @@ impl Upload {
             repo: repo.to_string(),
             sha: sha.to_string(),
             logs: None,
-            created_at: None,
-            updated_at: None,
+            created_at: Date::now(),
+            updated_at: Date::now(),
         }
     }
 

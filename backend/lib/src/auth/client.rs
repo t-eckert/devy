@@ -1,4 +1,7 @@
-use super::{ github_user::GitHubUser,error::{Error, Result}};
+use super::{
+    error::{Error, Result},
+    github_user::GitHubUser,
+};
 use crate::{
     db::{self, Database},
     token::Encoder,
@@ -156,7 +159,6 @@ impl Client {
         }
     }
 }
-
 
 fn random_username() -> String {
     use rand::Rng;
