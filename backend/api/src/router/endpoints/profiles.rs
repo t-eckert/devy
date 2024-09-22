@@ -7,8 +7,8 @@ use axum::{
     Json, Router,
 };
 use lib::blogs::Blog;
-use lib::entities::Profile;
 use lib::posts::Entry;
+use lib::profiles::Profile;
 
 /// Create a new router for Profiles.
 pub fn router(store: Store) -> Router<Store> {

@@ -19,14 +19,6 @@ pub async fn upsert(
     .await?)
 }
 
-pub async fn get_by_id(db: &Database, id: Uuid) -> Result<Profile> {
-    Ok(
-        sqlx::query_file_as!(Profile, "src/db/profile/queries/get_by_id.sql", id)
-            .fetch_one(db)
-            .await?,
-    )
-}
-
 pub async fn get_by_username(db: &Database, username: String) -> Result<Profile> {
     Ok(sqlx::query_file_as!(
         Profile,

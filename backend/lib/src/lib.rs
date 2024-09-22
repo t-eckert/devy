@@ -20,5 +20,5 @@ mod markdown;
 mod repositories;
 mod test;
 
-mod profiles;
+pub mod profiles;
 mod users;
