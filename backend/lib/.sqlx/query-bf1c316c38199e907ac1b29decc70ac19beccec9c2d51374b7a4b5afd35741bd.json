@@ -1,0 +1,118 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select * from \"profile\"\nwhere id = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 3,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "display_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "bio",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "avatar_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "website_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "twitter_username",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "github_username",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "visibility",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "is_deleted",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 13,
+        "name": "is_locked",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 14,
+        "name": "is_featured",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 15,
+        "name": "is_bot",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 16,
+        "name": "is_sponsor",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "bf1c316c38199e907ac1b29decc70ac19beccec9c2d51374b7a4b5afd35741bd"
+}

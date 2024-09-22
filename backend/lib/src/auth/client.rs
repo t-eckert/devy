@@ -2,6 +2,7 @@ use super::{
     error::{Error, Result},
     github_user::GitHubUser,
 };
+use crate::profiles::ProfileRepository;
 use crate::{
     db::{self, Database},
     token::Encoder,

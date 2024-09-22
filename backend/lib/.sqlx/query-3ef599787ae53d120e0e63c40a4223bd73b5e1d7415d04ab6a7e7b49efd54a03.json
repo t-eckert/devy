@@ -1,0 +1,36 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "update \"profile\"\nset\n    user_id = $2,\n    display_name = $3,\n    avatar_url = $4,\n    bio = $5,\n    website_url = $6,\n    twitter_username = $7,\n    github_username = $8,\n    status = $9,\n    visibility = $10,\n    is_deleted = $11,\n    is_locked = $12,\n    is_featured = $13,\n    is_bot = $14,\n    is_sponsor = $15,\n    updated_at = NOW()\nwhere id = $1\nreturning id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Text",
+        "Bool",
+        "Bool",
+        "Bool",
+        "Bool",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "3ef599787ae53d120e0e63c40a4223bd73b5e1d7415d04ab6a7e7b49efd54a03"
+}

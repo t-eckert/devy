@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "delete from \"profile\"\nwhere id = $1;\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "4ae611a049893701bc2d53ac9f0b705aa8f0a887f5133c9e84574b1a90ec7cc2"
+}

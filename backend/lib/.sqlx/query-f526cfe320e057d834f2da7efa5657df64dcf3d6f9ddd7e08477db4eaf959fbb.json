@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "insert into \"profile\" (user_id, display_name, avatar_url, bio, website_url)\nvalues ($1, $2, $3, $4, $5)\nreturning id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "f526cfe320e057d834f2da7efa5657df64dcf3d6f9ddd7e08477db4eaf959fbb"
+}
