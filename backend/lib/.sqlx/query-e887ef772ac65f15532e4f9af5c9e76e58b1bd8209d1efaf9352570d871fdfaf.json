@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "-- $1: blog_id\n-- $2: url\n\ninsert into \"repo\" (blog_id, url)\nvalues ($1, $2)\nreturning\n\tid;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "e887ef772ac65f15532e4f9af5c9e76e58b1bd8209d1efaf9352570d871fdfaf"
+}

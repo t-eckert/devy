@@ -2,7 +2,7 @@ use crate::db::{error::Result, Database};
 use crate::entities::Profile;
 use uuid::Uuid;
 
-pub async fn upsert(
+async fn upsert(
     db: &Database,
     user_id: Uuid,
     display_name: String,

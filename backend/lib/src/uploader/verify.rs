@@ -1,6 +1,7 @@
 use super::{error::Result, Error};
-use crate::db::{repo, upload, Database};
+use crate::db::{upload, Database};
 use crate::entities::Upload;
+use crate::repositories::RepoRepository;
 
 pub async fn verify(db: &Database, upload: &mut Upload) -> Result<()> {
     tracing::info!("Verifying upload {}", upload.id);
@@ -18,7 +19,7 @@ pub async fn verify(db: &Database, upload: &mut Upload) -> Result<()> {
 }
 
 async fn has_repo(db: &Database, upload: &Upload) -> Result<()> {
-    match repo::get_by_url(db, &upload.repo).await {
+    match RepoRepository::get_by_url(db, &upload.repo).await {
         Ok(_) => Ok(()),
         Err(err) => {
             upload::set_status(db, upload.id, "failed").await?;

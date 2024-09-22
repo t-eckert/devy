@@ -23,7 +23,7 @@ impl BlogsController {
             &new_blog.slug,
             new_blog.description.as_ref(),
         )
-        .await?.id;
+        .await?;
 
         let blog = BlogRepository::get(&store.db_conn, id).await?;
 

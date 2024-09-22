@@ -20,26 +20,40 @@ pub struct Repo {
 pub struct RepoRepository;
 
 impl RepoRepository {
-    pub async fn insert() -> Uuid {
-        return Uuid::new_v4();
+    pub async fn insert(db_conn: &db::Conn, blog_id: Uuid, url: &str) -> db::Result<Uuid> {
+        Ok(
+            sqlx::query_file_as!(db::Id, "queries/insert_repo.sql", blog_id, url)
+                .fetch_one(db_conn)
+                .await?
+                .id,
+        )
     }
 
-    pub async fn upsert(db_conn: &db::Conn, blog_id: Uuid, url: &str) -> db::Result<Uuid> {
-        return Ok(Uuid::new_v4());
+    pub async fn update(db_conn: &db::Conn, repo: Repo) -> db::Result<Uuid> {
+        return Ok(sqlx::query_file_as!(
+            db::Id,
+            "queries/update_repo.sql",
+            repo.id,
+            repo.blog_id,
+            repo.url,
+            repo.metadata
+        )
+        .fetch_one(db_conn)
+        .await?
+        .id);
     }
 
-    pub async fn set_metadata(db_conn: &db::Conn, id: Uuid, metadata: Value) -> db::Result<()> {
-        return Ok(());
+    pub async fn get(db_conn: &db::Conn, id: Uuid) -> db::Result<Repo> {
+        Ok(sqlx::query_file_as!(Repo, "queries/get_repo.sql", id)
+            .fetch_one(db_conn)
+            .await?)
     }
 
     pub async fn get_by_url(db_conn: &db::Conn, url: &str) -> db::Result<Repo> {
-        return Ok(Repo {
-            id: Uuid::new_v4(),
-            blog_id: Uuid::new_v4(),
-            url: "url".to_string(),
-            metadata: Value::Null,
-            created_at: Date::now(),
-            updated_at: Date::now(),
-        });
+        return Ok(
+            sqlx::query_file_as!(Repo, "queries/get_repo_by_url.sql", url)
+                .fetch_one(db_conn)
+                .await?,
+        );
     }
 }

@@ -1,8 +1,11 @@
-use crate::db::{profile, repo, user, DBConn};
-use crate::entities::Repo;
+use crate::db::{profile, user, DBConn};
 use crate::forms::error::{Error, Result};
+use crate::profiles::ProfileRepository;
+use crate::repositories::Repo;
+use crate::repositories::RepoRepository;
 use serde::{Deserialize, Serialize};
 use slugify::slugify;
+use sqlx::Value;
 use uuid::Uuid;
 
 use crate::blogs::{Blog, BlogRepository};
@@ -37,11 +40,13 @@ impl NewBlog {
     pub async fn process(self, db: &DBConn) -> Result<NewBlogResponse> {
         self.validate(db).await?;
 
-        let profile = profile::get_by_username(db, self.username.clone()).await?;
-        let blog_id = BlogRepository::insert(db, profile.id, &self.name, &self.slug, None).await?;
-        let blog = BlogRepository::get(db, blog_id.id).await?;
+        let profile = ProfileRepository::get_by_username(db, &self.username).await?;
 
-        let repo = repo::upsert(db, blog.id, self.repo_url).await?;
+        let blog_id = BlogRepository::insert(db, profile.id, &self.name, &self.slug, None).await?;
+        let blog = BlogRepository::get(db, blog_id).await?;
+
+        let repo_id = RepoRepository::insert(db, blog_id, &self.repo_url).await?;
+        let repo = RepoRepository::get(db, repo_id).await?;
 
         Ok(NewBlogResponse { blog, repo })
     }

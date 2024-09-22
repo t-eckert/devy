@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "-- $1: id\n-- $2: metadata\n\nINSERT INTO \"repo\" (id, metadata)\nVALUES ($1, $2)\nON CONFLICT (id) DO UPDATE SET\n    metadata = $2\nRETURNING\n\tid,\n\tblog_id,\n\turl,\n\tmetadata,\n\tto_char(repo.created_at, 'YYYY-MM-DDThh:mm:ss.ss') AS created_at,\n\tto_char(repo.updated_at, 'YYYY-MM-DDThh:mm:ss.ss') AS updated_at;\n",
+  "query": "select\n    id,\n    blog_id,\n    url,\n    metadata,\n    created_at,\n    updated_at\nfrom \"repo\"\nwhere url = $1;\n",
   "describe": {
     "columns": [
       {
@@ -26,18 +26,17 @@
       {
         "ordinal": 4,
         "name": "created_at",
-        "type_info": "Text"
+        "type_info": "Timestamptz"
       },
       {
         "ordinal": 5,
         "name": "updated_at",
-        "type_info": "Text"
+        "type_info": "Timestamptz"
       }
     ],
     "parameters": {
       "Left": [
-        "Uuid",
-        "Jsonb"
+        "Text"
       ]
     },
     "nullable": [
@@ -45,9 +44,9 @@
       false,
       false,
       false,
-      null,
-      null
+      false,
+      false
     ]
   },
-  "hash": "ed62ead80aad90c37c898ed0fa4fd48461a722d542418bf802fab4e2b4adb7c9"
+  "hash": "2961ee94a1dcb3680b0d530c9e454d11fe219be878e6ca5ad8220c80eb82e060"
 }

@@ -93,13 +93,17 @@ impl Client {
         )
         .await?;
 
-        let profile = db::profile::upsert(
+        let profile_id = ProfileRepository::insert(
             db,
             user.id,
-            github_user.name.clone().unwrap_or("unnamed".to_string()),
+            Some(github_user.name.clone().unwrap_or("unnamed".to_string())),
             github_user.avatar_url,
+            None,
+            None,
         )
         .await?;
+
+        let profile = ProfileRepository::get(db, profile_id).await?;
 
         let session = Session::new(
             user.id,

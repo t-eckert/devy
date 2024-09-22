@@ -1,9 +1,9 @@
 use crate::db;
-use crate::db::repo;
 use crate::db::Database;
 use crate::entities::Upload;
 use crate::markdown::parse_markdown;
 use crate::posts::PostRepository;
+use crate::repositories::RepoRepository;
 use crate::uploader::{diff::Diff, error::Result, Error};
 
 use crate::blogs::{Blog, BlogRepository};
@@ -13,7 +13,7 @@ use slugify::slugify;
 
 pub async fn sync(db: &Database, upload: &mut Upload, diffs: Vec<Diff>) -> Result<()> {
     dbg!("------------------------\nSyncing...");
-    let repo = repo::get_by_url(db, &upload.repo)
+    let repo = RepoRepository::get_by_url(db, &upload.repo)
         .await
         .map_err(|e| match e {
             db::Error::EntityNotFound => Error::RepositoryNotFound(upload.repo.clone()),

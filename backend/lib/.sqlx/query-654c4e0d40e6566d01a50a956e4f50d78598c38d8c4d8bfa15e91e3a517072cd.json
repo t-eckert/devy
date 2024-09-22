@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "update \"repo\"\nset\n    blog_id = $2,\n    url = $3,\n    metadata = $4\nwhere id = $1\nreturning id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Jsonb"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "654c4e0d40e6566d01a50a956e4f50d78598c38d8c4d8bfa15e91e3a517072cd"
+}
