@@ -1,4 +1,4 @@
-use crate::db::{profile, user, DBConn};
+use crate::db::{user, DBConn};
 use crate::forms::error::{Error, Result};
 use crate::profiles::ProfileRepository;
 use crate::repositories::Repo;
