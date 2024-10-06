@@ -1,5 +1,5 @@
-use clap::{Args,  Subcommand};
-use lib::db::Database;
+use clap::{Args, Subcommand};
+use lib::{db::Database, webhooks::WebhookRepository};
 
 #[derive(Args)]
 pub struct Count {
@@ -19,7 +19,7 @@ pub async fn exec(count: Count, db: &Database) {
             println!("{}", lib::db::user::count(db).await.unwrap())
         }
         Some(Subjects::Webhooks) => {
-            println!("{}", lib::db::webhook::count(db).await.unwrap())
+            println!("{}", WebhookRepository::count(db).await.unwrap())
         }
         None => println!("No subject specified"),
     }

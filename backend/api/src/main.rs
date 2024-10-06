@@ -1,10 +1,10 @@
 mod config;
-mod router;
 mod controllers;
+mod router;
 mod store;
 mod test;
 
-use lib::{auth, db, github, monitoring, uploader};
+use lib::{auth, db, git, github, monitoring, uploader};
 use std::net::SocketAddr;
 
 /// Start the API server.
@@ -24,7 +24,7 @@ async fn main() {
         cfg.encoding_public_key.as_bytes(),
     );
     let db_conn = db::connect(&cfg.database_url).await.unwrap();
-    let git = uploader::Git::new(&cfg.git_path).expect("Unable to create git client");
+    let git = git::Git::new(&cfg.git_path).expect("Unable to create git client");
     let uploader = uploader::Uploader::new(git);
     let github_client = github::Client::new(&cfg.github_app_client_id, &cfg.github_app_private_key);
 

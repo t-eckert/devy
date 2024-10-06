@@ -1,10 +1,15 @@
 use std::fmt::Display;
 
+use serde::Deserialize;
+use serde::Serialize;
+
 use crate::git::Git;
 use crate::uploader::Result;
 use crate::uploader::Upload;
 
-#[derive(Debug, PartialEq)]
+pub type Diffs = Vec<Diff>;
+
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
 pub enum Diff {
     Added(String),
     Deleted(String),
@@ -13,7 +18,7 @@ pub enum Diff {
 }
 
 impl Diff {
-    pub fn from_raw(raw: String) -> Vec<Diff> {
+    pub fn from_raw(raw: String) -> Diffs {
         let mut diffs = Vec::new();
 
         for line in raw.lines() {

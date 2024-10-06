@@ -18,7 +18,7 @@ pub struct NewBlog {
     pub user_id: Uuid,
     /// The Devy username of the user creating the blog.
     pub username: String,
-    /// The name of the blog.z
+    /// The name of the blog.
     pub name: String,
     /// The URL where the repo can be cloned from.
     pub repo_url: String,
@@ -29,8 +29,8 @@ pub struct NewBlog {
 #[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct NewBlogResponse {
-    blog: Blog,
-    repo: Repo,
+    pub blog: Blog,
+    pub repo: Repo,
 }
 
 impl NewBlog {

@@ -1,19 +1,21 @@
 use super::{error::Result, Error};
+use super::{Upload, UploadRepository};
 use crate::db::{upload, Database};
-use crate::entities::Upload;
 use crate::repositories::RepoRepository;
 
-pub async fn verify(db: &Database, upload: &mut Upload) -> Result<()> {
+pub async fn verify(db: &Database, mut upload: Upload) -> Result<()> {
     tracing::info!("Verifying upload {}", upload.id);
 
-    upload::set_status(db, upload.id, "received").await?;
-    upload::append_log(db, upload.id, "INFO: Upload received by uploader").await?;
+    upload.set_status("received");
+    upload.append_log("INFO: Upload received by uploader");
+    UploadRepository::update(db, &upload).await?;
 
     has_repo(db, &upload).await?;
     set_previous_upload(db, &upload).await?;
 
-    upload::set_status(db, upload.id, "verified").await?;
-    upload::append_log(db, upload.id, "INFO: Upload verified").await?;
+    upload.set_status("verified");
+    upload.append_log("INFO: Upload verified");
+    UploadRepository::update(db, &upload).await?;
 
     Ok(())
 }

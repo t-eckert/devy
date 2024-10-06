@@ -1,6 +1,6 @@
 use super::Result;
 use crate::store::Store;
-use lib::db::upload;
+use lib::uploader::{Upload, UploadRepository};
 use lib::webhooks;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -25,15 +25,12 @@ impl WebhooksController {
             webhooks::WebhookType::GitHubPushEvent => {
                 let repo = webhook.payload["repository"]["clone_url"]
                     .as_str()
-                    .unwrap_or_default()
-                    .to_string();
-                let _ = store
-                    .uploader
-                    .upload(
-                        &store.db_conn,
-                        upload::insert(&store.db_conn, None, repo).await?,
-                    )
-                    .await;
+                    .unwrap_or_default();
+                let sha = webhook.payload["headcommit"]["id"]
+                    .as_str()
+                    .unwrap_or_default();
+                let upload = Upload::new(repo, Some(sha));
+                let _ = store.uploader.upload(&store.db_conn, upload).await;
             }
             webhooks::WebhookType::Uncategorized => {}
         }

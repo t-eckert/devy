@@ -7,6 +7,7 @@ use axum::{
     routing::post,
     Extension, Json, Router,
 };
+use lib::uploader::Upload;
 use lib::{
     forms::new_blog::{NewBlog, NewBlogResponse},
     token::Session,
@@ -30,5 +31,11 @@ async fn new_blog(
         return Err(StatusCode::FORBIDDEN.into());
     }
 
-    Ok(Json(new_blog.process(&store.db_conn).await?))
+    let res = new_blog.process(&store.db_conn).await?;
+
+    let repo = res.clone().repo.url;
+    let upload = Upload::new(&repo, None);
+    store.uploader.upload(&store.db_conn, upload).await?;
+
+    Ok(Json(res))
 }

@@ -9,22 +9,18 @@ pub enum Error {
 
     RepositoryNotFound(String),
 
-    GitBinaryNotFound(String),
-
-    GitCloneFailed(String),
-
-    GitDiffFailed(String),
-
-    CleanupFailure(String),
+    CleanupFailure,
 
     FileParseError(String),
+
+    UploadNotFound,
+
+    UploadFailedCatastrophically,
 }
 
-impl From<crate::entities::Error> for Error {
-    fn from(err: crate::entities::Error) -> Self {
-        match err {
-            _ => Error::DependencyError(err.to_string()),
-        }
+impl From<crate::git::Error> for Error {
+    fn from(err: crate::git::Error) -> Self {
+        return Error::DependencyError(err.to_string());
     }
 }
 

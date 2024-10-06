@@ -1,15 +1,10 @@
-mod cleanup;
-mod clone;
-mod diff;
 mod error;
-mod git;
 mod sync;
-mod uploader;
-mod verify;
 mod upload;
+mod uploader;
 
-pub use error::Error;
-pub use git::Git;
-
-pub use uploader::Uploader;
+pub use error::{Error, Result};
 pub use upload::{Upload, UploadRepository};
+pub use uploader::Uploader;
+
+use sync::sync;

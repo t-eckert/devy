@@ -1,5 +1,5 @@
-use crate::date::Date;
-use crate::db::{DBConn, Result as DBResult};
+use super::{Error, Result};
+use crate::{date::Date, db, git::Git};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -19,16 +19,61 @@ pub struct Upload {
 }
 
 impl Upload {
-    pub fn new(repo: &str, sha: &str) -> Self {
+    pub fn new(repo: &str, sha: Option<&str>) -> Self {
         Self {
             id: Uuid::new_v4(),
             previous_upload_id: None,
             status: "pending".to_string(),
             repo: repo.to_string(),
-            sha: sha.to_string(),
+            sha: sha.unwrap_or("").to_string(),
             logs: None,
             created_at: Date::now(),
             updated_at: Date::now(),
+        }
+    }
+
+    pub async fn verify(mut self, db_conn: &db::Conn) -> Result<Self> {
+        Ok(self)
+    }
+
+    pub async fn receive(mut self, db_conn: &db::Conn) -> Result<Self> {
+        self.set_status("received");
+        self.append_log("INFO: Upload received by uploader");
+        UploadRepository::update(db_conn, &self);
+        Ok(self)
+    }
+
+    pub async fn clone_repo(mut self, db_conn: &db::Conn, git: &Git) -> Result<Self> {
+        git.clone_repo(&self.dir(), &self.repo)?;
+        self.sha = git.sha(&self.dir())?;
+
+        Ok(self)
+    }
+
+    pub async fn previous_sha(&self, db_conn: &db::Conn) -> Result<Option<String>> {
+        Ok(UploadRepository::get_previous(db_conn, self)
+            .await?
+            .map(|upload| upload.sha))
+    }
+
+    /// If the upload has an identified previous upload for the given repository.
+    pub fn has_previous(&self) -> bool {
+        self.previous_upload_id.is_some()
+    }
+
+    fn set_status(&mut self, status: &str) {
+        self.status = status.to_string();
+    }
+
+    fn set_sha(&mut self, sha: &str) {
+        self.sha = sha.to_string();
+    }
+
+    fn append_log(&mut self, log: &str) {
+        if let Some(logs) = &mut self.logs {
+            logs.push(log.to_string());
+        } else {
+            self.logs = Some(vec![log.to_string()]);
         }
     }
 
@@ -41,14 +86,55 @@ pub struct UploadRepository;
 
 impl UploadRepository {
     pub async fn insert(
-        db_conn: &DBConn,
+        db_conn: &db::Conn,
         previous_upload_id: Option<Uuid>,
         repo: &str,
-    ) -> DBResult<Uuid> {
-        return Ok(Uuid::new_v4());
+    ) -> db::Result<Uuid> {
+        Ok(sqlx::query_file_as!(
+            db::Id,
+            "queries/insert_upload.sql",
+            previous_upload_id,
+            repo
+        )
+        .fetch_one(db_conn)
+        .await?
+        .id)
     }
 
-    pub async fn get(db_conn: &DBConn, id: Uuid) -> DBResult<Upload> {
-        return Ok(Upload::new("repo", "sha"));
+    pub async fn update(db_conn: &db::Conn, upload: &Upload) -> db::Result<Uuid> {
+        Ok(sqlx::query_file_as!(
+            db::Id,
+            "queries/update_upload.sql",
+            upload.id,
+            upload.previous_upload_id,
+            upload.status,
+            upload.repo,
+            upload.sha,
+            &upload.logs.clone().unwrap_or_default(),
+        )
+        .fetch_one(db_conn)
+        .await?
+        .id)
+    }
+
+    pub async fn get(db_conn: &db::Conn, id: Uuid) -> db::Result<Upload> {
+        Ok(sqlx::query_file_as!(Upload, "queries/get_upload.sql", id)
+            .fetch_one(db_conn)
+            .await?)
+    }
+
+    pub async fn get_by_repo_url(db_conn: &db::Conn, repo_url: &str) -> db::Result<Upload> {
+        Ok(
+            sqlx::query_file_as!(Upload, "queries/get_upload_by_repo.sql", repo_url)
+                .fetch_one(db_conn)
+                .await?,
+        )
+    }
+
+    pub async fn get_previous(db_conn: &db::Conn, upload: &Upload) -> db::Result<Option<Upload>> {
+        match upload.previous_upload_id {
+            Some(id) => Self::get(db_conn, id).await.map(Some),
+            None => Ok(None),
+        }
     }
 }
