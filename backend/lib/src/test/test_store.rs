@@ -1,5 +1,5 @@
-use crate::store::Store;
 use crate::db::DBConn;
+use crate::store::Store;
 
 pub struct Options {
     pub db_conn: DBConn,
@@ -18,12 +18,7 @@ pub fn new_test_store(opts: Options) -> Store {
             include_bytes!("test_private_key.pem"),
             include_bytes!("test_public_key.pem"),
         ),
-        crate::uploader::Uploader::new(
-            crate::uploader::Git::new("/tmp").unwrap(),
-        ),
-        crate::github::Client::new(
-            "client_id",
-            "private_key",
-        ),
+        crate::uploader::Uploader::new(crate::git::Git::new("/tmp").unwrap()),
+        crate::github::Client::new("client_id", "private_key"),
     )
 }
