@@ -12,6 +12,8 @@
 	import Heart from "$lib/icons/heart.svelte"
 
 	let signedIn = $derived(getSessionState().signedIn)
+
+	const showCollections = false
 </script>
 
 <Sidebar>
@@ -34,7 +36,7 @@
 		</SidebarLink>
 	</SidebarSection>
 
-	{#if signedIn}
+	{#if signedIn && showCollections}
 		<SidebarSection title="Collections">
 			<SidebarLink href="/collections/bookmarked">
 				<span class="group-hover:rotate-12 group-hover:text-purple-600 transition-all"
