@@ -1,10 +1,14 @@
 <script lang="ts">
+	import type { Snippet } from "svelte"
+
 	type Role = "primary" | "secondary" | "tertiary"
 	type Behavior = "neutral" | "positive" | "negative"
 
 	interface Props {
+		children: Snippet
 		role?: Role
 		behavior?: Behavior
+		href?: string
 		onclick?: () => void
 		disabled?: boolean
 		name?: string
@@ -14,12 +18,16 @@
 	const {
 		role = "primary",
 		behavior = "neutral",
+		href,
 		onclick = () => {},
 		disabled = false,
 		name,
-		value
+		value,
+		children
 	}: Props = $props()
 
+	let rootStyles =
+		"select-none group flex flex-row rounded-md gap-1 items-center px-2 py-1 transition-all disabled:cursor-not-allowed"
 	let style = {
 		primary: {
 			neutral: "bg-stone-800 text-stone-50 hover:bg-stone-900",
@@ -40,12 +48,12 @@
 	}[role][behavior]
 </script>
 
-<button
-	class={`${style} select-none group flex flex-row rounded-md gap-1 items-center px-2 py-1 transition-all disabled:cursor-not-allowed`}
-	{onclick}
-	{disabled}
-	{name}
-	{value}
->
-	<slot />
-</button>
+{#if href}
+	<a class={`${style} ${rootStyles}`} {href}>
+		{@render children()}
+	</a>
+{:else}
+	<button class={`${style} ${rootStyles}`} {onclick} {disabled} {name} {value}>
+		{@render children()}
+	</button>
+{/if}

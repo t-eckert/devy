@@ -4,12 +4,15 @@
 	import Sidebar from "$lib/components/sidebar/sidebar.svelte"
 	import SidebarSection from "$lib/components/sidebar/sidebar-section.svelte"
 	import SidebarLink from "$lib/components/sidebar/sidebar-link.svelte"
+	import Button from "$lib/components/button.svelte"
+	import Hr from "$lib/elements/hr.svelte"
 
 	import Rocket from "$lib/icons/rocket.svelte"
 	import Clock from "$lib/icons/clock.svelte"
 	import Person from "$lib/icons/person.svelte"
 	import Bookmark from "$lib/icons/bookmark.svelte"
 	import Heart from "$lib/icons/heart.svelte"
+	import PaperPlane from "$lib/icons/paper-plane.svelte"
 
 	let signedIn = $derived(getSessionState().signedIn)
 
@@ -51,4 +54,15 @@
 			</SidebarLink>
 		</SidebarSection>
 	{/if}
+
+	<Hr />
+
+	<section class="mt-3 flex flex-col items-start">
+		<Button role="secondary" href="/feedback">
+			<div class="flex flex-row gap-1 items-center">
+				<span class="-rotate-45"><PaperPlane /></span>
+				<span class="text-sm font-medium">Share your feedback</span>
+			</div>
+		</Button>
+	</section>
 </Sidebar>

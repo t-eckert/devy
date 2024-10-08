@@ -48,7 +48,10 @@
 >
 	<a use:melt={$item} class={itemStyle} href="/">Home</a>
 	<a use:melt={$item} class={itemStyle} href="/changelog">Changelog</a>
-	<a use:melt={$item} class={itemStyle} href="/dashboard">Dashboard</a>
+	<a use:melt={$item} class={itemStyle} href="/feedback">Feedback</a>
+	{#if user.isAuthenticated}
+		<a use:melt={$item} class={itemStyle} href="/dashboard">Dashboard</a>
+	{/if}
 	{#if user.role === "admin"}
 		<span class="w-full border-b border-b-stone-200"></span>
 		<a use:melt={$item} class={itemStyle} href="/admin">Admin</a>

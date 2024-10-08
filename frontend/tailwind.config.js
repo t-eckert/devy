@@ -12,5 +12,5 @@ export default {
     }
   },
   plugins: [plugin("@tailwindcss/forms")],
-  safelist: ["dark", "w-screen", "h-screen", "border-stone-100", "h-64"]
+  safelist: ["dark", "w-screen", "h-screen", "border-stone-100", "h-64", "bg-blue-300"]
 }

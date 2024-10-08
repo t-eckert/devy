@@ -39,26 +39,6 @@
 						>
 					{/if}
 				</div>
-				<div class="flex flex-col gap-2">
-					<a href="/feeds/popular" class="text-sm font-medium text-stone-600 hover:text-stone-950"
-						>Popular Feed</a
-					>
-					<a href="/feeds/following" class="text-sm font-medium text-stone-600 hover:text-stone-950"
-						>Following Feed</a
-					>
-					<a href="/feeds/recent" class="text-sm font-medium text-stone-600 hover:text-stone-950"
-						>Recent Feed</a
-					>
-					<a
-						href="/collections/bookmarked"
-						class="text-sm font-medium text-stone-600 hover:text-stone-950">Bookmarked Collection</a
-					>
-					<a
-						href="/collections/liked"
-						class="text-sm font-medium text-stone-600 hover:text-stone-950">Liked Collection</a
-					>
-				</div>
-				<div></div>
 			</div>
 			<div>
 				<code class="text-slate-700 text-sm">{version}</code>
