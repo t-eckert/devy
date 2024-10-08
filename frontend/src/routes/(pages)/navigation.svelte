@@ -18,9 +18,8 @@
 		<a
 			data-sveltekit-preload-data="off"
 			href="/auth/sign-in"
-			class="px-2 py-0.5 flex flex-row items-center gap-2 text-sm font-medium text-stone-600 hover:text-stone-950 hover:bg-stone-100 rounded-full transition"
+			class="px-2 py-0.5 flex flex-row items-center gap-2 text-sm font-medium text-stone-600 hover:text-stone-950 hover:bg-stone-200 rounded-full transition"
 		>
-			<span><GithubLogo /></span>
 			<span>Sign in</span>
 		</a>
 	{/if}

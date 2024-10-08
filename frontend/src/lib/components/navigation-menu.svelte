@@ -38,7 +38,7 @@
 	class={[
 		"p-1 rounded text-stone-600 dark:text-zinc-300 hover:text-stone-950 dark:hover:text-zinc-100 transition-all border",
 		"data-[state=open]:bg-white data-[state=open]:border-stone-200/70 data-[state=open]:shadow data-[state=open]:dark:shadow-none data-[state=open]:dark:bg-zinc-800 data-[state=open]:dark:border-zinc-600/70",
-		"data-[state=closed]:bg-none data-[state=closed]:border-transparent data-[state=closed]:hover:bg-stone-100 data-[state=closed]:dark:hover:bg-zinc-800"
+		"data-[state=closed]:bg-none data-[state=closed]:border-transparent data-[state=closed]:hover:bg-stone-200 data-[state=closed]:dark:hover:bg-zinc-800"
 	].join(" ")}><HamburgerMenu /></button
 >
 <div
@@ -51,6 +51,10 @@
 	<a use:melt={$item} class={itemStyle} href="/feedback">Feedback</a>
 	{#if user.isAuthenticated}
 		<a use:melt={$item} class={itemStyle} href="/dashboard">Dashboard</a>
+		<span class="w-full border-b border-b-stone-200"></span>
+		<form action="/auth/sign-out" method="POST" use:melt={$item} class="contents">
+			<button class={itemStyle}>Sign out</button>
+		</form>
 	{/if}
 	{#if user.role === "admin"}
 		<span class="w-full border-b border-b-stone-200"></span>

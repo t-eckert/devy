@@ -16,7 +16,6 @@ class User {
   displayName = $derived(this.#session?.displayName)
   avatarUrl = $derived(this.#session?.avatarUrl)
 
-
   constructor(token?: string) {
     if (token === undefined) {
       return
@@ -32,13 +31,9 @@ class User {
   unsetToken() {
     this.#token = null
   }
-
-
 }
 
 function sessionOrNull(token: string | null): Session | null {
-  console.log("Calling session or null with ", token)
-
   if (token === null) {
     return null
   }

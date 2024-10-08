@@ -93,17 +93,25 @@ impl Client {
         )
         .await?;
 
-        let profile_id = ProfileRepository::insert(
-            db,
-            user.id,
-            Some(github_user.name.clone().unwrap_or("unnamed".to_string())),
-            github_user.avatar_url,
-            None,
-            None,
-        )
-        .await?;
-
-        let profile = ProfileRepository::get(db, profile_id).await?;
+        let username = user.username.clone();
+        let profile = match ProfileRepository::get_by_username(db, &username).await {
+            Ok(profile) => {
+                // TODO need to update data on the profile from GitHub
+                profile
+            }
+            Err(_) => {
+                let profile_id = ProfileRepository::insert(
+                    db,
+                    user.id,
+                    Some(github_user.name.clone().unwrap_or("unnamed".to_string())),
+                    github_user.avatar_url,
+                    None,
+                    None,
+                )
+                .await?;
+                ProfileRepository::get(db, profile_id).await?
+            }
+        };
 
         let session = Session::new(
             user.id,
