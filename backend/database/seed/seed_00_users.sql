@@ -5,7 +5,7 @@
 -- Add users
 -- These users will have a default role of `user` and status of `active`.
 INSERT INTO "user" (id, username, email, github_username)
-VALUES 
+VALUES
 	('d5e7a1c3-37af-4965-83d4-5f86a9c489c4', 'techenthusiast', 'tech.enthusiast@email.com', 'techenthusiast'),
 	('b7f6e4c9-0c93-4f2e-b1bf-ef07b12e6c44', 'codingpro', 'coding.pro@email.com', 'codingpro'),
 	('8e7d9c2a-74aa-4d9f-af66-afcd2c6e8f8d', 'sqlgeek', 'sql.geek@email.com', 'sqlgeek'),
@@ -30,8 +30,7 @@ VALUES
 	('2a5b8e9d-4f3e-4c6b-7d5e-8e9d4f3e4c6b', 'fullstackninja', 'fullstack.ninja@email.com', 'fullstackninja');
 
 INSERT INTO "user" (id, username, email, github_username, created_at, updated_at)
-VALUES 
-	('20bf70c8-d1c3-4d5c-9a50-6ca87eea205c', 't-eckert', 'name@email.com', 't-eckert', '2023-11-25 12:00:00+00', '2023-11-25 12:00:00+00'),
+VALUES
 	('e3d9727f-1bfd-4a56-b875-45d877ecf115', 'analogue', 'analogue@email.com', 'analogue', '2023-11-25 08:15:00+00', '2023-11-26 10:30:00+00'),
 	('8f85a118-4933-4c61-8708-716ffa35cc49', 'taylorschwift', 'taylorschwift@email.com', 'taylorschwift', '2023-11-25 09:30:00+00', '2023-11-27 14:45:00+00'),
 	('7cd19c80-d72b-4fc2-a818-de809361b278', 'aaronjohnson', 'a.johnson@email.com', 'ajohnson', '2023-11-25 10:45:00+00', '2023-11-28 18:00:00+00'),
@@ -53,7 +52,5 @@ VALUES
 
 -- Add an admin user
 INSERT INTO "user" (id, username, email, github_username, role)
-VALUES 
-	('8ff8f972-e62d-4498-a5c8-a33824d5fc83', 't-admin', 'admin@email.com', null, 'admin');
-
-
+VALUES
+    ('20bf70c8-d1c3-4d5c-9a50-6ca87eea205c', 't-eckert', 'name@email.com', 't-eckert', 'admin');
