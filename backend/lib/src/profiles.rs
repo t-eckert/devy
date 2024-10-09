@@ -1,5 +1,5 @@
-use crate::date::Date;
 use crate::db;
+use crate::{date::Date, github};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -27,6 +27,17 @@ pub struct Profile {
 
     pub created_at: Date,
     pub updated_at: Date,
+}
+
+impl Profile {
+    pub fn update_from_github_user(&mut self, github_user: github::GitHubUser) {
+        self.display_name = github_user.name;
+        self.avatar_url = github_user.avatar_url;
+        self.bio = github_user.bio;
+        self.website_url = github_user.blog;
+        self.twitter_username = github_user.twitter_username;
+        self.github_username = github_user.login;
+    }
 }
 
 pub struct ProfileRepository;

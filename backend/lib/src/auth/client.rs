@@ -1,10 +1,8 @@
-use super::{
-    error::{Error, Result},
-    github_user::GitHubUser,
-};
+use super::error::{Error, Result};
 use crate::profiles::ProfileRepository;
 use crate::{
     db::{self, Database},
+    github::GitHubUser,
     token::Encoder,
     token::Session,
 };
@@ -95,8 +93,10 @@ impl Client {
 
         let username = user.username.clone();
         let profile = match ProfileRepository::get_by_username(db, &username).await {
-            Ok(profile) => {
-                // TODO need to update data on the profile from GitHub
+            Ok(mut profile) => {
+                profile.update_from_github_user(github_user);
+                let id = ProfileRepository::update(db, profile).await?;
+                let profile = ProfileRepository::get(db, id).await?;
                 profile
             }
             Err(_) => {
