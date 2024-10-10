@@ -44,7 +44,9 @@
 		{/if}
 	</div>
 	{#if feed.count === 0}
-		No posts found.
+		<div class="w-full h-44 bg-stone-100 rounded flex items-center justify-center">
+			No posts found.
+		</div>
 	{/if}
 	<EntryList {entries} />
 	<div class="mt-1 flex flex-row justify-between">
