@@ -23,7 +23,7 @@
 	</section>
 {/if}
 
-<section class="grid grid-cols-4 gap-6 pt-3">
+<section class="grid grid-cols-1 sm:grid-cols-4 gap-6 pt-3">
 	<div class="flex flex-col gap-3">
 		<div class="aspect-square rounded-xl">
 			<Avatar src={profile.avatarUrl} displayName={profile.displayName} />

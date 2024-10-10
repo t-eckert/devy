@@ -28,7 +28,7 @@
 	} = createDropdownMenu({ positioning })
 
 	const itemStyle =
-		"text-sm font-medium text-stone-600 dark:text-zinc-300 mx-1 px-2 py-0.5 group flex flex-row rounded items-center pointer-cursor justify-between hover:bg-stone-200/50 dark:hover:bg-zinc-800/70 hover:text-stone-950 dark:hover:text-zinc-100 transition-all"
+		"sm:text-sm font-medium text-stone-600 dark:text-zinc-300 mx-1 px-2 py-1 sm:py-0.5 group flex flex-row rounded items-center pointer-cursor justify-between hover:bg-stone-200/50 dark:hover:bg-zinc-800/70 hover:text-stone-950 dark:hover:text-zinc-100 transition-all"
 
 	const user = getUser()
 </script>
@@ -44,7 +44,7 @@
 <div
 	use:melt={$menu}
 	transition:fly={{ duration: 150, y: -12 }}
-	class="w-40 rounded-md border border-stone-200/70 dark:border-zinc-700/70 backdrop-blur-3xl py-1 flex flex-col gap-1 shadow-lg bg-white/80 dark:bg-zinc-900 dark:border-stone-200"
+	class="w-56 sm:w-40 rounded-md border border-stone-200/70 dark:border-zinc-700/70 backdrop-blur-3xl py-1 flex flex-col gap-1 shadow-lg bg-white/80 dark:bg-zinc-900 dark:border-stone-200"
 >
 	<a use:melt={$item} class={itemStyle} href="/">Home</a>
 	<a use:melt={$item} class={itemStyle} href="/changelog">Changelog</a>

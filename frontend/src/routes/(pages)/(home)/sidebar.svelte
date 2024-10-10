@@ -55,14 +55,16 @@
 		</SidebarSection>
 	{/if}
 
-	<Hr />
+	<div class="hidden sm:contents">
+		<Hr />
 
-	<section class="mt-3 flex flex-col items-start">
-		<Button role="secondary" href="/feedback">
-			<div class="flex flex-row gap-1 items-center">
-				<span class="-rotate-45"><PaperPlane /></span>
-				<span class="text-sm font-medium">Share your feedback</span>
-			</div>
-		</Button>
-	</section>
+		<section class="mt-3 flex flex-col items-start">
+			<Button role="secondary" href="/feedback">
+				<div class="flex flex-row gap-1 items-center">
+					<span class="-rotate-45"><PaperPlane /></span>
+					<span class="text-sm font-medium">Share your feedback</span>
+				</div>
+			</Button>
+		</section>
+	</div>
 </Sidebar>

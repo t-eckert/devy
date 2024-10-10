@@ -17,7 +17,7 @@
 		<div class="col-span-2">
 			{@render children()}
 		</div>
-		<div class="">
+		<div class="hidden sm:block">
 			<CTA />
 		</div>
 	</div>
