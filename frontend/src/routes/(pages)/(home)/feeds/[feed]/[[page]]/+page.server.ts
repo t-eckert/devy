@@ -4,9 +4,7 @@ import type { Feed } from "$lib/types"
 import { type NumericRange, error } from "@sveltejs/kit"
 
 export const load: PageServerLoad = async ({ fetch, locals, params, depends }) => {
-  console.log("load")
   const { feed, page } = params
-  console.log(feed, page)
   depends("all")
 
   async function fetchFeed() {

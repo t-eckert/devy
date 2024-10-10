@@ -20,7 +20,7 @@
 	const components = new Set(defaults.filter((component) => !omit?.includes(component)))
 </script>
 
-<div class="max-w-xl">
+<div class="w-full max-w-xl">
 	<section
 		class="h-full w-full rounded border border-stone-200/70 backdrop-blur-3xl shadow bg-white/60 dark:bg-zinc-800/60 dark:border-zinc-800 dark:shadow-none px-2 py-1.5"
 	>
