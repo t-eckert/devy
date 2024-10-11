@@ -1,14 +1,12 @@
 <script lang="ts">
-	import Placeholder from "$lib/components/placeholder.svelte"
-	import Json from "$lib/utils/json.svelte"
+	import Collection from "$lib/components/collection.svelte"
+	import OGHeader from "$lib/components/og-header.svelte"
 
 	const { data } = $props()
 </script>
 
 <svelte:head>
-	<title>Devy / Liked</title>
+	<OGHeader title="Devy/Liked: git push blog" />
 </svelte:head>
 
-<div class="w-full h-40 flex items-center justify-center">
-	<Placeholder>Liked</Placeholder>
-</div>
+<Collection name="Liked" entries={data.collection.entries} />

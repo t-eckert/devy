@@ -1,0 +1,34 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select profile_id, post_id, created_at\nfrom \"like\"\nwhere profile_id = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "post_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "472f8408730e89d3f6e09d8884b8ead17858a5d72c5e771f62f38386c44caee3"
+}

@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select * from \"bookmark\" where profile_id=$1 and post_id=$2;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "post_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "6bf784b98e1b48698c39d2ce32fb4d2d0e3750f52776dcae5c3d19e3528ad3d8"
+}

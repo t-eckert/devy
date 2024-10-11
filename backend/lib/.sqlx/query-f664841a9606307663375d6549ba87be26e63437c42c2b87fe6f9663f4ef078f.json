@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "insert into \"bookmark\" (profile_id, post_id)\nvalues ($1, $2)\n    on conflict (profile_id, post_id)\n    do nothing;\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "f664841a9606307663375d6549ba87be26e63437c42c2b87fe6f9663f4ef078f"
+}

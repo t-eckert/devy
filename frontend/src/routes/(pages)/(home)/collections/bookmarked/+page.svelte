@@ -1,15 +1,12 @@
 <script lang="ts">
-	import Feed from "$lib/components/feed"
-	import Placeholder from "$lib/components/placeholder.svelte"
-	import Json from "$lib/utils/json.svelte"
+	import Collection from "$lib/components/collection.svelte"
+	import OGHeader from "$lib/components/og-header.svelte"
 
 	const { data } = $props()
 </script>
 
 <svelte:head>
-	<title>Devy / Bookmarked</title>
+	<OGHeader title="Devy/Bookmarked: git push blog" />
 </svelte:head>
 
-<div class="w-full h-40 flex items-center justify-center">
-	<Placeholder>Bookmarks</Placeholder>
-</div>
+<Collection name="Bookmarked" entries={data.collection.entries} />

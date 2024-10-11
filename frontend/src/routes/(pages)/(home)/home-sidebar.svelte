@@ -16,7 +16,7 @@
 
 	let signedIn = $derived(getSessionState().signedIn)
 
-	const showCollections = false
+	const showCollections = true
 </script>
 
 <Sidebar>

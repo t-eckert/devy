@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM \"bookmark\"\nWHERE profile_id = $1 AND post_id = $2;\n",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "77aa055e98eb2b2deb0d55105a13e1c2923f00da696e57631038d7ea72077216"
+}

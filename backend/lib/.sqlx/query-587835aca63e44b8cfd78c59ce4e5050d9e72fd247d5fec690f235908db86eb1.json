@@ -1,0 +1,34 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select profile_id, post_id, \"bookmark\".created_at\nfrom \"bookmark\"\nleft join \"profile\" on \"bookmark\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere username = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "post_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "587835aca63e44b8cfd78c59ce4e5050d9e72fd247d5fec690f235908db86eb1"
+}

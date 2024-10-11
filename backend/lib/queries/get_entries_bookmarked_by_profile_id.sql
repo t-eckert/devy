@@ -10,10 +10,10 @@ select
 	title,
 	like_count,
 	is_draft
-from "like"
-left join "post" on "like".post_id = "post".id
+from "bookmark"
+left join "post" on "bookmark".post_id = "post".id
 left join "blog" on "post".blog_id = "blog".id
 left join "profile" on "blog".profile_id = "profile".id
 left join "user" on "profile".user_id = "user".id
-where "like".profile_id = $1
-order by "like".created_at DESC;
+where "bookmark".profile_id = $1
+order by "bookmark".created_at DESC;

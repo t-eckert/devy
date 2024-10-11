@@ -47,6 +47,14 @@ impl LikeRepository {
         )
     }
 
+    pub async fn get_by_profile_id(db_conn: &db::Conn, profile_id: Uuid) -> db::Result<Vec<Like>> {
+        Ok(
+            sqlx::query_file_as!(Like, "queries/get_likes_by_profile_id.sql", profile_id)
+                .fetch_all(db_conn)
+                .await?,
+        )
+    }
+
     pub async fn delete(db_conn: &db::Conn, profile_id: Uuid, post_id: Uuid) -> db::Result<()> {
         let _ = sqlx::query_file!("queries/delete_like.sql", profile_id, post_id)
             .execute(db_conn)

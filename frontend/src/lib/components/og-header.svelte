@@ -1,14 +1,16 @@
 <script lang="ts">
 	interface Props {
 		title: string
-		description: string
+		description?: string
 	}
 
 	const { title, description }: Props = $props()
 </script>
 
 <title>{title}</title>
-<meta property="og:description" content={description} />
+{#if description}
+	<meta name="description" content={description} />
+{/if}
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />

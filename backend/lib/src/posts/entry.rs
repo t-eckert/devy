@@ -39,19 +39,16 @@ pub struct Entry {
 pub struct EntryRepository;
 
 impl EntryRepository {
-    pub async fn get_drafts_by_profile_id(
-        db_conn: &DBConn,
-        profile_id: Uuid,
-    ) -> Result<Vec<Entry>> {
-        Ok(sqlx::query_file_as!(
-            Entry,
-            "queries/get_entries_where_is_draft_by_profile_id.sql",
-            profile_id
+    /// Get all entries using a blog slug.
+    pub async fn get_by_blog_slug(db_conn: &DBConn, blog_slug: &str) -> Result<Vec<Entry>> {
+        Ok(
+            sqlx::query_file_as!(Entry, "queries/get_entries_by_blog_slug.sql", blog_slug)
+                .fetch_all(db_conn)
+                .await?,
         )
-        .fetch_all(db_conn)
-        .await?)
     }
 
+    /// Get an entry using a blog and a post slug.
     pub async fn get_by_blog_slug_and_post_slug(
         db_conn: &DBConn,
         blog_slug: &str,
@@ -67,19 +64,51 @@ impl EntryRepository {
         .await?)
     }
 
-    pub async fn get_by_blog_slug(db_conn: &DBConn, blog_slug: &str) -> Result<Vec<Entry>> {
-        Ok(
-            sqlx::query_file_as!(Entry, "queries/get_entries_by_blog_slug.sql", blog_slug)
-                .fetch_all(db_conn)
-                .await?,
-        )
-    }
-
+    /// Get all entries using a username.
     pub async fn get_by_username(db_conn: &DBConn, username: &str) -> Result<Vec<Entry>> {
         Ok(
             sqlx::query_file_as!(Entry, "queries/get_entries_by_username.sql", username)
                 .fetch_all(db_conn)
                 .await?,
         )
+    }
+
+    /// Get all entries liked by a profile using a profile ID.
+    pub async fn get_liked_by_profile_id(db_conn: &DBConn, profile_id: Uuid) -> Result<Vec<Entry>> {
+        Ok(sqlx::query_file_as!(
+            Entry,
+            "queries/get_entries_liked_by_profile_id.sql",
+            profile_id
+        )
+        .fetch_all(db_conn)
+        .await?)
+    }
+
+    /// Get all entries bookmarked by a profile using a profile ID.
+    pub async fn get_bookmarked_by_profile_id(
+        db_conn: &DBConn,
+        profile_id: Uuid,
+    ) -> Result<Vec<Entry>> {
+        Ok(sqlx::query_file_as!(
+            Entry,
+            "queries/get_entries_bookmarked_by_profile_id.sql",
+            profile_id
+        )
+        .fetch_all(db_conn)
+        .await?)
+    }
+
+    /// Get all draft entries using a profile ID.
+    pub async fn get_drafts_by_profile_id(
+        db_conn: &DBConn,
+        profile_id: Uuid,
+    ) -> Result<Vec<Entry>> {
+        Ok(sqlx::query_file_as!(
+            Entry,
+            "queries/get_entries_where_is_draft_by_profile_id.sql",
+            profile_id
+        )
+        .fetch_all(db_conn)
+        .await?)
     }
 }
