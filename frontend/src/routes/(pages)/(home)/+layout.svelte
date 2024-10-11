@@ -4,7 +4,7 @@
 	import CTA from "./cta.svelte"
 
 	import SidebarMain from "$lib/layouts/sidebar-main.svelte"
-	import Sidebar from "./sidebar.svelte"
+	import Sidebar from "./home-sidebar.svelte"
 
 	const { children }: { children: Snippet } = $props()
 </script>
