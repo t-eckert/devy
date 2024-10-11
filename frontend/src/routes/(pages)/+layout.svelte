@@ -9,7 +9,10 @@
 
 <svelte:head>
 	<title>Devy: git push blog</title>
-	<OGHeader title="Devy: git push blog" />
+	<OGHeader
+		title="Devy: git push blog"
+		description="Devy is a blogging platform based on Markdown and Git. Connect a GitHub repository, add Markdown files, and every push updates your blog."
+	/>
 </svelte:head>
 
 <Analytics />
