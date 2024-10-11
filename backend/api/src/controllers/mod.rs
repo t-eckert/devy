@@ -22,5 +22,6 @@ pub use follows_controller::FollowsController;
 pub use likes_controller::{LikesController, NewLike};
 pub use posts_controller::PostsController;
 pub use profiles_controller::ProfilesController;
+pub use uploads_controller::{NewUpload, UploadsController};
 pub use users_controller::UsersController;
 pub use webhooks_controller::WebhooksController;

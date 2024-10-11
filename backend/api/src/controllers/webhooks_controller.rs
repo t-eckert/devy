@@ -26,10 +26,8 @@ impl WebhooksController {
                 let repo = webhook.payload["repository"]["clone_url"]
                     .as_str()
                     .unwrap_or_default();
-                let sha = webhook.payload["headcommit"]["id"]
-                    .as_str()
-                    .unwrap_or_default();
-                let upload = Upload::new(repo, Some(sha));
+                let id = UploadRepository::insert(&store.db_conn, None, &repo).await?;
+                let upload = UploadRepository::get(&store.db_conn, id).await?;
                 let _ = store.uploader.upload(&store.db_conn, upload).await;
             }
             webhooks::WebhookType::Uncategorized => {}
