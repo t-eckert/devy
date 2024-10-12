@@ -1,5 +1,4 @@
 <script lang="ts">
-	import GithubLogo from "$lib/icons/github-logo.svelte"
 	import ProfileToken from "$lib/components/profile-token.svelte"
 	import NavigationMenu from "$lib/components/navigation-menu.svelte"
 	import { getSessionState } from "$lib/state/session.svelte"

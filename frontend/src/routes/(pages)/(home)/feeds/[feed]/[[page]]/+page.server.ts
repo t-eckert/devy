@@ -8,14 +8,12 @@ export const load: PageServerLoad = async ({ fetch, locals, params, depends }) =
   depends("all")
 
   async function fetchFeed() {
-    console.log("fetchFeed")
     const resp = await fetch(`${API}/feeds/${feed}/${page || 1}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${locals.token}`
       }
     })
-    console.log(resp)
     if (!resp.ok) {
       throw error(resp.status as NumericRange<400, 509>, resp.statusText)
     }
