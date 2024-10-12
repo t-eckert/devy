@@ -12,11 +12,8 @@
 	import { dev } from "$app/environment"
 	import { Toaster } from "svelte-french-toast"
 
-	// TODO deprecate session state and use user instead
-	import { setSessionState } from "$lib/state/session.svelte"
-
 	import { setLikes } from "$lib/state/likes.svelte"
-	import { setThemeState } from "$lib/state/theme.svelte"
+	import { setTheme } from "$lib/state/theme.svelte"
 	import { setUser } from "$lib/state/user.svelte"
 
 	const { data, children }: { data: LayoutData; children: Snippet } = $props()
@@ -25,15 +22,9 @@
 	setUser(token)
 
 	const likesState = setLikes(token)
-	const themeState = setThemeState("light")
-
-	const sessionState = setSessionState()
-	if (token) {
-		sessionState.setToken(token)
-	}
+	const themeState = setTheme("light")
 
 	onMount(async () => {
-		console.log("onMount")
 		await likesState.loadLikes()
 	})
 </script>

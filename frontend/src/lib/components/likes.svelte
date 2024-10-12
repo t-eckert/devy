@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Heart from "$lib/icons/heart.svelte"
 	import HeartFilled from "$lib/icons/heart-filled.svelte"
-	import { getLikesState } from "$lib/state/likes.svelte"
-	import { getSessionState } from "$lib/state/session.svelte"
+	import { getLikes } from "$lib/state/likes.svelte"
+	import { getUser } from "$lib/state/user.svelte"
 
-	const likesState = getLikesState()
-	const sessionState = getSessionState()
+	const likesState = getLikes()
+	const user = getUser()
 
 	const { postId, likes }: { postId: string; likes: number } = $props()
 
@@ -18,7 +18,7 @@
 	}
 </script>
 
-{#if sessionState.signedIn}
+{#if user.isAuthenticated}
 	<button class="mr-2 text-sm flex flex-row items-center justify-start gap-1.5 group" {onclick}>
 		{#if isLiked}
 			<div

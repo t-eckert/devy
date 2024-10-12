@@ -1,6 +1,5 @@
 import type { Session } from "$lib/types"
 import { setContext, getContext } from "svelte"
-import { parseSessionToken } from "$lib/auth"
 import { PUBLIC_API } from "$env/static/public"
 import { sessionOrNull } from "$lib/auth"
 
@@ -8,36 +7,26 @@ import { sessionOrNull } from "$lib/auth"
 // It exposes methods to add and remove likes that optimistically update the state
 // and send the request to the server.
 class LikesState {
+  constructor(token?: string) {
+    this.token = token
+  }
+
   private token = $state<string>()
   private session: Session | null = $derived(sessionOrNull(this.token))
   private userLikes = $state<string[]>([])
   private likesCount = $state<{ postId: string; count: number }[]>([])
 
-  constructor(token?: string) {
-    console.log("Loading token", token)
-    this.token = token
-  }
-
   // Sets the token ans session to authenticate requests as the current user.
   setToken(token: string) {
     this.token = token
-
-    try {
-      this.session = parseSessionToken(token).body
-    } catch (e) {
-      console.log("error", e)
-    }
   }
 
   // Loads the likes for the current user.
   // Requires the token to be set. If not, it returns a resolved promise immediately.
   async loadLikes() {
-    console.log("load likes")
     if (!this.token) {
       return Promise.resolve()
     }
-    console.log(this.token)
-    console.log("has token")
 
     const response = await fetch(`${PUBLIC_API}/likes/${this.session?.username}`, {
       headers: {
@@ -45,7 +34,6 @@ class LikesState {
         "Content-Type": "application/json"
       }
     })
-    console.log(response)
     if (response.ok) {
       const data = await response.json()
       this.userLikes = data.map(({ postId }: { postId: string }) => postId)
@@ -54,7 +42,6 @@ class LikesState {
 
   // Sets the count of likes for a given post by its ID.
   setCount(postId: string, count: number) {
-    console.log("setCount")
     this.likesCount = this.likesCount.filter((like) => like.postId !== postId)
     this.likesCount.push({ postId, count })
   }
@@ -154,7 +141,7 @@ export function setLikes(token?: string) {
   return setContext(LIKES_KEY, new LikesState(token))
 }
 
-export function getLikesState() {
+export function getLikes() {
   return getContext<ReturnType<typeof setLikes>>(LIKES_KEY)
 }
 

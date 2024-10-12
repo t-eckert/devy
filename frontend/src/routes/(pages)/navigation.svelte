@@ -1,17 +1,17 @@
 <script lang="ts">
 	import ProfileToken from "$lib/components/profile-token.svelte"
 	import NavigationMenu from "$lib/components/navigation-menu.svelte"
-	import { getSessionState } from "$lib/state/session.svelte"
+	import { getUser } from "$lib/state/user.svelte"
 
-	const sessionState = getSessionState()
+	const user = getUser()
 </script>
 
 <nav class="flex flex-row items-center gap-1">
-	{#if sessionState.session}
+	{#if user.isAuthenticated}
 		<ProfileToken
-			username={sessionState.session.username}
-			displayName={sessionState.session.displayName}
-			avatarUrl={sessionState.session.avatarUrl}
+			username={user.username || "Stranger"}
+			displayName={user.displayName}
+			avatarUrl={user.avatarUrl}
 		/>
 	{:else}
 		<a

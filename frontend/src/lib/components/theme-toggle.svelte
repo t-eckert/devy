@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getThemeState } from "$lib/state/theme.svelte"
+	import { getTheme } from "$lib/state/theme.svelte"
 
 	import Sun from "$lib/icons/sun.svelte"
 	import Moon from "$lib/icons/moon.svelte"
 
-	const themeState = getThemeState()
+	const themeState = getTheme()
 </script>
 
 <button

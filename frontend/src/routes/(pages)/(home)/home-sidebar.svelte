@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getSessionState } from "$lib/state/session.svelte"
+	import { getUser } from "$lib/state/user.svelte"
 
 	import Sidebar from "$lib/components/sidebar/sidebar.svelte"
 	import SidebarSection from "$lib/components/sidebar/sidebar-section.svelte"
@@ -14,9 +14,7 @@
 	import Heart from "$lib/icons/heart.svelte"
 	import PaperPlane from "$lib/icons/paper-plane.svelte"
 
-	let signedIn = $derived(getSessionState().signedIn)
-
-	const showCollections = true
+	const user = getUser()
 </script>
 
 <Sidebar>
@@ -25,7 +23,7 @@
 			<span class="group-hover:rotate-12 group-hover:text-blue-600 transition-all"><Rocket /></span>
 			<span>Popular</span>
 		</SidebarLink>
-		{#if signedIn}
+		{#if user.isAuthenticated}
 			<SidebarLink href="/feeds/following">
 				<span class="group-hover:rotate-12 group-hover:text-yellow-600 transition-all"
 					><Person /></span
@@ -39,7 +37,7 @@
 		</SidebarLink>
 	</SidebarSection>
 
-	{#if signedIn && showCollections}
+	{#if user.isAuthenticated}
 		<SidebarSection title="Collections">
 			<SidebarLink href="/collections/bookmarked">
 				<span class="group-hover:rotate-12 group-hover:text-purple-600 transition-all"

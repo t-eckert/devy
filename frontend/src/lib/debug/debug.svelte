@@ -5,7 +5,6 @@
 	import Reader from "$lib/icons/reader.svelte"
 	import Cross from "$lib/icons/cross-1.svelte"
 
-	import Session from "./session.svelte"
 	import Theme from "./theme.svelte"
 	import User from "./user.svelte"
 
@@ -27,7 +26,6 @@
 				>
 			</div>
 			<div class="m-2 grid grid-cols-2 gap-3 items-start">
-				<Session />
 				<Theme />
 				<User />
 			</div>

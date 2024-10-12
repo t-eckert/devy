@@ -3,31 +3,27 @@ import { setContext, getContext } from "svelte"
 export type Theme = "light" | "dark"
 
 class ThemeState {
-	constructor(theme: Theme) {
-		this.#theme = theme
-	}
+  constructor(theme: Theme) {
+    this.theme = theme
+  }
 
-	#theme = $state<Theme>("dark")
+  theme = $state<Theme>("dark")
 
-	toggle() {
-		if (this.#theme == "light") {
-			this.#theme = "dark"
-		} else if (this.#theme == "dark") {
-			this.#theme = "light"
-		}
-	}
-
-	get theme() {
-		return this.#theme
-	}
+  toggle() {
+    if (this.theme == "light") {
+      this.theme = "dark"
+    } else if (this.theme == "dark") {
+      this.theme = "light"
+    }
+  }
 }
 
 const THEME_KEY = Symbol("theme")
 
-export function setThemeState(theme: Theme) {
-	return setContext(THEME_KEY, new ThemeState(theme))
+export function setTheme(theme: Theme) {
+  return setContext(THEME_KEY, new ThemeState(theme))
 }
 
-export function getThemeState() {
-	return getContext<ReturnType<typeof setThemeState>>(THEME_KEY)
+export function getTheme() {
+  return getContext<ReturnType<typeof setTheme>>(THEME_KEY)
 }

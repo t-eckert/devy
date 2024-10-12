@@ -2,9 +2,9 @@
 	import ThemeToggle from "$lib/components/theme-toggle.svelte"
 	import Wrapper from "./wrapper.svelte"
 
-	import { getThemeState } from "$lib/state/theme.svelte"
+	import { getTheme } from "$lib/state/theme.svelte"
 
-	const themeState = getThemeState()
+	const themeState = getTheme()
 </script>
 
 <Wrapper title="Theme State">
