@@ -1,4 +1,5 @@
 mod blogs_controller;
+mod bookmarks_controller;
 mod collections_controller;
 mod entries_controller;
 mod feeds_controller;
@@ -15,6 +16,7 @@ mod error;
 pub use error::{Error, Result};
 
 pub use blogs_controller::BlogsController;
+pub use bookmarks_controller::{BookmarksController, NewBookmark};
 pub use collections_controller::CollectionsController;
 pub use entries_controller::EntriesController;
 pub use feeds_controller::FeedsController;

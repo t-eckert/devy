@@ -1,5 +1,6 @@
 pub mod auth;
 pub mod blogs;
+pub mod bookmarks;
 pub mod collections;
 pub mod drafts;
 pub mod feeds;
