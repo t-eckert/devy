@@ -13,6 +13,7 @@
 	import { Toaster } from "svelte-french-toast"
 
 	import { setLikes } from "$lib/state/likes.svelte"
+	import { setBookmarks } from "$lib/state/bookmarks.svelte"
 	import { setTheme } from "$lib/state/theme.svelte"
 	import { setUser } from "$lib/state/user.svelte"
 
@@ -22,10 +23,12 @@
 	setUser(token)
 
 	const likesState = setLikes(token)
+	const bookmarksState = setBookmarks(token)
 	const themeState = setTheme("light")
 
 	onMount(async () => {
 		await likesState.loadLikes()
+		await bookmarksState.loadBookmarks()
 	})
 </script>
 

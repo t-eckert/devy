@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Heart from "$lib/icons/heart.svelte"
 	import HeartFilled from "$lib/icons/heart-filled.svelte"
+
 	import { getLikes } from "$lib/state/likes.svelte"
 	import { getUser } from "$lib/state/user.svelte"
 

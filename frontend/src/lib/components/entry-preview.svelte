@@ -57,6 +57,9 @@
 						<div class="text-xs text-stone-800 dark:text-stone-300">
 							<RelativeDate date={entry.createdAt} />
 						</div>
+						<div>
+							<Bookmark postId={entry.id} />
+						</div>
 					</div>
 				</div>
 			</div>
