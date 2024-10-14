@@ -19,8 +19,8 @@ const tests: Tests = {
       path: '/components/avatar/with-image'
     },
     {
-      name: 'Menu',
-      path: '/components/menu'
+      name: 'Codeblock',
+      path: '/components/codeblock'
     }
   ],
   markdown: [
