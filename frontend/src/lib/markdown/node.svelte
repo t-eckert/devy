@@ -1,40 +1,28 @@
 <script lang="ts">
-	import type { RenderableTreeNode, RenderableTreeNodes } from '@markdoc/markdoc';
-	import render from './renderers';
+	import type { RenderableTreeNodes } from "@markdoc/markdoc"
+	import renderer, { doesRender } from "./renderers"
 
-	function isIterable(obj: RenderableTreeNodes): boolean {
-		return obj !== null && typeof obj === 'object' && typeof obj[Symbol.iterator] === 'function';
-	}
+	let { node }: { node: RenderableTreeNodes } = $props()
 
-	function isRoot(obj: RenderableTreeNodes) {
-		return !isIterable(obj) && Object.keys(obj).includes('children');
-	}
-
-	function hasChildren(obj: RenderableTreeNodes) {
-		return Object.keys(obj).includes('children');
-	}
-
-	export let node: RenderableTreeNodes;
+	let isNull = $derived(node === null)
+	let isPrimitive = $derived(typeof node !== "object")
+	let isIterable = $derived(!isNull && !isPrimitive && typeof node[Symbol.iterator] === "function")
+	let isRenderable = $derived(doesRender(node))
+	let RenderedComponent = $derived(renderer(node))
 </script>
 
-{#if node !== null}
-	{#if typeof node === 'string'}
-		{node}
-	{:else if isIterable(node)}
-		{#each node as n}
-			<svelte:self node={n} />
-		{/each}
-	{:else if !isIterable(node)}
-		{#if render(node)}
-			<svelte:component this={render(node)} {node}>
-				<svelte:self node={node.children} />
-			</svelte:component>
-		{:else if typeof node === 'string'}
-			{node}
-		{:else if hasChildren(node)}
-			<svelte:element this={node.name}>
-				<svelte:self node={node.children} />
-			</svelte:element>
-		{/if}
-	{/if}
+{#if isPrimitive}
+	{node}
+{:else if isRenderable && node !== null}
+	<RenderedComponent {...node.attributes}>
+		<svelte:self node={node.children} />
+	</RenderedComponent>
+{:else if isIterable}
+	{#each node as n}
+		<svelte:self node={n} />
+	{/each}
+{:else}
+	<svelte:element this={node.name} {...node.attributes}>
+		<svelte:self node={node.children} />
+	</svelte:element>
 {/if}

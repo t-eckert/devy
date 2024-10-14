@@ -1,23 +1,23 @@
 <script lang="ts">
-	import { type Tests } from './tests';
-	import Card from '$lib/components/card.svelte';
-	import Button from '$lib/components/button.svelte';
-	import DoubleArrowDown from '$lib/icons/double-arrow-down.svelte';
+	import { type Tests } from "./tests"
+	import Card from "$lib/components/card.svelte"
+	import Button from "$lib/components/button.svelte"
+	import DoubleArrowDown from "$lib/icons/double-arrow-down.svelte"
 
-	let isOpen = $state(true);
+	let isOpen = $state(true)
 
-	const { tests }: { tests: Tests } = $props();
+	const { tests }: { tests: Tests } = $props()
 </script>
 
-<section class={`fixed left-0 w-screen transition-all ${isOpen ? 'bottom-12' : '-bottom-64'}`}>
+<section class={`fixed left-0 w-screen transition-all ${isOpen ? "bottom-12" : "-bottom-64"}`}>
 	<div class="flex flex-col gap-3 items-center">
 		<Button
-			role="tertiary"
+			role="secondary"
 			onclick={() => {
-				isOpen = !isOpen;
+				isOpen = !isOpen
 			}}
 		>
-			<div class={`${isOpen ? 'rotate-0' : 'rotate-180'} transition-all`}>
+			<div class={`${isOpen ? "rotate-0" : "rotate-180"} transition-all`}>
 				<DoubleArrowDown />
 			</div>
 		</Button>

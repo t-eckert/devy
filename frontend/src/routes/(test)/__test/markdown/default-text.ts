@@ -1,16 +1,4 @@
-<script context="module">
-	import Markdown from "./markdown.svelte"
-
-	export const meta = {
-		title: "markdown/Markdown",
-		component: Markdown
-	}
-</script>
-
-<script lang="ts">
-	import { Template, Story } from "@storybook/addon-svelte-csf"
-
-	let articleSource = `# The Power of Markdown: A Comprehensive Guide
+export const defaultText = `# The Power of Markdown: A Comprehensive Guide
 
 Markdown is a lightweight markup language that you can use to add formatting elements to plaintext text documents. Created by John Gruber in 2004, Markdown is now one of the world's most popular markup languages.
 
@@ -63,8 +51,8 @@ Example:
 ### Nested List
 
 - Item 1
-  - Subitem 1
-  - Subitem 2
+ - Subitem 1
+ - Subitem 2
 - Item 2
 
 ## Links and Images
@@ -89,14 +77,14 @@ Use backticks for \`inline code\`.
 
 \`\`\`python
 def hello_world():
-    print("Hello, world!")
+   print("Hello, world!")
 \`\`\`
 
 ### Code Block in JavaScript
 
 \`\`\`javascript
 function helloWorld() {
-    console.log("Hello, world!");
+   console.log("Hello, world!");
 }
 \`\`\`
 
@@ -130,12 +118,3 @@ Markdown is a versatile and easy-to-use language that can handle a variety of fo
 
 Happy writing!
 `
-</script>
-
-<Template let:args>
-	<div class="w-full max-w-3xl mx-auto">
-		<Markdown {...args} />
-	</div>
-</Template>
-
-<Story name="Article" args={{ source: articleSource }}></Story>

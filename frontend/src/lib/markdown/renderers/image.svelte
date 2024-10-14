@@ -1,7 +1,5 @@
 <script lang="ts">
-	export let href: string
-	export let title: string = ""
-	export let text: string
+	const { ...props } = $props()
 </script>
 
-<img src={href} {title} alt={text} class="rounded" />
+<img {...props} class="rounded" />

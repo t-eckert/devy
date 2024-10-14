@@ -1,8 +1,7 @@
 <script lang="ts">
-	export let href: string
+	import type { Snippet } from "svelte"
 
-	let additionalClasses = ""
-	export { additionalClasses as class }
+	let { children, ...props }: { children: Snippet } = $props()
 </script>
 
-<a {href} class={["underline text-stone-700", additionalClasses].join(" ")}><slot /></a>
+<a {...props} class="underline text-stone-700">{@render children()}</a>

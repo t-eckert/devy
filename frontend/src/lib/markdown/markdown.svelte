@@ -2,9 +2,8 @@
 	import parser from "./parser"
 	import Node from "./node.svelte"
 
-	export let source: string
-
-	$: node = parser(source)
+	let { source }: { source: string } = $props()
+	let node = $derived(parser(source))
 </script>
 
 <Node {node} />

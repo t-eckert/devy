@@ -25,8 +25,8 @@ const tests: Tests = {
   ],
   markdown: [
     {
-      name: 'Simple Markdown',
-      path: '/markdown/simple'
+      name: 'Markdown',
+      path: '/markdown'
     }
   ]
 };
