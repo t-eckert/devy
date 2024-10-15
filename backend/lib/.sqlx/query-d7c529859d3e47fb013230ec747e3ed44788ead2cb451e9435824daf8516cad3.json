@@ -1,0 +1,64 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT\n    id,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tsha,\n\tlogs,\n\tcreated_at,\n\tupdated_at\nFROM \"upload\"\nWHERE\n    repo=$1\n    AND status='done'\nORDER BY created_at DESC\nLIMIT 1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "previous_upload_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "repo",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "sha",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "logs",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 6,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "d7c529859d3e47fb013230ec747e3ed44788ead2cb451e9435824daf8516cad3"
+}

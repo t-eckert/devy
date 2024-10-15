@@ -1,5 +1,5 @@
 use super::{Error, Result};
-use crate::{date::Date, db, git::Git};
+use crate::{date::Date, db, git::Git, repositories::RepoRepository};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -33,6 +33,22 @@ impl Upload {
     }
 
     pub async fn verify(mut self, db_conn: &db::Conn) -> Result<Self> {
+        tracing::info!("Verifying upload: {:?}", self);
+
+        match RepoRepository::get_by_url(db_conn, &self.repo).await {
+            Ok(_) => {
+                self.set_status("verified");
+                self.append_log("INFO: Upload verified");
+                UploadRepository::update(db_conn, &self);
+            }
+            Err(err) => {
+                self.set_status("failed");
+                self.append_log(&format!("ERROR: {}", err));
+                UploadRepository::update(db_conn, &self);
+                return Err(Error::RepositoryNotFound(self.repo.clone()));
+            }
+        }
+
         Ok(self)
     }
 
@@ -40,6 +56,29 @@ impl Upload {
         self.set_status("received");
         self.append_log("INFO: Upload received by uploader");
         UploadRepository::update(db_conn, &self);
+
+        // Set the previous upload if it exists.
+        match UploadRepository::get_previous(db_conn, &self).await? {
+            Some(previous_upload) => {
+                self.previous_upload_id = Some(previous_upload.id);
+            }
+            None => {
+                self.previous_upload_id = None;
+            }
+        }
+
+        // Check if the upload is identical to the previous upload.
+        if let Some(previous_sha) = self.previous_sha(db_conn).await? {
+            if previous_sha == self.sha {
+                self.set_status("skipped");
+                self.append_log(
+                    "INFO: Upload skipped because it is identical to the previous upload",
+                );
+                UploadRepository::update(db_conn, &self);
+                return Ok(self);
+            }
+        }
+
         Ok(self)
     }
 
@@ -131,10 +170,12 @@ impl UploadRepository {
         )
     }
 
+    /// Looks up the most recent upload for the given repository.
     pub async fn get_previous(db_conn: &db::Conn, upload: &Upload) -> db::Result<Option<Upload>> {
-        match upload.previous_upload_id {
-            Some(id) => Self::get(db_conn, id).await.map(Some),
-            None => Ok(None),
-        }
+        Ok(
+            sqlx::query_file_as!(Upload, "queries/get_previous_upload.sql", upload.repo)
+                .fetch_optional(db_conn)
+                .await?,
+        )
     }
 }

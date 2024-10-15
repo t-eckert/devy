@@ -12,6 +12,7 @@ pub struct Uploader {
 }
 
 impl Uploader {
+    /// Create a new Uploader instance.
     pub fn new(git: Git) -> Self {
         Self {
             git,
@@ -19,6 +20,7 @@ impl Uploader {
         }
     }
 
+    /// Upload a blog.
     pub async fn upload(mut self, db_conn: &Database, mut upload: Upload) -> Result<Upload> {
         let id = upload.id;
 
@@ -46,7 +48,13 @@ impl Uploader {
             .ok_or(Error::UploadNotFound)?
             .to_owned();
 
-        let upload = upload.verify(db_conn).await?.receive(db_conn).await?;
+        let upload = upload.verify(db_conn).await?;
+        if upload.status == "skipped" {
+            self.uploads.insert(id, upload);
+            return Ok(self);
+        }
+
+        let upload = upload.receive(db_conn).await?;
         let upload = cof(&upload.dir(), upload.clone_repo(db_conn, &self.git).await)?;
 
         self.uploads.insert(id, upload);
@@ -54,12 +62,18 @@ impl Uploader {
         Ok(self)
     }
 
+    // sync updates the blog by applying the diff between the previous and current states.
     async fn sync(mut self, db_conn: &Database, id: Uuid) -> Result<Self> {
         let mut upload = self
             .uploads
             .remove(&id)
             .ok_or(Error::UploadNotFound)?
             .to_owned();
+
+        if upload.status == "skipped" {
+            self.uploads.insert(id, upload);
+            return Ok(self);
+        }
 
         let from = match upload.has_previous() {
             true => upload
@@ -78,6 +92,7 @@ impl Uploader {
         Ok(self)
     }
 
+    // cleanup removes the upload directory from the filesystem.
     fn cleanup(self, id: Uuid) -> Result<Self> {
         let dir = self.uploads.get(&id).ok_or(Error::UploadNotFound)?.dir();
         std::fs::remove_dir_all(dir).map_err(|_| Error::CleanupFailure)?;
