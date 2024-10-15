@@ -1,4 +1,5 @@
-use crate::entities::{Profile, User};
+use crate::entities::User;
+use crate::profiles::Profile;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use uuid::Uuid;
