@@ -8,7 +8,7 @@ use axum::{
     Extension, Json, Router,
 };
 use http::StatusCode;
-use lib::{db::user, entities::User, token::Session};
+use lib::{auth::User, db::user, token::Session};
 use serde_json::Value;
 
 pub fn router(store: Store) -> Router<Store> {

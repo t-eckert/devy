@@ -1,5 +1,5 @@
+use crate::auth::User;
 use crate::db::{error::Result, DBConn};
-use crate::entities::User;
 
 pub async fn get_all(db_conn: &DBConn) -> Result<Vec<User>> {
     Ok(sqlx::query_as!(

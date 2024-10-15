@@ -1,4 +1,4 @@
-use clap::{Args, Parser, Subcommand};
+use clap::{Args, Subcommand};
 
 #[derive(Args)]
 pub struct Generate {

@@ -32,19 +32,3 @@ impl From<crate::db::Error> for Error {
         }
     }
 }
-
-impl From<crate::entities::Error> for Error {
-    fn from(val: crate::entities::Error) -> Self {
-        match val {
-            crate::entities::Error::EntityNotFound => Self::Malformed {
-                message: "Entity not found".to_string(),
-            },
-            crate::entities::Error::Malformed { .. } => Self::Malformed {
-                message: "Malformed input".to_string(),
-            },
-            _ => Self::Malformed {
-                message: "Internal server error".to_string(),
-            },
-        }
-    }
-}

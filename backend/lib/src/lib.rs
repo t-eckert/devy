@@ -2,7 +2,6 @@ pub mod auth;
 pub mod blogs;
 pub mod collection;
 pub mod db;
-pub mod entities;
 pub mod feed;
 pub mod forms;
 pub mod git;

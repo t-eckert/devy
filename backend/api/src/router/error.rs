@@ -1,7 +1,7 @@
 use axum::response::{IntoResponse, Response};
 use derive_more::From;
 use http::StatusCode;
-use lib::{db, entities, forms, uploader};
+use lib::{db, forms, uploader};
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 use std::fmt::Debug;
@@ -25,17 +25,6 @@ pub enum Error {
 impl From<StatusCode> for Error {
     fn from(val: StatusCode) -> Self {
         Self::StatusCode(val)
-    }
-}
-
-impl From<entities::Error> for Error {
-    fn from(val: entities::Error) -> Self {
-        match val {
-            entities::Error::EntityNotFound => Self::StatusCode(StatusCode::NOT_FOUND),
-            entities::Error::Malformed { .. } => Self::StatusCode(StatusCode::BAD_REQUEST),
-            // EntitiesError::Sqlx(_) => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
-            _ => Self::StatusCode(StatusCode::INTERNAL_SERVER_ERROR),
-        }
     }
 }
 

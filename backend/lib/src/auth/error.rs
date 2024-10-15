@@ -16,9 +16,6 @@ pub enum Error {
     /// The GitHub user data could not be deserialized.
     UnableToDeserializeUser(String),
 
-    #[from]
-    EntitiesError(crate::entities::Error),
-
     /// An error occurred when interacting with the database.
     #[from]
     DatabaseError(crate::db::Error),
