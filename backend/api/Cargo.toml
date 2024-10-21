@@ -16,6 +16,14 @@ uuid = "1.9.1"
 serde_with = "3.8.1"
 derive_more = "0.99.17"
 anyhow = "1.0.86"
+sqlx = { version = "0.8.2", features = [
+    "postgres",
+    "macros",
+    "migrate",
+    "runtime-tokio-rustls",
+    "uuid",
+    "time",
+] }
 
 [dependencies.serde]
 features = ["derive"]
@@ -32,14 +40,3 @@ features = ["cors", "trace"]
 [dependencies.reqwest]
 version = "0.12.1"
 features = ["json"]
-
-[dependencies.sqlx]
-version = "^0.7.1"
-features = [
-    "postgres",
-    "macros",
-    "migrate",
-    "runtime-tokio-rustls",
-    "uuid",
-    "time",
-]
