@@ -1,4 +1,4 @@
-FROM rust:1.76-slim-buster as builder
+FROM rust:1.82-slim-bullseye as builder
 RUN mkdir /build
 WORKDIR /build
 COPY ./api ./api
@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y pkg-config libssl-dev
 RUN SQLX_OFFLINE=true cargo build --bin api --release
 
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 RUN apt-get update && apt-get install -y pkg-config libssl-dev git
 WORKDIR /app
 COPY --from=builder /build/target/release/api .
