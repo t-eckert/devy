@@ -21,3 +21,5 @@ mod markdown;
 mod repositories;
 mod test;
 mod users;
+
+mod uploads;
