@@ -21,7 +21,7 @@ impl BlogsController {
             new_blog.profile_id,
             &new_blog.name,
             &new_blog.slug,
-            new_blog.description.as_ref(),
+            new_blog.description.as_deref(),
         )
         .await?;
 

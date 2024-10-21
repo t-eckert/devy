@@ -27,9 +27,9 @@ impl BlogRepository {
     pub async fn insert(
         db_conn: &db::Conn,
         profile_id: Uuid,
-        name: &String,
-        slug: &String,
-        description: Option<&String>,
+        name: &str,
+        slug: &str,
+        description: Option<&str>,
     ) -> db::Result<Uuid> {
         Ok(sqlx::query_file_as!(
             db::Id,
