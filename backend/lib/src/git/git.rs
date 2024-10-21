@@ -84,6 +84,16 @@ impl Git {
     }
 }
 
+/// This should really only be used for testing.
+/// If Git is not found on the host machine, this will panic.
+pub fn find_git_or_panic() -> String {
+    let output = std::process::Command::new("which")
+        .arg("git")
+        .output()
+        .unwrap();
+    String::from_utf8_lossy(&output.stdout).trim().to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

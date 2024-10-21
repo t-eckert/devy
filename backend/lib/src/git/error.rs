@@ -3,7 +3,7 @@ use serde::Serialize;
 pub type Result<T> = std::result::Result<T, Error>;
 
 /// Errors that can occur during authentication processes.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, PartialEq, Eq)]
 pub enum Error {
     BinaryNotFound(String),
 
