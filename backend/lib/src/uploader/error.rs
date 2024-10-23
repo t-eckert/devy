@@ -1,12 +1,12 @@
+use derive_more::From;
 use serde::Serialize;
 
+/// A result type for upload processes.
 pub type Result<T> = std::result::Result<T, Error>;
 
-/// Errors that can occur during authentication processes.
-#[derive(Debug, Serialize)]
+/// Errors that can occur during upload processes.
+#[derive(Debug, Serialize, From)]
 pub enum Error {
-    DependencyError(String),
-
     RepositoryNotFound(String),
 
     CleanupFailure,
@@ -15,21 +15,17 @@ pub enum Error {
 
     UploadNotFound,
 
+    UploadRejected,
+
+    UploadFailed,
+
     UploadFailedCatastrophically,
-}
 
-impl From<crate::git::Error> for Error {
-    fn from(err: crate::git::Error) -> Self {
-        return Error::DependencyError(err.to_string());
-    }
-}
+    #[from]
+    GitError(crate::git::Error),
 
-impl From<crate::db::Error> for Error {
-    fn from(err: crate::db::Error) -> Self {
-        match err {
-            _ => Error::DependencyError(err.to_string()),
-        }
-    }
+    #[from]
+    DatabaseError(crate::db::Error),
 }
 
 impl core::fmt::Display for Error {

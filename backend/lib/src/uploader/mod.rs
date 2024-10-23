@@ -1,10 +1,8 @@
 mod error;
-mod sync;
-mod upload;
+mod steps;
 mod uploader;
 
-pub use error::{Error, Result};
-pub use upload::{Upload, UploadRepository};
-pub use uploader::Uploader;
+use error::Result;
 
-use sync::sync;
+pub use error::Error;
+pub use uploader::Uploader;

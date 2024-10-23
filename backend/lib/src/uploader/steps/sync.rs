@@ -4,16 +4,28 @@ use crate::{
     markdown::parse_markdown,
     posts::PostRepository,
     repositories::RepoRepository,
-    uploads::{Error, Result, Status, Upload},
+    uploader::{Error, Result},
+    uploads::{Status, Upload},
 };
 use slugify::slugify;
 
-pub async fn sync(db_conn: &Conn, mut upload: Upload) -> Result<Upload> {
-    dbg!("sync");
+pub async fn sync(db_conn: &Conn, mut upload: Upload) -> Upload {
+    tracing::info!("Syncing upload {}", upload.id);
+
+    if upload.status != Status::DIFFED {
+        upload.set_status(Status::REJECTED);
+        upload.append_log("ERROR: Upload is not diffed");
+        return upload;
+    }
 
     upload.set_status(Status::SYNCED);
-    Ok(upload)
+    upload.append_log("INFO: Upload synced");
+    tracing::info!("Upload synced {}", upload.id);
+
+    upload
 }
+
+// -------------------------------------------------------------------------------------------------------------------
 
 async fn add_post(db: &Conn, blog: &Blog, dir: &str, path: String) -> Result<()> {
     let slug = slugify!(&path.replace(".md", ""));

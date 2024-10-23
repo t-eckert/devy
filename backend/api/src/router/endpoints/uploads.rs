@@ -7,7 +7,7 @@ use axum::{
     routing::{get, post},
     Json,
 };
-use lib::uploader::{Upload, UploadRepository};
+use lib::uploads::{Upload, UploadRepository};
 use serde::{Deserialize, Serialize};
 
 pub fn router(store: Store) -> axum::Router<Store> {

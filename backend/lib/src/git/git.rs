@@ -1,4 +1,4 @@
-use super::{Diff, Error, Result};
+use super::{Error, Result};
 use std::fs;
 
 const EMPTY_TREE_SHA: &str = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
@@ -63,7 +63,7 @@ impl Git {
     }
 
     /// Get the diff between two commits in the given directory.
-    pub fn diff(&self, dir: &str, to: &str, from: &str) -> Result<Vec<Diff>> {
+    pub fn diff(&self, dir: &str, to: &str, from: &str) -> Result<String> {
         tracing::info!("Diffing {dir} from:{from}::to:{to}");
 
         let output = std::process::Command::new(&self.bin)
@@ -78,9 +78,7 @@ impl Git {
 
         dbg!(&output);
 
-        Ok(Diff::from_raw(
-            String::from_utf8_lossy(&output.stdout).to_string(),
-        ))
+        Ok(String::from_utf8_lossy(&output.stdout).to_string())
     }
 }
 

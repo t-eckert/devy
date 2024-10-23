@@ -1,22 +1,25 @@
 use crate::{
     db::Conn,
     repositories::RepoRepository,
-    uploads::{Error, Result, Status, Upload},
+    uploads::{Status, Upload},
 };
 
 /// The cleanup step removes the temporary directory created for the upload.
-pub async fn cleanup(db_conn: &Conn, mut upload: Upload) -> Result<Upload> {
-    dbg!("cleanup");
+pub async fn cleanup(db_conn: &Conn, mut upload: Upload) -> Upload {
+    tracing::info!("Cleaning up upload {}", upload.id);
 
-    match std::fs::remove_dir_all(&upload.dir()).map_err(|_| Error::CleanupFailure) {
+    match std::fs::remove_dir_all(&upload.dir()) {
         Ok(_) => {}
         Err(err) => {
             upload.set_status(Status::FAILED);
             upload.append_log(&format!("ERROR: Could not remove directory: {}", err));
-            return Ok(upload);
+            return upload;
         }
     }
 
     upload.set_status(Status::DONE);
-    Ok(upload)
+    upload.append_log("INFO: Upload cleaned up");
+    tracing::info!("Upload cleaned up {}", upload.id);
+
+    upload
 }

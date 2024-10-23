@@ -1,6 +1,7 @@
-use super::{sync, Error, Result, Upload, UploadRepository};
+use super::{steps::*, Error, Result};
 use crate::db::Database;
 use crate::git::Git;
+use crate::uploads::{Status, Upload, UploadRepository};
 use std::collections::HashMap;
 use uuid::Uuid;
 
@@ -8,127 +9,159 @@ use uuid::Uuid;
 #[derive(Clone)]
 pub struct Uploader {
     git: Git,
-    uploads: HashMap<Uuid, Upload>,
 }
 
 impl Uploader {
     /// Create a new Uploader instance.
     pub fn new(git: Git) -> Self {
-        Self {
-            git,
-            uploads: HashMap::new(),
-        }
+        Self { git }
     }
 
     /// Upload a blog.
-    pub async fn upload(mut self, db_conn: &Database, mut upload: Upload) -> Result<Upload> {
-        let id = upload.id;
-
-        self.uploads.insert(upload.id, upload);
-
-        let upload = self
-            .setup(db_conn, id)
-            .await?
-            .sync(db_conn, id)
-            .await?
-            .cleanup(id)?
-            .uploads
-            .remove(&id)
-            .ok_or(Error::UploadNotFound)?
-            .to_owned();
-
+    pub async fn upload(mut self, db_conn: &Database, upload: Upload) -> Result<Upload> {
+        UploadRepository::update(db_conn, &upload).await?;
+        let upload = self.reconcile(db_conn, upload).await?;
         Ok(upload)
     }
 
-    // setup verifies the upload, inserts it into the database if valid, then clones the repository associated with the upload.
-    async fn setup(mut self, db_conn: &Database, id: Uuid) -> Result<Self> {
-        let upload = self
-            .uploads
-            .remove(&id)
-            .ok_or(Error::UploadNotFound)?
-            .to_owned();
+    async fn reconcile(mut self, db_conn: &Database, mut upload: Upload) -> Result<Upload> {
+        let upload = match upload.status {
+            Status::PENDING => {
+                let upload = verify(db_conn, upload).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-        let upload = upload.verify(db_conn).await?;
-        if upload.status == "skipped" {
-            self.uploads.insert(id, upload);
-            return Ok(self);
-        }
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+            Status::VERIFIED => {
+                let upload = receive(db_conn, upload).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-        let upload = upload.receive(db_conn).await?;
-        let upload = cof(&upload.dir(), upload.clone_repo(db_conn, &self.git).await)?;
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+            Status::RECEIVED => {
+                let upload = clone_repo(db_conn, upload, &self.git).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-        self.uploads.insert(id, upload);
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+            Status::CLONED => {
+                let upload = diff(db_conn, upload, &self.git).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-        Ok(self)
-    }
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+            Status::DIFFED => {
+                let upload = commit(db_conn, upload).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-    // sync updates the blog by applying the diff between the previous and current states.
-    async fn sync(mut self, db_conn: &Database, id: Uuid) -> Result<Self> {
-        let mut upload = self
-            .uploads
-            .remove(&id)
-            .ok_or(Error::UploadNotFound)?
-            .to_owned();
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+            Status::COMMITTED => {
+                let upload = sync(db_conn, upload).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-        if upload.status == "skipped" {
-            self.uploads.insert(id, upload);
-            return Ok(self);
-        }
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+            Status::SYNCED => {
+                let upload = cleanup(db_conn, upload).await;
+                UploadRepository::update(db_conn, &upload).await?;
 
-        let from = match upload.has_previous() {
-            true => upload
-                .previous_sha(db_conn)
-                .await?
-                .unwrap_or(self.git.empty_tree_sha()),
-            false => self.git.empty_tree_sha(),
+                Box::pin(self.reconcile(db_conn, upload)).await?
+            }
+
+            Status::DONE => upload,
+
+            Status::REJECTED => Err(Error::UploadRejected)?,
+            Status::FAILED => Err(Error::UploadFailed)?,
+            Status::UNKNOWN => upload,
         };
 
-        let diff = self.git.diff(&upload.dir(), &upload.sha, &from)?;
-
-        sync(db_conn, &mut upload, diff).await?;
-
-        self.uploads.insert(id, upload);
-
-        Ok(self)
-    }
-
-    // cleanup removes the upload directory from the filesystem.
-    fn cleanup(self, id: Uuid) -> Result<Self> {
-        let dir = self.uploads.get(&id).ok_or(Error::UploadNotFound)?.dir();
-        std::fs::remove_dir_all(dir).map_err(|_| Error::CleanupFailure)?;
-        Ok(self)
-    }
-}
-
-// cof = cleanup on failure
-// This can wrap an action that can fail and force it to clean up before continuing further.
-fn cof<T>(dir: &str, r: Result<T>) -> Result<T> {
-    match r {
-        Ok(t) => Ok(t),
-        Err(e) => {
-            std::fs::remove_dir_all(dir).map_err(|_| Error::CleanupFailure)?;
-            Err(e)
-        }
+        Ok(upload)
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::blogs::BlogRepository;
+    use crate::db::Conn;
+    use crate::git::find_git_or_panic;
+    use crate::monitoring;
+    use crate::profiles::ProfileRepository;
+    use crate::repositories::RepoRepository;
+    use crate::users::UserRepo;
 
-    fn setup() -> Git {
-        let output = std::process::Command::new("which")
-            .arg("git")
-            .output()
+    #[sqlx::test]
+    async fn test_upload_success(db: Conn) {
+        monitoring::init();
+
+        let repo_url = format!("https://github.com/t-eckert/field-theories");
+        let git = Git::new(&find_git_or_panic()).unwrap();
+
+        let uploader = Uploader::new(git);
+
+        let user = crate::db::user::upsert(&db, String::from("t-eckert"), None, None, None)
+            .await
             .unwrap();
-        let path = String::from_utf8_lossy(&output.stdout).trim().to_string();
-        Git::new(&path).unwrap()
+
+        let profile_id = ProfileRepository::insert(&db, user.id, None, None, None, None)
+            .await
+            .unwrap();
+
+        let blog_id =
+            BlogRepository::insert(&db, profile_id, "Field Theories", "field-theories", None)
+                .await
+                .unwrap();
+
+        let repo = RepoRepository::insert(&db, blog_id, &repo_url)
+            .await
+            .unwrap();
+
+        let upload_id = UploadRepository::insert(&db, None, &repo_url)
+            .await
+            .unwrap();
+        let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+
+        let response = uploader.upload(&db, upload).await;
+        assert!(response.is_ok());
+
+        let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+        assert_eq!(upload.status, Status::DONE);
     }
 
-    #[tokio::test]
-    async fn test_upload() {
-        let git = setup();
+    #[sqlx::test]
+    async fn test_upload_fail_on_repo_not_found(db: Conn) {
+        monitoring::init();
 
-        let _uploader = Uploader::new(git);
+        let repo_url = format!("https://github.com/t-eckert/field-theories");
+        let git = Git::new(&find_git_or_panic()).unwrap();
+
+        let uploader = Uploader::new(git);
+
+        let user = crate::db::user::upsert(&db, String::from("t-eckert"), None, None, None)
+            .await
+            .unwrap();
+
+        let profile_id = ProfileRepository::insert(&db, user.id, None, None, None, None)
+            .await
+            .unwrap();
+
+        let blog_id =
+            BlogRepository::insert(&db, profile_id, "Field Theories", "field-theories", None)
+                .await
+                .unwrap();
+
+        let upload_id = UploadRepository::insert(&db, None, &repo_url)
+            .await
+            .unwrap();
+        let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+
+        let result = uploader.upload(&db, upload).await;
+        assert!(result.is_err());
+
+        let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+        assert_eq!(upload.status, Status::REJECTED);
+
+        dbg!(upload.logs);
     }
 }

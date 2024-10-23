@@ -5,6 +5,8 @@ select
 	repo,
 	sha,
 	logs,
+	diff,
+	changeset,
 	created_at,
 	updated_at
 from "upload"

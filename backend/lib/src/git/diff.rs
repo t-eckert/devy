@@ -1,16 +1,11 @@
-use std::fmt::Display;
-
-use serde::Deserialize;
-use serde::Serialize;
-
 use crate::git::Git;
-use crate::uploader::Result;
-use crate::uploader::Upload;
+use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 pub type Diffs = Vec<Diff>;
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
-pub enum Diff {
+enum Diff {
     Added(String),
     Deleted(String),
     Modified(String),

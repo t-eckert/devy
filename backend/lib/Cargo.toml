@@ -29,7 +29,14 @@ time = "0.3.36"
 serde_yaml = "0.9.34"
 strum = "0.26.3"
 strum_macros = "0.26.4"
-sqlx = { version = "0.8.2", features = ["postgres", "macros", "migrate", "runtime-tokio-rustls", "uuid", "time"] }
+sqlx = { version = "0.8.2", features = [
+    "postgres",
+    "macros",
+    "migrate",
+    "runtime-tokio-rustls",
+    "uuid",
+    "time",
+] }
 
 [dependencies.uuid]
 version = "1.5.0"

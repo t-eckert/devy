@@ -5,6 +5,8 @@ SELECT
 	repo,
 	sha,
 	logs,
+	diff,
+	changeset,
 	created_at,
 	updated_at
 FROM "upload"

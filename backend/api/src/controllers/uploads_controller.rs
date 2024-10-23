@@ -1,6 +1,7 @@
 use super::Result;
 use crate::store::Store;
-use lib::uploader::{Upload, UploadRepository, Uploader};
+use lib::uploader::Uploader;
+use lib::uploads::{Upload, UploadRepository};
 use serde::{Deserialize, Serialize};
 
 pub struct UploadsController;

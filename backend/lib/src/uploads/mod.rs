@@ -1,17 +1,11 @@
 mod changeset;
 mod devy_config;
-mod error;
 mod statuses;
-mod steps;
 mod upload;
-mod uploader;
+mod upload_repository;
 
-use changeset::Changeset;
-use devy_config::DevyConfig;
-use error::Result;
-use statuses::Status;
-use steps::{cleanup, clone_repo, commit, diff, receive, sync, verify};
-
-pub use error::Error;
-pub use upload::{Upload, UploadRepository};
-pub use uploader::Uploader;
+pub use changeset::Changeset;
+pub use devy_config::DevyConfig;
+pub use statuses::Status;
+pub use upload::Upload;
+pub use upload_repository::UploadRepository;

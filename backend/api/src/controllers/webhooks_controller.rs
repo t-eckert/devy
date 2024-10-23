@@ -1,6 +1,6 @@
 use super::Result;
 use crate::store::Store;
-use lib::uploader::{Upload, UploadRepository};
+use lib::uploads::UploadRepository;
 use lib::webhooks;
 use serde_json::Value;
 use std::collections::HashMap;

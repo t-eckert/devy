@@ -13,6 +13,7 @@ pub mod profiles;
 pub mod store;
 pub mod token;
 pub mod uploader;
+pub mod uploads;
 pub mod webhooks;
 
 mod date;
@@ -21,5 +22,3 @@ mod markdown;
 mod repositories;
 mod test;
 mod users;
-
-mod uploads;
