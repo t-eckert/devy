@@ -1,0 +1,76 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select\n   \"blog\".id,\n   \"profile\".id as profile_id,\n   \"user\".id as user_id,\n\n   \"user\".username as author_username,\n   \"profile\".display_name as author_display_name,\n\n   \"blog\".name as name,\n   \"blog\".slug as slug,\n   \"blog\".description as description,\n\n   \"blog\".created_at,\n   \"blog\".updated_at\nfrom \"blog\"\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nleft join \"repo\" on \"repo\".blog_id = \"blog\".id\njoin \"upload\" on \"upload\".repo = \"repo\".url\nwhere \"upload\".id = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "author_username",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "author_display_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "d38e16ff75a150d7be887d3dc47f06921870cbd90115d6307430b9e263e53158"
+}

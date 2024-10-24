@@ -34,6 +34,11 @@ impl UploadRepository {
             upload.repo,
             upload.sha,
             &upload.logs.clone().unwrap_or_default(),
+            upload.diff,
+            upload
+                .changeset
+                .clone()
+                .map(|c| serde_json::to_value(c).unwrap_or_default()),
         )
         .fetch_one(db_conn)
         .await?
@@ -45,6 +50,11 @@ impl UploadRepository {
             .fetch_one(db_conn)
             .await?;
 
+        let changeset = match row.changeset {
+            Some(c) => serde_json::from_value(c)?,
+            None => None,
+        };
+
         Ok(Upload {
             id: row.id,
             previous_upload_id: row.previous_upload_id,
@@ -53,7 +63,7 @@ impl UploadRepository {
             sha: row.sha,
             logs: row.logs,
             diff: row.diff,
-            changeset: row.changeset.map(|c| serde_json::from_value(c).unwrap()),
+            changeset,
             created_at: Date::from(row.created_at),
             updated_at: Date::from(row.updated_at),
         })
@@ -64,6 +74,11 @@ impl UploadRepository {
             .fetch_one(db_conn)
             .await?;
 
+        let changeset = match row.changeset {
+            Some(c) => serde_json::from_value(c)?,
+            None => None,
+        };
+
         Ok(Upload {
             id: row.id,
             previous_upload_id: row.previous_upload_id,
@@ -72,7 +87,7 @@ impl UploadRepository {
             sha: row.sha,
             logs: row.logs,
             diff: row.diff,
-            changeset: row.changeset.map(|c| serde_json::from_value(c).unwrap()),
+            changeset,
             created_at: Date::from(row.created_at),
             updated_at: Date::from(row.updated_at),
         })
@@ -86,18 +101,25 @@ impl UploadRepository {
 
         match row {
             None => Ok(None),
-            Some(row) => Ok(Some(Upload {
-                id: row.id,
-                previous_upload_id: row.previous_upload_id,
-                status: Status::from(row.status),
-                repo: row.repo,
-                sha: row.sha,
-                logs: row.logs,
-                diff: row.diff,
-                changeset: row.changeset.map(|c| serde_json::from_value(c).unwrap()),
-                created_at: Date::from(row.created_at),
-                updated_at: Date::from(row.updated_at),
-            })),
+            Some(row) => {
+                let changeset = match row.changeset {
+                    Some(c) => serde_json::from_value(c)?,
+                    None => None,
+                };
+
+                Ok(Some(Upload {
+                    id: row.id,
+                    previous_upload_id: row.previous_upload_id,
+                    status: Status::from(row.status),
+                    repo: row.repo,
+                    sha: row.sha,
+                    logs: row.logs,
+                    diff: row.diff,
+                    changeset,
+                    created_at: Date::from(row.created_at),
+                    updated_at: Date::from(row.updated_at),
+                }))
+            }
         }
     }
 }

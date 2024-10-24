@@ -25,13 +25,13 @@ pub async fn receive(db_conn: &Conn, mut upload: Upload) -> Upload {
     };
 
     upload.previous_upload_id = previous.map(|prev| prev.id);
-    if upload.has_previous() {
-        upload.append_log(&format!(
-            "INFO: Previous upload: {}",
-            upload.previous_upload_id.unwrap_or_default(),
-        ));
-    } else {
-        upload.append_log("INFO: No previous upload");
+    match upload.previous_upload_id {
+        Some(prev_id) => {
+            upload.append_log(&format!("INFO: Previous upload: {}", prev_id));
+        }
+        None => {
+            upload.append_log("INFO: No previous upload");
+        }
     }
 
     upload.set_status(Status::RECEIVED);

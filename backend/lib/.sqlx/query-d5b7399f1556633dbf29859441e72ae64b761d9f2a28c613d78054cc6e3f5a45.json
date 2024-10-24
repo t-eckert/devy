@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "update \"upload\"\nset\n    previous_upload_id = $2,\n    status = $3,\n    repo = $4,\n    sha = $5,\n    logs = $6,\n    diff = $7,\n    changeset = $8,\n    updated_at = NOW()\nwhere id=$1\nreturning id;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Text",
+        "Text",
+        "Text",
+        "TextArray",
+        "Text",
+        "Jsonb"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "d5b7399f1556633dbf29859441e72ae64b761d9f2a28c613d78054cc6e3f5a45"
+}

@@ -22,17 +22,20 @@ pub struct Upload {
 }
 
 impl Upload {
-    /// If the upload has an identified previous upload for the given repository.
-    pub fn has_previous(&self) -> bool {
-        self.previous_upload_id.is_some()
-    }
-
     pub fn set_status(&mut self, status: Status) {
         self.status = status;
     }
 
     pub fn set_sha(&mut self, sha: &str) {
         self.sha = sha.to_string();
+    }
+
+    pub fn set_diff(&mut self, diff: &str) {
+        self.diff = Some(diff.to_string());
+    }
+
+    pub fn set_changeset(&mut self, changeset: Changeset) {
+        self.changeset = Some(changeset);
     }
 
     pub fn append_log(&mut self, log: &str) {

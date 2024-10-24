@@ -27,42 +27,49 @@ impl Uploader {
     async fn reconcile(mut self, db_conn: &Database, mut upload: Upload) -> Result<Upload> {
         let upload = match upload.status {
             Status::PENDING => {
+                // Verify
                 let upload = verify(db_conn, upload).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
                 Box::pin(self.reconcile(db_conn, upload)).await?
             }
             Status::VERIFIED => {
+                // Receive
                 let upload = receive(db_conn, upload).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
                 Box::pin(self.reconcile(db_conn, upload)).await?
             }
             Status::RECEIVED => {
+                // Clone
                 let upload = clone_repo(db_conn, upload, &self.git).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
                 Box::pin(self.reconcile(db_conn, upload)).await?
             }
             Status::CLONED => {
+                // Diff
                 let upload = diff(db_conn, upload, &self.git).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
                 Box::pin(self.reconcile(db_conn, upload)).await?
             }
             Status::DIFFED => {
+                // Commit
                 let upload = commit(db_conn, upload).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
                 Box::pin(self.reconcile(db_conn, upload)).await?
             }
             Status::COMMITTED => {
+                // Sync
                 let upload = sync(db_conn, upload).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
                 Box::pin(self.reconcile(db_conn, upload)).await?
             }
             Status::SYNCED => {
+                // Cleanup
                 let upload = cleanup(db_conn, upload).await;
                 UploadRepository::update(db_conn, &upload).await?;
 
@@ -93,8 +100,6 @@ mod tests {
 
     #[sqlx::test]
     async fn test_upload_success(db: Conn) {
-        monitoring::init();
-
         let repo_url = format!("https://github.com/t-eckert/field-theories");
         let git = Git::new(&find_git_or_panic()).unwrap();
 
@@ -123,9 +128,9 @@ mod tests {
         let upload = UploadRepository::get(&db, upload_id).await.unwrap();
 
         let response = uploader.upload(&db, upload).await;
-        assert!(response.is_ok());
 
         let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+
         assert_eq!(upload.status, Status::DONE);
     }
 

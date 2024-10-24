@@ -108,8 +108,8 @@ impl PostRepository {
 
     pub async fn get_by_blog_slug_and_post_slug(
         db_conn: &DBConn,
-        blog_slug: &String,
-        post_slug: &String,
+        blog_slug: &str,
+        post_slug: &str,
     ) -> db::Result<Post> {
         Ok(sqlx::query_file_as!(
             Post,

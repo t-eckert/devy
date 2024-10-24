@@ -24,7 +24,7 @@ pub async fn clone_repo(db_conn: &Conn, mut upload: Upload, git: &Git) -> Upload
     };
 
     upload.set_status(Status::CLONED);
-    upload.append_log("INFO: Upload is cloned");
+    upload.append_log("INFO: Upload cloned");
     tracing::info!("Repo cloned for upload {}", upload.id);
 
     upload
