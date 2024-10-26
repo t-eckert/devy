@@ -62,7 +62,7 @@ venv:
 version:
 	@python3 ./tools/versioner.py
 
-changes: venv
+changes:
 	@python3 ./tools/changes.py
 
 req:

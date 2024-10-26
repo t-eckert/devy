@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { dev } from "$app/environment"
-
-	let version = "v2024.09.08"
+	import { VERSION } from "$lib"
 
 	import Home from "$lib/components/home.svelte"
 	import Main from "$lib/layouts/main.svelte"
@@ -41,7 +40,7 @@
 				</div>
 			</div>
 			<div>
-				<code class="text-slate-700 text-sm">{version}</code>
+				<code class="text-slate-700 text-sm">{VERSION}</code>
 			</div>
 		</div>
 	</Main>
