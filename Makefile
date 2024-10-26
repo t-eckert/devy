@@ -42,13 +42,13 @@ devyctl-build:
 
 # Frontend
 frontend-build:
-	@cd frontend && npm run build
+	@cd src/devy-frontend && npm run build
 
 frontend-serve:
-	@cd frontend && npm run dev
+	@cd src/devy-frontend && npm run dev
 
 frontend-package:
-	@podman frontend . -f frontend/Dockerfile -t devy-frontend
+	@podman src/devy-frontend . -f frontend/Dockerfile -t devy-frontend
 
 
 # Tools
