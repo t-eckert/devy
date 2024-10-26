@@ -7,7 +7,7 @@ use axum::{
     routing::post,
     Extension, Json, Router,
 };
-use lib::uploads::Upload;
+use lib::uploads::UploadRepository;
 use lib::{
     forms::new_blog::{NewBlog, NewBlogResponse},
     token::Session,
@@ -32,6 +32,11 @@ async fn new_blog(
     }
 
     let res = new_blog.process(&store.db_conn).await?;
+
+    let id = UploadRepository::insert(&store.db_conn, None, &res.repo.url).await?;
+
+    let upload = UploadRepository::get(&store.db_conn, id).await?;
+    store.uploader.upload(&store.db_conn, upload).await?;
 
     Ok(Json(res))
 }
