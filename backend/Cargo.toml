@@ -1,5 +1,0 @@
-[workspace]
-
-resolver = "1"
-
-members = ["api", "devyctl", "lib"]
