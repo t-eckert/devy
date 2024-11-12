@@ -1,0 +1,30 @@
+# This Docker Compose sets up a demo environment of Devy
+version: "3"
+
+services:
+  frontend:
+    image: devy-frontend:latest
+    ports:
+      - "3000:3000"
+    build:
+      dockerfile: ./images/Dockerfile.frontend
+
+  api:
+    image: devy-api:latest
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@database:5432"
+      RUST_BACKTRACE: 1
+    ports:
+      - "8000:8000"
+    build:
+      dockerfile: ./api/Dockerfile
+
+  database:
+    image: devy-test-db:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    build:
+      dockerfile: ./database/Dockerfile
