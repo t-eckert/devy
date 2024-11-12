@@ -1,9 +1,14 @@
 <script lang="ts">
-	let ratio = 173 / 99
+	const ratio = 173 / 99
 
-	export let color = "currentColor"
-	export let height = 16
-	export let width = ratio * height
+	interface Props {
+		color?: string
+		height?: number
+	}
+
+	let { color = "currentColor", height = 16 }: Props = $props()
+
+	const width = $derived(ratio * height)
 </script>
 
 <svg {width} {height} viewBox="0 0 173 99" fill="none" xmlns="http://www.w3.org/2000/svg">
