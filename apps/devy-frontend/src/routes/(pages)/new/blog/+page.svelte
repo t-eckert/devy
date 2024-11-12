@@ -1,0 +1,1 @@
+<div>New blog</div>
