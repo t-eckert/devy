@@ -115,28 +115,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4c95c10ba0b00a02636238b814946408b1322d5ac4760326e6fb8ec956d85775"
 
 [[package]]
-name = "api"
-version = "0.3.0"
-dependencies = [
- "anyhow",
- "axum",
- "cookie",
- "derive_more",
- "dotenvy",
- "http 1.1.0",
- "lib",
- "reqwest 0.12.9",
- "serde",
- "serde_derive",
- "serde_json",
- "serde_with",
- "sqlx",
- "tokio",
- "tower-http",
- "uuid",
-]
-
-[[package]]
 name = "async-trait"
 version = "0.1.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -564,6 +542,28 @@ dependencies = [
  "quote",
  "rustc_version",
  "syn",
+]
+
+[[package]]
+name = "devy-api"
+version = "0.3.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "cookie",
+ "derive_more",
+ "dotenvy",
+ "http 1.1.0",
+ "lib",
+ "reqwest 0.12.9",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "serde_with",
+ "sqlx",
+ "tokio",
+ "tower-http",
+ "uuid",
 ]
 
 [[package]]

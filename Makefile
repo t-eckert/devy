@@ -15,10 +15,13 @@ frontend-serve:
 	@cd ./apps/devy-frontend && npm run dev
 
 frontend-package:
-	@podman ./apps/devy-frontend . -f apps/devy-frontend/Dockerfile -t devy-frontend
+	@podman build . -f ./apps/devy-frontend/Dockerfile -t devy-frontend
 
 frontend-test:
 	@cd ./apps/devy-frontend && npm run test
+
+frontend-deploy:
+	@fly deploy --config ./infra/production/fly.frontend.toml
 
 
 # Devy API
@@ -31,6 +34,8 @@ api-serve:
 api-package:
 	@md ./apps/devy-api && podman build . -f ./src/devy-api/Dockerfile -t devy-api
 
+api-deploy:
+	@fly deploy --config ./infra/production/fly.api.toml
 
 # Devy Uploader
 uploader-build:
@@ -58,3 +63,10 @@ db-stop:
 
 db-access:
 	@podman exec -it devy-test-db psql -U postgres
+
+# Library
+lib-build:
+	@cargo build
+
+lib-sqlx-prepare:
+	@cd ./lib && cargo sqlx prepare --database-url postgres://postgres:postgres@localhost:5432
