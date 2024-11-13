@@ -1,8 +1,8 @@
 app = 'devy-frontend'
-primary_region = 'iad'
+primary_region = 'ewr'
 
 [build]
-dockerfile = './frontend/Dockerfile'
+dockerfile = '../../apps/devy-frontend/Dockerfile'
 
 [env]
 PUBLIC_API = "https://api.devy.page"

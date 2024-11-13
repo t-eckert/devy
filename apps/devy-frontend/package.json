@@ -60,6 +60,7 @@
     "@fontsource-variable/playfair-display": "^5.1.0",
     "@fontsource/ibm-plex-mono": "^5.1.0",
     "@markdoc/markdoc": "^0.4.0",
+    "@sveltejs/adapter-node": "^5.2.9",
     "cva": "npm:class-variance-authority@^0.7.0",
     "fathom-client": "^3.7.2",
     "jwt-decode": "^4.0.0"
