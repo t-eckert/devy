@@ -53,4 +53,3 @@ if __name__ == "__main__":
     print(f"""INSERT INTO "post" (id, blog_id, title, slug, body)
 VALUES
     ('{id}', '{blog_id}', '{get_title(post)}', '{slugify(get_title(post))}', '{sql_string_escape(post)}');""")
-

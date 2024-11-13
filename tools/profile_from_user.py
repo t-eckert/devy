@@ -46,4 +46,3 @@ if __name__ == "__main__":
     id = uuid.uuid4()
 
     print(f"    ('{id}', '{user_id}', '{profile['display_name']}', '{profile['bio']}', '{profile['avatar_url']}', '{github_username}'),")
-
