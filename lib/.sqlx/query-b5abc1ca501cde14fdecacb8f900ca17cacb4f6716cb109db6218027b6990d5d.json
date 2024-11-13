@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT\n    id,\n\tprevious_upload_id,\n\tstatus,\n\trepo,\n\tsha,\n\tlogs,\n\tdiff,\n\tchangeset,\n\tcreated_at,\n\tupdated_at\nFROM \"upload\"\nWHERE\n    repo=$1\n    AND status='done'\nORDER BY created_at DESC\nLIMIT 1;\n",
+  "query": "select\n\tid,\n\tprevious_upload_id,\n\tblog_id,\n\tstatus,\n\tsha,\n\tlogs,\n\tdiff,\n\tchangeset,\n\tcreated_at,\n\tupdated_at\nfrom \"upload\"\nwhere repo = $1;\n",
   "describe": {
     "columns": [
       {
@@ -15,12 +15,12 @@
       },
       {
         "ordinal": 2,
-        "name": "status",
-        "type_info": "Text"
+        "name": "blog_id",
+        "type_info": "Uuid"
       },
       {
         "ordinal": 3,
-        "name": "repo",
+        "name": "status",
         "type_info": "Text"
       },
       {
@@ -72,5 +72,5 @@
       false
     ]
   },
-  "hash": "8e9173ec475cf7d7010e252baa4f86eb608a6127a02a826d5134e339b8bc9bc6"
+  "hash": "b5abc1ca501cde14fdecacb8f900ca17cacb4f6716cb109db6218027b6990d5d"
 }

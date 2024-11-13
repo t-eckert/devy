@@ -1,0 +1,82 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "select\n   \"blog\".id,\n   \"profile\".id as profile_id,\n   \"user\".id as user_id,\n\n   \"user\".username as author_username,\n   \"profile\".display_name as author_display_name,\n\n   \"blog\".name as name,\n   \"blog\".repo_url as repo_url,\n   \"blog\".slug as slug,\n   \"blog\".description as description,\n\n   \"blog\".created_at,\n   \"blog\".updated_at\nfrom \"blog\"\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"blog\".id = $1;\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "profile_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "author_username",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "author_display_name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "repo_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "slug",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 10,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "78d95a46f1dbc1e6c40c4eeb482b6ab62b906493ad76382b332030e3c1bea744"
+}

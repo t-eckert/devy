@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n\tpost.id as id,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\tpost.slug as slug,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tpost.created_at,\n\tpost.updated_at,\n\ttitle,\n\tlike_count,\n\tis_draft,\n\tbody\nfrom \"post\"\nleft join \"blog\" on \"post\".blog_id = \"blog\".id\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere blog.slug = $1 and post.slug = $2;\n",
+  "query": "select\n \tpost.id as id,\n\tblog.slug as blog_slug,\n\tblog.name as blog_name,\n\tpost.slug as slug,\n\t\"user\".username as author_slug,\n\tprofile.display_name as author_name,\n\tpost.created_at,\n\tpost.updated_at,\n\ttitle,\n\tlike_count,\n\tis_draft\nfrom \"bookmark\"\nleft join \"post\" on \"bookmark\".post_id = \"post\".id\nleft join \"blog\" on \"post\".blog_id = \"blog\".id\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"bookmark\".profile_id = $1\norder by \"bookmark\".created_at DESC\nlimit $2 offset $3;\n",
   "describe": {
     "columns": [
       {
@@ -57,17 +57,13 @@
         "ordinal": 10,
         "name": "is_draft",
         "type_info": "Bool"
-      },
-      {
-        "ordinal": 11,
-        "name": "body",
-        "type_info": "Text"
       }
     ],
     "parameters": {
       "Left": [
-        "Text",
-        "Text"
+        "Uuid",
+        "Int8",
+        "Int8"
       ]
     },
     "nullable": [
@@ -81,9 +77,8 @@
       false,
       false,
       true,
-      false,
       false
     ]
   },
-  "hash": "2ed11c5a95d0ce88552d83bbe41e8d4259a81efc0b040cc7ffd29c25c4c957b0"
+  "hash": "d7b3211a0ac52e915e6a66a1faed171ab50759bb672a278cac6031e7538d6570"
 }

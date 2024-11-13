@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n    profile.id,\n    user_id,\n    display_name,\n    profile.avatar_url,\n    profile.bio,\n    profile.website_url,\n    profile.twitter_username,\n    profile.github_username,\n    profile.status,\n    profile.visibility,\n    profile.is_deleted,\n    profile.is_locked,\n    profile.is_featured,\n    profile.is_bot,\n    profile.is_sponsor,\n    profile.created_at,\n    profile.updated_at\nfrom \"profile\"\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"user\".username = $1;\n",
+  "query": "select\n    profile.id,\n    user_id,\n    display_name,\n    profile.avatar_url,\n    profile.bio,\n    profile.website_url,\n    profile.twitter_username,\n    profile.github_username,\n    profile.linkedin_url,\n    profile.bluesky_url,\n    profile.status,\n    profile.visibility,\n    profile.is_deleted,\n    profile.is_locked,\n    profile.is_featured,\n    profile.is_bot,\n    profile.is_sponsor,\n    profile.created_at,\n    profile.updated_at\nfrom \"profile\"\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"user\".username = $1;\n",
   "describe": {
     "columns": [
       {
@@ -45,46 +45,56 @@
       },
       {
         "ordinal": 8,
-        "name": "status",
+        "name": "linkedin_url",
         "type_info": "Text"
       },
       {
         "ordinal": 9,
-        "name": "visibility",
+        "name": "bluesky_url",
         "type_info": "Text"
       },
       {
         "ordinal": 10,
+        "name": "status",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "visibility",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
         "name": "is_deleted",
         "type_info": "Bool"
       },
       {
-        "ordinal": 11,
+        "ordinal": 13,
         "name": "is_locked",
         "type_info": "Bool"
       },
       {
-        "ordinal": 12,
+        "ordinal": 14,
         "name": "is_featured",
         "type_info": "Bool"
       },
       {
-        "ordinal": 13,
+        "ordinal": 15,
         "name": "is_bot",
         "type_info": "Bool"
       },
       {
-        "ordinal": 14,
+        "ordinal": 16,
         "name": "is_sponsor",
         "type_info": "Bool"
       },
       {
-        "ordinal": 15,
+        "ordinal": 17,
         "name": "created_at",
         "type_info": "Timestamptz"
       },
       {
-        "ordinal": 16,
+        "ordinal": 18,
         "name": "updated_at",
         "type_info": "Timestamptz"
       }
@@ -103,6 +113,8 @@
       true,
       true,
       true,
+      true,
+      true,
       false,
       false,
       false,
@@ -114,5 +126,5 @@
       false
     ]
   },
-  "hash": "ef8fabbf041e0986bdf77e6f11616a5992b68892f07d7e3ec3599f211debab1d"
+  "hash": "fc33579b608054e4f11158f5705143540fb2b3e7d3eb8cb6981f50580230ca9c"
 }

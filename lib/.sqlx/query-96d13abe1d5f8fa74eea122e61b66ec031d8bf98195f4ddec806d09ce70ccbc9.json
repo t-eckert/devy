@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n   \"blog\".id,\n   \"profile\".id as profile_id,\n   \"user\".id as user_id,\n\n   \"user\".username as author_username,\n   \"profile\".display_name as author_display_name,\n\n   \"blog\".name as name,\n   \"blog\".slug as slug,\n   \"blog\".description as description,\n\n   \"blog\".created_at,\n   \"blog\".updated_at\nfrom \"blog\"\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"blog\".id = $1;\n",
+  "query": "select\n   \"blog\".id,\n   \"profile\".id as profile_id,\n   \"user\".id as user_id,\n\n   \"user\".username as author_username,\n   \"profile\".display_name as author_display_name,\n\n   \"blog\".name as name,\n   \"blog\".slug as slug,\n   \"blog\".repo_url as repo_url,\n   \"blog\".description as description,\n\n   \"blog\".created_at,\n   \"blog\".updated_at\nfrom \"blog\"\nleft join \"profile\" on \"blog\".profile_id = \"profile\".id\nleft join \"user\" on \"profile\".user_id = \"user\".id\nwhere \"user\".username = $1;\n",
   "describe": {
     "columns": [
       {
@@ -40,23 +40,28 @@
       },
       {
         "ordinal": 7,
-        "name": "description",
+        "name": "repo_url",
         "type_info": "Text"
       },
       {
         "ordinal": 8,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
         "name": "created_at",
         "type_info": "Timestamptz"
       },
       {
-        "ordinal": 9,
+        "ordinal": 10,
         "name": "updated_at",
         "type_info": "Timestamptz"
       }
     ],
     "parameters": {
       "Left": [
-        "Uuid"
+        "Text"
       ]
     },
     "nullable": [
@@ -67,10 +72,11 @@
       true,
       false,
       false,
+      false,
       true,
       false,
       false
     ]
   },
-  "hash": "56ba37acc2fb6e488bd8595e5a0fb3dde1d3cb934caf83eb9ea9733dae789cea"
+  "hash": "96d13abe1d5f8fa74eea122e61b66ec031d8bf98195f4ddec806d09ce70ccbc9"
 }
