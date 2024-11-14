@@ -7,6 +7,7 @@ pub mod git;
 pub mod github;
 pub mod markdown;
 pub mod monitoring;
+pub mod nomenclator;
 pub mod notification;
 pub mod openai;
 pub mod posts;
