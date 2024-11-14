@@ -2,6 +2,7 @@ select
 	id,
 	previous_upload_id,
 	blog_id,
+	uploader,
 	status,
 	sha,
 	logs,

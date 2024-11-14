@@ -7,6 +7,7 @@ set
     logs = $6,
     diff = $7,
     changeset = $8,
+    uploader = $9,
     updated_at = NOW()
 where id=$1
 returning id;

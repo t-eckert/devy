@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n\tid,\n\tprevious_upload_id,\n\tblog_id,\n\tstatus,\n\tsha,\n\tlogs,\n\tdiff,\n\tchangeset,\n\tcreated_at,\n\tupdated_at\nfrom \"upload\"\nwhere repo = $1;\n",
+  "query": "select\n\tid,\n\tprevious_upload_id,\n\tblog_id,\n\tuploader,\n\tstatus,\n\tsha,\n\tlogs,\n\tdiff,\n\tchangeset,\n\tcreated_at,\n\tupdated_at\nfrom \"upload\"\nwhere repo = $1;\n",
   "describe": {
     "columns": [
       {
@@ -20,36 +20,41 @@
       },
       {
         "ordinal": 3,
-        "name": "status",
+        "name": "uploader",
         "type_info": "Text"
       },
       {
         "ordinal": 4,
-        "name": "sha",
+        "name": "status",
         "type_info": "Text"
       },
       {
         "ordinal": 5,
+        "name": "sha",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
         "name": "logs",
         "type_info": "TextArray"
       },
       {
-        "ordinal": 6,
+        "ordinal": 7,
         "name": "diff",
         "type_info": "Text"
       },
       {
-        "ordinal": 7,
+        "ordinal": 8,
         "name": "changeset",
         "type_info": "Jsonb"
       },
       {
-        "ordinal": 8,
+        "ordinal": 9,
         "name": "created_at",
         "type_info": "Timestamptz"
       },
       {
-        "ordinal": 9,
+        "ordinal": 10,
         "name": "updated_at",
         "type_info": "Timestamptz"
       }
@@ -63,6 +68,7 @@
       false,
       true,
       false,
+      true,
       false,
       false,
       true,
@@ -72,5 +78,5 @@
       false
     ]
   },
-  "hash": "b5abc1ca501cde14fdecacb8f900ca17cacb4f6716cb109db6218027b6990d5d"
+  "hash": "bcd21066d53eec352a92be8795ce23a0f0e8d9bb99566edbfaf5464c9de997dd"
 }

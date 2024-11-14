@@ -11,6 +11,9 @@ pub struct Upload {
     pub id: Uuid,
     pub previous_upload_id: Option<Uuid>,
 
+    /// The name of the uploader responsible for managing the upload.
+    pub uploader: Option<String>,
+
     pub blog_id: Uuid,
 
     pub status: Status,
@@ -39,6 +42,10 @@ impl Upload {
 
     pub fn set_changeset(&mut self, changeset: Changeset) {
         self.changeset = Some(changeset);
+    }
+
+    pub fn set_uploader(&mut self, uploader_name: &str) {
+        self.uploader = Some(uploader_name.to_string());
     }
 
     pub fn append_log(&mut self, log: &str) {

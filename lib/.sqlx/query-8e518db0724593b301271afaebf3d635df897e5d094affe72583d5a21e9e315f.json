@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "insert into \"upload\" (previous_upload_id, blog_id)\nvalues ($1, $2)\nreturning id;\n",
+  "query": "insert into \"upload\" (previous_upload_id, blog_id, repo)\nvalues ($1, $2, $3)\nreturning id;\n",
   "describe": {
     "columns": [
       {
@@ -12,12 +12,13 @@
     "parameters": {
       "Left": [
         "Uuid",
-        "Uuid"
+        "Uuid",
+        "Text"
       ]
     },
     "nullable": [
       false
     ]
   },
-  "hash": "787552d48709f2b238839cda6d479bb11e5ec8fb60e1945b07d9e5186dec07b3"
+  "hash": "8e518db0724593b301271afaebf3d635df897e5d094affe72583d5a21e9e315f"
 }

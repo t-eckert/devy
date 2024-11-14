@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "select\n\tid,\n\tprevious_upload_id,\n\tblog_id,\n\tstatus,\n\tsha,\n\tlogs,\n\tdiff,\n\tchangeset,\n\tcreated_at,\n\tupdated_at\nfrom \"upload\"\nwhere id = $1;\n",
+  "query": "SELECT\n    id,\n    previous_upload_id,\n    blog_id,\n    uploader,\n\tstatus,\n\tsha,\n\tlogs,\n\tdiff,\n\tchangeset,\n\tcreated_at,\n\tupdated_at\nFROM \"upload\"\nWHERE\n    blog_id=$1\n    AND status='done'\nORDER BY created_at DESC\nLIMIT 1;\n",
   "describe": {
     "columns": [
       {
@@ -20,36 +20,41 @@
       },
       {
         "ordinal": 3,
-        "name": "status",
+        "name": "uploader",
         "type_info": "Text"
       },
       {
         "ordinal": 4,
-        "name": "sha",
+        "name": "status",
         "type_info": "Text"
       },
       {
         "ordinal": 5,
+        "name": "sha",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
         "name": "logs",
         "type_info": "TextArray"
       },
       {
-        "ordinal": 6,
+        "ordinal": 7,
         "name": "diff",
         "type_info": "Text"
       },
       {
-        "ordinal": 7,
+        "ordinal": 8,
         "name": "changeset",
         "type_info": "Jsonb"
       },
       {
-        "ordinal": 8,
+        "ordinal": 9,
         "name": "created_at",
         "type_info": "Timestamptz"
       },
       {
-        "ordinal": 9,
+        "ordinal": 10,
         "name": "updated_at",
         "type_info": "Timestamptz"
       }
@@ -63,6 +68,7 @@
       false,
       true,
       false,
+      true,
       false,
       false,
       true,
@@ -72,5 +78,5 @@
       false
     ]
   },
-  "hash": "7fa81f0c95c5ff9f7169d1cf220a0eda9646983e5bc3b5f1c9d090e40cbc5189"
+  "hash": "4466ba9e2c783c8098021cab3a35555f14c30934426d2ec0af6109e38682ab24"
 }
