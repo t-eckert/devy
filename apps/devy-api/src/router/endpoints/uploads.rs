@@ -16,7 +16,7 @@ pub fn router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
         .route("/uploads", get(get_uploads))
         .route("/uploads", post(create_new_upload))
-        .layer(middleware::from_fn_with_state(store.clone(), auth))
+        // .layer(middleware::from_fn_with_state(store.clone(), auth))
         .with_state(store)
 }
 
@@ -36,12 +36,13 @@ async fn create_new_upload(
     State(store): State<Store>,
     ExtractJson(new_upload): ExtractJson<NewUpload>,
 ) -> Result<Json<Upload>> {
+    dbg!(&new_upload);
     let blog = BlogRepository::get_by_repo(&store.db_conn, &new_upload.repo)
         .await?
         .ok_or(crate::router::error::Error::StatusCode(
             StatusCode::NOT_FOUND,
         ))?;
-    let id = UploadRepository::insert(&store.db_conn, None, blog.id).await?;
+    let id = UploadRepository::insert(&store.db_conn, None, blog.id, &new_upload.repo).await?;
     let upload = UploadRepository::get(&store.db_conn, id).await?;
     Ok(Json(upload))
 }

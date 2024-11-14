@@ -21,6 +21,8 @@ sqlx = { version = "0.8.2", features = [
 ] }
 tracing = "0.1.40"
 slugify = "0.1.0"
+dotenvy = "0.15.7"
+rand = "0.8.5"
 
 [dependencies.uuid]
 version = "1.5.0"

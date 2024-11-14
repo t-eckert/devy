@@ -1,11 +1,10 @@
 use derive_more::From;
-use serde::Serialize;
 
 /// A result type for upload processes.
 pub type Result<T> = std::result::Result<T, Error>;
 
 /// Errors that can occur during upload processes.
-#[derive(Debug, Serialize, From)]
+#[derive(Debug, From)]
 pub enum Error {
     RepositoryNotFound(String),
 
@@ -21,11 +20,16 @@ pub enum Error {
 
     UploadFailedCatastrophically,
 
+    UploadAlreadyClaimed(String),
+
     #[from]
     GitError(lib::git::Error),
 
     #[from]
     DatabaseError(lib::db::Error),
+
+    #[from]
+    SqlxError(sqlx::Error),
 }
 
 impl core::fmt::Display for Error {

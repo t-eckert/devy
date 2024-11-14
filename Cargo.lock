@@ -571,7 +571,9 @@ name = "devy-uploader"
 version = "0.1.0"
 dependencies = [
  "derive_more",
+ "dotenvy",
  "lib",
+ "rand",
  "serde",
  "serde_derive",
  "serde_json",

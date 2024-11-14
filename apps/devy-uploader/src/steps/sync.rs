@@ -1,4 +1,4 @@
-use crate::{Error, Result};
+use crate::{error::Result, Error};
 use lib::{
     db::Conn,
     markdown::parse_markdown,

@@ -29,7 +29,7 @@ impl WebhooksController {
                 let blog = BlogRepository::get_by_repo(&store.db_conn, repo)
                     .await?
                     .ok_or(super::Error::Generic("not found".to_string()))?;
-                UploadRepository::insert(&store.db_conn, None, blog.id).await?;
+                UploadRepository::insert(&store.db_conn, None, blog.id, repo).await?;
             }
             webhooks::WebhookType::Uncategorized => {}
         }

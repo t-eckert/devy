@@ -1,18 +1,19 @@
 FROM rust:1.82-slim-bullseye as builder
 RUN mkdir /build
 WORKDIR /build
-COPY ./api ./api
+COPY ./apps/devy-api ./apps/devy-api
 COPY ./lib ./lib
+COPY ./apps/devy-uploader ./apps/devy-uploader
 COPY ./devyctl ./devyctl
 COPY Cargo.toml Cargo.lock ./
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
-RUN SQLX_OFFLINE=true cargo build --bin api --release
+RUN SQLX_OFFLINE=true cargo build --bin devy-uploader --release
 
 
 FROM debian:bullseye-slim
 RUN apt-get update && apt-get install -y pkg-config libssl-dev git
 WORKDIR /app
-COPY --from=builder /build/target/release/api .
+COPY --from=builder /build/target/release/devy-uploader .
 
 ENV CALLBACK_URL=
 ENV DATABASE_URL=
@@ -25,4 +26,4 @@ ENV GITHUB_APP_PRIVATE_KEY=
 ENV REDIRECT_URL=
 
 EXPOSE 8000
-CMD ["./api"]
+CMD ["./devy-uploader"]
