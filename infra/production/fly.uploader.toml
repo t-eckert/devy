@@ -1,0 +1,13 @@
+app = 'devy-uploader'
+primary_region = 'ewr'
+
+[build]
+dockerfile = '../../apps/devy-api/Dockerfile'
+
+[env]
+RUST_LOG = 'debug'
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1
