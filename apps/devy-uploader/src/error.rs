@@ -6,6 +6,10 @@ pub type Result<T> = std::result::Result<T, Error>;
 /// Errors that can occur during upload processes.
 #[derive(Debug, From)]
 pub enum Error {
+    /// An error occurred while parsing the configuration.
+    ConfigError(String),
+
+    /// An error occurred while cloning a repository.
     RepositoryNotFound(String),
 
     CleanupFailure,

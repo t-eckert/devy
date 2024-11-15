@@ -14,29 +14,22 @@ pub struct Uploader {
     name: String,
     git: Git,
     db_conn: db::Conn,
-    db_listener: db::Listener,
 }
 
 impl Uploader {
     /// Create a new Uploader instance.
-    pub fn new(name: String, git: Git, db_conn: db::Conn, db_listener: db::Listener) -> Self {
-        Self {
-            name,
-            git,
-            db_conn,
-            db_listener,
-        }
+    pub fn new(name: String, git: Git, db_conn: db::Conn) -> Self {
+        Self { name, git, db_conn }
     }
 
     /// Continuously listens for upload events in the database.
     /// Claims the upload, reconciles it, and syncs it with the database.
-    pub async fn listen_for_uploads(mut self) -> Result<()> {
-        println!("Starting Uploader: {}", self.name);
-        println!("Starting LISTEN for uploads");
+    pub async fn listen_for_uploads(self, mut db_listener: db::Listener) -> Result<()> {
+        tracing::info!("Starting uploader: {}", self.name);
 
-        self.db_listener.listen(UPLOAD_CHANNEL).await?;
+        db_listener.listen(UPLOAD_CHANNEL).await?;
         loop {
-            let notification = self.db_listener.recv().await?;
+            let notification = db_listener.recv().await?;
             println!("Received upload notification: {:?}", notification);
             let payload = notification.payload();
 
@@ -147,4 +140,90 @@ fn random_delay() -> Duration {
     let mut rng = rand::thread_rng();
     let delay = rng.gen_range(0..100);
     Duration::from_millis(delay)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use lib::{
+        db,
+        git::{find_git_or_panic, Git},
+        repositories::{BlogRepository, ProfileRepository, UploadRepository, UserRepository},
+        uploads::Status,
+    };
+
+    #[sqlx::test]
+    async fn test_reconcile(db_conn: db::Conn) {
+        let repo = "https://github.com/t-eckert/field-theories.git".to_string();
+
+        let name = "useful-test".to_string();
+        let git = Git::new(&find_git_or_panic()).unwrap();
+
+        let uploader = Uploader::new(name, git, db_conn.clone());
+
+        // Setup
+        let user = UserRepository::insert(&db_conn, "t-eckert", None, None)
+            .await
+            .unwrap();
+
+        let profile_id = ProfileRepository::insert(&db_conn, user.id, None, None, None, None)
+            .await
+            .unwrap();
+
+        let blog_id = BlogRepository::insert(
+            &db_conn,
+            profile_id,
+            "Field Theories",
+            "field-theories",
+            None,
+        )
+        .await
+        .unwrap();
+
+        let upload_id = UploadRepository::insert(&db_conn, None, blog_id, &repo)
+            .await
+            .unwrap();
+        let upload = UploadRepository::get(&db_conn, upload_id).await.unwrap();
+
+        let _ = uploader.reconcile(upload).await;
+
+        let upload = UploadRepository::get(&db_conn, upload_id).await.unwrap();
+
+        assert_eq!(upload.status, Status::DONE);
+    }
+
+    #[sqlx::test]
+    async fn test_reconcile_fail_on_repo_not_found(db: db::Conn) {
+        let repo = "https://github.com/t-eckert/field-theories.git".to_string();
+        let name = "useful-test".to_string();
+        let git = Git::new(&find_git_or_panic()).unwrap();
+
+        let uploader = Uploader::new(name, git, db.clone());
+
+        let user = UserRepository::insert(&db, "t-eckert", None, None)
+            .await
+            .unwrap();
+
+        let profile_id = ProfileRepository::insert(&db, user.id, None, None, None, None)
+            .await
+            .unwrap();
+
+        let blog_id =
+            BlogRepository::insert(&db, profile_id, "Field Theories", "field-theories", None)
+                .await
+                .unwrap();
+
+        let upload_id = UploadRepository::insert(&db, None, blog_id, &repo)
+            .await
+            .unwrap();
+        let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+
+        let result = uploader.reconcile(upload).await;
+        assert!(result.is_err());
+
+        let upload = UploadRepository::get(&db, upload_id).await.unwrap();
+        assert_eq!(upload.status, Status::REJECTED);
+
+        dbg!(upload.logs);
+    }
 }
