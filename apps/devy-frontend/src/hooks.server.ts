@@ -1,6 +1,9 @@
 import type { Handle } from "@sveltejs/kit"
+import { sequence } from "@sveltejs/kit/hooks"
+import { handleLogto } from '@logto/sveltekit';
+import { env } from '$env/dynamic/private';
 
-export const handle: Handle = async ({ event, resolve }) => {
+const mine: Handle = async ({ event, resolve }) => {
   {
     const err = event.url.searchParams.get("error")
     if (err) console.log("error", err)
@@ -18,3 +21,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   return await resolve(event)
 }
+
+const logto = handleLogto(
+  {
+    endpoint: env.LOGTO_ENDPOINT,
+    appId: env.LOGTO_APP_ID,
+    appSecret: env.LOGTO_APP_SECRET,
+  },
+  { encryptionKey: env.LOGTO_COOKIE_ENCRYPTION_KEY }
+);
+
+export const handle: Handle = sequence(mine, logto)

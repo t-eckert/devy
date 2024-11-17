@@ -27,7 +27,7 @@
 	}
 
 	let { children, data }: Props = $props()
-	let { token, theme } = data
+	let { theme, token } = data
 
 	setSession(token)
 	setTheme(theme)

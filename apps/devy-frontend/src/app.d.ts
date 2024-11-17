@@ -1,6 +1,7 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
 import type { Theme } from "$lib/state/theme.svelte";
+import type { LogtoClient, UserInfoResponse } from "@logto/sveltekit";
 
 // for information about these interfaces
 declare global {
@@ -9,6 +10,8 @@ declare global {
     interface Locals {
       token?: string
       theme?: Theme
+      logtoClient: LogtoClient
+      user?: UserInfoResponse
     }
     // interface PageData {}
     // interface PageState {}
