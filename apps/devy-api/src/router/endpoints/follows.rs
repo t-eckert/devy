@@ -4,7 +4,7 @@ use crate::{
     store::Store,
 };
 use axum::{
-    extract::{Json as ExtractJson, Path, State},
+    extract::{Path, State},
     http::StatusCode,
     middleware,
     routing::{delete, get, post},
@@ -42,7 +42,7 @@ async fn following(
 async fn follow_blog(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
-    ExtractJson(follow): ExtractJson<Follow>,
+    Json(follow): Json<Follow>,
 ) -> Result<()> {
     if session.profile_id != follow.profile_id {
         return Err(StatusCode::FORBIDDEN.into());

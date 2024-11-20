@@ -4,7 +4,7 @@ use crate::{
     store::Store,
 };
 use axum::{
-    extract::{Json as ExtractJson, Path, State},
+    extract::{Path, State},
     http::StatusCode,
     middleware,
     routing::{delete, get, post},
@@ -42,7 +42,7 @@ async fn get_by_username(
 async fn post_like(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
-    ExtractJson(like): ExtractJson<NewLike>,
+    Json(like): Json<NewLike>,
 ) -> Result<Json<Like>> {
     if session.profile_id != like.profile_id {
         return Err(StatusCode::FORBIDDEN.into());

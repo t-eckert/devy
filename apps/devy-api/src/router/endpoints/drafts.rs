@@ -1,6 +1,8 @@
-use crate::controllers::EntriesController;
-use crate::router::{error::Result, middleware::auth};
-use crate::store::Store;
+use crate::{
+    controllers::EntriesController,
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
 use axum::{extract::State, middleware, routing::get, Extension, Json, Router};
 use lib::{auth::token::Session, posts::Entry};
 

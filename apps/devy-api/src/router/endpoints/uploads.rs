@@ -1,6 +1,8 @@
-use crate::controllers::UploadsController;
-use crate::router::{error::Result, middleware::auth};
-use crate::store::Store;
+use crate::{
+    controllers::UploadsController,
+    router::{error::Result, middleware::auth},
+    store::Store,
+};
 use axum::{
     extract::{Json as ExtractJson, State},
     middleware,
@@ -8,15 +10,17 @@ use axum::{
     Json,
 };
 use http::StatusCode;
-use lib::repositories::{BlogRepository, UploadRepository};
-use lib::uploads::Upload;
+use lib::{
+    repositories::{BlogRepository, UploadRepository},
+    uploads::Upload,
+};
 use serde::{Deserialize, Serialize};
 
 pub fn router(store: Store) -> axum::Router<Store> {
     axum::Router::new()
         .route("/uploads", get(get_uploads))
         .route("/uploads", post(create_new_upload))
-        // .layer(middleware::from_fn_with_state(store.clone(), auth))
+        .layer(middleware::from_fn_with_state(store.clone(), auth))
         .with_state(store)
 }
 

@@ -1,6 +1,10 @@
-use crate::router::error::{Error, Result};
-use crate::router::middleware::auth;
-use crate::store::Store;
+use crate::{
+    router::{
+        error::{Error, Result},
+        middleware::auth,
+    },
+    store::Store,
+};
 use axum::{
     extract::{Path, State},
     middleware,

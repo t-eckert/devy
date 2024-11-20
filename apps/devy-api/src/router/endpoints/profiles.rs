@@ -1,14 +1,14 @@
-use crate::controllers::{BlogsController, EntriesController, ProfilesController};
-use crate::router::error::Result;
-use crate::store::Store;
+use crate::{
+    controllers::{BlogsController, EntriesController, ProfilesController},
+    router::error::Result,
+    store::Store,
+};
 use axum::{
     extract::{Path, State},
     routing::get,
     Json, Router,
 };
-use lib::blogs::Blog;
-use lib::posts::Entry;
-use lib::profile::Profile;
+use lib::{blogs::Blog, posts::Entry, profile::Profile};
 
 /// Create a new router for Profiles.
 pub fn router(store: Store) -> Router<Store> {

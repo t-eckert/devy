@@ -4,7 +4,7 @@ use crate::{
     store::Store,
 };
 use axum::{
-    extract::{Json as ExtractJson, Path, State},
+    extract::{Path, State},
     http::StatusCode,
     middleware,
     routing::{delete, get, post},
@@ -42,7 +42,7 @@ async fn get_by_username(
 async fn post_bookmark(
     Extension(session): Extension<Session>,
     State(store): State<Store>,
-    ExtractJson(bookmark): ExtractJson<NewBookmark>,
+    Json(bookmark): Json<NewBookmark>,
 ) -> Result<Json<Bookmark>> {
     if session.profile_id != bookmark.profile_id {
         return Err(StatusCode::FORBIDDEN.into());

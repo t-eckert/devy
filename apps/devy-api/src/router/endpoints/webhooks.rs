@@ -1,16 +1,14 @@
-use crate::controllers::WebhooksController;
-use crate::router::error::Result;
-use crate::store::Store;
-use axum::Router;
-use axum::{extract::State, routing::post, Json};
+use crate::{controllers::WebhooksController, router::error::Result, store::Store};
+use axum::{extract::State, routing::post, Json, Router};
 use http::{HeaderMap, StatusCode};
 use serde_json::Value;
 use std::collections::HashMap;
 
 pub fn router(store: Store) -> Router<Store> {
-    Router::new()
+    let router = Router::new()
         .route("/webhooks", post(receive))
-        .with_state(store)
+        .with_state(store);
+    router
 }
 
 async fn receive(
