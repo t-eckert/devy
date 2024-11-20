@@ -4,7 +4,7 @@ use lib::db;
 
 /// Store is the shared state of the application.
 /// It contains a database pool, an authentication client, and an uploader.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Store {
     /// The database connection pool.
     pub db_conn: db::Conn,
