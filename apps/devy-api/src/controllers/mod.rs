@@ -1,3 +1,4 @@
+mod auth_controller;
 mod blogs_controller;
 mod bookmarks_controller;
 mod collections_controller;
@@ -15,6 +16,7 @@ mod error;
 
 pub use error::{Error, Result};
 
+pub use auth_controller::{AuthController, NewLogin};
 pub use blogs_controller::BlogsController;
 pub use bookmarks_controller::{BookmarksController, NewBookmark};
 pub use collections_controller::CollectionsController;
