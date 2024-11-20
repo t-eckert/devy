@@ -1,6 +1,3 @@
 # Authentication and User Management
 
-
-
-
-[Logto](logto.io)
+I have a basic GitHub-based auth built out
