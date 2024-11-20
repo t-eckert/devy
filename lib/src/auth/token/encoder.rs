@@ -1,3 +1,5 @@
+use core::fmt;
+
 use super::{jwt, session::Session, Result};
 use jsonwebtoken::{DecodingKey, EncodingKey};
 
@@ -32,6 +34,12 @@ impl Encoder {
             token,
             &self.decoding_key,
         )?)?)
+    }
+}
+
+impl fmt::Debug for Encoder {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Encoder").finish()
     }
 }
 

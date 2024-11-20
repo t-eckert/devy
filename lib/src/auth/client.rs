@@ -1,4 +1,7 @@
-use super::error::{Error, Result};
+use super::{
+    error::{Error, Result},
+    Provider,
+};
 use crate::{
     auth::token::{Encoder, Session},
     db,
@@ -15,7 +18,7 @@ const AUTH_URL: &str = "https://github.com/login/oauth/authorize";
 const TOKEN_URL: &str = "https://github.com/login/oauth/access_token";
 
 /// A client for managing user authentication.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Client {
     pub redirect_url: String,
     callback_url: String,
@@ -46,8 +49,14 @@ impl Client {
         }
     }
 
+    pub fn provider_auth_url(&self, provider: Provider) -> String {
+        match provider {
+            Provider::GitHub => self.login(),
+        }
+    }
+
     // Performs login based on the provider, returning a URL to redirect the user to.
-    pub fn login(self) -> String {
+    pub fn login(&self) -> String {
         tracing::info!("Configuring redirect for GitHub login.");
         let (authorize_url, _) = self
             .oauth_client
