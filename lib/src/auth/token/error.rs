@@ -21,3 +21,5 @@ impl core::fmt::Display for Error {
         write!(fmt, "{self:?}")
     }
 }
+
+impl std::error::Error for Error {}

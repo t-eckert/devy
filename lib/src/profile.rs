@@ -210,7 +210,7 @@ mod test {
         let user_id = Uuid::new_v4();
         let profile = Profile::new(user_id, "Alice O'Connor");
         assert_eq!(profile.user_id, user_id);
-        assert_eq!(profile.display_name, None);
+        assert_eq!(profile.display_name, Some("Alice O'Connor".to_string()));
         assert_eq!(profile.avatar_url, None);
         assert_eq!(profile.bio, None);
         assert_eq!(profile.website_url, None);

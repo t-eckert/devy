@@ -1,13 +1,14 @@
 use serde::de::{self, Visitor};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::fmt::{self, Display};
+use std::ops::{Add, Sub};
 use time::macros::format_description;
 use time::{format_description::well_known::Rfc3339, Month, OffsetDateTime};
 
 /// Date is datetime in UTC.
 /// All timestamps in Devy are in UTC.
 /// Any representation of time for the user is determined by using the user's current time.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Hash, Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Date {
     pub year: i32,
     pub month: Month,
@@ -18,6 +19,18 @@ pub struct Date {
 }
 
 impl Date {
+    /// Returns a new Date instance representing the given time in UTC.
+    pub fn new(year: i32, month: Month, day: u8, hour: u8, minute: u8, second: u8) -> Self {
+        Self {
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            second,
+        }
+    }
+
     /// Returns a new Date instance representing the current time in UTC.
     pub fn now() -> Self {
         let offset_datetime = OffsetDateTime::now_utc();
@@ -104,6 +117,34 @@ impl<'de> Deserialize<'de> for Date {
     }
 }
 
+impl Add<i64> for Date {
+    type Output = Self;
+
+    fn add(self, seconds: i64) -> Self {
+        let offset_datetime = OffsetDateTime::from_unix_timestamp(0)
+            .unwrap()
+            .replace_date(time::Date::from_calendar_date(self.year, self.month, self.day).unwrap())
+            .replace_time(time::Time::from_hms(self.hour, self.minute, self.second).unwrap())
+            + time::Duration::seconds(seconds);
+        Self {
+            year: offset_datetime.year(),
+            month: offset_datetime.month(),
+            day: offset_datetime.day(),
+            hour: offset_datetime.hour(),
+            minute: offset_datetime.minute(),
+            second: offset_datetime.second(),
+        }
+    }
+}
+
+impl Sub<i64> for Date {
+    type Output = Self;
+
+    fn sub(self, seconds: i64) -> Self {
+        self.add(-1 * seconds)
+    }
+}
+
 impl From<sqlx::types::time::OffsetDateTime> for Date {
     fn from(date: sqlx::types::time::OffsetDateTime) -> Self {
         Date {
@@ -133,5 +174,23 @@ impl Display for Date {
             "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z",
             self.year, self.month as u8, self.day, self.hour, self.minute, self.second
         )
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_date_math() {
+        let date = Date::new(1994, Month::February, 25, 10, 0, 0);
+        let past_date = Date::new(1994, Month::February, 25, 9, 59, 0);
+        let future_date = Date::new(1994, Month::February, 25, 10, 1, 0);
+
+        // Test addition
+        assert_eq!(future_date, date + 60);
+
+        // Test subtraction
+        assert_eq!(past_date, date - 60);
     }
 }

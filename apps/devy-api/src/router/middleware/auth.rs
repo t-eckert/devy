@@ -25,8 +25,8 @@ pub async fn auth(
             // Verify the token
             let session = store
                 .auth_client
-                .validate_token(token)
-                .await
+                .encoder
+                .decode(token)
                 .map_err(|_| StatusCode::BAD_REQUEST)?;
             request.extensions_mut().insert(session);
             Ok(next.run(request).await)

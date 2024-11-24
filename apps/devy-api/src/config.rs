@@ -12,6 +12,16 @@ pub enum ConfigError {
     MissingEnv(String),
 }
 
+impl std::fmt::Display for ConfigError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            ConfigError::MissingEnv(key) => write!(f, "Missing environment variable: {}", key),
+        }
+    }
+}
+
+impl std::error::Error for ConfigError {}
+
 // Keep these fields in alphabetical order.
 pub struct Config {
     pub callback_url: String,

@@ -20,9 +20,6 @@ pub enum Error {
     DatabaseError(crate::db::Error),
 
     #[from]
-    TokenError(crate::auth::token::Error),
-
-    #[from]
     SerdeJson(serde_json::Error),
 
     #[from]

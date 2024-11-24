@@ -7,16 +7,11 @@ use crate::user::User;
 pub struct UserRepository;
 
 impl UserRepository {
-    pub async fn insert(
-        db_conn: &db::Conn,
-        username: &str,
-        email: Option<&str>,
-        github_username: Option<&str>,
-    ) -> db::Result<db::Id> {
+    pub async fn insert(db_conn: &db::Conn, user: &User) -> db::Result<db::Id> {
         unimplemented!()
     }
 
-    pub async fn update(db_conn: &db::Conn, user: User) -> db::Result<db::Id> {
+    pub async fn update(db_conn: &db::Conn, user: &User) -> db::Result<db::Id> {
         unimplemented!()
     }
 
@@ -25,6 +20,13 @@ impl UserRepository {
     }
 
     pub async fn get_by_username(db_conn: &db::Conn, username: &str) -> db::Result<Option<User>> {
+        unimplemented!()
+    }
+
+    pub async fn get_by_github_username(
+        db_conn: &db::Conn,
+        github_username: &str,
+    ) -> db::Result<Option<User>> {
         unimplemented!()
     }
 

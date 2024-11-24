@@ -18,6 +18,20 @@ pub enum Error {
     /// The GitHub user does not have a username.
     GitHubUserHasNoUsername,
 
+    /// The GitHub user does not have an ID.
+    GitHubUserHasNoId,
+
+    /// The GitHub user does not have an email address associated with their account.
+    GitHubUserHasNoEmail,
+
+    UserNotFound,
+
+    CannotCreateUser,
+
+    ProfileNotFound,
+
+    CannotCreateProfile,
+
     #[from]
     DatabaseError(crate::db::Error),
 
@@ -32,6 +46,9 @@ pub enum Error {
 
     #[from]
     ReqwestError(reqwest::Error),
+
+    #[from]
+    UrlParseError(url::ParseError),
 }
 
 impl From<std::env::VarError> for Error {

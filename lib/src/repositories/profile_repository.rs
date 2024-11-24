@@ -27,7 +27,7 @@ impl ProfileRepository {
         .id)
     }
 
-    pub async fn update(db_conn: &db::Conn, profile: Profile) -> db::Result<Uuid> {
+    pub async fn update(db_conn: &db::Conn, profile: &Profile) -> db::Result<db::Id> {
         Ok(sqlx::query_file_as!(
             db::Id,
             "queries/update_profile.sql",
@@ -50,13 +50,12 @@ impl ProfileRepository {
             profile.linkedin_url,
         )
         .fetch_one(db_conn)
-        .await?
-        .id)
+        .await?)
     }
 
-    pub async fn get(db_conn: &db::Conn, id: Uuid) -> db::Result<Profile> {
+    pub async fn get(db_conn: &db::Conn, id: Uuid) -> db::Result<Option<Profile>> {
         Ok(sqlx::query_file_as!(Profile, "queries/get_profile.sql", id)
-            .fetch_one(db_conn)
+            .fetch_optional(db_conn)
             .await?)
     }
 

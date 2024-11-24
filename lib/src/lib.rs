@@ -18,6 +18,7 @@ pub mod uploads;
 pub mod user;
 pub mod webhooks;
 
+mod identity;
 mod slug;
 pub use git::Git;
 pub use slug::slug;

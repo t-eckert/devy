@@ -19,11 +19,6 @@ pub struct User {
     /// The status of the user.
     pub status: Status,
 
-    /// The email address of the user.
-    pub email: Option<String>,
-    /// The GitHub username of the user.
-    pub github_username: Option<String>,
-
     /// When the user was created.
     pub created_at: Date,
     /// When the user was last updated.
@@ -32,7 +27,7 @@ pub struct User {
     pub last_login_at: Option<Date>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Hash, Debug, Copy, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum Role {
     Admin,
@@ -60,7 +55,7 @@ impl From<Value> for Role {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Hash, Debug, Copy, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum Status {
     Active,
@@ -95,14 +90,12 @@ impl From<Value> for Status {
 }
 
 impl User {
-    pub fn new(username: &str, email: Option<&str>) -> Self {
+    pub fn new(username: &str) -> Self {
         Self {
             id: Uuid::new_v4(),
             username: username.to_string(),
             role: Role::User,
             status: Status::Active,
-            email: email.map(|s| s.to_string()),
-            github_username: None,
             created_at: Date::now(),
             updated_at: Date::now(),
             last_login_at: None,
@@ -111,11 +104,6 @@ impl User {
 
     pub fn track_login(&mut self) {
         self.last_login_at = Some(Date::now());
-    }
-
-    pub fn with_github_username(mut self, github_username: &str) -> Self {
-        self.github_username = Some(github_username.to_string());
-        self
     }
 }
 
@@ -140,20 +128,17 @@ mod tests {
 
     #[test]
     fn test_new_user() {
-        let user = User::new("alice", Some("alice@email.com"));
+        let user = User::new("alice");
 
         assert_eq!(user.username, "alice");
         assert_eq!(user.role, Role::User);
         assert_eq!(user.status, Status::Active);
-        assert_eq!(user.email, Some("alice@email.com".to_string()));
-        assert_eq!(user.email, None);
-        assert_eq!(user.github_username, None);
         assert_eq!(user.created_at, user.updated_at);
     }
 
     #[test]
     fn test_track_login() {
-        let mut user = User::new("alice", None);
+        let mut user = User::new("alice");
         user.track_login();
 
         assert!(user.last_login_at.unwrap().is_around(&Date::now(), 1));
