@@ -11,7 +11,7 @@
 </script>
 
 <div
-	class="rounded border border-stone-200 bg-white shadow-sm sm:min-w-96 dark:border-zinc-700 dark:bg-zinc-950"
+	class="rounded border border-stone-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-950 sm:min-w-96"
 >
 	{@render bar()}
 	{@render body()}

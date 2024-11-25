@@ -4,6 +4,6 @@
 	const { children, ...props }: { children: Snippet } = $props()
 </script>
 
-<div class="w-full bg-white rounded shadow py-1 px-3">
+<div class="w-full rounded bg-white px-3 py-1 shadow">
 	<table {...props} class="w-full">{@render children()}</table>
 </div>

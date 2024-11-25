@@ -4,13 +4,13 @@
 	const { title, children }: { title?: string; children: Snippet } = $props()
 </script>
 
-<div class="flex flex-col gap-1 mb-3">
+<div class="mb-3 flex flex-col gap-1">
 	{#if title}
-		<h1 class="font-semibold text-stone-700 text-sm sr-only sm:not-sr-only dark:text-zinc-200">
+		<h1 class="sr-only text-sm font-semibold text-stone-700 dark:text-zinc-200 sm:not-sr-only">
 			{title}
 		</h1>
 	{/if}
-	<div class="flex flex-row sm:flex-col gap-1">
+	<div class="flex flex-row gap-1 sm:flex-col">
 		{@render children()}
 	</div>
 </div>

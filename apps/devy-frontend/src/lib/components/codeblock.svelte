@@ -17,7 +17,7 @@
 </script>
 
 <div class="relative">
-	<div class="z-10 absolute top-1 right-1">
+	<div class="absolute right-1 top-1 z-10">
 		<Button role="secondary" {onclick}><Clipboard /></Button>
 	</div>
 	{@html html}

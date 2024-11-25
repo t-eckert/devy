@@ -5,7 +5,7 @@
 </script>
 
 <h1
-	class="text-xl sm:text-4xl font-semibold break-normal text-stone-800 dark:text-zinc-200 leading-tight mt-4 mb-4"
+	class="mb-4 mt-4 break-normal text-xl font-semibold leading-tight text-stone-800 dark:text-zinc-200 sm:text-4xl"
 >
 	{@render children()}
 </h1>

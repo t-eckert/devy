@@ -4,4 +4,4 @@
 	let { children, ...props }: { children: Snippet } = $props()
 </script>
 
-<a {...props} class="underline text-stone-700">{@render children()}</a>
+<a {...props} class="text-stone-700 underline">{@render children()}</a>

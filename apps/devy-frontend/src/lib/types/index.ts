@@ -14,5 +14,19 @@ import type Upload from "./Upload"
 import type User from "./User"
 
 export type {
-  Blog, Bookmark, Collection, CollectionConfig, Entry, Feed, Like, Notification, Post, Profile, Repo, Session, TokenPayload, Upload, User
+	Blog,
+	Bookmark,
+	Collection,
+	CollectionConfig,
+	Entry,
+	Feed,
+	Like,
+	Notification,
+	Post,
+	Profile,
+	Repo,
+	Session,
+	TokenPayload,
+	Upload,
+	User
 }

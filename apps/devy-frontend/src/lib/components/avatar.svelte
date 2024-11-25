@@ -14,16 +14,16 @@
 </script>
 
 <div
-	class={`w-full h-full grid grid-cols-1 grid-rows-1 bg-stone-100 items-center justify-center ${rounded ? "rounded-full" : "rounded-xl"}`}
+	class={`grid h-full w-full grid-cols-1 grid-rows-1 items-center justify-center bg-stone-100 ${rounded ? "rounded-full" : "rounded-xl"}`}
 >
 	{#if src != undefined}
 		<img
 			{src}
 			alt={displayName}
-			class={`z-10 col-start-1 col-span-1 ${rounded ? "rounded-full" : "rounded-xl"}`}
+			class={`z-10 col-span-1 col-start-1 ${rounded ? "rounded-full" : "rounded-xl"}`}
 		/>
 	{:else}
-		<div class="font-medium text-stone-800 col-start-1 col-span-1 text-center">
+		<div class="col-span-1 col-start-1 text-center font-medium text-stone-800">
 			{initials}
 		</div>
 	{/if}

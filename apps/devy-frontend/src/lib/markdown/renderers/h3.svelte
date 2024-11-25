@@ -4,6 +4,6 @@
 	const { children }: { children: Snippet } = $props()
 </script>
 
-<h3 class="text-lg font-semibold mt-4 mb-2 text-stone-800 dark:text-zinc-200">
+<h3 class="mb-2 mt-4 text-lg font-semibold text-stone-800 dark:text-zinc-200">
 	{@render children()}
 </h3>

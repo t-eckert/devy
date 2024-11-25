@@ -6,4 +6,4 @@
 
 <pre
 	{...props}
-	class="bg-zinc-900 text-zinc-50 p-3 rounded-md overflow-auto mb-2 text-sm">{@render children()}</pre>
+	class="mb-2 overflow-auto rounded-md bg-zinc-900 p-3 text-sm text-zinc-50">{@render children()}</pre>

@@ -9,7 +9,7 @@
 </script>
 
 <section
-	class="flex flex-row sm:flex-col gap-1 sm:gap-1 sticky top-4 pb-2 overflow-scroll sm:overflow-auto"
+	class="sticky top-4 flex flex-row gap-1 overflow-scroll pb-2 sm:flex-col sm:gap-1 sm:overflow-auto"
 >
 	{@render children()}
 </section>

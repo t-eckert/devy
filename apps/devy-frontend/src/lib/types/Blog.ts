@@ -1,18 +1,18 @@
 export default interface Blog {
-  id: string
+	id: string
 
-  profileId: string
-  userId: string
+	profileId: string
+	userId: string
 
-  authorUsername: string
-  authorDisplayName: string
+	authorUsername: string
+	authorDisplayName: string
 
-  name: string
-  slug: string
-  description?: string
+	name: string
+	slug: string
+	description?: string
 
-  repoUrl: string
+	repoUrl: string
 
-  createdAt: string
-  updateAt: string
+	createdAt: string
+	updateAt: string
 }

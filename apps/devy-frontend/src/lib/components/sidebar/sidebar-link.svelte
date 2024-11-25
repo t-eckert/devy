@@ -18,9 +18,9 @@
 <a
 	{href}
 	class={[
-		"font-medium px-2 py-1 text-sm border rounded-md flex flex-row items-center gap-2 sm:gap-3 group transition-all",
+		"group flex flex-row items-center gap-2 rounded-md border px-2 py-1 text-sm font-medium transition-all sm:gap-3",
 		isActive
-			? "text-stone-950 border-stone-200 bg-white shadow dark:shadow-none dark:bg-zinc-800 dark:text-white dark:border-zinc-700"
-			: "text-stone-600 border-transparent hover:text-stone-950 dark:text-zinc-500"
+			? "border-stone-200 bg-white text-stone-950 shadow dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:shadow-none"
+			: "border-transparent text-stone-600 hover:text-stone-950 dark:text-zinc-500"
 	].join(" ")}>{@render children()}</a
 >

@@ -18,7 +18,7 @@
 		<Avatar src={avatarUrl} displayName={displayName || username} rounded={true} />
 	</div>
 	<div
-		class="sr-only text-sm font-medium text-stone-600 hover:text-stone-950 sm:not-sr-only dark:text-zinc-200 dark:hover:text-zinc-100"
+		class="sr-only text-sm font-medium text-stone-600 hover:text-stone-950 dark:text-zinc-200 dark:hover:text-zinc-100 sm:not-sr-only"
 	>
 		{displayName || username}
 	</div>
