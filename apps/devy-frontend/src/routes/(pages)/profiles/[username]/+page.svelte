@@ -1,14 +1,11 @@
 <script lang="ts">
-	import Column from "$lib/layouts/column.svelte"
 	import Entry from "$lib/components/entry.svelte"
 	import Avatar from "$lib/components/avatar.svelte"
-	import Card from "$lib/components/card.svelte"
 
 	import Json from "$lib/utils/json.svelte"
-	import RelativeDate from "$lib/utils/relative-date.svelte"
 
 	const { data } = $props()
-	const { profile, user, blogs, entries } = data
+	const { profile, entries } = data
 
 	let showData = false
 </script>
@@ -59,7 +56,6 @@
 				</li>
 			{/if}
 		</ul>
-		<div class="text-sm text-slate-800">User since <RelativeDate date={user.createdAt} /></div>
 	</div>
 
 	<div class="col-span-2 flex flex-col items-start gap-6">

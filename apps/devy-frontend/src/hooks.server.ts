@@ -1,20 +1,12 @@
 import type { Handle } from "@sveltejs/kit"
+import { handleLogto } from '@logto/sveltekit';
+import { LOGTO_APP_ID, LOGTO_ENDPOINT, LOGTO_APP_SECRET, LOGTO_ENCRYPTION_KEY } from "$env/static/private";
 
-export const handle: Handle = async ({ event, resolve }) => {
+export const handle: Handle = handleLogto(
   {
-    const err = event.url.searchParams.get("error")
-    if (err) console.log("error", err)
-
-    const token = event.url.searchParams.get("token")
-    if (token) {
-      console.log("token", token)
-      event.cookies.set("token", token, { path: "/", maxAge: 60 * 60 * 24 * 365 })
-      event.url.searchParams.delete("token")
-    }
-  }
-
-  const token = event.cookies.get("token")
-  event.locals.token = token
-
-  return await resolve(event)
-}
+    endpoint: LOGTO_ENDPOINT,
+    appId: LOGTO_APP_ID,
+    appSecret: LOGTO_APP_SECRET,
+  },
+  { encryptionKey: LOGTO_ENCRYPTION_KEY }
+);
