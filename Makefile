@@ -45,7 +45,7 @@ uploader-package:
 
 # Local Test Database
 db-build:
-	@podman build . -f ./infra/local/postgres/Dockerfile -t devy-test-db
+	@podman build . -f ./apps/devy-test-db/Dockerfile -t devy-test-db
 
 db-serve: db-build
 	@podman run --rm\
