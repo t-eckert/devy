@@ -27,17 +27,6 @@
 	}
 
 	let { children, data }: Props = $props()
-	let { token, theme } = data
-
-	setSession(token)
-	setTheme(theme)
-	let likes = setLikes(token)
-	let bookmarks = setBookmarks(token)
-
-	onMount(async () => {
-		await bookmarks.loadBookmarks()
-		await likes.loadLikes()
-	})
 </script>
 
 <svelte:head>
@@ -49,18 +38,12 @@
 
 <Analytics />
 
-<ThemeProvider>
-	{#if dev}
-		<Debug />
-	{/if}
-
-	<div class="min-h-screen scroll-smooth">
-		<Main>
-			<Header />
-			<Bound>
-				{@render children()}
-			</Bound>
-		</Main>
-		<Footer />
-	</div>
-</ThemeProvider>
+<div class="min-h-screen scroll-smooth">
+	<Main>
+		<Header />
+		<Bound>
+			{@render children()}
+		</Bound>
+	</Main>
+	<Footer />
+</div>

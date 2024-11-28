@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { cva } from "cva"
 	import { createDropdownMenu, melt } from "@melt-ui/svelte"
-	import { getSession } from "$lib/state/session.svelte"
 	import HamburgerMenu from "$lib/icons/hamburger-menu.svelte"
-
-	let session = getSession()
 
 	const {
 		elements: { menu, item, trigger }
@@ -80,15 +77,4 @@
 	<a href="/changelog" use:melt={$item} class={menuItem()}>Changelog</a>
 	<a href="/docs" use:melt={$item} class={menuItem()}>Documentation</a>
 	<a href="/feedback" use:melt={$item} class={menuItem()}>Feedback</a>
-	{#if session.isAuthenticated}
-		<a href="/dashboard" use:melt={$item} class={menuItem()}>Dashboard</a>
-		<a href="/notifications" use:melt={$item} class={menuItem()}>Notifications</a>
-		{#if session.role === "admin"}
-			<a href="/admin" use:melt={$item} class={menuItem()}>Admin</a>
-		{/if}
-		{@render divider()}
-		<form action="/auth/sign-out" method="POST" use:melt={$item} class="contents">
-			<button class={menuItem()}>Sign out</button>
-		</form>
-	{/if}
 </section>

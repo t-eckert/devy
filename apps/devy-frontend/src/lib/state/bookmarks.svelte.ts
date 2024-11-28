@@ -1,99 +1,96 @@
-import type { Session } from "$lib/types"
 import { setContext, getContext } from "svelte"
-import { sessionOrNull } from "$lib/auth"
 
 // This contains the set of all bookmarks by the current user.
 // It exposes methods to add and remove likes that optimistically update the state
 // and send the request to the server.
 class BookmarksState {
-	constructor(token?: string) {
-		this.token = token
-	}
+  constructor(token?: string) {
+    this.token = token
+  }
 
-	private token = $state<string>()
-	private session: Session | null = $derived(sessionOrNull(this.token))
-	private userBookmarks = $state<string[]>([])
+  private token = $state<string>()
+  private userBookmarks = $state<string[]>([])
 
-	// Sets the token ans session to authenticate requests as the current user.
-	setToken(token: string) {
-		this.token = token
-	}
+  // Sets the token ans session to authenticate requests as the current user.
+  setToken(token: string) {
+    this.token = token
+  }
 
-	// Loads the bookmarks for the current user.
-	// Requires the token to be set. If not, it returns a resolved promise immediately.
-	async loadBookmarks() {
-		if (!this.token) {
-			return Promise.resolve()
-		}
+  // Loads the bookmarks for the current user.
+  // Requires the token to be set. If not, it returns a resolved promise immediately.
+  async loadBookmarks() {
+    if (!this.token) {
+      return Promise.resolve()
+    }
 
-		const response = await fetch(`/api/bookmarks/${this.session?.username}`, {
-			headers: { "Content-Type": "application/json" }
-		})
-		if (response.ok) {
-			const data = await response.json()
-			this.userBookmarks = data.map(({ postId }: { postId: string }) => postId)
-		}
-	}
+    const response = await fetch(`/api/bookmarks/${this.session?.username}`, {
+      headers: { "Content-Type": "application/json" }
+    })
+    if (response.ok) {
+      const data = await response.json()
+      this.userBookmarks = data.map(({ postId }: { postId: string }) => postId)
+    }
+  }
 
-	// Returns true if the current user has bookmarked the post with the given ID.
-	isBookmarked(postId: string): boolean {
-		return this.userBookmarks.includes(postId)
-	}
+  // Returns true if the current user has bookmarked the post with the given ID.
+  isBookmarked(postId: string): boolean {
+    return this.userBookmarks.includes(postId)
+  }
 
-	// Adds a bookmark for the current user to the post with the given ID.
-	async bookmark(postId: string) {
-		this.userBookmarks.push(postId)
+  // Adds a bookmark for the current user to the post with the given ID.
+  async bookmark(postId: string) {
+    this.userBookmarks.push(postId)
 
-		const response = await fetch(`/api/bookmarks`, {
-			headers: { "Content-Type": "application/json" },
-			method: "POST",
-			body: JSON.stringify({ profileId: this.session?.profileId, postId })
-		})
+    const response = await fetch(`/api/bookmarks`, {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({ profileId: this.session?.profileId, postId })
+    })
 
-		if (!response.ok) {
-			this.userBookmarks = this.userBookmarks.filter((id) => id !== postId)
-		}
-	}
+    if (!response.ok) {
+      this.userBookmarks = this.userBookmarks.filter((id) => id !== postId)
+    }
+  }
 
-	// Removes a bookmark for the current user from the post with the given ID.
-	async unbookmark(postId: string) {
-		this.userBookmarks = this.userBookmarks.filter((id) => id !== postId)
+  // Removes a bookmark for the current user from the post with the given ID.
+  async unbookmark(postId: string) {
+    this.userBookmarks = this.userBookmarks.filter((id) => id !== postId)
 
-		const response = await fetch(`/api/bookmarks/${this.session?.profileId}/${postId}`, {
-			headers: { "Content-Type": "application/json" },
-			method: "DELETE"
-		})
+    const response = await fetch(`/api/bookmarks/${this.session?.profileId}/${postId}`, {
+      headers: { "Content-Type": "application/json" },
+      method: "DELETE"
+    })
 
-		if (!response.ok) {
-			this.userBookmarks.push(postId)
-		}
-	}
+    if (!response.ok) {
+      this.userBookmarks.push(postId)
+    }
+  }
 
-	// Toggles the like state for the current user on the post with the given ID.
-	async toggle(postId: string) {
-		if (this.isBookmarked(postId)) {
-			await this.unbookmark(postId)
-		} else {
-			await this.bookmark(postId)
-		}
-	}
+  // Toggles the like state for the current user on the post with the given ID.
+  async toggle(postId: string) {
+    if (this.isBookmarked(postId)) {
+      await this.unbookmark(postId)
+    } else {
+      await this.bookmark(postId)
+    }
+  }
 
-	// For debugging, returns a debug object with the current state.
-	__debug() {
-		return {
-			userLikes: this.userBookmarks,
-			token: this.token,
-			session: this.session
-		}
-	}
+  // For debugging, returns a debug object with the current state.
+  __debug() {
+    return {
+      userLikes: this.userBookmarks,
+      token: this.token,
+      session: this.session
+    }
+  }
 }
 
 const BOOKMARKS_KEY = Symbol("bookmarks")
 
 export function setBookmarks(token?: string) {
-	return setContext(BOOKMARKS_KEY, new BookmarksState(token))
+  return setContext(BOOKMARKS_KEY, new BookmarksState(token))
 }
 
 export function getBookmarks() {
-	return getContext<ReturnType<typeof setBookmarks>>(BOOKMARKS_KEY)
+  return getContext<ReturnType<typeof setBookmarks>>(BOOKMARKS_KEY)
 }
