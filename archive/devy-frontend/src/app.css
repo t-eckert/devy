@@ -1,0 +1,7 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+pre.shiki {
+	@apply mb-2 overflow-scroll rounded bg-zinc-900 p-3 text-sm;
+}

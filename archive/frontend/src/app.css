@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+pre.shiki {
+    @apply p-3 mb-2 bg-zinc-900 rounded text-sm overflow-scroll;
+}

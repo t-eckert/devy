@@ -1,0 +1,1 @@
+<div>Docs page</div>
