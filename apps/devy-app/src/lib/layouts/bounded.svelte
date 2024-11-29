@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Snippet } from "svelte"
+	import type { Snippet } from "svelte";
 
-	let { children }: { children: Snippet } = $props()
+	let { children }: { children: Snippet } = $props();
 </script>
 
-<div class="mx-auto w-full max-w-6xl gap-4 px-2 sm:gap-2">
+<div class="mx-auto h-full w-full max-w-6xl gap-4 px-2 sm:gap-2">
 	{@render children()}
 </div>
