@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "../app.css";
 	import Main from "$lib/layouts/main.svelte";
+	import Bounded from "$lib/layouts/bounded.svelte";
 	import Header from "./header.svelte";
 	import Footer from "./footer.svelte";
 
@@ -9,6 +10,8 @@
 
 <Main>
 	<Header />
-	{@render children()}
+	<Bounded>
+		{@render children()}
+	</Bounded>
 </Main>
 <Footer />

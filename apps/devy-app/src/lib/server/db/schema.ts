@@ -4,10 +4,12 @@ import { sql } from "drizzle-orm"
 export const profile = pgTable('profile', {
   id: uuid("id").default(sql`uuid_generate_v4()`).primaryKey().notNull(),
   name: text("name").notNull(),
+  username: text("username").notNull(),
 });
 
 export const blog = pgTable('blog', {
   id: uuid("id").default(sql`uuid_generate_v4()`).primaryKey().notNull(),
+  profileId: uuid("profileId").notNull(),
   name: text("name").notNull(),
 });
 
