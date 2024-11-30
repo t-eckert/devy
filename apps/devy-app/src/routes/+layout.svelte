@@ -5,16 +5,22 @@
 	import "@fontsource-variable/playfair-display";
 	import Main from "$lib/layouts/main.svelte";
 	import Bounded from "$lib/layouts/bounded.svelte";
+	import ThemeProvider from "$lib/components/theme-provider.svelte";
+	import { setTheme } from "$lib/state/theme.svelte";
 	import Header from "./header.svelte";
 	import Footer from "./footer.svelte";
 
 	let { children } = $props();
+
+	setTheme("dark");
 </script>
 
-<Main>
-	<Header />
-	<Bounded>
-		{@render children()}
-	</Bounded>
-</Main>
-<Footer />
+<ThemeProvider>
+	<Main>
+		<Header />
+		<Bounded>
+			{@render children()}
+		</Bounded>
+	</Main>
+	<Footer />
+</ThemeProvider>

@@ -7,11 +7,17 @@
 
 {#snippet item(href: string, text: string)}
 	<li>
-		<a {href} class="text-sm font-medium text-stone-600 hover:text-stone-950">{text}</a>
+		<a
+			{href}
+			class="transition-color text-sm font-medium text-stone-600 hover:text-stone-950 dark:text-zinc-500 dark:hover:text-zinc-200"
+			>{text}</a
+		>
 	</li>
 {/snippet}
 
-<footer class="h-full min-h-[90vh] border-t border-t-stone-200 bg-stone-100">
+<footer
+	class="h-full min-h-[90vh] border-t border-t-stone-200 bg-stone-100 dark:border-t-zinc-700 dark:bg-zinc-800"
+>
 	<Bounded>
 		<div class="mt-24 flex h-full flex-col items-center gap-4">
 			<section class="grid w-full flex-1 grid-cols-4 gap-6">
