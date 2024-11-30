@@ -10,6 +10,7 @@
 	import { setTheme } from "$lib/state/theme.svelte";
 	import Header from "./header.svelte";
 	import Footer from "./footer.svelte";
+	import PageProps from "$lib/components/page-props.svelte";
 
 	let { children } = $props();
 
@@ -28,6 +29,7 @@
 		<Main>
 			<Header />
 			<Bounded>
+				<PageProps />
 				{@render children()}
 			</Bounded>
 		</Main>
