@@ -36,6 +36,20 @@
       "when": 1732852873770,
       "tag": "0004_smooth_nick_fury",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732940929196,
+      "tag": "0005_boring_silver_sable",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1732940958583,
+      "tag": "0006_lonely_revanche",
+      "breakpoints": true
     }
   ]
 }
