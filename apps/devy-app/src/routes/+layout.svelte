@@ -12,7 +12,7 @@
 
 	let { children } = $props();
 
-	setTheme("dark");
+	setTheme();
 </script>
 
 <ThemeProvider>
